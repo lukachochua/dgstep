@@ -8,4 +8,23 @@
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+    --color-electric-sky: #00a7ff;
+}
+
+@layer utilities {
+    .text-electric {
+        color: var(--color-electric-sky);
+    }
+}
+
+.text-electric {
+    color: var(--color-electric-sky);
+}
+
+.bg-electric {
+    background-color: var(--color-electric-sky);
+}
+
+.hover-electric:hover {
+    color: var(--color-electric-sky);
 }
