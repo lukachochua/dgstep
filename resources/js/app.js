@@ -25,17 +25,6 @@ window.addEventListener('DOMContentLoaded', () => {
         logo.classList.toggle("text-white", isScrolled);
         logo.classList.toggle("text-electric", !isScrolled);
 
-        if (isScrolled) {
-            desktopMenu.querySelectorAll("a").forEach(a => {
-                a.classList.remove("text-electric");
-                a.classList.add("text-white");
-            });
-        } else {
-            desktopMenu.querySelectorAll("a").forEach(a => {
-                a.classList.add("text-electric");
-                a.classList.remove("text-white");
-            });
-        }
 
         ticking = false;
     };
@@ -49,4 +38,4 @@ window.addEventListener('DOMContentLoaded', () => {
 
     window.addEventListener("scroll", onScroll);
     window.addEventListener("load", updateColors); 
-});
+})

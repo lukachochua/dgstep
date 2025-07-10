@@ -10,15 +10,15 @@
 
         <div id="desktop-menu" class="hidden md:flex space-x-10 text-lg transition-colors duration-300">
             <a href="#features"
-                class="text-electric hover:text-[var(--color-electric-sky)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-electric-sky)] rounded-md transition-colors duration-200">
+                class="text-white hover:text-[var(--color-electric-sky)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-electric-sky)] rounded-md transition-colors duration-200">
                 Features
             </a>
             <a href="#pricing"
-                class="text-electric hover:text-[var(--color-electric-sky)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-electric-sky)] rounded-md transition-colors duration-200">
+                class="text-white hover:text-[var(--color-electric-sky)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-electric-sky)] rounded-md transition-colors duration-200">
                 Pricing
             </a>
             <a href="#contact"
-                class="text-electric hover:text-[var(--color-electric-sky)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-electric-sky)] rounded-md transition-colors duration-200">
+                class="text-white hover:text-[var(--color-electric-sky)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-electric-sky)] rounded-md transition-colors duration-200">
                 Contact
             </a>
         </div>
@@ -37,15 +37,15 @@
     <div id="mobile-menu"
         class="hidden md:hidden max-w-7xl mx-auto px-6 sm:px-8 pb-6 space-y-4 text-center text-lg font-semibold">
         <a href="#features"
-            class="block hover:text-[var(--color-electric-sky)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-electric-sky)] rounded-md transition-colors duration-200">
+            class="text-white block hover:text-[var(--color-electric-sky)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-electric-sky)] rounded-md transition-colors duration-200">
             Features
         </a>
         <a href="#pricing"
-            class="block hover:text-[var(--color-electric-sky)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-electric-sky)] rounded-md transition-colors duration-200">
+            class="text-white block hover:text-[var(--color-electric-sky)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-electric-sky)] rounded-md transition-colors duration-200">
             Pricing
         </a>
         <a href="#contact"
-            class="block hover:text-[var(--color-electric-sky)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-electric-sky)] rounded-md transition-colors duration-200">
+            class="text-white block hover:text-[var(--color-electric-sky)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-electric-sky)] rounded-md transition-colors duration-200">
             Contact
         </a>
     </div>
