@@ -1,7 +1,6 @@
 <section
-    class="relative bg-gradient-to-r from-[var(--color-electric-sky)] via-[#00c4ff] to-[#00e0ff] text-white overflow-hidden">
-    <div class="max-w-7xl mx-auto px-6 sm:px-8 py-24 md:py-32 flex flex-col md:flex-row items-center gap-12">
-
+    class="relative bg-gradient-to-r from-[var(--color-electric-sky)] via-[#ce0b0b63] to-[#00e0ff] text-white overflow-hidden min-h-[50vh] flex items-center">
+    <div class="container mx-auto px-4 sm:px-6 md:px-8 py-24 md:py-32 flex flex-col md:flex-row items-center gap-12">
         <div class="max-w-xl text-center md:text-left">
             <h1 class="text-4xl md:text-5xl font-extrabold leading-tight tracking-tight drop-shadow-lg">
                 Empower Your <span class="underline decoration-white/70">Development</span> Journey
@@ -21,7 +20,6 @@
                 </a>
             </div>
         </div>
-
         <div class="w-full max-w-md md:max-w-lg aspect-[16/9] rounded-xl overflow-hidden shadow-lg">
             <img src="https://source.unsplash.com/featured/?technology,code" alt="Technology Illustration"
                 class="w-full h-full object-cover object-center" loading="lazy" />
