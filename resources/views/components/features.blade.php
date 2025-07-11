@@ -1,50 +1,62 @@
-<section id="features"
-    class="relative bg-gradient-to-br from-[#0b0f1a] via-[#141d2f] to-[#0b0f1a] py-24 px-4 sm:px-6 md:px-8 text-white select-none z-10">
-    <div class="container mx-auto">
+<section id="features" class="bg-white dark:bg-gray-950 py-20 select-none flex-grow flex items-center">
+    <div class="container mx-auto px-4 sm:px-6 md:px-8">
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-16 text-center">
-
+            
+            <!-- Example Feature -->
             <div class="space-y-4">
-                <h3 class="text-2xl font-bold text-[var(--color-electric-sky)] drop-shadow-sm">Rapid Onboarding</h3>
-                <p class="text-white/80 text-base max-w-sm mx-auto drop-shadow-sm">
-                    Start using DG STEP in hours, not weeks — no complex setup required.
+                <h3 class="text-2xl font-bold text-[var(--color-electric-sky)] drop-shadow-sm">
+                    Modular Setup
+                </h3>
+                <p class="text-gray-500 dark:text-gray-300 text-base max-w-sm mx-auto">
+                    Start quickly and scale as your pawnshop or service business grows — no bloat, just essentials.
+                </p>
+            </div>
+
+            <!-- Repeat this pattern for other features -->
+            <div class="space-y-4">
+                <h3 class="text-2xl font-bold text-[var(--color-electric-sky)] drop-shadow-sm">
+                    Mobile & Responsive
+                </h3>
+                <p class="text-gray-500 dark:text-gray-300 text-base max-w-sm mx-auto">
+                    Designed for staff and customers on any device with mobile-first experience.
                 </p>
             </div>
 
             <div class="space-y-4">
-                <h3 class="text-2xl font-bold text-[var(--color-electric-sky)] drop-shadow-sm">Digital Inventory</h3>
-                <p class="text-white/80 text-base max-w-sm mx-auto drop-shadow-sm">
-                    Manage pawned items and assets efficiently through our intuitive dashboard.
+                <h3 class="text-2xl font-bold text-[var(--color-electric-sky)] drop-shadow-sm">
+                    Finance-Ready
+                </h3>
+                <p class="text-gray-500 dark:text-gray-300 text-base max-w-sm mx-auto">
+                    Track loans, interest, and item history with accounting integration in mind.
                 </p>
             </div>
 
             <div class="space-y-4">
-                <h3 class="text-2xl font-bold text-[var(--color-electric-sky)] drop-shadow-sm">Client Records</h3>
-                <p class="text-white/80 text-base max-w-sm mx-auto drop-shadow-sm">
-                    Keep track of customers, contracts, and transactions — all in one place.
+                <h3 class="text-2xl font-bold text-[var(--color-electric-sky)] drop-shadow-sm">
+                    Secure by Default
+                </h3>
+                <p class="text-gray-500 dark:text-gray-300 text-base max-w-sm mx-auto">
+                    Role-based permissions, audit logs, and encrypted records protect your data.
                 </p>
             </div>
 
             <div class="space-y-4">
-                <h3 class="text-2xl font-bold text-[var(--color-electric-sky)] drop-shadow-sm">Automated Reporting</h3>
-                <p class="text-white/80 text-base max-w-sm mx-auto drop-shadow-sm">
-                    Generate financial summaries, overdue lists, and analytics instantly.
+                <h3 class="text-2xl font-bold text-[var(--color-electric-sky)] drop-shadow-sm">
+                    Fast Search
+                </h3>
+                <p class="text-gray-500 dark:text-gray-300 text-base max-w-sm mx-auto">
+                    Instantly find customer profiles, items, or transactions — even across branches.
                 </p>
             </div>
 
             <div class="space-y-4">
-                <h3 class="text-2xl font-bold text-[var(--color-electric-sky)] drop-shadow-sm">Regulation Ready</h3>
-                <p class="text-white/80 text-base max-w-sm mx-auto drop-shadow-sm">
-                    Built with compliance in mind for Georgian legal and tax standards.
+                <h3 class="text-2xl font-bold text-[var(--color-electric-sky)] drop-shadow-sm">
+                    Open Platform
+                </h3>
+                <p class="text-gray-500 dark:text-gray-300 text-base max-w-sm mx-auto">
+                    Built on Laravel + Tailwind. Easy to extend, easy to understand.
                 </p>
             </div>
-
-            <div class="space-y-4">
-                <h3 class="text-2xl font-bold text-[var(--color-electric-sky)] drop-shadow-sm">Multi-Branch Support</h3>
-                <p class="text-white/80 text-base max-w-sm mx-auto drop-shadow-sm">
-                    Easily manage multiple pawnshop locations under one platform.
-                </p>
-            </div>
-
         </div>
     </div>
 </section>
