@@ -13,12 +13,13 @@
                 DG
             </div>
 
-            <!-- STEP Text (no background, same size) -->
+            <!-- STEP Text (group-hover effect synced with DG) -->
             <div
-                class="w-8 h-8 sm:w-10 sm:h-10 text-white font-extrabold text-base sm:text-lg flex items-center justify-center hover:text-[var(--color-electric-sky)] 3px shadow-md transition-all duration-300 group-hover:scale-105">
+                class="w-8 h-8 sm:w-10 sm:h-10 text-white font-extrabold text-base sm:text-lg flex items-center justify-center rounded-[3px] shadow-md transition-all duration-300 group-hover:scale-105 group-hover:text-[var(--color-electric-sky)]">
                 STEP
             </div>
         </a>
+
 
         <!-- Desktop Menu -->
         <div id="desktop-menu" class="hidden lg:flex space-x-1.5 text-[1.125rem] items-center">
