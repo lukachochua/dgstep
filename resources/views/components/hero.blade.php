@@ -2,8 +2,8 @@
     class="relative min-h-screen pt-20 bg-gradient-to-r from-[#0b0f1a] via-[#141d2f] to-[#0b0f1a] text-white overflow-hidden flex items-center z-0">
     <!-- Background Layer / Illustration -->
     <div class="absolute inset-0 z-0">
-        <img src="https://source.unsplash.com/featured/?technology,dark" alt=""
-            class="w-full h-full object-cover opacity-10 mix-blend-lighten" />
+        <img src="https://images.unsplash.com/photo-1499428665502-503f6c608263?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            alt="" class="w-full h-full object-cover opacity-10 mix-blend-lighten" />
     </div>
 
     <div
@@ -29,7 +29,7 @@
         </div>
     </div>
 
-    {{-- <!-- Right Column: Scroll Indicator / Secondary Content -->
+    {{-- <!-- Right Column: .Scroll Indicator / Secondary Content -->
         <div class="relative hidden md:block w-full max-w-sm">
 
         </div> --}}
