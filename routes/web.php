@@ -25,13 +25,21 @@ Route::get('/contact', function () {
 
 
 Route::get('/login', function () {
-    return view('pages.login');
+    return view('auth.login');
 })->name('login');
 
 Route::get('/register', function () {
-    return view('pages.register');
+    return view('auth.register');
 })->name('register');
 
 Route::get('/logout', function () {
-    return view('pages.logout');
+    return view('auth.logout');
 })->name('logout');
+
+Route::get('/pw2', function () {
+    return view('auth.forgot-password');
+})->name('password.request');
+
+Route::get('/pw1', function () {
+    return view('auth.reset-password');
+})->name('password.reset');
