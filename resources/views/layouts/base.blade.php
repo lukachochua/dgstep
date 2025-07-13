@@ -7,8 +7,9 @@
     <title>{{ $title ?? 'DGstep' }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    <!-- Google Fonts: Inter (modern, variable) -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+    <script src="//unpkg.com/alpinejs" defer></script>
+
 
     <style>
         :root {
@@ -30,10 +31,8 @@
         body {
             margin: 0;
             padding: 0;
-            /* Remove all height/min-height declarations */
         }
 
-        /* Use position fixed approach instead of viewport units */
         .page-wrapper {
             position: fixed;
             top: 0;
@@ -43,11 +42,6 @@
             overflow-y: auto;
             overflow-x: hidden;
         }
-
-        /* Alternative approach: Use JavaScript to set height dynamically */
-        .js-full-height {
-            height: 100vh;
-        }
     </style>
 </head>
 
@@ -55,7 +49,7 @@
     class="font-sans antialiased dark:bg-[var(--bg-default)] dark:text-[var(--text-default)] transition-colors duration-300 ease-in-out">
 
     <div
-        class="page-wrapper bg-white dark:bg-[var(--bg-default)] text-gray-900 dark:text-[var(--text-default)] selection:bg-[var(--color-electric-sky)] selection:text-white">
+        class="page-wrapper bg-gradient-to-r from-[#0b0f1a] via-[#6d6be4] to-[#a369ff] dark:bg-[var(--bg-default)] text-gray-900 dark:text-[var(--text-default)] selection:bg-[var(--color-electric-sky)] selection:text-white">
         <main>
             {{ $slot }}
         </main>
@@ -77,7 +71,6 @@
                 localStorage.setItem(themeToggleKey, isDark ? 'light' : 'dark');
             };
 
-            // Dynamic height calculation to avoid viewport unit issues
             function setDynamicHeight() {
                 const wrapper = document.querySelector('.page-wrapper');
                 if (wrapper) {
@@ -85,19 +78,11 @@
                 }
             }
 
-            // Set initial height
             setDynamicHeight();
-
-            // Update height on resize (including zoom)
             window.addEventListener('resize', setDynamicHeight);
-
-            // Also listen for orientationchange on mobile
-            window.addEventListener('orientationchange', () => {
-                setTimeout(setDynamicHeight, 100);
-            });
+            window.addEventListener('orientationchange', () => setTimeout(setDynamicHeight, 100));
         })();
     </script>
-
 </body>
 
 </html>

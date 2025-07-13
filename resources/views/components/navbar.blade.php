@@ -1,5 +1,5 @@
 <nav aria-label="Main Navigation"
-    class=" sticky top-0 z-50 backdrop-blur-md bg-[rgba(25,35,70,0.85)] dark:bg-[rgba(15,25,50,0.9)] shadow-md border-b border-gray-700 transition-colors duration-300 ease-in-out">
+    class="sticky top-0 z-50 backdrop-blur-md bg-[rgba(25,35,70,0.85)] dark:bg-[rgba(15,25,50,0.9)] shadow-md border-b border-gray-700 transition-colors duration-300 ease-in-out">
     <div
         class="container mx-auto px-4 sm:px-6 md:px-8 h-16 md:h-20 flex items-center justify-between font-semibold text-gray-900 dark:text-gray-200">
 
@@ -19,49 +19,53 @@
         </a>
 
 
-        <!-- Desktop Menu -->
-        <div id="desktop-menu" class="hidden lg:flex space-x-1.5 text-[1.125rem] items-center">
+        <!-- Desktop Menu (Reference-Based Style) -->
+        <div id="desktop-menu" class="hidden lg:flex items-center space-x-2 text-[0.95rem] font-medium tracking-wide">
 
-            <!-- Home -->
-            <div class="relative group rounded-[3px]">
-                <a href="#hero"
-                    class="relative z-10 px-4 py-2 text-black bg-[var(--color-electric-sky)] hover:bg-transparent hover:text-white rounded-[3px] transition-colors duration-300 shadow-[0_0_4px_var(--color-electric-sky)] group-hover:shadow-[0_0_8px_var(--color-electric-sky-hover)]">
-                    Home
-                </a>
-            </div>
+            @php
+                $active = 'hero'; // Change this server-side or via JS if you have scrollspy
+            @endphp
 
-            <!-- About Us -->
-            <div class="relative group rounded-[3px]">
-                <a href="#about"
-                    class="relative z-10 px-4 py-2 text-black bg-[var(--color-electric-sky)] hover:bg-transparent hover:text-white rounded-[3px] transition-colors duration-300 shadow-[0_0_4px_var(--color-electric-sky)] group-hover:shadow-[0_0_8px_var(--color-electric-sky-hover)]">
-                    About Us
-                </a>
-            </div>
+            <a href="#hero"
+                class="px-4 py-2 rounded-md transition font-semibold uppercase 
+              {{ $active === 'hero' ? 'bg-[var(--color-electric-sky)] text-black' : 'bg-white/5 text-white hover:bg-white/10' }}">
+                Home
+            </a>
 
-            <!-- Services -->
-            <div class="relative group rounded-[3px]">
-                <a href="#services"
-                    class="relative z-10 px-4 py-2 text-black bg-[var(--color-electric-sky)] hover:bg-transparent hover:text-white rounded-[3px] transition-colors duration-300 shadow-[0_0_4px_var(--color-electric-sky)] group-hover:shadow-[0_0_8px_var(--color-electric-sky-hover)]">
-                    Services
-                </a>
-            </div>
+            <a href="#services"
+                class="px-4 py-2 rounded-md transition font-semibold uppercase 
+              {{ $active === 'services' ? 'bg-[var(--color-electric-sky)] text-black' : 'bg-white/5 text-white hover:bg-white/10' }}">
+                Services
+            </a>
 
-            <!-- Projects -->
-            <div class="relative group rounded-[3px]">
-                <a href="#projects"
-                    class="relative z-10 px-4 py-2 text-black bg-[var(--color-electric-sky)] hover:bg-transparent hover:text-white rounded-[3px] transition-colors duration-300 shadow-[0_0_4px_var(--color-electric-sky)] group-hover:shadow-[0_0_8px_var(--color-electric-sky-hover)]">
-                    Projects
-                </a>
-            </div>
+            <a href="#about"
+                class="px-4 py-2 rounded-md transition font-semibold uppercase 
+              {{ $active === 'about' ? 'bg-[var(--color-electric-sky)] text-black' : 'bg-white/5 text-white hover:bg-white/10' }}">
+                About
+            </a>
+
+            <a href="#projects"
+                class="px-4 py-2 rounded-md transition font-semibold uppercase 
+              {{ $active === 'projects' ? 'bg-[var(--color-electric-sky)] text-black' : 'bg-white/5 text-white hover:bg-white/10' }}">
+                Projects
+            </a>
         </div>
 
         <!-- Right: Auth + Language -->
-        <div class="hidden lg:flex items-center space-x-4 text-[1rem]">
+        <div class="hidden lg:flex items-center space-x-2 text-sm font-medium tracking-wide">
             <a href="/login"
-                class="px-4 py-2 border border-white text-white rounded-[3px] hover:bg-[var(--color-electric-sky)] hover:text-black hover:border-transparent transition active:opacity-80 focus-visible:outline-none">Login</a>
+                class="px-4 py-2 rounded-md transition uppercase 
+              bg-white/5 text-white hover:bg-white/10">
+                Login
+            </a>
+
             <a href="/register"
-                class="px-4 py-2 border border-[var(--color-electric-sky)] text-[var(--color-electric-sky)] hover:bg-[var(--color-electric-sky)] hover:text-black rounded-[3px] transition active:opacity-80 focus-visible:outline-none">Register</a>
-            <div class="ml-4 flex items-center gap-2 group transition">
+                class="px-4 py-2 rounded-md transition uppercase 
+              bg-white/5 text-white hover:bg-white/10">
+                Register
+            </a>
+
+            <div class="ml-3 flex items-center gap-2 group transition">
                 <svg xmlns="http://www.w3.org/2000/svg"
                     class="h-4 w-4 text-white group-hover:text-[var(--color-electric-sky)] transition"
                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"
@@ -75,6 +79,7 @@
                 </select>
             </div>
         </div>
+
 
         <!-- Mobile Toggle -->
         <button id="menu-toggle"
@@ -92,30 +97,33 @@
         class="hidden lg:hidden container mx-auto px-4 sm:px-6 md:px-8 pb-6 pt-4 space-y-5 text-center text-base font-medium text-white">
 
         <!-- Navigation Links -->
-        <div class="relative group rounded-[3px]">
-            <a href="#hero"
-                class="relative z-10 block max-w-[384px] mx-auto px-3 py-2 text-black bg-[var(--color-electric-sky)] hover:bg-transparent hover:text-white border border-[var(--color-electric-sky)] rounded-[3px] transition-colors duration-300 shadow-[0_0_4px_var(--color-electric-sky)] group-hover:shadow-[0_0_8px_var(--color-electric-sky-hover)]">Home</a>
-        </div>
-        <div class="relative group rounded-[3px]">
-            <a href="#about"
-                class="relative z-10 block max-w-[384px] mx-auto px-3 py-2 text-black bg-[var(--color-electric-sky)] hover:bg-transparent hover:text-white border border-[var(--color-electric-sky)] rounded-[3px] transition-colors duration-300 shadow-[0_0_4px_var(--color-electric-sky)] group-hover:shadow-[0_0_8px_var(--color-electric-sky-hover)]">About
-                Us</a>
-        </div>
-        <div class="relative group rounded-[3px]">
-            <a href="#services"
-                class="relative z-10 block max-w-[384px] mx-auto px-3 py-2 text-black bg-[var(--color-electric-sky)] hover:bg-transparent hover:text-white border border-[var(--color-electric-sky)] rounded-[3px] transition-colors duration-300 shadow-[0_0_4px_var(--color-electric-sky)] group-hover:shadow-[0_0_8px_var(--color-electric-sky-hover)]">Services</a>
-        </div>
-        <div class="relative group rounded-[3px]">
-            <a href="#projects"
-                class="relative z-10 block max-w-[384px] mx-auto px-3 py-2 text-black bg-[var(--color-electric-sky)] hover:bg-transparent hover:text-white border border-[var(--color-electric-sky)] rounded-[3px] transition-colors duration-300 shadow-[0_0_4px_var(--color-electric-sky)] group-hover:shadow-[0_0_8px_var(--color-electric-sky-hover)]">Projects</a>
-        </div>
+        <a href="#hero"
+            class="block w-full max-w-xs mx-auto px-4 py-2 rounded-md bg-white/5 hover:bg-white/10 transition uppercase">
+            Home
+        </a>
+        <a href="#about"
+            class="block w-full max-w-xs mx-auto px-4 py-2 rounded-md bg-white/5 hover:bg-white/10 transition uppercase">
+            About Us
+        </a>
+        <a href="#services"
+            class="block w-full max-w-xs mx-auto px-4 py-2 rounded-md bg-white/5 hover:bg-white/10 transition uppercase">
+            Services
+        </a>
+        <a href="#projects"
+            class="block w-full max-w-xs mx-auto px-4 py-2 rounded-md bg-white/5 hover:bg-white/10 transition uppercase">
+            Projects
+        </a>
 
         <!-- Auth Buttons -->
         <div class="flex flex-col items-center gap-3 pt-2">
             <a href="/login"
-                class="w-full max-w-xs px-4 py-2 border border-white text-white rounded-[3px] hover:bg-[var(--color-electric-sky)] hover:text-black hover:border-transparent active:bg-[var(--color-electric-sky)] active:text-black transition focus-visible:outline-none">Login</a>
+                class="w-full max-w-xs px-4 py-2 rounded-md bg-white/5 hover:bg-white/10 transition uppercase">
+                Login
+            </a>
             <a href="/register"
-                class="w-full max-w-xs px-4 py-2 border border-[var(--color-electric-sky)] text-[var(--color-electric-sky)] hover:bg-[var(--color-electric-sky)] hover:text-black active:bg-[var(--color-electric-sky)] active:text-black rounded-[3px] focus-visible:outline-none transition">Register</a>
+                class="w-full max-w-xs px-4 py-2 rounded-md bg-white/5 hover:bg-white/10 transition uppercase">
+                Register
+            </a>
         </div>
 
         <!-- Language Switch -->
