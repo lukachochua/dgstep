@@ -1,4 +1,4 @@
-<section id="features" class="bg-white dark:bg-gray-950 py-24 select-none">
+<section id="features" class="bg-white dark:bg-gray-950 py-16 select-none">
     <div class="container mx-auto px-4 sm:px-6 md:px-8">
         <div class="text-center mb-16">
             <h2 class="text-3xl md:text-4xl font-extrabold text-gray-800 dark:text-white drop-shadow-sm tracking-tight">

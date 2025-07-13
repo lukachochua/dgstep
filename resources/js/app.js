@@ -1,41 +1,14 @@
 import './bootstrap';
 
-
-// Navigation Bar Toggle and Color Change
-
 window.addEventListener('DOMContentLoaded', () => {
-    const btn = document.getElementById("menu-toggle");
-    const menu = document.getElementById("mobile-menu");
-    const logo = document.getElementById("logo-text");
-    const desktopMenu = document.getElementById("desktop-menu");
+    const toggleBtn = document.getElementById("menu-toggle");
+    const mobileMenu = document.getElementById("mobile-menu");
 
-    if (!btn || !menu || !logo || !desktopMenu) return; 
+    if (!toggleBtn || !mobileMenu) return;
 
-
-    btn.addEventListener("click", () => {
-        const expanded = btn.getAttribute("aria-expanded") === "true";
-        btn.setAttribute("aria-expanded", !expanded);
-        menu.classList.toggle("hidden");
+    toggleBtn.addEventListener("click", () => {
+        const expanded = toggleBtn.getAttribute("aria-expanded") === "true";
+        toggleBtn.setAttribute("aria-expanded", String(!expanded));
+        mobileMenu.classList.toggle("hidden");
     });
-
-    let ticking = false;
-    const updateColors = () => {
-        const isScrolled = window.scrollY > 50;
-
-        logo.classList.toggle("text-white", isScrolled);
-        logo.classList.toggle("text-electric", !isScrolled);
-
-
-        ticking = false;
-    };
-
-    const onScroll = () => {
-        if (!ticking) {
-            window.requestAnimationFrame(updateColors);
-            ticking = true;
-        }
-    };
-
-    window.addEventListener("scroll", onScroll);
-    window.addEventListener("load", updateColors); 
-})
+});

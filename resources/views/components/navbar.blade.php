@@ -4,64 +4,50 @@
         class="container mx-auto px-4 sm:px-6 md:px-8 h-16 md:h-20 flex items-center justify-between font-semibold text-gray-900 dark:text-gray-200">
 
         <!-- Logo -->
-        <a href="/" id="logo-text" aria-label="DGstep logo"
+        <a href="{{ route('home') }}" id="logo-text" aria-label="DGstep logo"
             class="group flex items-center space-x-2 select-none transition-transform duration-200 ease-out active:scale-95 focus-visible:outline-none">
-
             <div
                 class="w-8 h-8 sm:w-10 sm:h-10 bg-[var(--color-electric-sky)] text-white font-extrabold text-base sm:text-lg flex items-center justify-center rounded-[3px] shadow-md transition-all duration-300 group-hover:scale-105 group-hover:bg-[var(--color-electric-sky-hover)]">
                 DG
             </div>
-
             <div
                 class="w-8 h-8 sm:w-10 sm:h-10 text-white font-extrabold text-base sm:text-lg flex items-center justify-center rounded-[3px] shadow-md transition-all duration-300 group-hover:scale-105 group-hover:text-[var(--color-electric-sky)]">
                 STEP
             </div>
         </a>
 
-
-        <!-- Desktop Menu (Reference-Based Style) -->
-        <div id="desktop-menu" class="hidden lg:flex items-center space-x-2 text-[0.95rem] font-medium tracking-wide">
-
-            @php
-                $active = 'hero'; // Change this server-side or via JS if you have scrollspy
-            @endphp
-
-            <a href="#hero"
-                class="px-4 py-2 rounded-md transition font-semibold uppercase 
-              {{ $active === 'hero' ? 'bg-[var(--color-electric-sky)] text-black' : 'bg-white/5 text-white hover:bg-white/10' }}">
-                Home
-            </a>
-
-            <a href="#services"
-                class="px-4 py-2 rounded-md transition font-semibold uppercase 
-              {{ $active === 'services' ? 'bg-[var(--color-electric-sky)] text-black' : 'bg-white/5 text-white hover:bg-white/10' }}">
-                Services
-            </a>
-
-            <a href="#about"
-                class="px-4 py-2 rounded-md transition font-semibold uppercase 
-              {{ $active === 'about' ? 'bg-[var(--color-electric-sky)] text-black' : 'bg-white/5 text-white hover:bg-white/10' }}">
-                About
-            </a>
-
-            <a href="#projects"
-                class="px-4 py-2 rounded-md transition font-semibold uppercase 
-              {{ $active === 'projects' ? 'bg-[var(--color-electric-sky)] text-black' : 'bg-white/5 text-white hover:bg-white/10' }}">
-                Projects
-            </a>
+        <!-- Desktop Menu -->
+        <div class="hidden lg:flex items-center space-x-2 text-[0.95rem] font-medium tracking-wide">
+            @foreach ([
+        'home' => 'Home',
+        'services' => 'Services',
+        'about' => 'About',
+        'projects' => 'Projects',
+    ] as $route => $label)
+                <a href="{{ route($route) }}"
+                    class="relative z-10 px-3 py-2 rounded-[3px] transition-colors duration-300 shadow-[0_0_4px_var(--color-electric-sky)] group
+            {{ request()->routeIs($route)
+                ? 'bg-[var(--color-electric-sky)] text-black border border-[var(--color-electric-sky)] group-hover:shadow-[0_0_8px_var(--color-electric-sky-hover)]'
+                : 'bg-transparent text-white border border-transparent hover:border-[var(--color-electric-sky)] hover:bg-white/5 hover:text-[var(--color-electric-sky)]' }}">
+                    {{ $label }}
+                </a>
+            @endforeach
         </div>
 
         <!-- Right: Auth + Language -->
         <div class="hidden lg:flex items-center space-x-2 text-sm font-medium tracking-wide">
-            <a href="/login"
-                class="px-4 py-2 rounded-md transition uppercase 
-              bg-white/5 text-white hover:bg-white/10">
+            <a href="{{ route('login') }}"
+                class="px-3 py-2 border rounded-[3px] transition-colors duration-300
+        {{ request()->routeIs('login')
+            ? 'bg-[var(--color-electric-sky)] text-black border-[var(--color-electric-sky)] shadow-[0_0_4px_var(--color-electric-sky)]'
+            : 'border-white text-white hover:bg-[var(--color-electric-sky)] hover:text-black hover:border-transparent' }}">
                 Login
             </a>
-
-            <a href="/register"
-                class="px-4 py-2 rounded-md transition uppercase 
-              bg-white/5 text-white hover:bg-white/10">
+            <a href="{{ route('register') }}"
+                class="px-3 py-2 border rounded-[3px] transition-colors duration-300
+        {{ request()->routeIs('register')
+            ? 'bg-[var(--color-electric-sky)] text-black border-[var(--color-electric-sky)] shadow-[0_0_4px_var(--color-electric-sky)]'
+            : 'border-[var(--color-electric-sky)] text-[var(--color-electric-sky)] hover:bg-[var(--color-electric-sky)] hover:text-black hover:border-transparent' }}">
                 Register
             </a>
 
@@ -80,7 +66,6 @@
             </div>
         </div>
 
-
         <!-- Mobile Toggle -->
         <button id="menu-toggle"
             class="lg:hidden p-2 rounded-[3px] text-white hover:text-[var(--color-electric-sky)] transition"
@@ -97,31 +82,35 @@
         class="hidden lg:hidden container mx-auto px-4 sm:px-6 md:px-8 pb-6 pt-4 space-y-5 text-center text-base font-medium text-white">
 
         <!-- Navigation Links -->
-        <a href="#hero"
-            class="block w-full max-w-xs mx-auto px-4 py-2 rounded-md bg-white/5 hover:bg-white/10 transition uppercase">
-            Home
-        </a>
-        <a href="#about"
-            class="block w-full max-w-xs mx-auto px-4 py-2 rounded-md bg-white/5 hover:bg-white/10 transition uppercase">
-            About Us
-        </a>
-        <a href="#services"
-            class="block w-full max-w-xs mx-auto px-4 py-2 rounded-md bg-white/5 hover:bg-white/10 transition uppercase">
-            Services
-        </a>
-        <a href="#projects"
-            class="block w-full max-w-xs mx-auto px-4 py-2 rounded-md bg-white/5 hover:bg-white/10 transition uppercase">
-            Projects
-        </a>
+        @foreach ([
+        'home' => 'Home',
+        'about' => 'About',
+        'services' => 'Services',
+        'projects' => 'Projects',
+    ] as $route => $label)
+            <a href="{{ route($route) }}"
+                class="block max-w-xs mx-auto px-4 py-2 rounded-md border transition-colors duration-300 shadow-[0_0_4px_var(--color-electric-sky)] hover:shadow-[0_0_8px_var(--color-electric-sky-hover)]
+                {{ request()->routeIs($route)
+                    ? 'bg-[var(--color-electric-sky)] text-black border-[var(--color-electric-sky)]'
+                    : 'bg-white/5 text-white border-transparent hover:bg-white/10' }}">
+                {{ $label }}
+            </a>
+        @endforeach
 
         <!-- Auth Buttons -->
         <div class="flex flex-col items-center gap-3 pt-2">
-            <a href="/login"
-                class="w-full max-w-xs px-4 py-2 rounded-md bg-white/5 hover:bg-white/10 transition uppercase">
+            <a href="{{ route('login') }}"
+                class="w-full max-w-xs px-4 py-2 border rounded-md transition
+                {{ request()->routeIs('login')
+                    ? 'bg-[var(--color-electric-sky)] text-black border-[var(--color-electric-sky)]'
+                    : 'border-white text-white hover:bg-[var(--color-electric-sky)] hover:text-black hover:border-transparent' }}">
                 Login
             </a>
-            <a href="/register"
-                class="w-full max-w-xs px-4 py-2 rounded-md bg-white/5 hover:bg-white/10 transition uppercase">
+            <a href="{{ route('register') }}"
+                class="w-full max-w-xs px-4 py-2 border rounded-md transition
+                {{ request()->routeIs('register')
+                    ? 'bg-[var(--color-electric-sky)] text-black border-[var(--color-electric-sky)]'
+                    : 'border-[var(--color-electric-sky)] text-[var(--color-electric-sky)] hover:bg-[var(--color-electric-sky)] hover:text-black' }}">
                 Register
             </a>
         </div>
