@@ -82,15 +82,15 @@
 <body
     class="font-sans antialiased dark:bg-[var(--bg-default)] dark:text-[var(--text-default)] transition-colors duration-300 ease-in-out">
 
-    <div
-        class="page-wrapper bg-gradient-to-r from-[#0b0f1a] via-[#6d6be4] to-[#a369ff] dark:bg-[var(--bg-default)] text-gray-900 dark:text-[var(--text-default)] selection:bg-[var(--color-electric-sky)] selection:text-white">
-        <main>
+    <div class="page-wrapper min-h-screen flex flex-col">
+        <main class="flex-grow">
             <x-navbar />
             {{ $slot }}
-
-            <x-footer />
         </main>
+
+        <x-footer />
     </div>
+
 
     <script>
         (() => {

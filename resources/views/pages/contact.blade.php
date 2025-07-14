@@ -1,23 +1,23 @@
-<x-layouts.base :title="$title">
+<x-layouts.base :title="__('contact.title')">
     <section class="py-20 bg-[#141a2f] text-white select-none">
         <div class="container mx-auto px-4 sm:px-6 md:px-8 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
 
             {{-- Left Content --}}
             <div class="space-y-6">
                 <span class="uppercase text-[var(--color-electric-sky)] font-semibold tracking-widest text-sm">
-                    {{ __('Who We Are?') }}
+                    {{ __('contact.tagline') }}
                 </span>
                 <h2 class="text-3xl sm:text-4xl font-bold leading-snug text-white">
-                    {{ __('Software & Services You Can Rely On') }}
+                    {{ __('contact.headline') }}
                 </h2>
                 <p class="text-gray-300 text-base leading-relaxed">
-                    {{ __('DGstep provides tailored tech solutions for pawnshops and SMEs. We streamline operations, ensure legal compliance, and deliver reliable tools for growing businesses.') }}
+                    {{ __('contact.description') }}
                 </p>
 
                 {{-- Client Satisfaction --}}
                 <div class="space-y-2">
                     <p class="text-sm text-white font-medium flex justify-between">
-                        <span>{{ __('Client Satisfaction') }}</span>
+                        <span>{{ __('contact.metric.label') }}</span>
                         <span>100%</span>
                     </p>
                     <div class="w-full bg-gray-700 h-2 rounded-full overflow-hidden">
@@ -34,7 +34,9 @@
                                 <path d="M12 6v6l4 2" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                         </div>
-                        <span class="text-sm font-medium text-white">{{ __('Creative & Professional Team') }}</span>
+                        <span class="text-sm font-medium text-white">
+                            {{ __('contact.features.professional') }}
+                        </span>
                     </div>
 
                     <div class="flex items-center space-x-3">
@@ -44,15 +46,17 @@
                                 <path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                         </div>
-                        <span class="text-sm font-medium text-white">{{ __('Guaranteed Support') }}</span>
+                        <span class="text-sm font-medium text-white">
+                            {{ __('contact.features.guarantees') }}
+                        </span>
                     </div>
                 </div>
 
-                {{-- Optional CTA or phone (if needed) --}}
+                {{-- Optional CTA or phone --}}
                 <div class="pt-6">
                     <a href="#contact-form"
                         class="inline-block bg-yellow-400 text-black font-semibold px-6 py-3 rounded-md shadow hover:scale-105 transition">
-                        {{ __('Read More') }}
+                        {{ __('contact.read_more') }}
                     </a>
                 </div>
             </div>
@@ -70,7 +74,8 @@
                     @endif
 
                     <div>
-                        <label class="text-sm font-medium text-gray-300 mb-1 block">{{ __('Name') }} *</label>
+                        <label class="text-sm font-medium text-gray-300 mb-1 block">{{ __('contact.form.name') }}
+                            *</label>
                         <input type="text" name="name" x-model="form.name"
                             class="w-full bg-gray-900 border border-gray-600 text-white p-3 rounded focus:ring-[var(--color-electric-sky)] focus:border-[var(--color-electric-sky)]"
                             :class="{ 'border-red-500': errors.name }" />
@@ -80,7 +85,8 @@
                     </div>
 
                     <div>
-                        <label class="text-sm font-medium text-gray-300 mb-1 block">{{ __('Surname') }} *</label>
+                        <label class="text-sm font-medium text-gray-300 mb-1 block">{{ __('contact.form.surname') }}
+                            *</label>
                         <input type="text" name="surname" x-model="form.surname"
                             class="w-full bg-gray-900 border border-gray-600 text-white p-3 rounded focus:ring-[var(--color-electric-sky)] focus:border-[var(--color-electric-sky)]"
                             :class="{ 'border-red-500': errors.surname }" />
@@ -90,7 +96,8 @@
                     </div>
 
                     <div>
-                        <label class="text-sm font-medium text-gray-300 mb-1 block">{{ __('Phone Number') }} *</label>
+                        <label class="text-sm font-medium text-gray-300 mb-1 block">{{ __('contact.form.phone') }}
+                            *</label>
                         <input type="text" name="phone" x-model="form.phone"
                             class="w-full bg-gray-900 border border-gray-600 text-white p-3 rounded focus:ring-[var(--color-electric-sky)] focus:border-[var(--color-electric-sky)]"
                             :class="{ 'border-red-500': errors.phone }" />
@@ -100,7 +107,8 @@
                     </div>
 
                     <div>
-                        <label class="text-sm font-medium text-gray-300 mb-1 block">{{ __('Comments') }}</label>
+                        <label
+                            class="text-sm font-medium text-gray-300 mb-1 block">{{ __('contact.form.comments') }}</label>
                         <textarea name="comments" x-model="form.comments"
                             class="w-full bg-gray-900 border border-gray-600 text-white p-3 rounded focus:ring-[var(--color-electric-sky)] focus:border-[var(--color-electric-sky)]"
                             rows="4"></textarea>
@@ -108,7 +116,7 @@
 
                     <button type="submit"
                         class="w-full bg-yellow-400 text-black font-bold py-3 rounded-md hover:bg-yellow-300 transition">
-                        {{ __('Request a Service') }}
+                        {{ __('contact.form.cta') }}
                     </button>
                 </form>
             </div>
@@ -127,12 +135,13 @@
                 errors: {},
                 submitForm() {
                     this.errors = {};
-                    if (!this.form.name) this.errors.name = 'Name is required.';
-                    if (!this.form.surname) this.errors.surname = 'Surname is required.';
+
+                    if (!this.form.name) this.errors.name = '{{ __('contact.validation.name') }}';
+                    if (!this.form.surname) this.errors.surname = '{{ __('contact.validation.surname') }}';
                     if (!this.form.phone) {
-                        this.errors.phone = 'Phone number is required.';
+                        this.errors.phone = '{{ __('contact.validation.phone_required') }}';
                     } else if (!/^\+?\d{7,15}$/.test(this.form.phone)) {
-                        this.errors.phone = 'Invalid phone number format.';
+                        this.errors.phone = '{{ __('contact.validation.phone_invalid') }}';
                     }
 
                     if (Object.keys(this.errors).length === 0) {

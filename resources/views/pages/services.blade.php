@@ -1,139 +1,71 @@
-<x-layouts.base :title="__('contact.title')">
-    <section class="py-24 bg-gradient-to-r from-[#0b0f1a] via-[#141d2f] to-[#0b0f1a] text-white select-none">
-        <div class="container mx-auto px-4 sm:px-6 md:px-8 grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+<x-layouts.base :title="__('services.title')">
+    <div class="min-h-screen flex flex-col">
+        <!-- Services Section -->
+        <section
+            class="flex-grow bg-gradient-to-r from-[#0b0f1a] via-[#141d2f] to-[#0b0f1a] text-white py-24 select-none">
+            <div class="container mx-auto px-4 sm:px-6 md:px-8 space-y-24">
 
-            {{-- Left Column: Info --}}
-            <div class="space-y-6">
-                <span class="uppercase text-[var(--color-electric-sky)] font-semibold tracking-widest text-sm">
-                    {{ __('contact.tagline') }}
-                </span>
-                <h2 class="text-3xl sm:text-4xl font-bold leading-snug text-white">
-                    {{ __('contact.headline') }}
-                </h2>
-                <p class="text-white/80 text-base leading-relaxed max-w-lg">
-                    {{ __('contact.description') }}
-                </p>
-
-                {{-- Progress bar (optional metric) --}}
-                <div class="space-y-2 max-w-md">
-                    <p class="text-sm font-medium flex justify-between">
-                        <span>{{ __('contact.metric.label') }}</span>
-                        <span>100%</span>
-                    </p>
-                    <div class="w-full bg-white/10 h-2 rounded-full overflow-hidden">
-                        <div class="h-2 bg-[var(--color-electric-sky)] w-full"></div>
+                <!-- Pawnshop Ops -->
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h2 class="text-3xl md:text-4xl font-extrabold mb-4 text-[var(--color-electric-sky)]">
+                            {{ __('services.sections.pawnshop.title') }}
+                        </h2>
+                        <p class="text-white/80 text-lg leading-relaxed">
+                            {{ __('services.sections.pawnshop.description') }}
+                        </p>
+                    </div>
+                    <div class="flex justify-center">
+                        <img src="https://plus.unsplash.com/premium_photo-1673208585690-fe33159386bd?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                            alt="Pawnshop Services" class="rounded-xl shadow-lg max-w-full h-auto" loading="lazy">
                     </div>
                 </div>
 
-                {{-- Features Row --}}
-                <div class="flex flex-wrap gap-6 pt-6">
-                    <div class="flex items-center space-x-3">
-                        <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
-                            <x-icon.check class="w-5 h-5 text-[var(--color-electric-sky)]" />
-                        </div>
-                        <span class="text-sm font-medium">{{ __('contact.features.professional') }}</span>
+                <!-- SMB Tools -->
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="md:order-2">
+                        <h2 class="text-3xl md:text-4xl font-extrabold mb-4 text-[var(--color-electric-sky)]">
+                            {{ __('services.sections.smb.title') }}
+                        </h2>
+                        <p class="text-white/80 text-lg leading-relaxed">
+                            {{ __('services.sections.smb.description') }}
+                        </p>
                     </div>
-                    <div class="flex items-center space-x-3">
-                        <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
-                            <x-icon.shield class="w-5 h-5 text-[var(--color-electric-sky)]" />
-                        </div>
-                        <span class="text-sm font-medium">{{ __('contact.features.guarantees') }}</span>
+                    <div class="flex justify-center md:order-1">
+                        <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                            alt="SMB Services" class="rounded-xl shadow-lg max-w-full h-auto" loading="lazy">
                     </div>
                 </div>
+
+                <!-- Compliance -->
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h2 class="text-3xl md:text-4xl font-extrabold mb-4 text-[var(--color-electric-sky)]">
+                            {{ __('services.sections.compliance.title') }}
+                        </h2>
+                        <p class="text-white/80 text-lg leading-relaxed">
+                            {{ __('services.sections.compliance.description') }}
+                        </p>
+                    </div>
+                    <div class="flex justify-center">
+                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=815&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                            alt="Compliance" class="rounded-xl shadow-lg max-w-full h-auto" loading="lazy">
+                    </div>
+                </div>
+
+                <!-- Problems We Solve -->
+                <div class="bg-white/5 p-10 rounded-2xl shadow-xl border border-white/10">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center">
+                        {{ __('services.sections.problems_heading') }}
+                    </h2>
+                    <ul class="space-y-4 max-w-3xl mx-auto text-white/90 text-lg list-disc list-inside">
+                        @foreach (__('services.sections.problems') as $problem)
+                            <li>{{ $problem }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+
             </div>
-
-            {{-- Right Column: Form --}}
-            <div class="bg-[#1f2744] p-8 rounded-2xl shadow-xl w-full" id="contact-form">
-                <form x-data="contactForm()" x-on:submit.prevent="submitForm" method="POST"
-                    action="{{ route('contact.submit') }}" class="space-y-6">
-                    @csrf
-
-                    @if (session('success'))
-                        <div class="text-green-400 font-medium">
-                            {{ session('success') }}
-                        </div>
-                    @endif
-
-                    {{-- Name --}}
-                    <div>
-                        <label class="text-sm font-medium text-gray-300 mb-1 block">{{ __('contact.form.name') }}
-                            *</label>
-                        <input type="text" name="name" x-model="form.name"
-                            class="w-full bg-gray-900 border border-gray-600 text-white p-3 rounded focus:ring-[var(--color-electric-sky)] focus:border-[var(--color-electric-sky)]"
-                            :class="{ 'border-red-500': errors.name }" />
-                        <template x-if="errors.name">
-                            <p class="text-red-400 text-sm mt-1" x-text="errors.name"></p>
-                        </template>
-                    </div>
-
-                    {{-- Surname --}}
-                    <div>
-                        <label class="text-sm font-medium text-gray-300 mb-1 block">{{ __('contact.form.surname') }}
-                            *</label>
-                        <input type="text" name="surname" x-model="form.surname"
-                            class="w-full bg-gray-900 border border-gray-600 text-white p-3 rounded focus:ring-[var(--color-electric-sky)] focus:border-[var(--color-electric-sky)]"
-                            :class="{ 'border-red-500': errors.surname }" />
-                        <template x-if="errors.surname">
-                            <p class="text-red-400 text-sm mt-1" x-text="errors.surname"></p>
-                        </template>
-                    </div>
-
-                    {{-- Phone --}}
-                    <div>
-                        <label class="text-sm font-medium text-gray-300 mb-1 block">{{ __('contact.form.phone') }}
-                            *</label>
-                        <input type="text" name="phone" x-model="form.phone"
-                            class="w-full bg-gray-900 border border-gray-600 text-white p-3 rounded focus:ring-[var(--color-electric-sky)] focus:border-[var(--color-electric-sky)]"
-                            :class="{ 'border-red-500': errors.phone }" />
-                        <template x-if="errors.phone">
-                            <p class="text-red-400 text-sm mt-1" x-text="errors.phone"></p>
-                        </template>
-                    </div>
-
-                    {{-- Comments --}}
-                    <div>
-                        <label
-                            class="text-sm font-medium text-gray-300 mb-1 block">{{ __('contact.form.comments') }}</label>
-                        <textarea name="comments" x-model="form.comments"
-                            class="w-full bg-gray-900 border border-gray-600 text-white p-3 rounded focus:ring-[var(--color-electric-sky)] focus:border-[var(--color-electric-sky)]"
-                            rows="4"></textarea>
-                    </div>
-
-                    {{-- Submit --}}
-                    <button type="submit"
-                        class="w-full bg-yellow-400 text-black font-bold py-3 rounded-md hover:bg-yellow-300 transition">
-                        {{ __('contact.form.cta') }}
-                    </button>
-                </form>
-            </div>
-        </div>
-    </section>
-
-    <script>
-        function contactForm() {
-            return {
-                form: {
-                    name: '',
-                    surname: '',
-                    phone: '',
-                    comments: ''
-                },
-                errors: {},
-                submitForm() {
-                    this.errors = {};
-                    if (!this.form.name) this.errors.name = '{{ __('contact.validation.name') }}';
-                    if (!this.form.surname) this.errors.surname = '{{ __('contact.validation.surname') }}';
-                    if (!this.form.phone) {
-                        this.errors.phone = '{{ __('contact.validation.phone_required') }}';
-                    } else if (!/^\+?\d{7,15}$/.test(this.form.phone)) {
-                        this.errors.phone = '{{ __('contact.validation.phone_invalid') }}';
-                    }
-
-                    if (Object.keys(this.errors).length === 0) {
-                        document.getElementById('contact-form').submit();
-                    }
-                }
-            }
-        }
-    </script>
+        </section>
+    </div>
 </x-layouts.base>
