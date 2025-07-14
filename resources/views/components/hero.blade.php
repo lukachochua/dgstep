@@ -1,24 +1,33 @@
 <section x-data="{
     activeSlide: 0,
     slides: [{
-            title: 'Simplify Pawnshop Operations',
-            highlight: 'with DG STEP',
-            subtitle: 'From records to renewals — manage it all with one tool.',
-            button: { text: 'Contact Us', link: '#contact' },
+            title: '{{ __('messages.hero.slides.0.title') }}',
+            highlight: '{{ __('messages.hero.slides.0.highlight') }}',
+            subtitle: '{{ __('messages.hero.slides.0.subtitle') }}',
+            button: {
+                text: '{{ __('messages.hero.slides.0.button.text') }}',
+                link: '#contact'
+            },
             image: 'https://images.unsplash.com/photo-1499428665502-503f6c608263?q=80&w=870&auto=format&fit=crop'
         },
         {
-            title: 'Boost Business Efficiency',
-            highlight: 'across all industries',
-            subtitle: 'We help small businesses serve faster, smarter, and better.',
-            button: { text: 'Get in Touch', link: '#contact' },
+            title: '{{ __('messages.hero.slides.1.title') }}',
+            highlight: '{{ __('messages.hero.slides.1.highlight') }}',
+            subtitle: '{{ __('messages.hero.slides.1.subtitle') }}',
+            button: {
+                text: '{{ __('messages.hero.slides.1.button.text') }}',
+                link: '#contact'
+            },
             image: 'https://images.unsplash.com/photo-1499428665502-503f6c608263?q=80&w=870&auto=format&fit=crop'
         },
         {
-            title: 'Built for Georgian Businesses',
-            highlight: 'Local + Compliant',
-            subtitle: 'Tailored tools for your workflow and regulations.',
-            button: { text: 'Start Now', link: '#contact' },
+            title: '{{ __('messages.hero.slides.2.title') }}',
+            highlight: '{{ __('messages.hero.slides.2.highlight') }}',
+            subtitle: '{{ __('messages.hero.slides.2.subtitle') }}',
+            button: {
+                text: '{{ __('messages.hero.slides.2.button.text') }}',
+                link: '#contact'
+            },
             image: 'https://images.unsplash.com/photo-1499428665502-503f6c608263?q=80&w=870&auto=format&fit=crop'
         }
     ],

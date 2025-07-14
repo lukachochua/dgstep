@@ -5,17 +5,25 @@
 
         <!-- Left: Copyright -->
         <p class="text-white/50 text-center md:text-left">
-            &copy; {{ now()->year }} <span class="font-semibold text-white">DGstep</span>. Built with Laravel 12 &
-            Tailwind CSS.
+            {{ trans('messages.footer.copyright', ['year' => now()->year]) }}
         </p>
 
         <!-- Right: Footer Nav -->
         <nav class="flex flex-wrap justify-center gap-3 text-white/60">
-            <a href="#features" class="px-3 py-1.5 rounded-md hover:bg-white/10 transition">Features</a>
-            <a href="#pricing" class="px-3 py-1.5 rounded-md hover:bg-white/10 transition">Pricing</a>
-            <a href="#contact" class="px-3 py-1.5 rounded-md hover:bg-white/10 transition">Contact</a>
+            <a href="#features" class="px-3 py-1.5 rounded-md hover:bg-white/10 transition">
+                {{ __('messages.footer.nav.features') }}
+            </a>
+            <a href="#pricing" class="px-3 py-1.5 rounded-md hover:bg-white/10 transition">
+                {{ __('messages.footer.nav.pricing') }}
+            </a>
+            <a href="#contact" class="px-3 py-1.5 rounded-md hover:bg-white/10 transition">
+                {{ __('messages.footer.nav.contact') }}
+            </a>
             <a href="https://github.com/yourrepo" target="_blank" rel="noopener noreferrer"
-                class="px-3 py-1.5 rounded-md hover:bg-white/10 transition">GitHub</a>
+                class="px-3 py-1.5 rounded-md hover:bg-white/10 transition">
+                {{ __('messages.footer.nav.github') }}
+            </a>
         </nav>
+
     </div>
 </footer>

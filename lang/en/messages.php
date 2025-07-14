@@ -8,4 +8,76 @@ return [
     'contact'   => 'Contact',
     'login'     => 'Login',
     'register'  => 'Register',
+    'hero' => [
+        'slides' => [
+            [
+                'title'    => 'Simplify Pawnshop Operations',
+                'highlight' => 'with DG STEP',
+                'subtitle' => 'From records to renewals — manage it all with one tool.',
+                'button'   => [
+                    'text' => 'Contact Us',
+                    'link' => '#contact',
+                ],
+            ],
+            [
+                'title'    => 'Boost Business Efficiency',
+                'highlight' => 'across all industries',
+                'subtitle' => 'We help small businesses serve faster, smarter, and better.',
+                'button'   => [
+                    'text' => 'Get in Touch',
+                    'link' => '#contact',
+                ],
+            ],
+            [
+                'title'    => 'Built for Georgian Businesses',
+                'highlight' => 'Local + Compliant',
+                'subtitle' => 'Tailored tools for your workflow and regulations.',
+                'button'   => [
+                    'text' => 'Start Now',
+                    'link' => '#contact',
+                ],
+            ],
+        ],
+    ],
+
+    'features' => [
+        'heading'    => 'Built for Pawnshops & Growing Businesses',
+        'subheading' => 'Every feature crafted for speed, compliance, and scale.',
+        'cards'      => [
+            [
+                'title'       => 'Quick Onboarding',
+                'description' => 'Get started in minutes with guided setup tailored to your business type.',
+            ],
+            [
+                'title'       => 'Customer & Item Records',
+                'description' => 'Manage full loan/item/customer history with built-in search and filtering.',
+            ],
+            [
+                'title'       => 'Loan & Renewals',
+                'description' => 'Easily process renewals, redemptions, or interest-based schedules.',
+            ],
+            [
+                'title'       => 'Mobile & Responsive',
+                'description' => 'Works beautifully across desktop, tablet, and phone — for you or your staff.',
+            ],
+            [
+                'title'       => 'Reports & Analytics',
+                'description' => 'Export summaries, track growth, and view audit-ready activity logs.',
+            ],
+            [
+                'title'       => 'Georgian Law Compliant',
+                'description' => 'Includes required formats for Georgian loan tracking, documentation, and tax.',
+            ],
+        ],
+    ],
+
+    'footer' => [
+        'copyright' => '© :year DGstep. Built with Laravel 12 & Tailwind CSS.',
+        'nav'       => [
+            'features' => 'Features',
+            'pricing'  => 'Pricing',
+            'contact'  => 'Contact',
+            'github'   => 'GitHub',
+        ],
+    ],
 ];
