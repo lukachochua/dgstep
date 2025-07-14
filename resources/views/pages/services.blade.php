@@ -1,4 +1,4 @@
-<x-layouts.base title="Services — DGstep">
+<x-layouts.base :title="__('services.title')">
     <div class="min-h-screen flex flex-col">
         <!-- Services Section -->
         <section
@@ -8,11 +8,11 @@
                 <!-- Pawnshop Ops -->
                 <div class="grid md:grid-cols-2 gap-12 items-center">
                     <div>
-                        <h2 class="text-3xl md:text-4xl font-extrabold mb-4 text-[var(--color-electric-sky)]">Pawnshop
-                            Operations</h2>
+                        <h2 class="text-3xl md:text-4xl font-extrabold mb-4 text-[var(--color-electric-sky)]">
+                            {{ __('services.sections.pawnshop.title') }}
+                        </h2>
                         <p class="text-white/80 text-lg leading-relaxed">
-                            From pawn ticket management to renewals, redemptions, and inventory — DGstep streamlines
-                            daily operations with an intuitive backend tailored for Georgian laws and workflows.
+                            {{ __('services.sections.pawnshop.description') }}
                         </p>
                     </div>
                     <div class="flex justify-center">
@@ -24,11 +24,11 @@
                 <!-- SMB Tools -->
                 <div class="grid md:grid-cols-2 gap-12 items-center">
                     <div class="md:order-2">
-                        <h2 class="text-3xl md:text-4xl font-extrabold mb-4 text-[var(--color-electric-sky)]">Small
-                            Business Solutions</h2>
+                        <h2 class="text-3xl md:text-4xl font-extrabold mb-4 text-[var(--color-electric-sky)]">
+                            {{ __('services.sections.smb.title') }}
+                        </h2>
                         <p class="text-white/80 text-lg leading-relaxed">
-                            Our lightweight ERP tools help small businesses handle customer records, service requests,
-                            and internal workflows without the overhead of bloated systems.
+                            {{ __('services.sections.smb.description') }}
                         </p>
                     </div>
                     <div class="flex justify-center md:order-1">
@@ -40,11 +40,11 @@
                 <!-- Compliance -->
                 <div class="grid md:grid-cols-2 gap-12 items-center">
                     <div>
-                        <h2 class="text-3xl md:text-4xl font-extrabold mb-4 text-[var(--color-electric-sky)]">Compliance
-                            & Reporting</h2>
+                        <h2 class="text-3xl md:text-4xl font-extrabold mb-4 text-[var(--color-electric-sky)]">
+                            {{ __('services.sections.compliance.title') }}
+                        </h2>
                         <p class="text-white/80 text-lg leading-relaxed">
-                            Automatic audit trails, role-based access, and export-ready financial logs ensure your
-                            business remains compliant with minimal manual effort.
+                            {{ __('services.sections.compliance.description') }}
                         </p>
                     </div>
                     <div class="flex justify-center">
@@ -55,13 +55,13 @@
 
                 <!-- Problems We Solve -->
                 <div class="bg-white/5 p-10 rounded-2xl shadow-xl border border-white/10">
-                    <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center">What Problems Do We Solve?</h2>
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center">
+                        {{ __('services.sections.problems_heading') }}
+                    </h2>
                     <ul class="space-y-4 max-w-3xl mx-auto text-white/90 text-lg list-disc list-inside">
-                        <li>Disorganized records across notebooks and spreadsheets</li>
-                        <li>Difficulty tracking loan history and inventory items</li>
-                        <li>Slow customer service due to fragmented tools</li>
-                        <li>Manual, error-prone reporting processes</li>
-                        <li>Lack of mobile-first access for staff</li>
+                        @foreach (__('services.sections.problems') as $problem)
+                            <li>{{ $problem }}</li>
+                        @endforeach
                     </ul>
                 </div>
 

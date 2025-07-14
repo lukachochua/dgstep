@@ -1,4 +1,4 @@
-<x-layouts.base title="About Us — DGstep">
+<x-layouts.base :title="__('about.title')">
     <div class="min-h-screen flex flex-col">
         <!-- Hero Section: Who We Are -->
         <section
@@ -10,16 +10,13 @@
                     <!-- Text Content -->
                     <div class="md:w-1/2 space-y-6">
                         <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight">
-                            Who <span class="text-[var(--color-electric-sky)]">We Are</span>
+                            {!! __('about.who_we_are.heading') !!}
                         </h2>
                         <p class="text-white/80 text-lg leading-relaxed max-w-xl">
-                            DGstep is more than a tech studio. We’re strategic partners for small/medium businesses
-                            across Georgia, combining software craftsmanship with deep operational knowledge —
-                            especially in regulated industries like pawnshops.
+                            {{ __('about.who_we_are.paragraph_1') }}
                         </p>
                         <p class="text-white/80 text-base leading-relaxed max-w-xl">
-                            From modernizing inventory systems to automating contracts and customer tracking,
-                            our Laravel + Tailwind stack ensures performance, compliance, and elegant user experience.
+                            {{ __('about.who_we_are.paragraph_2') }}
                         </p>
                     </div>
 
@@ -43,30 +40,19 @@
                 <!-- Mission -->
                 <div>
                     <h3 class="text-3xl md:text-4xl font-bold mb-10">
-                        Our <span class="text-[var(--color-electric-sky)]">Mission</span>
+                        {!! __('about.mission.heading') !!}
                     </h3>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-left text-white/90">
-                        <div class="bg-white/5 p-6 rounded-xl border border-white/10 backdrop-blur-sm">
-                            <h4 class="text-xl font-semibold mb-2 text-white">Simplify Complexity</h4>
-                            <p class="text-white/70 text-base">
-                                We build software that removes friction — letting owners focus on customers,
-                                not paperwork or compliance chaos.
-                            </p>
-                        </div>
-                        <div class="bg-white/5 p-6 rounded-xl border border-white/10 backdrop-blur-sm">
-                            <h4 class="text-xl font-semibold mb-2 text-white">Support Local Growth</h4>
-                            <p class="text-white/70 text-base">
-                                Our platform adapts to Georgian legal frameworks and business culture — serving real
-                                local needs, not abstract SaaS ideals.
-                            </p>
-                        </div>
-                        <div class="bg-white/5 p-6 rounded-xl border border-white/10 backdrop-blur-sm">
-                            <h4 class="text-xl font-semibold mb-2 text-white">Modern by Default</h4>
-                            <p class="text-white/70 text-base">
-                                Built with Laravel 12.x, Tailwind, Alpine.js — we deliver clean, fast, modern solutions
-                                without legacy baggage.
-                            </p>
-                        </div>
+                        @foreach (__('about.mission.cards') as $card)
+                            <div class="bg-white/5 p-6 rounded-xl border border-white/10 backdrop-blur-sm">
+                                <h4 class="text-xl font-semibold mb-2 text-white">
+                                    {{ $card['title'] }}
+                                </h4>
+                                <p class="text-white/70 text-base">
+                                    {{ $card['text'] }}
+                                </p>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
 
@@ -74,7 +60,7 @@
                 <div>
                     <a href="{{ route('contact') }}"
                         class="inline-block px-6 py-3 border-2 border-white text-white font-semibold rounded-lg hover:bg-white hover:text-[var(--color-electric-sky)] transition">
-                        Contact Us
+                        {{ __('about.cta') }}
                     </a>
                 </div>
             </div>
