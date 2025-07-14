@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Http\Request;
 
 Route::get('/', function () {
     return view('pages.home');
@@ -23,7 +23,6 @@ Route::get('/contact', function () {
     return view('pages.contact');
 })->name('contact');
 
-
 Route::get('/login', function () {
     return view('auth.login');
 })->name('login');
@@ -43,3 +42,16 @@ Route::get('/pw2', function () {
 Route::get('/pw1', function () {
     return view('auth.reset-password');
 })->name('password.reset');
+
+// ——————————————
+// Locale switcher
+// ——————————————
+Route::post('/locale', function (Request $request) {
+    $request->validate([
+        'locale' => 'required|in:en,ka',
+    ]);
+
+    session(['locale' => $request->get('locale')]);
+
+    return back();
+})->name('locale.switch');

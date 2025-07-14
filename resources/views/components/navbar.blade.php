@@ -18,29 +18,35 @@
 
         <!-- Desktop Menu -->
         <div class="hidden lg:flex items-center space-x-2 text-[0.95rem] font-medium tracking-wide">
-            @foreach (['home' => 'Home', 'services' => 'Services', 'about' => 'About', 'projects' => 'Projects'] as $route => $label)
-                <x-nav.anchor-button :route="$route" :label="$label" variant="desktop" />
+            @foreach (['home', 'services', 'about', 'projects'] as $routeName)
+                <div class="relative group rounded-[3px]">
+                    <x-nav.anchor-button :route="$routeName" label="{{ __('messages.' . $routeName) }}"
+                        variant="desktop" />
+                </div>
             @endforeach
         </div>
 
         <!-- Right: Auth + Language -->
         <div class="hidden lg:flex items-center space-x-2 text-sm font-medium tracking-wide">
-            <x-nav.anchor-button route="login" label="Login" variant="auth" />
-            <x-nav.anchor-button route="register" label="Register" variant="auth" />
+            <x-nav.anchor-button route="login" label="{{ __('messages.login') }}" variant="auth" />
+            <x-nav.anchor-button route="register" label="{{ __('messages.register') }}" variant="auth" />
 
             <div class="ml-3 flex items-center gap-2 group transition">
-                <!-- Language Switch -->
                 <svg xmlns="http://www.w3.org/2000/svg"
                     class="h-4 w-4 text-white group-hover:text-[var(--color-electric-sky)] transition" fill="none"
                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"
                     stroke-linejoin="miter">
                     <path d="M12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zM12 2v20M2 12h20" />
                 </svg>
-                <select aria-label="Language switch"
-                    class="bg-transparent text-white text-sm outline-none group-hover:text-[var(--color-electric-sky)] transition cursor-pointer">
-                    <option class="text-black" value="ka">KA</option>
-                    <option class="text-black" value="en" selected>EN</option>
-                </select>
+
+                <form action="{{ route('locale.switch') }}" method="POST">
+                    @csrf
+                    <select name="locale" onchange="this.form.submit()" aria-label="Language switch"
+                        class="bg-transparent text-white text-sm outline-none group-hover:text-[var(--color-electric-sky)] transition cursor-pointer">
+                        <option value="ka" {{ app()->getLocale() === 'ka' ? 'selected' : '' }}>KA</option>
+                        <option value="en" {{ app()->getLocale() === 'en' ? 'selected' : '' }}>EN</option>
+                    </select>
+                </form>
             </div>
         </div>
 
@@ -50,7 +56,7 @@
             aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-menu">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M4 6h16M4 12h16M4 18h16"></path>
+                <path d="M4 6h16M4 12h16M4 18h16" />
             </svg>
         </button>
     </div>
@@ -58,14 +64,16 @@
     <!-- Mobile Menu -->
     <div id="mobile-menu"
         class="hidden lg:hidden container mx-auto px-4 sm:px-6 md:px-8 pb-6 pt-4 space-y-5 text-center text-base font-medium text-white">
-        @foreach (['home' => 'Home', 'services' => 'Services', 'about' => 'About', 'projects' => 'Projects'] as $route => $label)
-            <x-nav.anchor-button :route="$route" :label="$label" variant="mobile" />
+        @foreach (['home', 'services', 'about', 'projects'] as $routeName)
+            <div class="relative group rounded-[3px]">
+                <x-nav.anchor-button :route="$routeName" label="{{ __('messages.' . $routeName) }}" variant="mobile" />
+            </div>
         @endforeach
 
         <!-- Auth Buttons -->
         <div class="flex flex-col items-center gap-3 pt-2">
-            <x-nav.anchor-button route="login" label="Login" variant="auth-mobile" />
-            <x-nav.anchor-button route="register" label="Register" variant="auth-mobile" />
+            <x-nav.anchor-button route="login" label="{{ __('messages.login') }}" variant="auth-mobile" />
+            <x-nav.anchor-button route="register" label="{{ __('messages.register') }}" variant="auth-mobile" />
         </div>
 
         <!-- Language Switch -->
@@ -76,11 +84,15 @@
                 stroke-linejoin="miter">
                 <path d="M12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zM12 2v20M2 12h20" />
             </svg>
-            <select
-                class="bg-transparent text-white text-sm outline-none group-hover:text-[var(--color-electric-sky)] transition cursor-pointer">
-                <option class="text-black" value="ka">KA</option>
-                <option class="text-black" value="en" selected>EN</option>
-            </select>
+
+            <form action="{{ route('locale.switch') }}" method="POST">
+                @csrf
+                <select name="locale" onchange="this.form.submit()" aria-label="Language switch"
+                    class="bg-transparent text-white text-sm outline-none group-hover:text-[var(--color-electric-sky)] transition cursor-pointer">
+                    <option value="ka" {{ app()->getLocale() === 'ka' ? 'selected' : '' }}>KA</option>
+                    <option value="en" {{ app()->getLocale() === 'en' ? 'selected' : '' }}>EN</option>
+                </select>
+            </form>
         </div>
     </div>
 </nav>
