@@ -1,7 +1,5 @@
 <x-layouts.base title="Services — DGstep">
     <div class="min-h-screen flex flex-col">
-        <x-navbar />
-
         <!-- Services Section -->
         <section
             class="flex-grow bg-gradient-to-r from-[#0b0f1a] via-[#141d2f] to-[#0b0f1a] text-white py-24 select-none">
@@ -69,7 +67,5 @@
 
             </div>
         </section>
-
-        <x-footer />
     </div>
 </x-layouts.base>

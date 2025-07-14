@@ -1,7 +1,5 @@
 <x-layouts.base title="Reset Password — DGstep">
     <div class="min-h-screen flex flex-col">
-        <x-navbar />
-
         <section class="flex-grow bg-gradient-to-r from-[#0b0f1a] via-[#141d2f] to-[#0b0f1a] py-24 px-6 text-white">
             <div class="max-w-md mx-auto space-y-8 text-center">
                 <h1 class="text-4xl font-extrabold tracking-tight">Reset Password</h1>
@@ -32,7 +30,5 @@
                 </form>
             </div>
         </section>
-
-        <x-footer />
     </div>
 </x-layouts.base>

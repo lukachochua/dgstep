@@ -51,7 +51,10 @@
     <div
         class="page-wrapper bg-gradient-to-r from-[#0b0f1a] via-[#6d6be4] to-[#a369ff] dark:bg-[var(--bg-default)] text-gray-900 dark:text-[var(--text-default)] selection:bg-[var(--color-electric-sky)] selection:text-white">
         <main>
+            <x-navbar />
             {{ $slot }}
+
+            <x-footer />
         </main>
     </div>
 
