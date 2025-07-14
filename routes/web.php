@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
+// Standard Routes
+
 Route::get('/', function () {
     return view('pages.home');
 })->name('home');
@@ -43,9 +45,9 @@ Route::get('/pw1', function () {
     return view('auth.reset-password');
 })->name('password.reset');
 
-// ——————————————
-// Locale switcher
-// ——————————————
+
+// Set Locale
+
 Route::post('/locale', function (Request $request) {
     $request->validate([
         'locale' => 'required|in:en,ka',

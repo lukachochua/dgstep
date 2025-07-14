@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth" data-theme="light">
+<html lang="{{ app()->getLocale() }}" class="scroll-smooth" data-theme="light">
 
 <head>
     <meta charset="UTF-8" />
@@ -8,8 +8,17 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
-    <script src="//unpkg.com/alpinejs" defer></script>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?
+    family=Inter:wght@400;500;700
+    &family=Noto+Sans+Georgian:wght@400;500;700
+    &display=swap"
+        rel="stylesheet">
+
+    <script src="//unpkg.com/alpinejs" defer></script>
 
     <style>
         :root {
