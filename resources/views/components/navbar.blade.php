@@ -18,43 +18,21 @@
 
         <!-- Desktop Menu -->
         <div class="hidden lg:flex items-center space-x-2 text-[0.95rem] font-medium tracking-wide">
-            @foreach ([
-        'home' => 'Home',
-        'services' => 'Services',
-        'about' => 'About',
-        'projects' => 'Projects',
-    ] as $route => $label)
-                <a href="{{ route($route) }}"
-                    class="relative z-10 px-3 py-2 rounded-[3px] transition-colors duration-300 shadow-[0_0_4px_var(--color-electric-sky)] group
-            {{ request()->routeIs($route)
-                ? 'bg-[var(--color-electric-sky)] text-black border border-[var(--color-electric-sky)] group-hover:shadow-[0_0_8px_var(--color-electric-sky-hover)]'
-                : 'bg-transparent text-white border border-transparent hover:border-[var(--color-electric-sky)] hover:bg-white/5 hover:text-[var(--color-electric-sky)]' }}">
-                    {{ $label }}
-                </a>
+            @foreach (['home' => 'Home', 'services' => 'Services', 'about' => 'About', 'projects' => 'Projects'] as $route => $label)
+                <x-nav.anchor-button :route="$route" :label="$label" variant="desktop" />
             @endforeach
         </div>
 
         <!-- Right: Auth + Language -->
         <div class="hidden lg:flex items-center space-x-2 text-sm font-medium tracking-wide">
-            <a href="{{ route('login') }}"
-                class="px-3 py-2 border rounded-[3px] transition-colors duration-300
-        {{ request()->routeIs('login')
-            ? 'bg-[var(--color-electric-sky)] text-black border-[var(--color-electric-sky)] shadow-[0_0_4px_var(--color-electric-sky)]'
-            : 'border-white text-white hover:bg-[var(--color-electric-sky)] hover:text-black hover:border-transparent' }}">
-                Login
-            </a>
-            <a href="{{ route('register') }}"
-                class="px-3 py-2 border rounded-[3px] transition-colors duration-300
-        {{ request()->routeIs('register')
-            ? 'bg-[var(--color-electric-sky)] text-black border-[var(--color-electric-sky)] shadow-[0_0_4px_var(--color-electric-sky)]'
-            : 'border-[var(--color-electric-sky)] text-[var(--color-electric-sky)] hover:bg-[var(--color-electric-sky)] hover:text-black hover:border-transparent' }}">
-                Register
-            </a>
+            <x-nav.anchor-button route="login" label="Login" variant="auth" />
+            <x-nav.anchor-button route="register" label="Register" variant="auth" />
 
             <div class="ml-3 flex items-center gap-2 group transition">
+                <!-- Language Switch -->
                 <svg xmlns="http://www.w3.org/2000/svg"
-                    class="h-4 w-4 text-white group-hover:text-[var(--color-electric-sky)] transition"
-                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"
+                    class="h-4 w-4 text-white group-hover:text-[var(--color-electric-sky)] transition" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"
                     stroke-linejoin="miter">
                     <path d="M12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zM12 2v20M2 12h20" />
                 </svg>
@@ -70,8 +48,8 @@
         <button id="menu-toggle"
             class="lg:hidden p-2 rounded-[3px] text-white hover:text-[var(--color-electric-sky)] transition"
             aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-menu">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" stroke="currentColor"
-                stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M4 6h16M4 12h16M4 18h16"></path>
             </svg>
         </button>
@@ -80,46 +58,22 @@
     <!-- Mobile Menu -->
     <div id="mobile-menu"
         class="hidden lg:hidden container mx-auto px-4 sm:px-6 md:px-8 pb-6 pt-4 space-y-5 text-center text-base font-medium text-white">
-
-        <!-- Navigation Links -->
-        @foreach ([
-        'home' => 'Home',
-        'about' => 'About',
-        'services' => 'Services',
-        'projects' => 'Projects',
-    ] as $route => $label)
-            <a href="{{ route($route) }}"
-                class="block max-w-xs mx-auto px-4 py-2 rounded-md border transition-colors duration-300 shadow-[0_0_4px_var(--color-electric-sky)] hover:shadow-[0_0_8px_var(--color-electric-sky-hover)]
-                {{ request()->routeIs($route)
-                    ? 'bg-[var(--color-electric-sky)] text-black border-[var(--color-electric-sky)]'
-                    : 'bg-white/5 text-white border-transparent hover:bg-white/10' }}">
-                {{ $label }}
-            </a>
+        @foreach (['home' => 'Home', 'services' => 'Services', 'about' => 'About', 'projects' => 'Projects'] as $route => $label)
+            <x-nav.anchor-button :route="$route" :label="$label" variant="mobile" />
         @endforeach
 
         <!-- Auth Buttons -->
         <div class="flex flex-col items-center gap-3 pt-2">
-            <a href="{{ route('login') }}"
-                class="w-full max-w-xs px-4 py-2 border rounded-md transition
-                {{ request()->routeIs('login')
-                    ? 'bg-[var(--color-electric-sky)] text-black border-[var(--color-electric-sky)]'
-                    : 'border-white text-white hover:bg-[var(--color-electric-sky)] hover:text-black hover:border-transparent' }}">
-                Login
-            </a>
-            <a href="{{ route('register') }}"
-                class="w-full max-w-xs px-4 py-2 border rounded-md transition
-                {{ request()->routeIs('register')
-                    ? 'bg-[var(--color-electric-sky)] text-black border-[var(--color-electric-sky)]'
-                    : 'border-[var(--color-electric-sky)] text-[var(--color-electric-sky)] hover:bg-[var(--color-electric-sky)] hover:text-black' }}">
-                Register
-            </a>
+            <x-nav.anchor-button route="login" label="Login" variant="auth-mobile" />
+            <x-nav.anchor-button route="register" label="Register" variant="auth-mobile" />
         </div>
 
         <!-- Language Switch -->
         <div class="flex justify-center items-center gap-2 pt-4 group transition">
             <svg xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5 text-white group-hover:text-[var(--color-electric-sky)] transition" viewBox="0 0 24 24"
-                fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
+                class="h-5 w-5 text-white group-hover:text-[var(--color-electric-sky)] transition" fill="none"
+                viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"
+                stroke-linejoin="miter">
                 <path d="M12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zM12 2v20M2 12h20" />
             </svg>
             <select

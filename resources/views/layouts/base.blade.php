@@ -43,6 +43,34 @@
             overflow-x: hidden;
         }
     </style>
+
+    <!-- Basic SEO -->
+    <meta name="description"
+        content="DGstep is a Tbilisi-based software studio building modern platforms for pawnshops and small businesses across Georgia. Simplify your operations with custom Laravel solutions." />
+    <meta name="keywords"
+        content="DGstep, software development Georgia, pawnshop software, Laravel studio, Tbilisi tech company, business tools Georgia, ERP Georgia, Alpine.js, Tailwind CSS, Laravel 12" />
+    <meta name="author" content="DGstep">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph for social media -->
+    <meta property="og:title" content="{{ $title ?? 'DGstep – Modern Software for Georgian Businesses' }}">
+    <meta property="og:description"
+        content="DGstep helps businesses in Tbilisi and across Georgia digitize operations with tailored Laravel and Alpine.js solutions.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:image" content="{{ asset('images/og-preview.jpg') }}"> {{-- Optional: replace with actual image --}}
+    <meta property="og:locale" content="en_US">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $title ?? 'DGstep – Modern Software for Georgian Businesses' }}">
+    <meta name="twitter:description"
+        content="Custom-built tools for pawnshops and small businesses in Georgia. Fast. Compliant. Reliable.">
+    <meta name="twitter:image" content="{{ asset('images/og-preview.jpg') }}">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="{{ url()->current() }}">
+
 </head>
 
 <body
