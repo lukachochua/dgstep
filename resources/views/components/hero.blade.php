@@ -6,7 +6,7 @@
             subtitle: '{{ __('messages.hero.slides.0.subtitle') }}',
             button: {
                 text: '{{ __('messages.hero.slides.0.button.text') }}',
-                link: '#contact'
+                link: '{{ route('contact') }}'
             },
             image: 'https://images.unsplash.com/photo-1499428665502-503f6c608263?q=80&w=870&auto=format&fit=crop'
         },
@@ -16,7 +16,7 @@
             subtitle: '{{ __('messages.hero.slides.1.subtitle') }}',
             button: {
                 text: '{{ __('messages.hero.slides.1.button.text') }}',
-                link: '#contact'
+                link: '{{ route('contact') }}'
             },
             image: 'https://images.unsplash.com/photo-1499428665502-503f6c608263?q=80&w=870&auto=format&fit=crop'
         },
@@ -26,7 +26,7 @@
             subtitle: '{{ __('messages.hero.slides.2.subtitle') }}',
             button: {
                 text: '{{ __('messages.hero.slides.2.button.text') }}',
-                link: '#contact'
+                link: '{{ route('contact') }}'
             },
             image: 'https://images.unsplash.com/photo-1499428665502-503f6c608263?q=80&w=870&auto=format&fit=crop'
         }

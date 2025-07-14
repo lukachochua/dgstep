@@ -45,6 +45,10 @@ Route::get('/pw1', function () {
     return view('auth.reset-password');
 })->name('password.reset');
 
+Route::get('/contact', [\App\Http\Controllers\ContactController::class, 'show'])->name('contact');
+Route::post('/contact', [\App\Http\Controllers\ContactController::class, 'submit'])->name('contact.submit');
+
+
 
 // Set Locale
 
