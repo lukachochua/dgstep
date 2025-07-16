@@ -71,7 +71,7 @@
         </template>
 
         <!-- Right Side Image/Preview -->
-        <div class="w-full max-w-lg aspect-[16/9] rounded-xl overflow-hidden shadow-lg">
+        <div class="hidden md:block w-full max-w-lg aspect-[16/9] rounded-xl overflow-hidden shadow-lg">
             <img src="https://plus.unsplash.com/premium_photo-1666997726532-33f671ca24c8?q=80&w=821&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 alt="App Preview" class="w-full h-full object-cover object-center" loading="lazy" />
         </div>
