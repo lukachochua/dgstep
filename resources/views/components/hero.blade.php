@@ -50,10 +50,10 @@
 
     <!-- Content -->
     <div
-        class="container mx-auto px-4 sm:px-6 md:px-8 z-10 relative flex flex-col md:flex-row items-center justify-between gap-12">
+        class="container mx-auto px-4 sm:px-6 md:px-8 z-10 relative flex flex-col md:flex-row items-stretch justify-between gap-12 md:gap-20">
 
-        <!-- Left Slide Text - Absolutely Positioned to Prevent Shift -->
-        <div class="relative w-full max-w-2xl min-h-[220px]">
+        <!-- Left Slide Text -->
+        <div class="relative w-full max-w-2xl flex flex-col justify-center">
             <template x-for="(slide, index) in slides" :key="'content-' + index">
                 <div x-show="activeSlide === index" x-cloak
                     x-transition:enter="transition duration-800 ease-[cubic-bezier(0.4,0,0.2,1)]"
@@ -76,10 +76,10 @@
             </template>
         </div>
 
-        <!-- Right Side Image/Preview -->
-        <div class="hidden md:block w-full max-w-lg aspect-[16/9] rounded-xl overflow-hidden shadow-lg">
+        <!-- Right Side Image -->
+        <div class="hidden md:flex items-center w-full max-w-md rounded-xl overflow-hidden shadow-lg">
             <img src="https://plus.unsplash.com/premium_photo-1666997726532-33f671ca24c8?q=80&w=821&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                alt="App Preview" class="w-full h-full object-cover object-center" loading="lazy" />
+                alt="App Preview" class="w-full h-auto object-cover object-center" loading="lazy" />
         </div>
     </div>
 
