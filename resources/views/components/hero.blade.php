@@ -1,6 +1,6 @@
 <section x-data="{
     activeSlide: 0,
-    mounted: false,
+    hasChanged: false,
     slides: [{
             title: '{{ __('messages.hero.slides.0.title') }}',
             highlight: '{{ __('messages.hero.slides.0.highlight') }}',
@@ -32,10 +32,15 @@
             image: 'https://images.unsplash.com/photo-1499428665502-503f6c608263?q=80&w=870&auto=format&fit=crop'
         }
     ],
-    next() { this.activeSlide = (this.activeSlide + 1) % this.slides.length },
-    prev() { this.activeSlide = (this.activeSlide - 1 + this.slides.length) % this.slides.length }
-}" x-init="setInterval(() => next(), 8000);
-setTimeout(() => mounted = true, 100);" style="min-height: calc(100vh - 5rem);"
+    next() {
+        this.hasChanged = true;
+        this.activeSlide = (this.activeSlide + 1) % this.slides.length
+    },
+    prev() {
+        this.hasChanged = true;
+        this.activeSlide = (this.activeSlide - 1 + this.slides.length) % this.slides.length
+    }
+}" x-init="setInterval(() => next(), 8000)" style="min-height: calc(100vh - 5rem);"
     class="relative pt-20 bg-gradient-to-r from-[#0b0f1a] via-[#141d2f] to-[#0b0f1a] text-white overflow-hidden flex items-center z-0 select-none">
 
     <!-- Background Images -->
@@ -43,7 +48,7 @@ setTimeout(() => mounted = true, 100);" style="min-height: calc(100vh - 5rem);"
         <div x-show="activeSlide === index" x-transition:enter="transition ease-out duration-700 transform"
             x-transition:enter-start="opacity-0 translate-x-6 scale-95"
             x-transition:enter-end="opacity-100 translate-x-0 scale-100"
-            x-transition:leave="transition ease-in duration-300 transform"
+            x-transition:leave="transition ease-in duration-500 transform"
             x-transition:leave-start="opacity-100 translate-x-0 scale-100"
             x-transition:leave-end="opacity-0 -translate-x-6 scale-95" class="absolute inset-0">
             <img :src="slide.image" alt=""
@@ -58,12 +63,14 @@ setTimeout(() => mounted = true, 100);" style="min-height: calc(100vh - 5rem);"
         <!-- Left Slide Text -->
         <div>
             <template x-for="(slide, index) in slides" :key="'content-' + index">
-                <div x-show="activeSlide === index" x-transition:enter="transition ease-out duration-700 transform"
-                    x-transition:enter-start="opacity-0 translate-y-10"
-                    x-transition:enter-end="opacity-100 translate-y-0"
-                    x-transition:leave="transition ease-in duration-300 transform"
-                    x-transition:leave-start="opacity-100 translate-y-0"
-                    x-transition:leave-end="opacity-0 translate-y-10" class="absolute inset-0 pointer-events-none">
+                <div x-show="activeSlide === index" x-cloak
+                    :class="hasChanged
+                        ?
+                        'transition-all duration-800 ease-out opacity-100 translate-y-0' :
+                        ''"
+                    :style="activeSlide === index ? 'opacity: 1; transform: translateY(0);' :
+                        'opacity: 0; transform: translateY(40px);'"
+                    class="absolute inset-0">
                     <h1 class="text-4xl md:text-5xl font-extrabold leading-tight tracking-tight drop-shadow-lg">
                         <span x-text="slide.title"></span><br>
                         <span class="text-[var(--color-electric-sky)]" x-text="slide.highlight"></span>
@@ -71,7 +78,7 @@ setTimeout(() => mounted = true, 100);" style="min-height: calc(100vh - 5rem);"
                     <p class="mt-4 text-lg md:text-xl text-white/80 drop-shadow-sm" x-text="slide.subtitle"></p>
                     <div class="mt-6">
                         <a :href="slide.button.link"
-                            class="inline-block border-2 border-white text-white font-semibold px-6 py-3 rounded-lg hover:bg-white hover:text-[var(--color-electric-sky)] transition pointer-events-auto">
+                            class="inline-block border-2 border-white text-white font-semibold px-6 py-3 rounded-lg hover:bg-white hover:text-[var(--color-electric-sky)] transition">
                             <span x-text="slide.button.text"></span>
                         </a>
                     </div>
@@ -111,7 +118,8 @@ setTimeout(() => mounted = true, 100);" style="min-height: calc(100vh - 5rem);"
     <!-- Dots -->
     <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
         <template x-for="(slide, index) in slides" :key="'dot-' + index">
-            <button @click="activeSlide = index" class="w-3 h-3 rounded-full border border-white transition"
+            <button @click="hasChanged = true; activeSlide = index"
+                class="w-3 h-3 rounded-full border border-white transition"
                 :class="activeSlide === index ? 'bg-white' : 'bg-white/30'"></button>
         </template>
     </div>
