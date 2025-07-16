@@ -3,11 +3,10 @@
         <!-- Hero Section: Who We Are -->
         <section
             class="flex-grow bg-gradient-to-r from-[#0b0f1a] via-[#141d2f] to-[#0b0f1a] text-white px-6 py-24 select-none">
-            <div class="container mx-auto max-w-6xl text-center space-y-16">
+            <div class="container mx-auto max-w-6xl text-center space-y-24">
 
                 <!-- Top: Who We Are -->
                 <div class="flex flex-col md:flex-row items-center justify-between gap-12 text-left md:text-start">
-                    <!-- Text Content -->
                     <div class="md:w-1/2 space-y-6">
                         <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight">
                             {!! __('about.who_we_are.heading') !!}
@@ -20,7 +19,6 @@
                         </p>
                     </div>
 
-                    <!-- Visual Side -->
                     <div class="md:w-1/2 flex flex-col items-center gap-6">
                         <div class="aspect-square w-52 rounded-full overflow-hidden border-4 border-white/10 shadow-lg">
                             <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=400&auto=format&fit=crop"
@@ -37,7 +35,7 @@
                     </div>
                 </div>
 
-                <!-- Mission -->
+                <!-- Mission Section -->
                 <div>
                     <h3 class="text-3xl md:text-4xl font-bold mb-10">
                         {!! __('about.mission.heading') !!}
@@ -56,14 +54,72 @@
                     </div>
                 </div>
 
-                <!-- CTA Button -->
+                <!-- Vision Section -->
+                <div>
+                    <h3 class="text-3xl md:text-4xl font-bold mb-4">
+                        {!! __('about.vision.heading') !!}
+                    </h3>
+                    <p class="text-white/80 text-lg max-w-4xl mx-auto leading-relaxed mb-12">
+                        {{ __('about.vision.text') }}
+                    </p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                        <div class="bg-white/5 p-6 rounded-xl border border-white/10 shadow-md">
+                            <img src="https://images.unsplash.com/photo-1453728013993-6d66e9c9123a?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                alt="Vision 1" class="rounded-lg mb-4 w-full h-48 object-cover" loading="lazy">
+                            <h4 class="text-xl font-semibold mb-2 text-white">{{ __('about.vision.cards.0.title') }}
+                            </h4>
+                            <p class="text-white/70 text-base">{{ __('about.vision.cards.0.text') }}</p>
+                        </div>
+
+                        <div class="bg-white/5 p-6 rounded-xl border border-white/10 shadow-md">
+                            <img src="https://images.unsplash.com/photo-1548438294-1ad5d5f4f063?q=80&w=872&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                alt="Vision 2" class="rounded-lg mb-4 w-full h-48 object-cover" loading="lazy">
+                            <h4 class="text-xl font-semibold mb-2 text-white">{{ __('about.vision.cards.1.title') }}
+                            </h4>
+                            <p class="text-white/70 text-base">{{ __('about.vision.cards.1.text') }}</p>
+                        </div>
+
+                        <div class="bg-white/5 p-6 rounded-xl border border-white/10 shadow-md">
+                            <img src="https://images.unsplash.com/photo-1493612276216-ee3925520721?q=80&w=464&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                alt="Vision 3" class="rounded-lg mb-4 w-full h-48 object-cover" loading="lazy">
+                            <h4 class="text-xl font-semibold mb-2 text-white">{{ __('about.vision.cards.2.title') }}
+                            </h4>
+                            <p class="text-white/70 text-base">{{ __('about.vision.cards.2.text') }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Management Team Section (Placeholder) -->
+                <div>
+                    <h3 class="text-3xl md:text-4xl font-bold mb-10">
+                        {!! __('about.management.heading') !!}
+                    </h3>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 text-left text-white/90">
+                        @foreach ([1, 2, 3] as $i)
+                            <div class="bg-white/5 p-6 rounded-xl border border-white/10 shadow-md">
+                                <img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?ixid={{ $i }}&w=300&h=300&fit=crop"
+                                    alt="Team Member {{ $i }}"
+                                    class="w-24 h-24 rounded-full object-cover mb-4 mx-auto border-2 border-white/20">
+                                <div class="text-center space-y-1">
+                                    <h4 class="text-lg font-semibold text-white">
+                                        {{ __('about.management.members.' . $i . '.name') }}</h4>
+                                    <p class="text-white/60 text-sm">
+                                        {{ __('about.management.members.' . $i . '.role') }}</p>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+
+                <!-- CTA -->
                 <div>
                     <a href="{{ route('contact') }}"
                         class="inline-block px-6 py-3 border-2 border-white text-white font-semibold rounded-lg hover:bg-white hover:text-[var(--color-electric-sky)] transition">
                         {{ __('about.cta') }}
                     </a>
                 </div>
-            </div>
         </section>
     </div>
 </x-layouts.base>

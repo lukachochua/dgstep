@@ -91,35 +91,6 @@
         <x-footer />
     </div>
 
-
-    <script>
-        (() => {
-            const themeToggleKey = 'dgstep-theme';
-            const htmlEl = document.documentElement;
-            const currentTheme = localStorage.getItem(themeToggleKey);
-
-            if (currentTheme === 'dark') {
-                htmlEl.setAttribute('data-theme', 'dark');
-            }
-
-            window.toggleTheme = () => {
-                const isDark = htmlEl.getAttribute('data-theme') === 'dark';
-                htmlEl.setAttribute('data-theme', isDark ? 'light' : 'dark');
-                localStorage.setItem(themeToggleKey, isDark ? 'light' : 'dark');
-            };
-
-            function setDynamicHeight() {
-                const wrapper = document.querySelector('.page-wrapper');
-                if (wrapper) {
-                    wrapper.style.height = window.innerHeight + 'px';
-                }
-            }
-
-            setDynamicHeight();
-            window.addEventListener('resize', setDynamicHeight);
-            window.addEventListener('orientationchange', () => setTimeout(setDynamicHeight, 100));
-        })();
-    </script>
 </body>
 
 </html>

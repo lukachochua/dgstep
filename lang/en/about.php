@@ -28,4 +28,42 @@ return [
     ],
 
     'cta' => 'Contact Us',
+
+    'management' => [
+        'heading' => 'Our <span class="text-[var(--color-electric-sky)]">Management Team</span>',
+        'members' => [
+            1 => [
+                'name' => 'Sergo Matiashvili',
+                'role' => 'Founder & CEO',
+            ],
+            2 => [
+                'name' => 'Mirian Tabatadze',
+                'role' => 'Marketing & Operations',
+            ],
+            3 => [
+                'name' => 'Giga Lapachi',
+                'role' => 'Project Manager',
+            ],
+        ],
+    ],
+
+    'vision' => [
+        'heading' => 'Our <span class="text-[var(--color-electric-sky)]">Vision</span>',
+        'text' => 'We aim to become the trusted digital backbone for Georgia’s regulated industries — empowering businesses with tools that are reliable, transparent, and built for the future.',
+        'cards' => [
+            [
+                'title' => 'Designed for Scale',
+                'text' => 'From small operations to national chains, our systems grow with your ambition — no rewrites required.',
+            ],
+            [
+                'title' => 'Intuitive by Design',
+                'text' => 'Software that feels familiar. We prioritize usability for real-world business operators, not just developers.',
+            ],
+            [
+                'title' => 'Future-Proof Compliance',
+                'text' => 'Regulatory shifts won’t break your business — our solutions adapt quickly and cleanly to change.',
+            ],
+        ],
+    ],
+
 ];
