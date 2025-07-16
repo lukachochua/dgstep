@@ -39,11 +39,10 @@
     <!-- Background Images -->
     <template x-for="(slide, index) in slides" :key="'bg-' + index">
         <div x-show="activeSlide === index" x-transition:enter="transition ease-out duration-700 transform"
-            x-transition:enter-start="opacity-0 translate-x-6 scale-95"
-            x-transition:enter-end="opacity-100 translate-x-0 scale-100"
+            x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
             x-transition:leave="transition ease-in duration-500 transform"
-            x-transition:leave-start="opacity-100 translate-x-0 scale-100"
-            x-transition:leave-end="opacity-0 -translate-x-6 scale-95" class="absolute inset-0">
+            x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
+            class="absolute inset-0">
             <img :src="slide.image" alt=""
                 class="w-full h-full object-cover opacity-10 mix-blend-lighten" />
         </div>
@@ -53,22 +52,29 @@
     <div
         class="container mx-auto px-4 sm:px-6 md:px-8 z-10 relative flex flex-col md:flex-row items-center justify-between gap-12">
 
-        <!-- Left Slide Text -->
-        <template x-for="(slide, index) in slides" :key="'content-' + index">
-            <div x-show="activeSlide === index" x-transition class="max-w-2xl">
-                <h1 class="text-4xl md:text-5xl font-extrabold leading-tight tracking-tight drop-shadow-lg">
-                    <span x-text="slide.title"></span><br>
-                    <span class="text-[var(--color-electric-sky)]" x-text="slide.highlight"></span>
-                </h1>
-                <p class="mt-4 text-lg md:text-xl text-white/80 drop-shadow-sm" x-text="slide.subtitle"></p>
-                <div class="mt-6">
-                    <a :href="slide.button.link"
-                        class="inline-block border-2 border-white text-white font-semibold px-6 py-3 rounded-lg hover:bg-white hover:text-[var(--color-electric-sky)] transition">
-                        <span x-text="slide.button.text"></span>
-                    </a>
+        <!-- Left Slide Text - Absolutely Positioned to Prevent Shift -->
+        <div class="relative w-full max-w-2xl min-h-[220px]">
+            <template x-for="(slide, index) in slides" :key="'content-' + index">
+                <div x-show="activeSlide === index" x-cloak
+                    x-transition:enter="transition duration-800 ease-[cubic-bezier(0.4,0,0.2,1)]"
+                    x-transition:enter-start="opacity-0 blur-sm" x-transition:enter-end="opacity-100 blur-0"
+                    x-transition:leave="transition duration-600 ease-[cubic-bezier(0.4,0,0.2,1)]"
+                    x-transition:leave-start="opacity-100 blur-0" x-transition:leave-end="opacity-0 blur-sm"
+                    class="absolute inset-0">
+                    <h1 class="text-4xl md:text-5xl font-extrabold leading-tight tracking-tight drop-shadow-lg">
+                        <span x-text="slide.title"></span><br>
+                        <span class="text-[var(--color-electric-sky)]" x-text="slide.highlight"></span>
+                    </h1>
+                    <p class="mt-4 text-lg md:text-xl text-white/80 drop-shadow-sm" x-text="slide.subtitle"></p>
+                    <div class="mt-6">
+                        <a :href="slide.button.link"
+                            class="inline-block border-2 border-white text-white font-semibold px-6 py-3 rounded-lg hover:bg-white hover:text-[var(--color-electric-sky)] transition">
+                            <span x-text="slide.button.text"></span>
+                        </a>
+                    </div>
                 </div>
-            </div>
-        </template>
+            </template>
+        </div>
 
         <!-- Right Side Image/Preview -->
         <div class="hidden md:block w-full max-w-lg aspect-[16/9] rounded-xl overflow-hidden shadow-lg">
