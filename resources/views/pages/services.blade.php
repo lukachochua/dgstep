@@ -136,17 +136,6 @@
                     __('services.sections.compliance.problems'),
                 ) !!}
 
-                <!-- Classic List View -->
-                <div class="bg-white/5 p-10 rounded-2xl shadow-xl border border-white/10">
-                    <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center">
-                        {{ __('services.sections.problems_heading') }}
-                    </h2>
-                    <ul class="space-y-4 max-w-3xl mx-auto text-white/90 text-lg list-disc list-inside">
-                        @foreach (__('services.sections.problems') as $problem)
-                            <li>{{ $problem }}</li>
-                        @endforeach
-                    </ul>
-                </div>
             </div>
         </section>
     </div>

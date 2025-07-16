@@ -35,7 +35,7 @@
                     </div>
                 </div>
 
-                <!-- Mission Section -->
+                <!-- Mission Section/ one frame --> 
                 <div>
                     <h3 class="text-3xl md:text-4xl font-bold mb-10">
                         {!! __('about.mission.heading') !!}
@@ -54,7 +54,7 @@
                     </div>
                 </div>
 
-                <!-- Vision Section -->
+                <!-- Vision Section /one frame-->
                 <div>
                     <h3 class="text-3xl md:text-4xl font-bold mb-4">
                         {!! __('about.vision.heading') !!}

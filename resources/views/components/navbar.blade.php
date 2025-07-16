@@ -2,6 +2,8 @@
     class="sticky top-0 z-50 backdrop-blur-md bg-[rgba(25,35,70,0.85)] dark:bg-[rgba(15,25,50,0.9)] shadow-md border-b border-gray-700 transition-colors duration-300 ease-in-out">
     <div
         class="container mx-auto px-4 sm:px-6 md:px-8 h-16 md:h-20 flex items-center justify-between font-semibold text-gray-900 dark:text-gray-200">
+        {{-- FIRAGO FONT, gacentrva, dahaideba, slaideris foto gadalinkvadi, misia da xedva ert freimshi, futershi blogs vamateb da mandve iqneba contact us,
+         google captcha, meili da nomeri, terms and conditions, pricing, blog, contact (phone, mail)  --}}
 
         <!-- Logo -->
         <a href="{{ route('home') }}" id="logo-text" aria-label="DGstep logo"
