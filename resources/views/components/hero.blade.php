@@ -1,5 +1,6 @@
 <section x-data="{
     activeSlide: 0,
+    mounted: false,
     slides: [{
             title: '{{ __('messages.hero.slides.0.title') }}',
             highlight: '{{ __('messages.hero.slides.0.highlight') }}',
@@ -33,7 +34,8 @@
     ],
     next() { this.activeSlide = (this.activeSlide + 1) % this.slides.length },
     prev() { this.activeSlide = (this.activeSlide - 1 + this.slides.length) % this.slides.length }
-}" x-init="setInterval(() => next(), 8000)" style="min-height: calc(100vh - 5rem);"
+}" x-init="setInterval(() => next(), 8000);
+setTimeout(() => mounted = true, 100);" style="min-height: calc(100vh - 5rem);"
     class="relative pt-20 bg-gradient-to-r from-[#0b0f1a] via-[#141d2f] to-[#0b0f1a] text-white overflow-hidden flex items-center z-0 select-none">
 
     <!-- Background Images -->
@@ -41,7 +43,7 @@
         <div x-show="activeSlide === index" x-transition:enter="transition ease-out duration-700 transform"
             x-transition:enter-start="opacity-0 translate-x-6 scale-95"
             x-transition:enter-end="opacity-100 translate-x-0 scale-100"
-            x-transition:leave="transition ease-in duration-500 transform"
+            x-transition:leave="transition ease-in duration-300 transform"
             x-transition:leave-start="opacity-100 translate-x-0 scale-100"
             x-transition:leave-end="opacity-0 -translate-x-6 scale-95" class="absolute inset-0">
             <img :src="slide.image" alt=""
@@ -54,13 +56,14 @@
         class="container mx-auto px-4 sm:px-6 md:px-8 z-10 relative flex flex-col md:flex-row items-center justify-between gap-12">
 
         <!-- Left Slide Text -->
-        <!-- Left Slide Text -->
         <div>
             <template x-for="(slide, index) in slides" :key="'content-' + index">
-                <div x-show="activeSlide === index" x-cloak
-                    :style="activeSlide === index ? 'opacity: 1; transform: translateY(0px);' :
-                        'opacity: 0; transform: translateY(40px);'"
-                    class="absolute inset-0 transition-all duration-800 ease-out">
+                <div x-show="activeSlide === index" x-transition:enter="transition ease-out duration-700 transform"
+                    x-transition:enter-start="opacity-0 translate-y-10"
+                    x-transition:enter-end="opacity-100 translate-y-0"
+                    x-transition:leave="transition ease-in duration-300 transform"
+                    x-transition:leave-start="opacity-100 translate-y-0"
+                    x-transition:leave-end="opacity-0 translate-y-10" class="absolute inset-0 pointer-events-none">
                     <h1 class="text-4xl md:text-5xl font-extrabold leading-tight tracking-tight drop-shadow-lg">
                         <span x-text="slide.title"></span><br>
                         <span class="text-[var(--color-electric-sky)]" x-text="slide.highlight"></span>
@@ -68,13 +71,14 @@
                     <p class="mt-4 text-lg md:text-xl text-white/80 drop-shadow-sm" x-text="slide.subtitle"></p>
                     <div class="mt-6">
                         <a :href="slide.button.link"
-                            class="inline-block border-2 border-white text-white font-semibold px-6 py-3 rounded-lg hover:bg-white hover:text-[var(--color-electric-sky)] transition">
+                            class="inline-block border-2 border-white text-white font-semibold px-6 py-3 rounded-lg hover:bg-white hover:text-[var(--color-electric-sky)] transition pointer-events-auto">
                             <span x-text="slide.button.text"></span>
                         </a>
                     </div>
                 </div>
             </template>
         </div>
+
         <!-- Right Side Image/Preview -->
         <div class="w-full max-w-lg aspect-[16/9] rounded-xl overflow-hidden shadow-lg">
             <img src="https://plus.unsplash.com/premium_photo-1666997726532-33f671ca24c8?q=80&w=821&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
