@@ -6,26 +6,54 @@
 @source "../**/*.js";
 @source "../**/*.vue";
 
-/* Set default font family */
+/* Tailwind Theme Variables */
 @theme {
-    --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    --font-sans: 'FiraGO', ui-sans-serif, system-ui, sans-serif;
 }
 
-/* If language is Georgian, override font-sans */
+/* Vite-processed FiraGO font-face declarations */
+@font-face {
+    font-family: 'FiraGO';
+    src: url('/fonts/firago/FiraGO-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'FiraGO';
+    src: url('/fonts/firago/FiraGO-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'FiraGO';
+    src: url('/fonts/firago/FiraGO-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+/* Base font-family declarations */
 @layer base {
-    [lang="ka"] {
-        --font-sans: 'BPG Nino Mtavruli', sans-serif;
+    html {
+        font-family: 'FiraGO', sans-serif;
     }
 
-    html {
-        @apply font-sans;
+    [lang="ka"] {
+        font-family: 'FiraGO', 'BPG Nino Mtavruli', sans-serif;
     }
 }
 
+/* Utilities */
 @layer utilities {
     .text-electric {
         color: var(--color-electric-sky);
     }
+}
+
+/* Extra class-level fallbacks (non-Tailwind, non-layered) */
+html {
+    font-family: 'FiraGO', sans-serif;
 }
 
 .text-electric {

@@ -1,4 +1,7 @@
 import './bootstrap';
+import.meta.glob([
+    '../fonts/**',
+]);
 
 window.addEventListener('DOMContentLoaded', () => {
 
@@ -19,31 +22,31 @@ window.addEventListener('DOMContentLoaded', () => {
     // Theme toggle functionality
     // This code toggles the theme between light and dark modes.
 
-       (() => {
-            const themeToggleKey = 'dgstep-theme';
-            const htmlEl = document.documentElement;
-            const currentTheme = localStorage.getItem(themeToggleKey);
+    (() => {
+        const themeToggleKey = 'dgstep-theme';
+        const htmlEl = document.documentElement;
+        const currentTheme = localStorage.getItem(themeToggleKey);
 
-            if (currentTheme === 'dark') {
-                htmlEl.setAttribute('data-theme', 'dark');
+        if (currentTheme === 'dark') {
+            htmlEl.setAttribute('data-theme', 'dark');
+        }
+
+        window.toggleTheme = () => {
+            const isDark = htmlEl.getAttribute('data-theme') === 'dark';
+            htmlEl.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            localStorage.setItem(themeToggleKey, isDark ? 'light' : 'dark');
+        };
+
+        function setDynamicHeight() {
+            const wrapper = document.querySelector('.page-wrapper');
+            if (wrapper) {
+                wrapper.style.height = window.innerHeight + 'px';
             }
+        }
 
-            window.toggleTheme = () => {
-                const isDark = htmlEl.getAttribute('data-theme') === 'dark';
-                htmlEl.setAttribute('data-theme', isDark ? 'light' : 'dark');
-                localStorage.setItem(themeToggleKey, isDark ? 'light' : 'dark');
-            };
+        setDynamicHeight();
+        window.addEventListener('resize', setDynamicHeight);
+        window.addEventListener('orientationchange', () => setTimeout(setDynamicHeight, 100));
+    })();
 
-            function setDynamicHeight() {
-                const wrapper = document.querySelector('.page-wrapper');
-                if (wrapper) {
-                    wrapper.style.height = window.innerHeight + 'px';
-                }
-            }
-
-            setDynamicHeight();
-            window.addEventListener('resize', setDynamicHeight);
-            window.addEventListener('orientationchange', () => setTimeout(setDynamicHeight, 100));
-        })();
-        
 });
