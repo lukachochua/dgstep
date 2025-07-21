@@ -4,19 +4,19 @@
 
             {{-- Left Content --}}
             <div class="space-y-6">
-                <span class="uppercase text-[var(--color-electric-sky)] font-semibold tracking-widest text-sm">
+                <span class="uppercase text-[var(--color-electric-sky)] font-medium tracking-wide text-[13px]">
                     {{ __('contact.tagline') }}
                 </span>
-                <h2 class="text-3xl sm:text-4xl font-bold leading-snug text-white">
+                <h2 class="text-3xl sm:text-4xl font-semibold leading-snug text-white">
                     {{ __('contact.headline') }}
                 </h2>
-                <p class="text-gray-300 text-base leading-relaxed">
+                <p class="text-gray-300 text-[16px] leading-relaxed">
                     {{ __('contact.description') }}
                 </p>
 
                 {{-- Client Satisfaction --}}
                 <div class="space-y-2">
-                    <p class="text-sm text-white font-medium flex justify-between">
+                    <p class="text-[14px] text-white font-medium flex justify-between">
                         <span>{{ __('contact.metric.label') }}</span>
                         <span>100%</span>
                     </p>
@@ -55,7 +55,7 @@
                 {{-- Optional CTA or phone --}}
                 <div class="pt-6">
                     <a href="#contact-form"
-                        class="inline-block bg-yellow-400 text-black font-semibold px-6 py-3 rounded-md shadow hover:scale-105 transition">
+                        class="inline-block bg-yellow-400 text-black font-medium px-6 py-3 rounded-md shadow hover:scale-105 transition">
                         {{ __('contact.read_more') }}
                     </a>
                 </div>
@@ -74,41 +74,42 @@
                     @endif
 
                     <div>
-                        <label class="text-sm font-medium text-gray-300 mb-1 block">{{ __('contact.form.name') }}
+                        <label class="text-[14px] font-medium text-gray-300 mb-1 block">{{ __('contact.form.name') }}
                             *</label>
                         <input type="text" name="name" x-model="form.name"
                             class="w-full bg-gray-900 border border-gray-600 text-white p-3 rounded focus:ring-[var(--color-electric-sky)] focus:border-[var(--color-electric-sky)]"
                             :class="{ 'border-red-500': errors.name }" />
                         <template x-if="errors.name">
-                            <p class="text-red-400 text-sm mt-1" x-text="errors.name"></p>
-                        </template>
-                    </div>
-
-                    <div>
-                        <label class="text-sm font-medium text-gray-300 mb-1 block">{{ __('contact.form.surname') }}
-                            *</label>
-                        <input type="text" name="surname" x-model="form.surname"
-                            class="w-full bg-gray-900 border border-gray-600 text-white p-3 rounded focus:ring-[var(--color-electric-sky)] focus:border-[var(--color-electric-sky)]"
-                            :class="{ 'border-red-500': errors.surname }" />
-                        <template x-if="errors.surname">
-                            <p class="text-red-400 text-sm mt-1" x-text="errors.surname"></p>
-                        </template>
-                    </div>
-
-                    <div>
-                        <label class="text-sm font-medium text-gray-300 mb-1 block">{{ __('contact.form.phone') }}
-                            *</label>
-                        <input type="text" name="phone" x-model="form.phone"
-                            class="w-full bg-gray-900 border border-gray-600 text-white p-3 rounded focus:ring-[var(--color-electric-sky)] focus:border-[var(--color-electric-sky)]"
-                            :class="{ 'border-red-500': errors.phone }" />
-                        <template x-if="errors.phone">
-                            <p class="text-red-400 text-sm mt-1" x-text="errors.phone"></p>
+                            <p class="text-red-400 text-[13px] mt-1" x-text="errors.name"></p>
                         </template>
                     </div>
 
                     <div>
                         <label
-                            class="text-sm font-medium text-gray-300 mb-1 block">{{ __('contact.form.comments') }}</label>
+                            class="text-[14px] font-medium text-gray-300 mb-1 block">{{ __('contact.form.surname') }}
+                            *</label>
+                        <input type="text" name="surname" x-model="form.surname"
+                            class="w-full bg-gray-900 border border-gray-600 text-white p-3 rounded focus:ring-[var(--color-electric-sky)] focus:border-[var(--color-electric-sky)]"
+                            :class="{ 'border-red-500': errors.surname }" />
+                        <template x-if="errors.surname">
+                            <p class="text-red-400 text-[13px] mt-1" x-text="errors.surname"></p>
+                        </template>
+                    </div>
+
+                    <div>
+                        <label class="text-[14px] font-medium text-gray-300 mb-1 block">{{ __('contact.form.phone') }}
+                            *</label>
+                        <input type="text" name="phone" x-model="form.phone"
+                            class="w-full bg-gray-900 border border-gray-600 text-white p-3 rounded focus:ring-[var(--color-electric-sky)] focus:border-[var(--color-electric-sky)]"
+                            :class="{ 'border-red-500': errors.phone }" />
+                        <template x-if="errors.phone">
+                            <p class="text-red-400 text-[13px] mt-1" x-text="errors.phone"></p>
+                        </template>
+                    </div>
+
+                    <div>
+                        <label
+                            class="text-[14px] font-medium text-gray-300 mb-1 block">{{ __('contact.form.comments') }}</label>
                         <textarea name="comments" x-model="form.comments"
                             class="w-full bg-gray-900 border border-gray-600 text-white p-3 rounded focus:ring-[var(--color-electric-sky)] focus:border-[var(--color-electric-sky)]"
                             rows="4"></textarea>

@@ -1,7 +1,7 @@
 <x-layouts.base :title="__('services.title')">
     <div class="min-h-screen flex flex-col">
         <section
-            class="flex-grow bg-gradient-to-r from-[#0b0f1a] via-[#141d2f] to-[#0b0f1a] text-white py-24 select-none">
+            class="flex-grow bg-gradient-to-r from-[#0b0f1a] via-[#141d2f] to-[#0b0f1a] text-white py-24 select-none font-[FiraGO]">
             <div class="container mx-auto px-4 sm:px-6 md:px-8 space-y-24">
                 @php
                     function renderProblemCircleLayout($title, $problems)
@@ -13,10 +13,10 @@
 
                         // Arrows — curved paths
                         $arrowCoords = [
-                            [640, 120, 570, 190], // Top-right
-                            [360, 120, 430, 190], // Top-left
-                            [360, 440, 430, 370], // Bottom-left
-                            [640, 440, 570, 370], // Bottom-right
+                            [640, 120, 570, 190],
+                            [360, 120, 430, 190],
+                            [360, 440, 430, 370],
+                            [640, 440, 570, 370],
                         ];
 
                         $html .=
@@ -51,7 +51,6 @@
                             $x = cos($angle) * $radius;
                             $y = sin($angle) * $radius;
 
-                            // Top-left and top-right = BRIGHT, bottom = DARK
                             $bgClass = match ($index % 4) {
                                 0, 1 => 'bg-[#f5e83f]/90 text-black font-semibold ring-[6px] ring-yellow-300/30',
                                 default => 'bg-[#151d2f] text-white ring-4 ring-white/10',
@@ -85,7 +84,7 @@
                         <h2 class="text-3xl md:text-4xl font-extrabold mb-4 text-[var(--color-electric-sky)]">
                             {{ __('services.sections.pawnshop.title') }}
                         </h2>
-                        <p class="text-white/80 text-lg leading-relaxed">
+                        <p class="text-white/80 text-[17px] leading-relaxed">
                             {{ __('services.sections.pawnshop.description') }}
                         </p>
                     </div>
@@ -103,7 +102,7 @@
                         <h2 class="text-3xl md:text-4xl font-extrabold mb-4 text-[var(--color-electric-sky)]">
                             {{ __('services.sections.smb.title') }}
                         </h2>
-                        <p class="text-white/80 text-lg leading-relaxed">
+                        <p class="text-white/80 text-[17px] leading-relaxed">
                             {{ __('services.sections.smb.description') }}
                         </p>
                     </div>
@@ -121,7 +120,7 @@
                         <h2 class="text-3xl md:text-4xl font-extrabold mb-4 text-[var(--color-electric-sky)]">
                             {{ __('services.sections.compliance.title') }}
                         </h2>
-                        <p class="text-white/80 text-lg leading-relaxed">
+                        <p class="text-white/80 text-[17px] leading-relaxed">
                             {{ __('services.sections.compliance.description') }}
                         </p>
                     </div>

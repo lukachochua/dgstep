@@ -2,10 +2,11 @@
     <div class="container mx-auto px-4 sm:px-6 md:px-8">
 
         <div class="text-center mb-16">
-            <h2 class="text-3xl md:text-4xl font-extrabold text-gray-800 dark:text-white drop-shadow-sm tracking-tight">
+            <h2
+                class="text-4xl font-extrabold text-gray-800 dark:text-white drop-shadow-sm tracking-tight leading-tight">
                 {{ __('messages.features.heading') }}
             </h2>
-            <p class="mt-4 text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+            <p class="mt-4 text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed">
                 {{ __('messages.features.subheading') }}
             </p>
         </div>
@@ -13,10 +14,10 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-12 text-center">
             @foreach (trans('messages.features.cards') as $card)
                 <div class="space-y-4">
-                    <h3 class="text-xl font-bold text-[var(--color-electric-sky)]">
+                    <h3 class="text-xl font-semibold text-[var(--color-electric-sky)] tracking-tight">
                         {{ $card['title'] }}
                     </h3>
-                    <p class="text-gray-600 dark:text-gray-300 text-base max-w-sm mx-auto">
+                    <p class="text-gray-600 dark:text-gray-300 text-[15px] leading-relaxed max-w-sm mx-auto">
                         {{ $card['description'] }}
                     </p>
                 </div>

@@ -9,8 +9,6 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Fonts -->
-    <link rel="stylesheet" href="https://cdn.web-fonts.ge/fonts/bpg-nino-mtavruli/css/bpg-nino-mtavruli.min.css">
 
     <script src="//unpkg.com/alpinejs" defer></script>
 
@@ -47,47 +45,38 @@
         }
     </style>
 
-    <!-- Basic SEO -->
-    <meta name="description"
-        content="DGstep is a Tbilisi-based software studio building modern platforms for pawnshops and small businesses across Georgia. Simplify your operations with custom Laravel solutions." />
-    <meta name="keywords"
-        content="DGstep, software development Georgia, pawnshop software, Laravel studio, Tbilisi tech company, business tools Georgia, ERP Georgia, Alpine.js, Tailwind CSS, Laravel 12" />
+    <!-- SEO Meta -->
+    <meta name="description" content="DGstep builds modern platforms for Georgian SMBs and pawnshops." />
+    <meta name="keywords" content="DGstep, software Georgia, Laravel, Alpine.js, Tailwind, pawnshop app" />
     <meta name="author" content="DGstep">
     <meta name="robots" content="index, follow">
 
-    <!-- Open Graph for social media -->
-    <meta property="og:title" content="{{ $title ?? 'DGstep – Modern Software for Georgian Businesses' }}">
-    <meta property="og:description"
-        content="DGstep helps businesses in Tbilisi and across Georgia digitize operations with tailored Laravel and Alpine.js solutions.">
+    <!-- Open Graph -->
+    <meta property="og:title" content="{{ $title ?? 'DGstep – Software for Georgian Businesses' }}">
+    <meta property="og:description" content="Custom Laravel + Alpine.js platforms for SMBs in Georgia.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:image" content="{{ asset('images/og-preview.jpg') }}"> {{-- Optional: replace with actual image --}}
+    <meta property="og:image" content="{{ asset('images/og-preview.jpg') }}">
     <meta property="og:locale" content="en_US">
 
-    <!-- Twitter Card -->
+    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{{ $title ?? 'DGstep – Modern Software for Georgian Businesses' }}">
-    <meta name="twitter:description"
-        content="Custom-built tools for pawnshops and small businesses in Georgia. Fast. Compliant. Reliable.">
+    <meta name="twitter:title" content="{{ $title ?? 'DGstep – Software for Georgian Businesses' }}">
+    <meta name="twitter:description" content="Tailored software solutions for Georgian SMBs.">
     <meta name="twitter:image" content="{{ asset('images/og-preview.jpg') }}">
 
-    <!-- Canonical -->
     <link rel="canonical" href="{{ url()->current() }}">
-
 </head>
 
 <body
-    class="font-sans antialiased dark:bg-[var(--bg-default)] dark:text-[var(--text-default)] transition-colors duration-300 ease-in-out">
-
+    class="font-sans text-[17px] leading-relaxed antialiased dark:bg-[var(--bg-default)] dark:text-[var(--text-default)] transition-colors duration-300 ease-in-out">
     <div class="page-wrapper min-h-screen flex flex-col">
         <main class="flex-grow">
             <x-navbar />
             {{ $slot }}
         </main>
-
         <x-footer />
     </div>
-
 </body>
 
 </html>

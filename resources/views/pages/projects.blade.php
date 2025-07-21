@@ -1,7 +1,7 @@
 <x-layouts.base :title="__('projects.title')">
     <div class="min-h-screen flex flex-col">
         <section
-            class="flex-grow bg-gradient-to-r from-[#0b0f1a] via-[#141d2f] to-[#0b0f1a] text-white py-24 select-none">
+            class="flex-grow bg-gradient-to-r from-[#0b0f1a] via-[#141d2f] to-[#0b0f1a] text-white py-24 select-none font-[FiraGO]">
             <div class="container mx-auto px-4 sm:px-6 md:px-8 space-y-16">
 
                 <!-- Page Header -->
@@ -9,7 +9,7 @@
                     <h1 class="text-4xl md:text-5xl font-extrabold drop-shadow-sm text-[var(--color-electric-sky)]">
                         {{ __('projects.heading') }}
                     </h1>
-                    <p class="text-lg text-white/80">
+                    <p class="text-lg text-white/80 leading-relaxed">
                         {{ __('projects.subheading') }}
                     </p>
                 </div>
@@ -24,8 +24,8 @@
                                     src="https://images.unsplash.com/photo-1560264280-88b68371db39?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                                 @else
                                     src="https://images.unsplash.com/photo-1620825141088-a824daf6a46b?q=80&w=1032&auto=format&fit=crop" @endif
-                                alt="{{ $card['title'] }}" class="rounded-md object-cover w-full h-40">
-                            <h3 class="text-xl font-bold text-[var(--color-electric-sky)]">
+                                alt="{{ $card['title'] }}" class="rounded-md object-cover w-full h-40" loading="lazy">
+                            <h3 class="text-xl font-bold text-[var(--color-electric-sky)] leading-tight">
                                 {{ $card['title'] }}
                             </h3>
                             <p class="text-white/80 text-sm leading-relaxed">

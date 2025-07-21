@@ -65,7 +65,8 @@
                         <span x-text="slide.title"></span><br>
                         <span class="text-[var(--color-electric-sky)]" x-text="slide.highlight"></span>
                     </h1>
-                    <p class="mt-4 text-lg md:text-xl text-white/80 drop-shadow-sm" x-text="slide.subtitle"></p>
+                    <p class="mt-4 text-lg md:text-xl text-white/80 leading-relaxed drop-shadow-sm"
+                        x-text="slide.subtitle"></p>
                     <div class="mt-6">
                         <a :href="slide.button.link"
                             class="inline-block border-2 border-white text-white font-semibold px-6 py-3 rounded-lg hover:bg-white hover:text-[var(--color-electric-sky)] transition">
