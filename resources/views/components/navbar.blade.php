@@ -20,7 +20,8 @@
 
         <!-- Desktop Menu -->
         <div class="hidden lg:flex items-center space-x-2 text-[0.95rem] font-medium tracking-wide">
-            @foreach (['home', 'services', 'about', 'projects'] as $routeName)
+            @foreach (['home', 'services', 'about'] as $routeName)
+                {{-- 'projects' is commented out as per the original context --}}
                 <div class="relative group rounded-[3px]">
                     <x-nav.anchor-button :route="$routeName" label="{{ __('messages.' . $routeName) }}"
                         variant="desktop" />
@@ -30,8 +31,10 @@
 
         <!-- Right: Auth + Language -->
         <div class="hidden lg:flex items-center space-x-2 text-sm font-medium tracking-wide">
-            <x-nav.anchor-button route="login" label="{{ __('messages.login') }}" variant="auth" />
-            <x-nav.anchor-button route="register" label="{{ __('messages.register') }}" variant="auth" />
+            @if (false)
+                <x-nav.anchor-button route="login" label="{{ __('messages.login') }}" variant="auth" />
+                <x-nav.anchor-button route="register" label="{{ __('messages.register') }}" variant="auth" />
+            @endif
 
             <div class="ml-3 flex items-center gap-2 group transition">
                 <svg xmlns="http://www.w3.org/2000/svg"
@@ -66,7 +69,8 @@
     <!-- Mobile Menu -->
     <div id="mobile-menu"
         class="hidden lg:hidden container mx-auto px-4 sm:px-6 md:px-8 pb-6 pt-4 space-y-5 text-center text-base font-medium text-white">
-        @foreach (['home', 'services', 'about', 'projects'] as $routeName)
+        @foreach (['home', 'services', 'about'] as $routeName)
+            {{-- 'projects' is commented out as per the original context --}}
             <div class="relative group rounded-[3px]">
                 <x-nav.anchor-button :route="$routeName" label="{{ __('messages.' . $routeName) }}" variant="mobile" />
             </div>
