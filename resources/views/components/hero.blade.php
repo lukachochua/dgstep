@@ -79,8 +79,10 @@
 
         <!-- Right Side Image -->
         <div class="hidden md:flex items-center w-full max-w-md rounded-xl overflow-hidden shadow-lg">
-            <img src="https://plus.unsplash.com/premium_photo-1666997726532-33f671ca24c8?q=80&w=821&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                alt="App Preview" class="w-full h-auto object-cover object-center" loading="lazy" />
+            <a href="">
+                <img src="https://plus.unsplash.com/premium_photo-1666997726532-33f671ca24c8?q=80&w=821&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    alt="App Preview" class="w-full h-auto object-cover object-center" loading="lazy" />
+            </a>
         </div>
     </div>
 
