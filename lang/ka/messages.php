@@ -72,13 +72,12 @@ return [
         ],
     ],
 
+
     'footer' => [
-        'copyright' => '© :year DGstep. შექმენილია Laravel 12-სა და Tailwind CSS-თან ერთად.',
-        'nav'       => [
-            'features' => 'ფუნქციები',
-            'pricing'  => 'ფასები',
-            'contact'  => 'კონტაქტი',
-            'github'   => 'GitHub',
+        'nav' => [
+            'contact' => 'კონტაქტი',
+            'terms' => 'წესები და პირობები',
         ],
+        'copyright' => '© :year DGstep. ყველა უფლება დაცულია.',
     ],
 ];

@@ -71,13 +71,12 @@ return [
         ],
     ],
 
+
     'footer' => [
-        'copyright' => '© :year DGstep. Built with Laravel 12 & Tailwind CSS.',
-        'nav'       => [
-            'features' => 'Features',
-            'pricing'  => 'Pricing',
-            'contact'  => 'Contact',
-            'github'   => 'GitHub',
+        'nav' => [
+            'contact' => 'Contact',
+            'terms' => 'Terms and Conditions',
         ],
+        'copyright' => '© :year DGstep. All rights reserved.',
     ],
 ];
