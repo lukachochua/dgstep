@@ -1,56 +1,52 @@
-<x-layouts.base :title="__('messages.footer.nav.terms')">
+<x-layouts.base :title="__('terms.title')">
     <section
         class="bg-gradient-to-r from-[#0b0f1a] via-[#141d2f] to-[#0b0f1a] text-white py-20 select-none font-[FiraGO]">
-        <div class="container mx-auto px-4 sm:px-6 md:px-8 max-w-4xl space-y-8">
-            <h1 class="text-4xl md:text-5xl font-bold text-center text-[var(--color-electric-sky)] mb-8">
-                {{ __('messages.footer.nav.terms') }}
-            </h1>
+        <div class="container mx-auto px-4 sm:px-6 md:px-8 max-w-3xl">
 
-            <div class="space-y-6 text-white/80 leading-relaxed text-[17px]">
-                <p>
-                    These Terms and Conditions ("Terms") govern your use of the DGstep website and services. By
-                    accessing our site or using our services, you agree to comply with these Terms.
-                </p>
+            <div class="bg-white/5 rounded-xl border border-white/10 shadow-xl px-6 sm:px-10 py-14 space-y-12">
 
-                <h2 class="text-white text-2xl font-semibold mt-6">1. Use of Services</h2>
-                <p>
-                    Our services are provided for professional use by businesses and individuals. You agree not to
-                    misuse or abuse any features offered through the DGstep platform.
-                </p>
+                <h1 class="text-4xl md:text-5xl font-bold text-center text-[var(--color-electric-sky)]">
+                    {{ __('terms.title') }}
+                </h1>
 
-                <h2 class="text-white text-2xl font-semibold mt-6">2. Intellectual Property</h2>
-                <p>
-                    All content, branding, and software provided by DGstep are the intellectual property of DGstep and
-                    protected under applicable laws.
-                </p>
+                <div class="space-y-8 text-white/80 leading-[1.75] text-[16px] text-left">
+                    <p>{{ __('terms.sections.intro') }}</p>
 
-                <h2 class="text-white text-2xl font-semibold mt-6">3. Privacy</h2>
-                <p>
-                    We collect minimal data and are committed to safeguarding user privacy. Please read our Privacy
-                    Policy for more details.
-                </p>
+                    <div class="space-y-4">
+                        <h2 class="text-white text-2xl font-semibold">{{ __('terms.sections.1_title') }}</h2>
+                        <p>{{ __('terms.sections.1_text') }}</p>
+                    </div>
 
-                <h2 class="text-white text-2xl font-semibold mt-6">4. Limitation of Liability</h2>
-                <p>
-                    DGstep is not liable for any indirect or consequential damages arising from the use of our services.
-                </p>
+                    <div class="space-y-4">
+                        <h2 class="text-white text-2xl font-semibold">{{ __('terms.sections.2_title') }}</h2>
+                        <p>{{ __('terms.sections.2_text') }}</p>
+                    </div>
 
-                <h2 class="text-white text-2xl font-semibold mt-6">5. Changes to Terms</h2>
-                <p>
-                    We reserve the right to update these Terms at any time. Users will be notified of significant
-                    changes via the site.
-                </p>
+                    <div class="space-y-4">
+                        <h2 class="text-white text-2xl font-semibold">{{ __('terms.sections.3_title') }}</h2>
+                        <p>{{ __('terms.sections.3_text') }}</p>
+                    </div>
 
-                <p>
-                    If you have any questions regarding these Terms, please contact us at info@example.com.
-                </p>
-            </div>
+                    <div class="space-y-4">
+                        <h2 class="text-white text-2xl font-semibold">{{ __('terms.sections.4_title') }}</h2>
+                        <p>{{ __('terms.sections.4_text') }}</p>
+                    </div>
 
-            <div class="text-center pt-10">
-                <a href="{{ route('contact') }}"
-                    class="inline-block mt-6 px-6 py-3 border-2 border-white text-white font-semibold rounded-lg hover:bg-white hover:text-[var(--color-electric-sky)] transition">
-                    {{ __('messages.footer.nav.contact') }}
-                </a>
+                    <div class="space-y-4">
+                        <h2 class="text-white text-2xl font-semibold">{{ __('terms.sections.5_title') }}</h2>
+                        <p>{{ __('terms.sections.5_text') }}</p>
+                    </div>
+
+                    <p>{{ __('terms.sections.contact') }}</p>
+                </div>
+
+                <div class="text-center pt-6">
+                    <a href="{{ route('contact') }}"
+                        class="inline-block mt-4 px-6 py-3 border-2 border-white text-white font-semibold rounded-lg hover:bg-white hover:text-[var(--color-electric-sky)] transition">
+                        {{ __('terms.sections.cta') }}
+                    </a>
+                </div>
+
             </div>
         </div>
     </section>
