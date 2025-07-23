@@ -1,5 +1,5 @@
 <x-layouts.base :title="__('contact.title')">
-    <section class="py-20 bg-[#141a2f] text-white select-none">
+    <section class="py-20 bg-gradient-to-r from-[#0b0f1a] via-[#141d2f] to-[#0b0f1a] text-white select-none">
         <div class="container mx-auto px-4 sm:px-6 md:px-8 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
 
             {{-- Left Content --}}

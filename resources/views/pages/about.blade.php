@@ -35,60 +35,76 @@
                     </div>
                 </div>
 
-                <!-- Mission Section/ one frame -->
-                <div>
-                    <h3 class="text-3xl md:text-4xl font-bold mb-10">
+                <!-- Mission Section -->
+                <section class="bg-white/5 rounded-xl border border-white/10 shadow-xl px-6 sm:px-10 py-14 space-y-12">
+                    <h3 class="text-3xl md:text-4xl font-extrabold tracking-tight text-white text-center">
                         {!! __('about.mission.heading') !!}
                     </h3>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-left text-white/90">
-                        @foreach (__('about.mission.cards') as $card)
-                            <div class="bg-white/5 p-6 rounded-xl border border-white/10 backdrop-blur-sm">
-                                <h4 class="text-[19px] font-semibold mb-2 text-white">
-                                    {{ $card['title'] }}
-                                </h4>
-                                <p class="text-white/70 text-[15px]">
-                                    {{ $card['text'] }}
-                                </p>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
 
-                <!-- Vision Section /one frame-->
-                <div>
-                    <h3 class="text-3xl md:text-4xl font-bold mb-4">
+                    <div class="flex flex-col md:flex-row items-center gap-10 md:gap-16 max-w-6xl mx-auto">
+                        <!-- Image -->
+                        <a href="#"
+                            class="flex-shrink-0 w-full md:w-1/2 rounded-lg overflow-hidden shadow-md ring-1 ring-white/10 hover:brightness-105 transition">
+                            <img src="https://plus.unsplash.com/premium_photo-1669904022334-e40da006a0a3?q=80&w=869&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                alt="Mission" class="w-full h-full object-cover object-center rounded-lg">
+                        </a>
+
+                        <!-- Text -->
+                        <div class="w-full md:w-1/2 space-y-6 text-white/90 text-[16px] leading-[1.75] font-[FiraGO]">
+                            @foreach (__('about.mission.cards') as $index => $card)
+                                <div class="space-y-2">
+                                    <h4 class="text-[18px] font-semibold text-white/95">
+                                        {{ $card['title'] }}
+                                    </h4>
+                                    <p class="text-white/70 text-[15px]">
+                                        {{ $card['text'] }}
+                                    </p>
+                                </div>
+                                @if ($index < count(__('about.mission.cards')) - 1)
+                                    <div class="w-1/2 h-px bg-white/10 mx-auto my-4"></div>
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Vision Section -->
+                <section
+                    class="bg-white/5 rounded-xl border border-white/10 shadow-xl px-6 sm:px-10 py-14 space-y-12 mt-24">
+                    <h3 class="text-3xl md:text-4xl font-extrabold tracking-tight text-white text-center">
                         {!! __('about.vision.heading') !!}
                     </h3>
-                    <p class="text-white/80 text-[17px] max-w-4xl mx-auto leading-relaxed mb-12">
-                        {{ __('about.vision.text') }}
-                    </p>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                        <div class="bg-white/5 p-6 rounded-xl border border-white/10 shadow-md">
-                            <img src="https://images.unsplash.com/photo-1453728013993-6d66e9c9123a?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                alt="Vision 1" class="rounded-lg mb-4 w-full h-48 object-cover" loading="lazy">
-                            <h4 class="text-[18px] font-semibold mb-2 text-white">{{ __('about.vision.cards.0.title') }}
-                            </h4>
-                            <p class="text-white/70 text-[15px]">{{ __('about.vision.cards.0.text') }}</p>
-                        </div>
+                    <div class="flex flex-col md:flex-row items-center gap-10 md:gap-16 max-w-6xl mx-auto">
+                        <!-- Image -->
+                        <a href="#"
+                            class="flex-shrink-0 w-full md:w-1/2 rounded-lg overflow-hidden shadow-md ring-1 ring-white/10 hover:brightness-105 transition">
+                            <img src="https://images.unsplash.com/photo-1591696205602-2f950c417cb9?q=80&w=700&auto=format&fit=crop"
+                                alt="Vision" class="w-full h-full object-cover object-center rounded-lg">
+                        </a>
 
-                        <div class="bg-white/5 p-6 rounded-xl border border-white/10 shadow-md">
-                            <img src="https://images.unsplash.com/photo-1548438294-1ad5d5f4f063?q=80&w=872&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                alt="Vision 2" class="rounded-lg mb-4 w-full h-48 object-cover" loading="lazy">
-                            <h4 class="text-[18px] font-semibold mb-2 text-white">{{ __('about.vision.cards.1.title') }}
-                            </h4>
-                            <p class="text-white/70 text-[15px]">{{ __('about.vision.cards.1.text') }}</p>
-                        </div>
+                        <!-- Text -->
+                        <div class="w-full md:w-1/2 space-y-6 text-white/90 text-[16px] leading-[1.75] font-[FiraGO]">
+                            <p class="text-white/80 text-[17px] leading-relaxed">
+                                {{ __('about.vision.text') }}
+                            </p>
 
-                        <div class="bg-white/5 p-6 rounded-xl border border-white/10 shadow-md">
-                            <img src="https://images.unsplash.com/photo-1493612276216-ee3925520721?q=80&w=464&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                alt="Vision 3" class="rounded-lg mb-4 w-full h-48 object-cover" loading="lazy">
-                            <h4 class="text-[18px] font-semibold mb-2 text-white">{{ __('about.vision.cards.2.title') }}
-                            </h4>
-                            <p class="text-white/70 text-[15px]">{{ __('about.vision.cards.2.text') }}</p>
+                            @foreach ([0, 1, 2] as $i)
+                                <div class="space-y-2">
+                                    <h4 class="text-[18px] font-semibold text-white/95">
+                                        {{ __('about.vision.cards.' . $i . '.title') }}
+                                    </h4>
+                                    <p class="text-white/70 text-[15px]">
+                                        {{ __('about.vision.cards.' . $i . '.text') }}
+                                    </p>
+                                </div>
+                                @if ($i < 2)
+                                    <div class="w-1/2 h-px bg-white/10 mx-auto my-4"></div>
+                                @endif
+                            @endforeach
                         </div>
                     </div>
-                </div>
+                </section>
 
                 <!-- Management Team Section (Placeholder) -->
                 <div>
