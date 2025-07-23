@@ -2,7 +2,8 @@
     <div class="min-h-screen flex flex-col">
         <section
             class="flex-grow bg-gradient-to-r from-[#0b0f1a] via-[#141d2f] to-[#0b0f1a] text-white py-24 select-none font-[FiraGO]">
-            <div class="container mx-auto px-4 sm:px-6 md:px-8 space-y-24">
+            <div class="container mx-auto max-w-6xl px-4 sm:px-6 md:px-8 space-y-24 text-center">
+
                 @php
                     function renderProblemCircleLayout($title, $problems)
                     {
@@ -79,7 +80,7 @@
                 @endphp
 
                 <!-- Pawnshop Ops -->
-                <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="grid md:grid-cols-2 gap-12 items-center text-left md:text-start">
                     <div>
                         <h2 class="text-3xl md:text-4xl font-extrabold mb-4 text-[var(--color-electric-sky)]">
                             {{ __('services.sections.pawnshop.title') }}
@@ -90,14 +91,18 @@
                     </div>
                     <div class="flex justify-center">
                         <img src="https://plus.unsplash.com/premium_photo-1673208585690-fe33159386bd?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                            alt="Pawnshop Services" class="rounded-xl shadow-lg max-w-full h-auto" loading="lazy">
+                            alt="Pawnshop Services"
+                            class="rounded-lg ring-1 ring-white/10 hover:brightness-105 transition max-w-full h-auto"
+                            loading="lazy">
                     </div>
                 </div>
 
-                {!! renderProblemCircleLayout(__('services.sections.pawnshop.title'), __('services.sections.pawnshop.problems')) !!}
+                <div class="bg-white/5 rounded-xl border border-white/10 shadow-xl px-6 sm:px-10 py-14 space-y-12">
+                    {!! renderProblemCircleLayout(__('services.sections.pawnshop.title'), __('services.sections.pawnshop.problems')) !!}
+                </div>
 
                 <!-- SMB Tools -->
-                <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="grid md:grid-cols-2 gap-12 items-center text-left md:text-start">
                     <div class="md:order-2">
                         <h2 class="text-3xl md:text-4xl font-extrabold mb-4 text-[var(--color-electric-sky)]">
                             {{ __('services.sections.smb.title') }}
@@ -108,14 +113,18 @@
                     </div>
                     <div class="flex justify-center md:order-1">
                         <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                            alt="SMB Services" class="rounded-xl shadow-lg max-w-full h-auto" loading="lazy">
+                            alt="SMB Services"
+                            class="rounded-lg ring-1 ring-white/10 hover:brightness-105 transition max-w-full h-auto"
+                            loading="lazy">
                     </div>
                 </div>
 
-                {!! renderProblemCircleLayout(__('services.sections.smb.title'), __('services.sections.smb.problems')) !!}
+                <div class="bg-white/5 rounded-xl border border-white/10 shadow-xl px-6 sm:px-10 py-14 space-y-12">
+                    {!! renderProblemCircleLayout(__('services.sections.smb.title'), __('services.sections.smb.problems')) !!}
+                </div>
 
                 <!-- Compliance -->
-                <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="grid md:grid-cols-2 gap-12 items-center text-left md:text-start">
                     <div>
                         <h2 class="text-3xl md:text-4xl font-extrabold mb-4 text-[var(--color-electric-sky)]">
                             {{ __('services.sections.compliance.title') }}
@@ -126,14 +135,26 @@
                     </div>
                     <div class="flex justify-center">
                         <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=815&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                            alt="Compliance" class="rounded-xl shadow-lg max-w-full h-auto" loading="lazy">
+                            alt="Compliance"
+                            class="rounded-lg ring-1 ring-white/10 hover:brightness-105 transition max-w-full h-auto"
+                            loading="lazy">
                     </div>
                 </div>
 
-                {!! renderProblemCircleLayout(
-                    __('services.sections.compliance.title'),
-                    __('services.sections.compliance.problems'),
-                ) !!}
+                <div class="bg-white/5 rounded-xl border border-white/10 shadow-xl px-6 sm:px-10 py-14 space-y-12">
+                    {!! renderProblemCircleLayout(
+                        __('services.sections.compliance.title'),
+                        __('services.sections.compliance.problems'),
+                    ) !!}
+                </div>
+
+                <!-- CTA -->
+                <div class="text-center mt-16">
+                    <a href="{{ route('contact') }}"
+                        class="inline-block px-6 py-3 border-2 border-white text-white font-medium rounded-lg hover:bg-white hover:text-[var(--color-electric-sky)] transition">
+                        {{ __('about.cta') }}
+                    </a>
+                </div>
 
             </div>
         </section>
