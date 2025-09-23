@@ -35,7 +35,7 @@
         @endforeach
       </div>
 
-      <!-- Right: Language Toggle + Theme Slider (Desktop) -->
+      <!-- Right: Language Toggle + Theme Changer (Desktop) -->
       <!-- @php
         $current = app()->getLocale();
         $targetLocale = $current === 'ka' ? 'en' : 'ka';
@@ -44,12 +44,20 @@
       <div class="hidden lg:flex items-center gap-3">
         {{-- Language --}}
         <a href="#"
-           role="button"
-           aria-label="Switch language to {{ $targetLocale }}"
-           class="nav-link-desktop px-2 py-1 cursor-pointer select-none"
-           onclick="document.getElementById('locale-toggle-desktop').submit(); return false;">
-          {{ $langLabel }}
+          role="button"
+          aria-label="Switch language to {{ strtoupper($targetLocale) }}"
+          class="nav-link-desktop inline-flex items-center justify-center h-9 w-9 p-0 rounded-full cursor-pointer select-none focus-ring hover:shadow-md transition"
+          onclick="document.getElementById('locale-toggle-desktop').submit(); return false;"
+        >
+          {{-- Show the TARGET locale flag (what you’ll switch to) --}}
+          <span class="flag-emoji" aria-hidden="true">
+            @if($targetLocale === 'ka') 🇬🇪 @else 🇬🇧 @endif
+          </span>
+          <span class="sr-only">
+            {{ $targetLocale === 'ka' ? 'Switch to Georgian' : 'Switch to English' }}
+          </span>
         </a>
+
         <form id="locale-toggle-desktop" action="{{ route('locale.switch') }}" method="POST" class="hidden">
           @csrf
           <input type="hidden" name="locale" value="{{ $targetLocale }}">
@@ -121,16 +129,25 @@
     <div class="flex justify-center items-center gap-3 pt-4">
       {{-- Language --}}
       <a href="#"
-         role="button"
-         aria-label="Switch language to {{ $targetLocale }}"
-         class="nav-link-mobile w-auto px-3 py-2 cursor-pointer select-none"
-         onclick="document.getElementById('locale-toggle-mobile').submit(); return false;">
-        {{ $langLabel }}
+        role="button"
+        aria-label="Switch language to {{ strtoupper($targetLocale) }}"
+        class="nav-link-mobile inline-flex items-center justify-center h-10 w-10 p-0 rounded-full cursor-pointer select-none focus-ring hover:shadow-md transition"
+        onclick="document.getElementById('locale-toggle-mobile').submit(); return false;"
+      >
+        {{-- Show the TARGET locale flag (what you’ll switch to) --}}
+        <span class="flag-emoji" aria-hidden="true">
+          @if($targetLocale === 'ka') 🇬🇪 @else 🇬🇧 @endif
+        </span>
+        <span class="sr-only">
+          {{ $targetLocale === 'ka' ? 'Switch to Georgian' : 'Switch to English' }}
+        </span>
       </a>
+
       <form id="locale-toggle-mobile" action="{{ route('locale.switch') }}" method="POST" class="hidden">
         @csrf
         <input type="hidden" name="locale" value="{{ $targetLocale }}">
       </form>
+
 
       {{-- Theme toggle (mobile, icon-only) --}}
       <button
