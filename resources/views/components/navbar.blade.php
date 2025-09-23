@@ -17,22 +17,41 @@
       @endforeach
     </div>
 
-    <!-- Right: Language Switch -->
+    <!-- Right: Language Toggle + Theme Toggle (Desktop) -->
+    @php
+      $current = app()->getLocale();
+      $targetLocale = $current === 'ka' ? 'en' : 'ka';
+      $langLabel = $current === 'ka' ? 'ENGLISH' : 'ქართული';
+    @endphp
     <div class="hidden lg:flex items-center gap-3">
-      <div class="ml-3 flex items-center gap-2 group transition">
-        <svg xmlns="http://www.w3.org/2000/svg"
-             class="h-4 w-4 text-current group-hover:text-electric transition"
-             fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-          <path d="M12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zM12 2v20M2 12h20" />
-        </svg>
-        <form action="{{ route('locale.switch') }}" method="POST">
-          @csrf
-          <select name="locale" onchange="this.form.submit()" aria-label="Language switch" class="nav-select">
-            <option value="ka" {{ app()->getLocale() === 'ka' ? 'selected' : '' }}>KA</option>
-            <option value="en" {{ app()->getLocale() === 'en' ? 'selected' : '' }}>EN</option>
-          </select>
-        </form>
-      </div>
+      {{-- Language --}}
+      <a href="#"
+         role="button"
+         aria-label="Switch language to {{ $targetLocale }}"
+         class="nav-link-desktop px-2 py-1 cursor-pointer select-none"
+         onclick="document.getElementById('locale-toggle-desktop').submit(); return false;">
+        {{ $langLabel }}
+      </a>
+      <form id="locale-toggle-desktop" action="{{ route('locale.switch') }}" method="POST" class="hidden">
+        @csrf
+        <input type="hidden" name="locale" value="{{ $targetLocale }}">
+      </form>
+
+      {{-- Theme toggle --}}
+      <button
+        type="button"
+        class="nav-link-desktop px-2 py-1 cursor-pointer select-none"
+        aria-label="Toggle theme"
+        onclick="(function(btn){
+          const el = document.documentElement;
+          const next = el.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+          el.setAttribute('data-theme', next);
+          try { localStorage.setItem('dg:theme', next); } catch(e) {}
+          const span = btn.querySelector('span');
+          if (span) span.textContent = next === 'dark' ? 'Light' : 'Dark';
+        })(this)">
+        <span>Dark</span>
+      </button>
     </div>
 
     <!-- Mobile Toggle -->
@@ -62,20 +81,35 @@
     <x-nav.anchor-button route="register" label="{{ __('messages.register') }}" variant="auth-mobile" />
   </div>
 
-  <!-- Language Switch -->
-  <div class="flex justify-center items-center gap-2 pt-4 group transition">
-    <svg xmlns="http://www.w3.org/2000/svg"
-         class="h-5 w-5 text-current group-hover:text-electric transition"
-         fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"
-         stroke-linecap="square" stroke-linejoin="miter">
-      <path d="M12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zM12 2v20M2 12h20" />
-    </svg>
-    <form action="{{ route('locale.switch') }}" method="POST">
+  <!-- Language Toggle + Theme Toggle (Mobile) -->
+  <div class="flex justify-center items-center gap-3 pt-4">
+    {{-- Language --}}
+    <a href="#"
+       role="button"
+       aria-label="Switch language to {{ $targetLocale }}"
+       class="nav-link-mobile w-auto px-3 py-2 cursor-pointer select-none"
+       onclick="document.getElementById('locale-toggle-mobile').submit(); return false;">
+      {{ $langLabel }}
+    </a>
+    <form id="locale-toggle-mobile" action="{{ route('locale.switch') }}" method="POST" class="hidden">
       @csrf
-      <select name="locale" onchange="this.form.submit()" aria-label="Language switch" class="nav-select">
-        <option value="ka" {{ app()->getLocale() === 'ka' ? 'selected' : '' }}>KA</option>
-        <option value="en" {{ app()->getLocale() === 'en' ? 'selected' : '' }}>EN</option>
-      </select>
+      <input type="hidden" name="locale" value="{{ $targetLocale }}">
     </form>
+
+    {{-- Theme toggle --}}
+    <button
+      type="button"
+      class="nav-link-mobile w-auto px-3 py-2 cursor-pointer select-none"
+      aria-label="Toggle theme"
+      onclick="(function(btn){
+        const el = document.documentElement;
+        const next = el.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        el.setAttribute('data-theme', next);
+        try { localStorage.setItem('dg:theme', next); } catch(e) {}
+        const span = btn.querySelector('span');
+        if (span) span.textContent = next === 'dark' ? 'Light' : 'Dark';
+      })(this)">
+      <span>Dark</span>
+    </button>
   </div>
 </div>

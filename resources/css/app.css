@@ -91,6 +91,11 @@
   /* Logo chips */
   --logo-dg-bg:    var(--color-brand-500); /* main purple */
   --logo-step-bg:  var(--color-brand-300); /* lighter than nav */
+
+  /* Nav link chips (brand-tinted) */
+  --nav-link-bg:         color-mix(in oklab, var(--color-brand-400) 18%, transparent);
+  --nav-link-hover-bg:   color-mix(in oklab, var(--color-brand-400) 28%, transparent);
+  --nav-link-active-bg:  color-mix(in oklab, var(--color-brand-400) 38%, transparent);
 }
 
 :root[data-theme="dark"] {
@@ -114,6 +119,11 @@
   /* Logo chips */
   --logo-dg-bg:    var(--color-brand-500);
   --logo-step-bg:  var(--color-brand-400);
+
+  /* Nav link chips (brand-tinted) */
+  --nav-link-bg:         color-mix(in oklab, var(--color-brand-400) 22%, transparent);
+  --nav-link-hover-bg:   color-mix(in oklab, var(--color-brand-400) 32%, transparent);
+  --nav-link-active-bg:  color-mix(in oklab, var(--color-brand-400) 42%, transparent);
 }
 
 /* ──────────────────────────────────────────────────────────────
@@ -201,29 +211,32 @@
                  transition-duration: 300ms;
                  color: var(--nav-fg); background-color: var(--nav-bg); border-color: var(--nav-border);
                  box-shadow: 0 8px 20px rgba(0,0,0,.25); }
+
   .nav-mobile-surface { border-top-width: 1px; border-color: color-mix(in oklab, #fff 10%, transparent);
                         box-shadow: 0 8px 20px rgba(0,0,0,.25); color: var(--nav-fg);
                         background-color: var(--mobile-nav-bg); }
 
-  /* desktop links: transparent; lighten on hover; brand when active */
+  /* desktop links: brand-tinted chip by default */
   .nav-link-desktop { display: inline-flex; align-items: center; padding: .5rem .75rem;
                       border-radius: 6px; transition: color .2s, background-color .2s;
-                      font-size: 15px; color: var(--nav-fg-muted); background-color: transparent; }
-  .nav-link-desktop:hover { color: var(--nav-fg); background-color: color-mix(in oklab, #fff 8%, transparent); }
+                      font-size: 15px; color: var(--nav-fg-muted);
+                      background-color: var(--nav-link-bg); }
+  .nav-link-desktop:hover { color: var(--nav-fg); background-color: var(--nav-link-hover-bg); }
 
-  /* mobile links */
+  /* mobile links: same behavior */
   .nav-link-mobile { display: inline-flex; align-items: center; justify-content: center; width: 100%;
                      padding: .5rem 1rem; border-radius: 8px; transition: color .2s, background-color .2s;
-                     color: var(--nav-fg); background-color: transparent; }
-  .nav-link-mobile:hover { color: var(--nav-fg); background-color: color-mix(in oklab, #fff 8%, transparent); }
+                     color: var(--nav-fg); background-color: var(--nav-link-bg); }
+  .nav-link-mobile:hover { color: var(--nav-fg); background-color: var(--nav-link-hover-bg); }
 
+  /* active = brand text + stronger chip */
   .nav-link-active { color: var(--color-electric-sky);
-                     background-color: color-mix(in oklab, #fff 6%, transparent); }
+                     background-color: var(--nav-link-active-bg); }
 
   .nav-select { background: transparent; color: var(--nav-fg); font-size: .875rem; outline: none; cursor: pointer; }
   .nav-select:hover { color: var(--color-electric-sky); }
 
-  /* LOGO CHIPS (moved here; not inside @theme) */
+  /* LOGO CHIPS */
   .logo-chip { display: grid; place-items: center; border-radius: 6px;
                box-shadow: 0 8px 16px rgba(0,0,0,.28); width: 2.5rem; height: 2.5rem; color: #fff; }
   .logo-chip-dg   { background: var(--logo-dg-bg); }
@@ -234,7 +247,7 @@
                          padding: .5rem 1rem; border-radius: 10px; font-weight: 600; color: var(--nav-fg);
                          border: 1px solid color-mix(in oklab, currentColor 18%, transparent); background: transparent;
                          transition: background .2s var(--ease-brand), color .2s var(--ease-brand), transform .2s var(--ease-brand); }
-  .nav-link-auth-login:hover { background: color-mix(in oklab, #fff 8%, transparent); color: var(--nav-fg); }
+  .nav-link-auth-login:hover { background: var(--nav-link-hover-bg); color: var(--nav-fg); }
   .nav-link-auth-login:active { transform: translateY(.5px) scale(.995); }
 
   .nav-link-auth-register { display: inline-flex; align-items: center; justify-content: center; width: 100%;
