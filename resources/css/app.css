@@ -28,8 +28,7 @@
   --color-brand-900: #2c2a70;
   --color-brand-950: #1e1c4a;
 
-  /* Alternate brand accents (LIGHT MODE emphasis)
-     TODO: replace the two hexes below with the official brandbook “alt” colors if they differ. */
+  /* Alternate brand accents (LIGHT MODE emphasis) */
   --color-accent-1: #6c63ff;   /* Iris / vivid periwinkle */
   --color-accent-1-600: #5a52f5;
   --color-accent-2: #7aa2ff;   /* Sky / cool periwinkle */
@@ -82,7 +81,7 @@
 }
 
 /* ──────────────────────────────────────────────────────────────
-   Theme overrides (light / dark)
+   Theme overrides (light / dark) — MERGED
    ────────────────────────────────────────────────────────────── */
 :root[data-theme="light"] {
   /* Page */
@@ -97,12 +96,12 @@
   --nav-fg:        #ffffff;
   --nav-fg-muted:  rgba(255,255,255,0.82);
 
-  /* Light-mode nav chips use alternate accent-2 so they don’t blend in */
+  /* Light-mode nav chips use alternate accent-2 */
   --nav-link-bg:         color-mix(in oklab, var(--color-accent-2) 18%, transparent);
   --nav-link-hover-bg:   color-mix(in oklab, var(--color-accent-2) 32%, transparent);
   --nav-link-active-bg:  color-mix(in oklab, var(--color-accent-2) 62%, transparent);
 
-  /* BUTTONS — LIGHT (use alternate accent-1 for primary to separate from nav) */
+  /* BUTTONS — LIGHT (use alternate accent-1 for primary) */
   --btn-primary-bg:         var(--color-accent-1);
   --btn-primary-bg-hover:   var(--color-accent-1-600);
   --btn-primary-fg:         #ffffff;
@@ -127,6 +126,52 @@
   --btn-danger-bg-hover:    color-mix(in oklab, var(--color-danger) 86%, #000 14%);
   --btn-danger-fg:          #ffffff;
   --btn-danger-shadow:      0 10px 22px color-mix(in oklab, var(--color-danger) 28%, transparent);
+
+  /* ── HERO TOKENS (light) ───────────────────────────────── */
+  --hero-bg-start: color-mix(in oklab, var(--color-brand-900) 34%, #ffffff 66%);
+  --hero-bg-mid:   color-mix(in oklab, var(--color-brand-800) 38%, #ffffff 62%);
+  --hero-bg-end:   color-mix(in oklab, var(--color-brand-900) 30%, #ffffff 70%);
+
+  /* Foreground ink */
+  --hero-ink:       #0e0e12;
+  --hero-ink-muted: color-mix(in oklab, var(--hero-ink) 78%, transparent);
+
+  /* Background image treatment */
+  --hero-img-opacity: .10;
+  --hero-img-blend:   multiply;
+  --hero-overlay:     color-mix(in oklab, #ffffff 0%, transparent);
+
+  /* Controls / chips / dots */
+  --hero-chip:        rgba(255,255,255,.60);
+
+  /* DOTS (stronger contrast in light) */
+  --hero-dot:         color-mix(in oklab, var(--neutral-900) 18%, transparent);
+  --hero-dot-hover:   color-mix(in oklab, var(--neutral-900) 30%, transparent);
+  --hero-dot-active:  var(--color-electric-sky);
+  --hero-dot-border:  rgba(0,0,0,.22);
+
+  /* ARROWS (tokens so hover works per-theme) */
+  --hero-arrow-bg:        rgba(255,255,255,.78);
+  --hero-arrow-bg-hover:  rgba(255,255,255,.92);
+  --hero-arrow-fg:        var(--neutral-900);
+  --hero-arrow-border:    rgba(0,0,0,.12);
+
+  /* ── FEATURES (light) — subtle brand surface + gentle wash */
+  /* Base surface for the section (very light brand-50 tint on white) */
+  --features-surface:  color-mix(in oklab, var(--color-brand-50) 10%, #ffffff 90%);
+
+  /* Wash uses core brand-200 instead of bright accents, reduced intensity */
+  --section-wash: radial-gradient(
+      900px 420px at 50% -120px,
+      color-mix(in oklab, var(--color-brand-200) 7%, transparent) 0%,
+      transparent 65%
+  );
+
+  /* Cards sit cleanly above the tinted surface */
+  --features-card-bg:      #ffffff;
+  --features-card-border:  color-mix(in oklab, var(--color-brand-200) 26%, transparent);
+  --features-card-shadow:  0 6px 16px color-mix(in oklab, var(--color-brand-300) 16%, transparent);
+  --features-text-muted:   color-mix(in oklab, var(--neutral-900) 58%, transparent);
 }
 
 :root[data-theme="dark"] {
@@ -175,6 +220,48 @@
   --btn-danger-bg:          var(--color-danger);
   --btn-danger-bg-hover:    color-mix(in oklab, var(--color-danger) 86%, #000 14%);
   --btn-danger-fg:          #ffffff;
+
+  /* ── HERO TOKENS (dark) ────────────────────────────────── */
+  --hero-bg-start: color-mix(in oklab, var(--color-brand-950) 88%, #000 12%);
+  --hero-bg-mid:   color-mix(in oklab, var(--color-brand-900) 84%, #000 16%);
+  --hero-bg-end:   color-mix(in oklab, var(--color-brand-950) 92%, #000 8%);
+
+  /* Foreground ink */
+  --hero-ink:       #f3f2ff;
+  --hero-ink-muted: rgba(243,242,255,.82);
+
+  /* Background image treatment */
+  --hero-img-opacity: .18;
+  --hero-img-blend:   screen;
+  --hero-overlay:     color-mix(in oklab, #000000 32%, transparent);
+
+  /* Controls / chips / dots */
+  --hero-chip:        rgba(255,255,255,.10);
+
+  /* DOTS (stronger contrast in dark) */
+  --hero-dot:         color-mix(in oklab, #ffffff 24%, transparent);
+  --hero-dot-hover:   color-mix(in oklab, #ffffff 40%, transparent);
+  --hero-dot-active:  var(--color-electric-sky);
+  --hero-dot-border:  rgba(255,255,255,.35);
+
+  /* ARROWS */
+  --hero-arrow-bg:        rgba(255,255,255,.12);
+  --hero-arrow-bg-hover:  rgba(255,255,255,.20);
+  --hero-arrow-fg:        #f3f2ff;
+  --hero-arrow-border:    rgba(255,255,255,.22);
+
+  /* Section wash for dark */
+  --section-wash: radial-gradient(
+      900px 420px at 50% -120px,
+      color-mix(in oklab, var(--color-accent-2) 14%, transparent) 0%,
+      transparent 65%
+  );
+
+  /* Features (dark) */
+  --features-card-bg:      color-mix(in oklab, var(--bg-elevated) 92%, transparent);
+  --features-card-border:  rgba(255,255,255,.12);
+  --features-card-shadow:  0 8px 22px rgba(0,0,0,.45);
+  --features-text-muted:   rgba(243,242,255,.72);
 }
 
 /* prevent FOIT for Alpine x-cloak content */
@@ -183,32 +270,29 @@
 /* ──────────────────────────────────────────────────────────────
    Fonts
    ────────────────────────────────────────────────────────────── */
-@font-face {
-  font-family: "FiraGO";
-  src: url("/fonts/firago/FiraGO-Regular.ttf") format("truetype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "FiraGO";
-  src: url("/fonts/firago/FiraGO-Medium.ttf") format("truetype");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "FiraGO";
-  src: url("/fonts/firago/FiraGO-Bold.ttf") format("truetype");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* ──────────────────────────────────────────────────────────────
-   Base
-   ────────────────────────────────────────────────────────────── */
 @layer base {
+  @font-face {
+    font-family: "FiraGO";
+    src: url("/fonts/firago/FiraGO-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "FiraGO";
+    src: url("/fonts/firago/FiraGO-Medium.ttf") format("truetype");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "FiraGO";
+    src: url("/fonts/firago/FiraGO-Bold.ttf") format("truetype");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+
   html { font-family: var(--font-sans); }
   [lang="ka"] { font-family: "FiraGO", "BPG Nino Mtavruli", sans-serif; }
 
@@ -220,6 +304,7 @@
    Utilities
    ────────────────────────────────────────────────────────────── */
 @layer utilities {
+  
   /* Brand helpers */
   .text-electric { color: var(--color-electric-sky); }
   .bg-electric   { background-color: var(--color-electric-sky); }
@@ -249,7 +334,7 @@
   /* Buttons (base + themed variants) */
   .btn { display: inline-flex; align-items: center; gap: .5rem; border-radius: 1rem;
          padding: .5rem 1rem; font-weight: 500;
-         transition-property: background, box-shadow, transform, color, border-color;
+         transition-property: background-color, box-shadow, transform, color, border-color;
          transition-duration: 200ms; transition-timing-function: var(--ease-brand); }
   .btn-xs { padding:.375rem .625rem; font-size:.8125rem; border-radius:.625rem; }
   .btn-sm { padding:.4375rem .75rem;  font-size:.875rem;  border-radius:.75rem; }
@@ -265,7 +350,6 @@
   .btn-primary:hover { background: var(--btn-primary-bg-hover); }
   .btn-primary:active { transform: translateY(.5px) scale(.995); }
 
-  /* Secondary: outline in LIGHT, filled tint in DARK via tokens */
   .btn-secondary {
     background: var(--btn-secondary-bg);
     color: var(--btn-secondary-fg);
@@ -303,9 +387,7 @@
   .btn-secondary,
   .btn-subtle,
   .btn-ghost,
-  .btn-danger {
-    position: relative;
-  }
+  .btn-danger { position: relative; }
   .btn:focus-visible,
   .btn-primary:focus-visible,
   .btn-secondary:focus-visible,
@@ -328,42 +410,33 @@
                         box-shadow: 0 8px 20px rgba(0,0,0,.25); color: var(--nav-fg);
                         background-color: var(--mobile-nav-bg); }
 
-  /* desktop links: brand/periwinkle chips */
+  /* desktop links */
   .nav-link-desktop { display: inline-flex; align-items: center; padding: .5rem .75rem;
                       border-radius: 6px; transition: color .2s, background-color .2s, box-shadow .2s, border-color .2s;
                       font-size: 15px; color: var(--nav-fg-muted);
                       background-color: var(--nav-link-bg); }
   .nav-link-desktop:hover { color: var(--nav-fg); background-color: var(--nav-link-hover-bg); }
 
-  /* mobile links: same behavior */
+  /* mobile links */
   .nav-link-mobile { display: inline-flex; align-items: center; justify-content: center; width: 100%;
                      padding: .5rem 1rem; border-radius: 8px; transition: color .2s, background-color .2s;
                      color: var(--nav-fg); background-color: var(--nav-link-bg); }
   .nav-link-mobile:hover { color: var(--nav-fg); background-color: var(--nav-link-hover-bg); }
 
-  /* active = brand text + stronger chip */
-  .nav-link-active { color: var(--color-electric-sky);
-                     background-color: var(--nav-link-active-bg); }
+  .nav-link-active { color: var(--color-electric-sky); background-color: var(--nav-link-active-bg); }
 
   .nav-select { background: transparent; color: var(--nav-fg); font-size: .875rem; outline: none; cursor: pointer; }
   .nav-select:hover { color: var(--color-electric-sky); }
 
-  /* LIGHT-ONLY: Make active chip pop more */
   :root[data-theme="light"] .nav-link-active {
-    color: #ffffff;                                    /* white ink on stronger wash */
-    box-shadow:
-      inset 0 0 0 1px rgba(255,255,255,.35),           /* inner border for definition */
-      0 6px 14px rgba(0,0,0,.18);                      /* slight lift so it reads as selected */
+    color: #ffffff;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.35), 0 6px 14px rgba(0,0,0,.18);
   }
 
-  /* LIGHT-ONLY: give all chips a faint hairline so inactive still has edges */
   :root[data-theme="light"] .nav-link-desktop,
   :root[data-theme="light"] .nav-link-mobile {
     border: 1px solid rgba(255,255,255,.18);
   }
-
-
-
 
   /* LOGO CHIPS (legacy) */
   .logo-chip { display: grid; place-items: center; border-radius: 6px;
@@ -371,7 +444,7 @@
   .logo-chip-dg   { background: var(--logo-dg-bg); }
   .logo-chip-step { background: var(--logo-step-bg); }
 
-  /* Auth CTAs in nav: map to button system */
+  /* Auth CTAs in nav */
   .nav-link-auth-login {
     display: inline-flex; align-items: center; justify-content: center; width: 100%;
     padding: .5rem 1rem; border-radius: 10px; font-weight: 600;
@@ -393,33 +466,56 @@
   .nav-link-auth-register:hover { background: var(--btn-primary-bg-hover); }
   .nav-link-auth-register:active { transform: translateY(.5px) scale(.995); }
 
-  /* Logo swap */
+  /* Logo swap (unchanged) */
   .logo-img--dark { display: none; }
   html[data-theme="dark"] .logo-img--light { display: none; }
   html[data-theme="dark"] .logo-img--dark  { display: inline; }
 
   /* Extra CONTRAST inside the NAV BAR (light only) */
   :root[data-theme="light"] .nav-surface .btn-primary {
-    background: #ffffff;
-    color: var(--color-brand-700);
-    box-shadow: 0 8px 18px rgba(0,0,0,.25);
+    background: #ffffff; color: var(--color-brand-700); box-shadow: 0 8px 18px rgba(0,0,0,.25);
   }
-  :root[data-theme="light"] .nav-surface .btn-primary:hover {
-    background: #f6f5ff;
-  }
+  :root[data-theme="light"] .nav-surface .btn-primary:hover { background: #f6f5ff; }
+
   :root[data-theme="light"] .nav-surface .btn-secondary {
-    background: transparent;
-    color: #ffffff;
-    border-color: rgba(255,255,255,.70);
+    background: transparent; color: #ffffff; border-color: rgba(255,255,255,.70);
   }
-  :root[data-theme="light"] .nav-surface .btn-secondary:hover {
-    background: rgba(255,255,255,.10);
+  :root[data-theme="light"] .nav-surface .btn-secondary:hover { background: rgba(255,255,255,.10); }
+
+  :root[data-theme="dark"] .nav-surface .btn-secondary { border-color: rgba(255,255,255,.22); }
+
+  /* ── HERO CONTROLS (arrows) */
+  .hero-arrow {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 40px; height: 40px; border-radius: 9999px;
+    background-color: var(--hero-arrow-bg);
+    color: var(--hero-arrow-fg);
+    border: 1px solid var(--hero-arrow-border);
+    box-shadow: 0 8px 18px rgba(0,0,0,.18);
+    transition: background-color .18s var(--ease-brand), color .18s var(--ease-brand), transform .18s var(--ease-brand), box-shadow .18s var(--ease-brand);
   }
-  :root[data-theme="dark"] .nav-surface .btn-secondary {
-    border-color: rgba(255,255,255,.22);
+  .hero-arrow:hover {
+    background-color: var(--hero-arrow-bg-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 10px 22px rgba(0,0,0,.22);
   }
+  .hero-arrow:active { transform: translateY(0); }
+
+  .section-wash-bg { background: var(--section-wash); }
+  .feature-card    { background-color: var(--features-card-bg);
+                   border: 1px solid var(--features-card-border);
+                   box-shadow: var(--features-card-shadow); }
+  .feature-muted   { color: var(--features-text-muted); }
+
 }
 
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .theme-icon { transition: opacity .2s linear !important; transform: none !important; }
+  .icon-hidden { opacity: 0; }
+}
+
+/* Misc */
 .theme-icon {
   pointer-events: none;
   transition: opacity .22s var(--ease-brand), transform .28s var(--ease-brand), color .2s var(--ease-brand);
@@ -428,25 +524,15 @@
 .icon-visible { opacity: 1;  transform: rotate(0deg) scale(1); }
 .icon-hidden  { opacity: 0;  transform: rotate(40deg) scale(.85); }
 
-/* Respect prefers-reduced-motion */
-@media (prefers-reduced-motion: reduce) {
-  .theme-icon { transition: opgacity .2s linear !important; transform: none !important; }
-  .icon-hidden { opacity: 0; }
-}
+.flag-emoji { font-size: 18px; line-height: 1; transform: translateY(1px); }
 
-.flag-emoji {
-  font-size: 18px;           /* reads clearly on both themes */
-  line-height: 1;            /* avoid vertical wobble */
-  transform: translateY(1px);/* optical centering for emoji fonts */
-}
-
-/* Screen-reader-only helper if you don't have one already */
+/* Screen-reader-only helper */
 .sr-only {
   position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
   overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
 }
 
-/* Legacy fallbacks */
+/* Legacy fallbacks (safe duplicates for robustness) */
 html { font-family: "FiraGO", sans-serif; }
 .text-electric { color: var(--color-electric-sky); }
 .bg-electric   { background-color: var(--color-electric-sky); }

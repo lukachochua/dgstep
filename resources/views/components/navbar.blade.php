@@ -120,33 +120,33 @@
     @endforeach
 
     <!-- Auth Buttons -->
-    <div class="flex flex-col items-center gap-3 pt-2 border-t border-white/10">
+    <!-- <div class="flex flex-col items-center gap-3 pt-2 border-t border-white/10">
       <x-nav.anchor-button route="login"    label="{{ __('messages.login') }}"    variant="auth-mobile" />
       <x-nav.anchor-button route="register" label="{{ __('messages.register') }}" variant="auth-mobile" />
-    </div>
+    </div> -->
 
     <!-- Language + Theme (Mobile) -->
     <div class="flex justify-center items-center gap-3 pt-4">
       {{-- Language --}}
-      <a href="#"
-        role="button"
-        aria-label="Switch language to {{ strtoupper($targetLocale) }}"
-        class="nav-link-mobile inline-flex items-center justify-center h-10 w-10 p-0 rounded-full cursor-pointer select-none focus-ring hover:shadow-md transition"
-        onclick="document.getElementById('locale-toggle-mobile').submit(); return false;"
-      >
-        {{-- Show the TARGET locale flag (what you’ll switch to) --}}
-        <span class="flag-emoji" aria-hidden="true">
-          @if($targetLocale === 'ka') 🇬🇪 @else 🇬🇧 @endif
-        </span>
-        <span class="sr-only">
-          {{ $targetLocale === 'ka' ? 'Switch to Georgian' : 'Switch to English' }}
-        </span>
-      </a>
+        <a href="#"
+          role="button"
+          aria-label="Switch language to {{ strtoupper($targetLocale) }}"
+          class="nav-link-mobile inline-flex items-center justify-center h-10 w-10 p-0 rounded-full cursor-pointer select-none focus-ring hover:shadow-md transition"
+          onclick="document.getElementById('locale-toggle-mobile').submit(); return false;"
+        >
+          {{-- Show the TARGET locale flag (what you’ll switch to) --}}
+          <span class="flag-emoji" aria-hidden="true">
+            @if($targetLocale === 'ka') 🇬🇪 @else 🇬🇧 @endif
+          </span>
+          <span class="sr-only">
+            {{ $targetLocale === 'ka' ? 'Switch to Georgian' : 'Switch to English' }}
+          </span>
+        </a>
 
-      <form id="locale-toggle-mobile" action="{{ route('locale.switch') }}" method="POST" class="hidden">
-        @csrf
-        <input type="hidden" name="locale" value="{{ $targetLocale }}">
-      </form>
+        <form id="locale-toggle-mobile" action="{{ route('locale.switch') }}" method="POST" class="hidden">
+          @csrf
+          <input type="hidden" name="locale" value="{{ $targetLocale }}">
+        </form>
 
 
       {{-- Theme toggle (mobile, icon-only) --}}
