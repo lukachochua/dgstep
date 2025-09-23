@@ -126,8 +126,8 @@
   --nav-link-active-bg:  color-mix(in oklab, var(--color-brand-400) 42%, transparent);
 }
 
+/* prevent FOIT for Alpine x-cloak content */
 [x-cloak] { display: none !important; }
-
 
 /* ──────────────────────────────────────────────────────────────
    Fonts
@@ -259,6 +259,11 @@
                             transition: background .2s var(--ease-brand), transform .2s var(--ease-brand); }
   .nav-link-auth-register:hover { background: var(--color-electric-sky-hover); }
   .nav-link-auth-register:active { transform: translateY(.5px) scale(.995); }
+
+  /* --- Logo image swap (light/dark) --- */
+  .logo-img--dark { display: none; }
+  html[data-theme="dark"] .logo-img--light { display: none; }
+  html[data-theme="dark"] .logo-img--dark  { display: inline; }
 }
 
 /* Legacy fallbacks (kept for compatibility) */

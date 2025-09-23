@@ -11,14 +11,26 @@
   "
   @keydown.window.escape="open = false"
 >
-  <!-- Navbar (unchanged except :aria-expanded) -->
+  <!-- Navbar -->
   <nav aria-label="Main Navigation" class="nav-surface text-[15px] tracking-tight font-medium">
     <div class="mx-auto max-w-[var(--container-content)] px-4 sm:px-6 md:px-8 h-16 md:h-20 flex items-center justify-between">
-      <!-- Logo -->
+      <!-- Logo (auto-swaps by data-theme) -->
       <a href="{{ route('home') }}" id="logo-text" aria-label="DGstep logo"
          class="group flex items-center gap-2 select-none transition-transform duration-200 ease-[var(--ease-brand)] active:scale-95 focus-visible:outline-none">
-        <div class="logo-chip logo-chip-dg group-hover:scale-105">DG</div>
-        <div class="logo-chip logo-chip-step group-hover:scale-105">STEP</div>
+        {{-- Light theme logo --}}
+        <img
+          src="{{ Vite::asset('resources/images/brand/logo-color-01.png') }}"
+          alt="DGstep logo"
+          class="logo-img--light h-7 md:h-8 w-auto select-none pointer-events-none"
+          width="160" height="40" fetchpriority="high" decoding="async"
+        />
+        {{-- Dark theme logo --}}
+        <img
+          src="{{ Vite::asset('resources/images/brand/logo-white-01.png') }}"
+          alt=""
+          class="logo-img--dark h-7 md:h-8 w-auto select-none pointer-events-none"
+          width="160" height="40" decoding="async"
+        />
       </a>
 
       <!-- Desktop Menu -->
@@ -75,7 +87,6 @@
         aria-controls="mobile-menu"
         @click="open = !open"
       >
-        <!-- Hamburger icon -->
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
              viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <path d="M4 6h16M4 12h16M4 18h16" />
@@ -84,7 +95,7 @@
     </div>
   </nav>
 
-  <!-- Mobile Menu (now inside the same Alpine scope) -->
+  <!-- Mobile Menu -->
   <div
     id="mobile-menu"
     x-cloak
