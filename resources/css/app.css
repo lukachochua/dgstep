@@ -126,6 +126,9 @@
   --nav-link-active-bg:  color-mix(in oklab, var(--color-brand-400) 42%, transparent);
 }
 
+[x-cloak] { display: none !important; }
+
+
 /* ──────────────────────────────────────────────────────────────
    Fonts
    ────────────────────────────────────────────────────────────── */
