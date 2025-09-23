@@ -420,6 +420,20 @@
   }
 }
 
+.theme-icon {
+  pointer-events: none;
+  transition: opacity .22s var(--ease-brand), transform .28s var(--ease-brand), color .2s var(--ease-brand);
+  transform-origin: 50% 50%;
+}
+.icon-visible { opacity: 1;  transform: rotate(0deg) scale(1); }
+.icon-hidden  { opacity: 0;  transform: rotate(40deg) scale(.85); }
+
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .theme-icon { transition: opacity .2s linear !important; transform: none !important; }
+  .icon-hidden { opacity: 0; }
+}
+
 /* Legacy fallbacks */
 html { font-family: "FiraGO", sans-serif; }
 .text-electric { color: var(--color-electric-sky); }
