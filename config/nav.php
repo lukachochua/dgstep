@@ -1,27 +1,41 @@
 <?php
 return [
     'variants' => [
+        // Top navbar (desktop)
         'desktop' => [
-            'base' => 'relative z-10 px-3 py-2 rounded-[3px] transition-colors duration-300 shadow-[0_0_4px_var(--color-electric-sky)] group',
-            'active' => 'bg-[var(--color-electric-sky)] text-black border border-[var(--color-electric-sky)] group-hover:shadow-[0_0_8px_var(--color-electric-sky-hover)]',
-            'inactive' => 'bg-transparent text-white border border-transparent hover:border-[var(--color-electric-sky)] hover:bg-white/5 hover:text-[var(--color-electric-sky)]',
+            // Keep your subtle electric glow via Tailwind's arbitrary shadow,
+            // and attach our base desktop link styling.
+            'base'     => 'nav-link-desktop group shadow-[0_0_4px_var(--color-electric-sky)]',
+            // Active route = highlighted link (brand color)
+            'active'   => 'nav-link-active',
+            // Inactive uses the neutral state from nav-link-desktop; no extra classes needed.
+            'inactive' => '',
         ],
+
+        // Drawer links (mobile menu)
         'mobile' => [
-            'base' => 'block max-w-xs mx-auto px-4 py-2 rounded-md border shadow-[0_0_4px_var(--color-electric-sky)]',
-            'active' => 'bg-[var(--color-electric-sky)] text-black border-[var(--color-electric-sky)] hover:shadow-[0_0_8px_var(--color-electric-sky-hover)]',
-            'inactive' => 'bg-white/5 text-white border-transparent hover:bg-white/10',
+            'base'     => 'nav-link-mobile shadow-[0_0_4px_var(--color-electric-sky)]',
+            'active'   => 'nav-link-active',
+            'inactive' => '',
         ],
+
+        // Desktop auth CTAs (if/when used)
         'auth' => [
-            'base' => 'px-3 py-2 border rounded-[3px] transition-colors duration-300',
-            'active' => 'bg-[var(--color-electric-sky)] text-black border-[var(--color-electric-sky)] shadow-[0_0_4px_var(--color-electric-sky)]',
-            'inactive-login' => 'text-white border-white hover:bg-[var(--color-electric-sky)] hover:text-black hover:border-transparent',
-            'inactive-register' => 'text-[var(--color-electric-sky)] border-[var(--color-electric-sky)] hover:bg-[var(--color-electric-sky)] hover:text-black hover:border-transparent',
+            // Base not needed (each state is a full CTA style)
+            'base'               => '',
+            // Active maps to the filled primary button
+            'active'             => 'nav-link-auth-register',
+            // Login = ghost/outline, Register = filled
+            'inactive-login'     => 'nav-link-auth-login',
+            'inactive-register'  => 'nav-link-auth-register',
         ],
+
+        // Mobile auth CTAs (used in the drawer)
         'auth-mobile' => [
-            'base' => 'w-full max-w-xs px-4 py-2 border rounded-md transition focus-visible:outline-none',
-            'active' => 'bg-[var(--color-electric-sky)] text-black border-[var(--color-electric-sky)]',
-            'inactive-login' => 'text-white border-white hover:bg-[var(--color-electric-sky)] hover:text-black active:bg-[var(--color-electric-sky)] active:text-black',
-            'inactive-register' => 'text-[var(--color-electric-sky)] border-[var(--color-electric-sky)] hover:bg-[var(--color-electric-sky)] hover:text-black active:bg-[var(--color-electric-sky)] active:text-black',
+            'base'               => '',
+            'active'             => 'nav-link-auth-register',
+            'inactive-login'     => 'nav-link-auth-login',
+            'inactive-register'  => 'nav-link-auth-register',
         ],
     ],
 ];

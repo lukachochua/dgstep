@@ -50,7 +50,7 @@
                         </a>
 
                         <!-- Text -->
-                        <div class="w-full md:w-1/2 space-y-6 text-white/90 text-[16px] leading-[1.75] font-[FiraGO]">
+                        <div class="w-full md:w-1/2 space-y-6 text-[16px] leading-[1.75] font-[FiraGO]">
                             @foreach (__('about.mission.cards') as $index => $card)
                                 <div class="space-y-2">
                                     <h4 class="text-[18px] font-semibold text-white/95">
@@ -84,7 +84,7 @@
                         </a>
 
                         <!-- Text -->
-                        <div class="w-full md:w-1/2 space-y-6 text-white/90 text-[16px] leading-[1.75] font-[FiraGO]">
+                        <div class="w-full md:w-1/2 space-y-6 text-[16px] leading-[1.75] font-[FiraGO]">
                             <p class="text-white/80 text-[17px] leading-relaxed">
                                 {{ __('about.vision.text') }}
                             </p>
@@ -112,7 +112,7 @@
                         {!! __('about.management.heading') !!}
                     </h3>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 text-left text-white/90">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 text-left">
                         @foreach ([1, 2, 3] as $i)
                             <div class="bg-white/5 p-6 rounded-xl border border-white/10 shadow-md">
                                 <img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?ixid={{ $i }}&w=300&h=300&fit=crop"

@@ -1,69 +1,252 @@
-@import 'tailwindcss';
-
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
+/* --- Tailwind v4 CSS-only content control (MUST BE FIRST) --- */
+@source "../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php";
+@source "../../storage/framework/views/*.php";
 @source "../**/*.blade.php";
 @source "../**/*.js";
 @source "../**/*.vue";
 
-/* Tailwind Theme Variables */
+/* Tailwind core */
+@import "tailwindcss";
+
+/* ──────────────────────────────────────────────────────────────
+   Theme Tokens — DGstep Brandbook (exact hexes)
+   ────────────────────────────────────────────────────────────── */
 @theme {
-    --font-sans: 'FiraGO', ui-sans-serif, system-ui, sans-serif;
+  /* Typography */
+  --font-sans: "FiraGO", ui-sans-serif, system-ui, sans-serif;
+
+  /* Primary (Pantone 2727 → #5B56D6) */
+  --color-brand-50:  #efeefd;
+  --color-brand-100: #e3e1fb;
+  --color-brand-200: #c7c4f6;
+  --color-brand-300: #aaa6f1;
+  --color-brand-400: #8d85ea;
+  --color-brand-500: #5b56d6;  /* MAIN */
+  --color-brand-600: #4f4ac2;  /* hover */
+  --color-brand-700: #433fa8;
+  --color-brand-800: #37348c;  /* focus/deeper */
+  --color-brand-900: #2c2a70;
+  --color-brand-950: #1e1c4a;
+
+  /* Neutrals */
+  --neutral-black:   #000000;
+  --neutral-900:     #222228;
+  --neutral-200:     #e5e8ea;
+  --neutral-white:   #ffffff;
+
+  /* Status */
+  --color-success: #16a34a;
+  --color-warning: #f59e0b;
+  --color-danger:  #ef4444;
+
+  /* Legacy “electric” helpers map to brand purple */
+  --color-electric-sky:        var(--color-brand-500);
+  --color-electric-sky-hover:  var(--color-brand-600);
+  --color-electric-sky-focus:  var(--color-brand-800);
+
+  /* Base defaults (light-first) */
+  --bg-default:   #faf9ff;             /* soft paper tint */
+  --text-default: var(--neutral-900);
+  --bg-elevated:  var(--neutral-white);
+
+  /* Navbar defaults (overridden per-theme below) */
+  --nav-bg:        rgba(255,255,255,0.92);
+  --nav-border:    rgba(0,0,0,0.08);
+  --mobile-nav-bg: #ffffff;
+  --nav-fg:        var(--neutral-900);
+  --nav-fg-muted:  color-mix(in oklab, var(--neutral-900) 72%, transparent);
+
+  /* Logo chip defaults (overridden per-theme below) */
+  --logo-dg-bg:   var(--color-brand-500);
+  --logo-step-bg: var(--color-brand-300);
+
+  /* Layout & polish */
+  --container-content: 72rem; /* 1152px */
+  --radius-xl:  0.875rem;
+  --radius-2xl: 1rem;
+  --radius-3xl: 1.25rem;
+
+  --shadow-brand: 0 12px 24px color-mix(in oklab, var(--color-brand-500) 28%, transparent);
+  --shadow-soft:  0 6px 18px rgba(0,0,0,0.22);
+
+  --ease-brand: cubic-bezier(.22,.61,.36,1);
 }
 
-/* Vite-processed FiraGO font-face declarations */
+/* ──────────────────────────────────────────────────────────────
+   Theme overrides (light / dark)
+   ────────────────────────────────────────────────────────────── */
+:root[data-theme="light"] {
+  /* Page */
+  --bg-default:   #faf9ff;
+  --text-default: var(--neutral-900);
+  --bg-elevated:  var(--neutral-white);
+
+  /* NAV (dark brand bar) */
+  --nav-bg:        rgba(30, 28, 74, 0.92); /* ≈ brand-950 */
+  --nav-border:    rgba(255, 255, 255, 0.12);
+  --mobile-nav-bg: #241a5f;                /* 950/900 */
+  --nav-fg:        #f3f2ff;                /* light ink on dark */
+  --nav-fg-muted:  rgba(243, 242, 255, 0.82);
+
+  /* Logo chips */
+  --logo-dg-bg:    var(--color-brand-500); /* main purple */
+  --logo-step-bg:  var(--color-brand-300); /* lighter than nav */
+}
+
+:root[data-theme="dark"] {
+  /* accent slightly brightened for contrast */
+  --color-electric-sky:       #8f89ea;
+  --color-electric-sky-hover: #7d74e4;
+  --color-electric-sky-focus: #655bdb;
+
+  /* Page */
+  --bg-default:   #0e0e12;
+  --text-default: var(--neutral-200);
+  --bg-elevated:  #161821;
+
+  /* NAV */
+  --nav-bg:        rgba(0,0,0,0.90);
+  --nav-border:    rgba(255,255,255,0.10);
+  --mobile-nav-bg: #0e0e12;
+  --nav-fg:        var(--neutral-200);
+  --nav-fg-muted:  color-mix(in oklab, var(--neutral-200) 82%, transparent);
+
+  /* Logo chips */
+  --logo-dg-bg:    var(--color-brand-500);
+  --logo-step-bg:  var(--color-brand-400);
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Fonts
+   ────────────────────────────────────────────────────────────── */
 @font-face {
-    font-family: 'FiraGO';
-    src: url('/fonts/firago/FiraGO-Regular.ttf') format('truetype');
-    font-weight: 400;
-    font-style: normal;
+  font-family: "FiraGO";
+  src: url("/fonts/firago/FiraGO-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
-
 @font-face {
-    font-family: 'FiraGO';
-    src: url('/fonts/firago/FiraGO-Medium.ttf') format('truetype');
-    font-weight: 500;
-    font-style: normal;
+  font-family: "FiraGO";
+  src: url("/fonts/firago/FiraGO-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
 }
-
 @font-face {
-    font-family: 'FiraGO';
-    src: url('/fonts/firago/FiraGO-Bold.ttf') format('truetype');
-    font-weight: 700;
-    font-style: normal;
+  font-family: "FiraGO";
+  src: url("/fonts/firago/FiraGO-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
 }
 
-/* Base font-family declarations */
+/* ──────────────────────────────────────────────────────────────
+   Base
+   ────────────────────────────────────────────────────────────── */
 @layer base {
-    html {
-        font-family: 'FiraGO', sans-serif;
-    }
+  html { font-family: var(--font-sans); }
+  [lang="ka"] { font-family: "FiraGO", "BPG Nino Mtavruli", sans-serif; }
 
-    [lang="ka"] {
-        font-family: 'FiraGO', 'BPG Nino Mtavruli', sans-serif;
-    }
+  html, body { margin: 0; padding: 0; }
+  body { background: var(--bg-default); color: var(--text-default); }
 }
 
-/* Utilities */
+/* ──────────────────────────────────────────────────────────────
+   Utilities
+   ────────────────────────────────────────────────────────────── */
 @layer utilities {
-    .text-electric {
-        color: var(--color-electric-sky);
-    }
+  /* Brand helpers */
+  .text-electric { color: var(--color-electric-sky); }
+  .bg-electric   { background-color: var(--color-electric-sky); }
+  .hover-electric:hover { color: var(--color-electric-sky); }
+  .hover-electric-ink:hover { color: var(--color-electric-sky-hover); }
+  .bg-electric-ink:hover    { background-color: var(--color-electric-sky-hover); }
+
+  /* Focus ring */
+  .focus-ring { outline: none; }
+  .focus-ring:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px color-mix(in oklab, var(--color-electric-sky) 70%, transparent);
+  }
+
+  /* Page wrapper */
+  .page-wrapper { position: fixed; inset: 0; width: 100%; height: 100%;
+                  overflow-y: auto; overflow-x: hidden; }
+
+  /* Cards / Glass */
+  .card { border-radius: 1.5rem; background-color: var(--bg-elevated);
+          box-shadow: var(--shadow-soft); border-width: 1px;
+          border-color: color-mix(in oklab, #fff 10%, transparent); }
+  .glass { border-width: 1px; border-color: color-mix(in oklab, #fff 10%, transparent);
+           backdrop-filter: blur(12px);
+           background-color: color-mix(in oklab, #fff 6%, transparent); }
+
+  /* Buttons */
+  .btn { display: inline-flex; align-items: center; gap: .5rem; border-radius: 1rem;
+         padding: .5rem 1rem; font-weight: 500;
+         transition-property: background, box-shadow, transform;
+         transition-duration: 200ms; transition-timing-function: var(--ease-brand); }
+  .btn-primary { display: inline-flex; align-items: center; gap: .5rem; border-radius: 1rem;
+                 padding: .5rem 1rem; font-weight: 500;
+                 transition: background .2s var(--ease-brand), box-shadow .2s var(--ease-brand), transform .2s var(--ease-brand);
+                 background: var(--color-electric-sky); color: #fff; box-shadow: var(--shadow-brand); }
+  .btn-primary:hover { background: var(--color-electric-sky-hover); }
+  .btn-primary:active { transform: translateY(0.5px) scale(.995); }
+
+  /* NAVBAR UTILITIES */
+  .nav-surface { position: sticky; top: 0; z-index: 50; backdrop-filter: blur(12px);
+                 border-bottom-width: 1px;
+                 transition-property: color, background-color, border-color, fill, stroke, box-shadow, filter, backdrop-filter;
+                 transition-duration: 300ms;
+                 color: var(--nav-fg); background-color: var(--nav-bg); border-color: var(--nav-border);
+                 box-shadow: 0 8px 20px rgba(0,0,0,.25); }
+  .nav-mobile-surface { border-top-width: 1px; border-color: color-mix(in oklab, #fff 10%, transparent);
+                        box-shadow: 0 8px 20px rgba(0,0,0,.25); color: var(--nav-fg);
+                        background-color: var(--mobile-nav-bg); }
+
+  /* desktop links: transparent; lighten on hover; brand when active */
+  .nav-link-desktop { display: inline-flex; align-items: center; padding: .5rem .75rem;
+                      border-radius: 6px; transition: color .2s, background-color .2s;
+                      font-size: 15px; color: var(--nav-fg-muted); background-color: transparent; }
+  .nav-link-desktop:hover { color: var(--nav-fg); background-color: color-mix(in oklab, #fff 8%, transparent); }
+
+  /* mobile links */
+  .nav-link-mobile { display: inline-flex; align-items: center; justify-content: center; width: 100%;
+                     padding: .5rem 1rem; border-radius: 8px; transition: color .2s, background-color .2s;
+                     color: var(--nav-fg); background-color: transparent; }
+  .nav-link-mobile:hover { color: var(--nav-fg); background-color: color-mix(in oklab, #fff 8%, transparent); }
+
+  .nav-link-active { color: var(--color-electric-sky);
+                     background-color: color-mix(in oklab, #fff 6%, transparent); }
+
+  .nav-select { background: transparent; color: var(--nav-fg); font-size: .875rem; outline: none; cursor: pointer; }
+  .nav-select:hover { color: var(--color-electric-sky); }
+
+  /* LOGO CHIPS (moved here; not inside @theme) */
+  .logo-chip { display: grid; place-items: center; border-radius: 6px;
+               box-shadow: 0 8px 16px rgba(0,0,0,.28); width: 2.5rem; height: 2.5rem; color: #fff; }
+  .logo-chip-dg   { background: var(--logo-dg-bg); }
+  .logo-chip-step { background: var(--logo-step-bg); }
+
+  /* Auth CTAs (mobile drawer) */
+  .nav-link-auth-login { display: inline-flex; align-items: center; justify-content: center; width: 100%;
+                         padding: .5rem 1rem; border-radius: 10px; font-weight: 600; color: var(--nav-fg);
+                         border: 1px solid color-mix(in oklab, currentColor 18%, transparent); background: transparent;
+                         transition: background .2s var(--ease-brand), color .2s var(--ease-brand), transform .2s var(--ease-brand); }
+  .nav-link-auth-login:hover { background: color-mix(in oklab, #fff 8%, transparent); color: var(--nav-fg); }
+  .nav-link-auth-login:active { transform: translateY(.5px) scale(.995); }
+
+  .nav-link-auth-register { display: inline-flex; align-items: center; justify-content: center; width: 100%;
+                            padding: .5rem 1rem; border-radius: 10px; font-weight: 600;
+                            background: var(--color-electric-sky); color: #fff; box-shadow: var(--shadow-brand);
+                            transition: background .2s var(--ease-brand), transform .2s var(--ease-brand); }
+  .nav-link-auth-register:hover { background: var(--color-electric-sky-hover); }
+  .nav-link-auth-register:active { transform: translateY(.5px) scale(.995); }
 }
 
-/* Extra class-level fallbacks (non-Tailwind, non-layered) */
-html {
-    font-family: 'FiraGO', sans-serif;
-}
-
-.text-electric {
-    color: var(--color-electric-sky);
-}
-
-.bg-electric {
-    background-color: var(--color-electric-sky);
-}
-
-.hover-electric:hover {
-    color: var(--color-electric-sky);
-}
+/* Legacy fallbacks (kept for compatibility) */
+html { font-family: "FiraGO", sans-serif; }
+.text-electric { color: var(--color-electric-sky); }
+.bg-electric   { background-color: var(--color-electric-sky); }
+.hover-electric:hover { color: var(--color-electric-sky); }

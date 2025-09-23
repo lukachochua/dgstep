@@ -12,8 +12,11 @@
         // auth-mobile
         $stateKey = $isActive ? 'active' : ($route === 'login' ? 'inactive-login' : 'inactive-register');
     }
+
+    $base  = $cfg['base'] ?? '';
+    $state = $cfg[$stateKey] ?? '';
 @endphp
 
-<a href="{{ route($route) }}" class="{{ $cfg['base'] }} {{ $cfg[$stateKey] }}">
+<a href="{{ route($route) }}" class="{{ $base }} {{ $state }}">
     {{ $label }}
 </a>
