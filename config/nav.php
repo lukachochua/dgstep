@@ -3,39 +3,34 @@ return [
     'variants' => [
         // Top navbar (desktop)
         'desktop' => [
-            // Keep your subtle electric glow via Tailwind's arbitrary shadow,
-            // and attach our base desktop link styling.
-            'base'     => 'nav-link-desktop group shadow-[0_0_4px_var(--color-electric-sky)]',
-            // Active route = highlighted link (brand color)
-            'active'   => 'nav-link-active',
-            // Inactive uses the neutral state from nav-link-desktop; no extra classes needed.
+            // Brand-tinted chip (subtle ring so it doesn't vanish on the bar)
+            'base'     => 'nav-link-desktop ring-1 ring-white/10 shadow-[0_0_2px_color-mix(in_oklab,var(--color-electric-sky)_30%,transparent)]',
+            'active' => 'nav-link-active ring-2 ring-white/40 font-semibold',
             'inactive' => '',
         ],
 
         // Drawer links (mobile menu)
         'mobile' => [
-            'base'     => 'nav-link-mobile shadow-[0_0_4px_var(--color-electric-sky)]',
-            'active'   => 'nav-link-active',
+            'base'     => 'nav-link-mobile ring-1 ring-white/10 shadow-[0_0_2px_color-mix(in_oklab,var(--color-electric-sky)_30%,transparent)]',
+            'active'   => 'nav-link-active ring-white/25',
             'inactive' => '',
         ],
 
-        // Desktop auth CTAs (if/when used)
+        // Desktop auth CTAs — map to real buttons for contrast
+        // login = outline/secondary, register = filled/primary
         'auth' => [
-            // Base not needed (each state is a full CTA style)
             'base'               => '',
-            // Active maps to the filled primary button
-            'active'             => 'nav-link-auth-register',
-            // Login = ghost/outline, Register = filled
-            'inactive-login'     => 'nav-link-auth-login',
-            'inactive-register'  => 'nav-link-auth-register',
+            'active'             => 'btn btn-sm btn-primary',
+            'inactive-login'     => 'btn btn-sm btn-secondary',
+            'inactive-register'  => 'btn btn-sm btn-primary',
         ],
 
-        // Mobile auth CTAs (used in the drawer)
+        // Mobile auth CTAs — same, full width in drawer
         'auth-mobile' => [
             'base'               => '',
-            'active'             => 'nav-link-auth-register',
-            'inactive-login'     => 'nav-link-auth-login',
-            'inactive-register'  => 'nav-link-auth-register',
+            'active'             => 'btn btn-sm btn-primary btn-block',
+            'inactive-login'     => 'btn btn-sm btn-secondary btn-block',
+            'inactive-register'  => 'btn btn-sm btn-primary btn-block',
         ],
     ],
 ];

@@ -19,14 +19,14 @@
          class="group flex items-center gap-2 select-none transition-transform duration-200 ease-[var(--ease-brand)] active:scale-95 focus-visible:outline-none">
         {{-- Light theme logo --}}
         <img
-          src="{{ Vite::asset('resources/images/brand/logo-color-01.png') }}"
+          src="{{ Vite::asset('resources/images/brand/logo-white-01.png') }}"
           alt="DGstep logo"
           class="logo-img--light h-7 md:h-8 w-auto select-none pointer-events-none"
           width="160" height="40" fetchpriority="high" decoding="async"
         />
         {{-- Dark theme logo --}}
         <img
-          src="{{ Vite::asset('resources/images/brand/logo-white-01.png') }}"
+          src="{{ Vite::asset('resources/images/brand/logo-color-01.png') }}"
           alt=""
           class="logo-img--dark h-7 md:h-8 w-auto select-none pointer-events-none"
           width="160" height="40" decoding="async"
