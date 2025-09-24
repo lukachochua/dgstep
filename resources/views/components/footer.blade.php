@@ -1,5 +1,5 @@
 <footer
-  class="select-none text-sm tracking-tight font-[FiraGO]
+  class="select-none text-sm tracking-tight font-[Calibri]
          border-t border-[var(--nav-border)]
          bg-[var(--mobile-nav-bg)]/95 text-[color:var(--nav-fg-muted)]
          backdrop-blur-md shadow-[0_-8px_20px_rgba(0,0,0,.25)]">
@@ -37,7 +37,7 @@
           </svg>
           Instagram
         </a>
-        
+
         <!-- Facebook -->
         <a href="https://facebook.com/yourpage" target="_blank" rel="noopener noreferrer"
            class="inline-flex items-center gap-2 text-[color:var(--nav-fg-muted)] hover:text-[color:var(--nav-fg)]
