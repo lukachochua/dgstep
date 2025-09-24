@@ -2,7 +2,7 @@
     <div class="min-h-screen flex flex-col">
         <!-- Hero Section: Who We Are -->
         <section
-            class="flex-grow bg-gradient-to-r from-[#0b0f1a] via-[#141d2f] to-[#0b0f1a] text-white px-6 py-24 select-none font-[FiraGO]">
+            class="flex-grow bg-gradient-to-r from-[#0b0f1a] via-[#141d2f] to-[#0b0f1a] text-white px-6 py-24 select-none">
             <div class="container mx-auto max-w-6xl text-center space-y-24">
 
                 <!-- Top: Who We Are -->
@@ -50,7 +50,7 @@
                         </a>
 
                         <!-- Text -->
-                        <div class="w-full md:w-1/2 space-y-6 text-[16px] leading-[1.75] font-[FiraGO]">
+                        <div class="w-full md:w-1/2 space-y-6 text-[16px] leading-[1.75]">
                             @foreach (__('about.mission.cards') as $index => $card)
                                 <div class="space-y-2">
                                     <h4 class="text-[18px] font-semibold text-white/95">
@@ -84,7 +84,7 @@
                         </a>
 
                         <!-- Text -->
-                        <div class="w-full md:w-1/2 space-y-6 text-[16px] leading-[1.75] font-[FiraGO]">
+                        <div class="w-full md:w-1/2 space-y-6 text-[16px] leading-[1.75]">
                             <p class="text-white/80 text-[17px] leading-relaxed">
                                 {{ __('about.vision.text') }}
                             </p>

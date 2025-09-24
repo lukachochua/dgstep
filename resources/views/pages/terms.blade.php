@@ -1,6 +1,6 @@
 <x-layouts.base :title="__('terms.title')">
     <section
-        class="bg-gradient-to-r from-[#0b0f1a] via-[#141d2f] to-[#0b0f1a] text-white py-20 select-none font-[FiraGO]">
+        class="bg-gradient-to-r from-[#0b0f1a] via-[#141d2f] to-[#0b0f1a] text-white py-20 select-none">
         <div class="container mx-auto px-4 sm:px-6 md:px-8 max-w-3xl">
 
             <div class="bg-white/5 rounded-xl border border-white/10 shadow-xl px-6 sm:px-10 py-14 space-y-12">

@@ -13,8 +13,8 @@
    ────────────────────────────────────────────────────────────── */
 @theme {
   /* Typography */
-  --font-sans: "FiraGO", ui-sans-serif, system-ui, sans-serif;
-
+  --font-sans: "Calibri", ui-sans-serif, system-ui, sans-serif;
+  
   /* Primary (Pantone 2727 → #5B56D6) */
   --color-brand-50:  #efeefd;
   --color-brand-100: #e3e1fb;

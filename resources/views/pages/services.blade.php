@@ -1,7 +1,7 @@
 <x-layouts.base :title="__('services.title')">
     <div class="min-h-screen flex flex-col">
         <section
-            class="flex-grow bg-gradient-to-r from-[#0b0f1a] via-[#141d2f] to-[#0b0f1a] text-white py-24 select-none font-[FiraGO]">
+            class="flex-grow bg-gradient-to-r from-[#0b0f1a] via-[#141d2f] to-[#0b0f1a] text-white py-24 select-none">
             <div class="container mx-auto max-w-6xl px-4 sm:px-6 md:px-8 space-y-24 text-center">
 
                 @php
