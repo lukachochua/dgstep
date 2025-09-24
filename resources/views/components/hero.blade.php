@@ -93,12 +93,12 @@
                  x-text="slide.subtitle"></p>
 
               <div class="mt-6 flex items-center gap-3">
-                <a :href="slide.button.link" class="btn btn-md btn-primary">
+                <x-ui.button x-bind:href="slide.button.link" variant="primary" size="md">
                   <span x-text="slide.button.text"></span>
-                </a>
-                <a href="{{ route('services') }}" class="btn btn-md btn-secondary">
+                </x-ui.button>
+                <x-ui.button href="{{ route('services') }}" variant="secondary" size="md">
                   {{ __('messages.services') }}
-                </a>
+                </x-ui.button>
               </div>
             </div>
           </template>
