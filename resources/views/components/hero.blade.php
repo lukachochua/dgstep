@@ -124,11 +124,12 @@
         <a href="" class="block rounded-2xl overflow-hidden border
                           border-[color-mix(in_oklab,var(--hero-ink)_14%,transparent)]
                           shadow-[0_18px_40px_rgba(0,0,0,.35)]">
-          <img
-            src="https://plus.unsplash.com/premium_photo-1666997726532-33f671ca24c8?q=80&w=821&auto=format&fit=crop&ixlib=rb-4.1.0"
-            alt="App Preview"
-            class="w-full h-auto object-cover object-center"
-            loading="lazy" />
+            <img
+              src="{{ Vite::asset('resources/images/brand/hero_image.png') }}"
+              alt="App Preview"
+              class="w-full h-auto object-cover object-center"
+              loading="lazy"
+            />
         </a>
       </div>
 
