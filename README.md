@@ -57,7 +57,7 @@ This site features a clean, responsive UI built with **Tailwind CSS** and **Alpi
 
 ---
 
-## 🌐 Localization (i18n)
+## 🌐 Localization (spatie)
 
 * **Locales:** English (`en`) and Georgian (`ka`)
 * **Mode:** Session‑based locale powered by a `SetLocale` middleware
