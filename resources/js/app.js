@@ -3,6 +3,9 @@ import.meta.glob([
     '../fonts/**',
 ]);
 
+import.meta.glob('../images/brand/*', { eager: true });
+
+
 window.addEventListener('DOMContentLoaded', () => {
 
     // Mobile menu toggle
