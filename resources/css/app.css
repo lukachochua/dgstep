@@ -14,7 +14,7 @@
 @theme {
   /* Typography */
   --font-sans: "Calibri", ui-sans-serif, system-ui, sans-serif;
-  
+
   /* Primary (Pantone 2727 → #5B56D6) */
   --color-brand-50:  #efeefd;
   --color-brand-100: #e3e1fb;
@@ -64,9 +64,10 @@
   --nav-fg:        var(--neutral-900);
   --nav-fg-muted:  color-mix(in oklab, var(--neutral-900) 72%, transparent);
 
-  /* Logo chip defaults */
-  --logo-dg-bg:   var(--color-brand-500);
-  --logo-step-bg: var(--color-brand-300);
+  /* Footer defaults (will be overridden per-theme) */
+  --footer-bg:     var(--color-brand-500);
+  --footer-fg:     #ffffff;
+  --footer-border: rgba(0,0,0,0.10);
 
   /* Layout & polish */
   --container-content: 72rem; /* 1152px */
@@ -89,23 +90,24 @@
   --text-default: var(--neutral-900);
   --bg-elevated:  var(--neutral-white);
 
-  /* NAV — brighter than dark; high-contrast text */
-  --nav-bg:        color-mix(in oklab, var(--color-brand-900) 100%, #fff 30%);
-  --nav-border:    rgba(255,255,255,0.22);
-  --mobile-nav-bg: color-mix(in oklab, var(--color-brand-900) 76%, #fff 24%);
+  /* NAV — exact, opaque accent-1 (#6C63FF) */
+  --nav-bg:        #8f89ea;     /* solid, saturated */
+  --nav-border:    rgba(0,0,0,0.12);
+  --mobile-nav-bg: #8f89ea;
   --nav-fg:        #ffffff;
-  --nav-fg-muted:  rgba(255,255,255,0.82);
+  --nav-fg-muted:  rgba(255,255,255,0.90);
+  --nav-blur:      0px; /* IMPORTANT: disables blur in light → no lightening */
 
-  /* Light-mode nav chips use alternate accent-2 */
-  --nav-link-bg:         color-mix(in oklab, var(--color-accent-2) 18%, transparent);
-  --nav-link-hover-bg:   color-mix(in oklab, var(--color-accent-2) 32%, transparent);
-  --nav-link-active-bg:  color-mix(in oklab, var(--color-accent-2) 62%, transparent);
+  /* Chips on solid bar */
+  --nav-link-bg:         color-mix(in oklab, #ffffff 12%, transparent);
+  --nav-link-hover-bg:   color-mix(in oklab, #ffffff 18%, transparent);
+  --nav-link-active-bg:  color-mix(in oklab, #000000 10%, transparent);
 
-  /* BUTTONS — LIGHT (use alternate accent-1 for primary) */
-  --btn-primary-bg:         var(--color-accent-1);
-  --btn-primary-bg-hover:   var(--color-accent-1-600);
-  --btn-primary-fg:         #ffffff;
-  --btn-primary-shadow:     0 10px 22px color-mix(in oklab, var(--color-accent-1) 30%, transparent);
+  /* BUTTONS — LIGHT (primary switches to brand for contrast) */
+  --btn-primary-bg:       color-mix(in oklab, #6c63ff 84%, white 16%);
+  --btn-primary-bg-hover: color-mix(in oklab, #6c63ff 74%, white 26%);
+  --btn-primary-fg:       #ffffff;
+  --btn-primary-shadow:   0 10px 22px color-mix(in oklab, #6c63ff 28%, transparent);
 
   /* Outline secondary in LIGHT */
   --btn-secondary-bg:       transparent;
@@ -127,7 +129,7 @@
   --btn-danger-fg:          #ffffff;
   --btn-danger-shadow:      0 10px 22px color-mix(in oklab, var(--color-danger) 28%, transparent);
 
-  /* ── HERO TOKENS (light) ───────────────────────────────── */
+  /* ── HERO TOKENS (light) */
   --hero-bg-start: color-mix(in oklab, var(--color-brand-900) 34%, #ffffff 66%);
   --hero-bg-mid:   color-mix(in oklab, var(--color-brand-800) 38%, #ffffff 62%);
   --hero-bg-end:   color-mix(in oklab, var(--color-brand-900) 30%, #ffffff 70%);
@@ -139,7 +141,7 @@
   /* Background image treatment */
   --hero-img-opacity: .10;
   --hero-img-blend:   multiply;
-  --hero-overlay:     color-mix(in oklab, #ffffff 0%, transparent);
+  --hero-overlay:     transparent;
 
   /* Controls / chips / dots */
   --hero-chip:        rgba(255,255,255,.60);
@@ -156,22 +158,22 @@
   --hero-arrow-fg:        var(--neutral-900);
   --hero-arrow-border:    rgba(0,0,0,.12);
 
-  /* ── FEATURES (light) — subtle brand surface + gentle wash */
-  /* Base surface for the section (very light brand-50 tint on white) */
+  /* ── FEATURES (light) */
   --features-surface:  color-mix(in oklab, var(--color-brand-50) 10%, #ffffff 90%);
-
-  /* Wash uses core brand-200 instead of bright accents, reduced intensity */
   --section-wash: radial-gradient(
       900px 420px at 50% -120px,
       color-mix(in oklab, var(--color-brand-200) 7%, transparent) 0%,
       transparent 65%
   );
-
-  /* Cards sit cleanly above the tinted surface */
   --features-card-bg:      #ffffff;
   --features-card-border:  color-mix(in oklab, var(--color-brand-200) 26%, transparent);
   --features-card-shadow:  0 6px 16px color-mix(in oklab, var(--color-brand-300) 16%, transparent);
   --features-text-muted:   color-mix(in oklab, var(--neutral-900) 58%, transparent);
+
+  /* FOOTER — exact, opaque accent-1 */
+  --footer-bg:     #8f89ea; /* #6C63FF */
+  --footer-fg:     #ffffff;
+  --footer-border: rgba(0,0,0,0.14);
 }
 
 :root[data-theme="dark"] {
@@ -185,14 +187,15 @@
   --text-default: var(--neutral-200);
   --bg-elevated:  #161821;
 
-  /* NAV — deeper than light */
+  /* NAV — keep deep */
   --nav-bg:        color-mix(in oklab, var(--color-brand-950) 92%, #000 8%);
   --nav-border:    rgba(255,255,255,0.12);
   --mobile-nav-bg: color-mix(in oklab, var(--color-brand-950) 96%, #000 4%);
   --nav-fg:        #f3f2ff;
   --nav-fg-muted:  rgba(243,242,255,0.82);
+  --nav-blur:      12px; /* blur is fine in dark */
 
-  /* Dark chips keep brand 400–tinted range */
+  /* Chips */
   --nav-link-bg:         color-mix(in oklab, var(--color-brand-400) 22%, transparent);
   --nav-link-hover-bg:   color-mix(in oklab, var(--color-brand-400) 32%, transparent);
   --nav-link-active-bg:  color-mix(in oklab, var(--color-brand-400) 44%, transparent);
@@ -221,30 +224,22 @@
   --btn-danger-bg-hover:    color-mix(in oklab, var(--color-danger) 86%, #000 14%);
   --btn-danger-fg:          #ffffff;
 
-  /* ── HERO TOKENS (dark) ────────────────────────────────── */
+  /* Hero */
   --hero-bg-start: color-mix(in oklab, var(--color-brand-950) 88%, #000 12%);
   --hero-bg-mid:   color-mix(in oklab, var(--color-brand-900) 84%, #000 16%);
   --hero-bg-end:   color-mix(in oklab, var(--color-brand-950) 92%, #000 8%);
-
-  /* Foreground ink */
   --hero-ink:       #f3f2ff;
   --hero-ink-muted: rgba(243,242,255,.82);
-
-  /* Background image treatment */
   --hero-img-opacity: .18;
   --hero-img-blend:   screen;
   --hero-overlay:     color-mix(in oklab, #000000 32%, transparent);
 
-  /* Controls / chips / dots */
+  /* Dots & arrows */
   --hero-chip:        rgba(255,255,255,.10);
-
-  /* DOTS (stronger contrast in dark) */
   --hero-dot:         color-mix(in oklab, #ffffff 24%, transparent);
   --hero-dot-hover:   color-mix(in oklab, #ffffff 40%, transparent);
   --hero-dot-active:  var(--color-electric-sky);
   --hero-dot-border:  rgba(255,255,255,.35);
-
-  /* ARROWS */
   --hero-arrow-bg:        rgba(255,255,255,.12);
   --hero-arrow-bg-hover:  rgba(255,255,255,.20);
   --hero-arrow-fg:        #f3f2ff;
@@ -262,6 +257,11 @@
   --features-card-border:  rgba(255,255,255,.12);
   --features-card-shadow:  0 8px 22px rgba(0,0,0,.45);
   --features-text-muted:   rgba(243,242,255,.72);
+
+  /* Footer (dark) */
+  --footer-bg:     color-mix(in oklab, var(--color-brand-950) 92%, #000 8%);
+  --footer-fg:     #f3f2ff;
+  --footer-border: rgba(255,255,255,.12);
 }
 
 /* prevent FOIT for Alpine x-cloak content */
@@ -311,7 +311,6 @@
    Utilities
    ────────────────────────────────────────────────────────────── */
 @layer utilities {
-  
   /* Brand helpers */
   .text-electric { color: var(--color-electric-sky); }
   .bg-electric   { background-color: var(--color-electric-sky); }
@@ -405,17 +404,40 @@
     box-shadow: 0 0 0 2px color-mix(in oklab, var(--color-electric-sky) 70%, transparent);
   }
 
-  /* NAVBAR UTILITIES */
-  .nav-surface { position: sticky; top: 0; z-index: 50; backdrop-filter: blur(12px);
-                 border-bottom-width: 1px;
-                 transition-property: color, background-color, border-color, fill, stroke, box-shadow, filter, backdrop-filter;
-                 transition-duration: 300ms;
-                 color: var(--nav-fg); background-color: var(--nav-bg); border-color: var(--nav-border);
-                 box-shadow: 0 8px 20px rgba(0,0,0,.25); }
+  /* NAVBAR SURFACE */
+  .nav-surface {
+    position: sticky;
+    top: 0;
+    z-index: 50;
 
-  .nav-mobile-surface { border-top-width: 1px; border-color: color-mix(in oklab, #fff 10%, transparent);
-                        box-shadow: 0 8px 20px rgba(0,0,0,.25); color: var(--nav-fg);
-                        background-color: var(--mobile-nav-bg); }
+    /* kill the wash-out in light; uses token so dark can keep blur */
+    -webkit-backdrop-filter: blur(var(--nav-blur, 0px));
+    backdrop-filter: blur(var(--nav-blur, 0px));
+
+    border-bottom-width: 1px;
+    transition-property: color, background-color, border-color, fill, stroke, box-shadow, filter, backdrop-filter;
+    transition-duration: 300ms;
+
+    color: var(--nav-fg);
+    /* exact solid color from tokens */
+    background-color: var(--nav-bg);
+    border-color: var(--nav-border);
+
+    box-shadow: 0 8px 20px rgba(0,0,0,.25);
+  }
+
+  .nav-mobile-surface {
+    border-top-width: 1px;
+    border-color: color-mix(in oklab, #fff 10%, transparent);
+    box-shadow: 0 8px 20px rgba(0,0,0,.25);
+
+    color: var(--nav-fg);
+    /* exact solid color from tokens */
+    background-color: var(--mobile-nav-bg);
+
+    -webkit-backdrop-filter: blur(var(--nav-blur, 0px));
+    backdrop-filter: blur(var(--nav-blur, 0px));
+  }
 
   /* desktop links */
   .nav-link-desktop { display: inline-flex; align-items: center; padding: .5rem .75rem;
@@ -448,8 +470,8 @@
   /* LOGO CHIPS (legacy) */
   .logo-chip { display: grid; place-items: center; border-radius: 6px;
                box-shadow: 0 8px 16px rgba(0,0,0,.28); width: 2.5rem; height: 2.5rem; color: #fff; }
-  .logo-chip-dg   { background: var(--logo-dg-bg); }
-  .logo-chip-step { background: var(--logo-step-bg); }
+  .logo-chip-dg   { background: var(--color-brand-500); }
+  .logo-chip-step { background: var(--color-brand-300); }
 
   /* Auth CTAs in nav */
   .nav-link-auth-login {
@@ -491,7 +513,7 @@
 
   :root[data-theme="dark"] .nav-surface .btn-secondary { border-color: rgba(255,255,255,.22); }
 
-  /* ── HERO CONTROLS (arrows) */
+  /* HERO CONTROLS (arrows) */
   .hero-arrow {
     display: inline-flex; align-items: center; justify-content: center;
     width: 40px; height: 40px; border-radius: 9999px;
@@ -510,10 +532,27 @@
 
   .section-wash-bg { background: var(--section-wash); }
   .feature-card    { background-color: var(--features-card-bg);
-                   border: 1px solid var(--features-card-border);
-                   box-shadow: var(--features-card-shadow); }
+                     border: 1px solid var(--features-card-border);
+                     box-shadow: var(--features-card-shadow); }
   .feature-muted   { color: var(--features-text-muted); }
 
+  /* FOOTER SURFACE */
+  .footer-surface {
+    color: var(--footer-fg);
+    background-color: var(--footer-bg);
+    border-top: 1px solid var(--footer-border);
+  }
+
+  /* EXACT-HEX GUARD */
+  .no-tint, .no-tint * {
+    mix-blend-mode: normal !important;
+    opacity: 1 !important;
+    filter: none !important;
+    isolation: isolate;
+  }
+
+  /* Optional helper: exact brand screen background */
+  .bg-brand-screen { background-color: #5b56d6; }
 }
 
 /* Respect prefers-reduced-motion */
@@ -544,3 +583,5 @@ html { font-family: "FiraGO", sans-serif; }
 .text-electric { color: var(--color-electric-sky); }
 .bg-electric   { background-color: var(--color-electric-sky); }
 .hover-electric:hover { color: var(--color-electric-sky); }
+
+

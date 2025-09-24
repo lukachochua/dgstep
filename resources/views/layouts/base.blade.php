@@ -7,16 +7,19 @@
 
     {{-- Set theme before CSS to avoid a flash --}}
     <script>
-      (function () {
+      // Pre-init theme to avoid FOUC/flash
+      (() => {
+        const KEY = 'dg:theme';
+        let t = 'light';
         try {
-          var KEY = 'dg:theme';
-          var saved = localStorage.getItem(KEY);
-          var osPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-          var theme = saved || (osPrefersDark ? 'dark' : 'light');
-          document.documentElement.setAttribute('data-theme', theme);
-        } catch (e) {
-          // if localStorage is blocked, keep default (light)
-        }
+          const saved = localStorage.getItem(KEY);
+          if (saved === 'light' || saved === 'dark') {
+            t = saved;
+          } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            t = 'dark';
+          }
+        } catch (_) {}
+        document.documentElement.setAttribute('data-theme', t);
       })();
     </script>
 

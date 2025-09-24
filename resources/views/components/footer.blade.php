@@ -1,8 +1,4 @@
-<footer
-  class="select-none text-sm tracking-tight font-[Calibri]
-         border-t border-[var(--nav-border)]
-         bg-[var(--mobile-nav-bg)]/95 text-[color:var(--nav-fg-muted)]
-         backdrop-blur-md shadow-[0_-8px_20px_rgba(0,0,0,.25)]">
+<footer class="footer-surface select-none text-sm tracking-tight font-[Calibri] backdrop-blur-0 shadow-[0_-8px_20px_rgba(0,0,0,.25)]">
   <div class="mx-auto max-w-[var(--container-content)] px-4 sm:px-6 md:px-8 py-10
               flex flex-col md:flex-row justify-between gap-6">
 

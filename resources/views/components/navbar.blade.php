@@ -1,4 +1,3 @@
-<!-- Alpine scope wraps BOTH nav + mobile menu -->
 <div
   x-data="dgNav()"
   x-init="init()"
@@ -10,14 +9,14 @@
       <!-- Logo (auto-swaps by data-theme) -->
       <a href="{{ route('home') }}" id="logo-text" aria-label="DGstep logo"
          class="group flex items-center gap-2 select-none transition-transform duration-200 ease-[var(--ease-brand)] active:scale-95 focus-visible:outline-none">
-        {{-- Light theme logo (shown when [data-theme="light"]) --}}
+        <!-- Light -->
         <img
           src="{{ Vite::asset('resources/images/brand/logo-white-01.png') }}"
           alt="DGstep logo"
           class="logo-img--light h-7 md:h-8 w-auto select-none pointer-events-none"
           width="160" height="40" fetchpriority="high" decoding="async"
         />
-        {{-- Dark theme logo (shown when [data-theme="dark"]) --}}
+        <!-- Dark -->
         <img
           src="{{ Vite::asset('resources/images/brand/logo-color-01.png') }}"
           alt=""
@@ -36,20 +35,18 @@
       </div>
 
       <!-- Right: Language Toggle + Theme Changer (Desktop) -->
-      <!-- @php
+      @php
         $current = app()->getLocale();
         $targetLocale = $current === 'ka' ? 'en' : 'ka';
-        $langLabel = $current === 'ka' ? 'ENGLISH' : 'ქართული';
-      @endphp -->
+      @endphp
       <div class="hidden lg:flex items-center gap-3">
-        {{-- Language --}}
+        <!-- Language -->
         <a href="#"
-          role="button"
-          aria-label="Switch language to {{ strtoupper($targetLocale) }}"
-          class="nav-link-desktop inline-flex items-center justify-center h-9 w-9 p-0 rounded-full cursor-pointer select-none focus-ring hover:shadow-md transition"
-          onclick="document.getElementById('locale-toggle-desktop').submit(); return false;"
+           role="button"
+           aria-label="Switch language to {{ strtoupper($targetLocale) }}"
+           class="nav-link-desktop inline-flex items-center justify-center h-9 w-9 p-0 rounded-full cursor-pointer select-none focus-ring hover:shadow-md transition"
+           onclick="document.getElementById('locale-toggle-desktop').submit(); return false;"
         >
-          {{-- Show the TARGET locale flag (what you’ll switch to) --}}
           <span class="flag-emoji" aria-hidden="true">
             @if($targetLocale === 'ka') 🇬🇪 @else 🇬🇧 @endif
           </span>
@@ -62,33 +59,32 @@
           @csrf
           <input type="hidden" name="locale" value="{{ $targetLocale }}">
         </form>
-        {{-- Theme toggle (desktop, icon-only) --}}
+
+        <!-- Theme toggle (desktop, icon-only) -->
         <button
           type="button"
-          class="nav-link-desktop relative inline-flex items-center justify-center h-9 w-9 p-0 rounded-full focus-ring
-                hover:shadow-md transition-all duration-200"
+          class="nav-link-desktop relative inline-flex items-center justify-center h-9 w-9 p-0 rounded-full focus-ring hover:shadow-md transition-all duration-200"
           :aria-label="`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`"
           role="switch"
           :aria-checked="(theme === 'dark').toString()"
           @click="toggleTheme()"
         >
-        <!-- Sun -->
-        <svg class="theme-icon absolute inset-0 m-auto h-5 w-5"
-            :class="theme === 'dark' ? 'icon-hidden' : 'icon-visible'"
-            viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.8 1.42-1.42zM12 4V1h-1v3h1zm5.24.84l1.8-1.79 1.41 1.41-1.79 1.8-1.42-1.42zM20 11h3v1h-3v-1zM1 11h3v1H1v-1zm15.66 7.95l1.79 1.8 1.41-1.41-1.8-1.8-1.4 1.41zM4.24 18.95l-1.79 1.8 1.41 1.41 1.8-1.8-1.42-1.41zM12 7a5 5 0 100 10A5 5 0 0012 7z"/>
-        </svg>
-
-        <!-- Moon -->
-        <svg class="theme-icon absolute inset-0 m-auto h-5 w-5"
-            :class="theme === 'dark' ? 'icon-visible' : 'icon-hidden'"
-            viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d="M20.742 13.045A8 8 0 1111 3.258 7 7 0 0020.742 13.045z"/>
-        </svg>
-      </button>
+          <!-- Sun (outline) -->
+          <svg class="theme-icon icon--sun absolute inset-0 m-auto h-6 w-6 pointer-events-none"
+              viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"
+              stroke-linecap="round" stroke-linejoin="round" shape-rendering="geometricPrecision">
+            <path d="M12 3v2.25M18.364 5.636l-1.591 1.591M21 12h-2.25M18.364 18.364l-1.591-1.591M12 18.75V21M6.227 18.773l1.591-1.591M3 12h2.25M6.227 5.227l1.591 1.591M12 8.25a3.75 3.75 0 100 7.5 3.75 3.75 0 000-7.5z"/>
+          </svg>
+          <!-- Moon (outline) -->
+          <svg class="theme-icon icon--moon absolute inset-0 m-auto h-6 w-6 pointer-events-none"
+              viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"
+              stroke-linecap="round" stroke-linejoin="round" shape-rendering="geometricPrecision">
+            <path d="M21.752 15.002A9 9 0 1112.998 2.248 7.5 7.5 0 0021.752 15z"/>
+          </svg>
+        </button>
       </div>
 
-      <!-- Mobile Toggle (open/close menu) -->
+      <!-- Mobile Toggle -->
       <button
         class="lg:hidden p-2 rounded-[6px] hover:text-electric transition"
         aria-label="Toggle navigation menu"
@@ -119,60 +115,49 @@
       </div>
     @endforeach
 
-    <!-- Auth Buttons -->
-    <!-- <div class="flex flex-col items-center gap-3 pt-2 border-t border-white/10">
-      <x-nav.anchor-button route="login"    label="{{ __('messages.login') }}"    variant="auth-mobile" />
-      <x-nav.anchor-button route="register" label="{{ __('messages.register') }}" variant="auth-mobile" />
-    </div> -->
-
     <!-- Language + Theme (Mobile) -->
     <div class="flex justify-center items-center gap-3 pt-4">
-      {{-- Language --}}
-        <a href="#"
-          role="button"
-          aria-label="Switch language to {{ strtoupper($targetLocale) }}"
-          class="nav-link-mobile inline-flex items-center justify-center h-10 w-10 p-0 rounded-full cursor-pointer select-none focus-ring hover:shadow-md transition"
-          onclick="document.getElementById('locale-toggle-mobile').submit(); return false;"
-        >
-          {{-- Show the TARGET locale flag (what you’ll switch to) --}}
-          <span class="flag-emoji" aria-hidden="true">
-            @if($targetLocale === 'ka') 🇬🇪 @else 🇬🇧 @endif
-          </span>
-          <span class="sr-only">
-            {{ $targetLocale === 'ka' ? 'Switch to Georgian' : 'Switch to English' }}
-          </span>
-        </a>
+      <!-- Language -->
+      <a href="#"
+         role="button"
+         aria-label="Switch language to {{ strtoupper($targetLocale) }}"
+         class="nav-link-mobile inline-flex items-center justify-center h-10 w-10 p-0 rounded-full cursor-pointer select-none focus-ring hover:shadow-md transition"
+         onclick="document.getElementById('locale-toggle-mobile').submit(); return false;"
+      >
+        <span class="flag-emoji" aria-hidden="true">
+          @if($targetLocale === 'ka') 🇬🇪 @else 🇬🇧 @endif
+        </span>
+        <span class="sr-only">
+          {{ $targetLocale === 'ka' ? 'Switch to Georgian' : 'Switch to English' }}
+        </span>
+      </a>
 
-        <form id="locale-toggle-mobile" action="{{ route('locale.switch') }}" method="POST" class="hidden">
-          @csrf
-          <input type="hidden" name="locale" value="{{ $targetLocale }}">
-        </form>
+      <form id="locale-toggle-mobile" action="{{ route('locale.switch') }}" method="POST" class="hidden">
+        @csrf
+        <input type="hidden" name="locale" value="{{ $targetLocale }}">
+      </form>
 
-
-      {{-- Theme toggle (mobile, icon-only) --}}
+      <!-- Theme toggle (mobile) -->
       <button
         type="button"
-        class="nav-link-mobile relative inline-flex items-center justify-center h-10 w-10 p-0 rounded-full focus-ring
-              hover:shadow-md transition-all duration-200"
+        class="nav-link-mobile relative inline-flex items-center justify-center h-10 w-10 p-0 rounded-full focus-ring hover:shadow-md transition-all duration-200"
         :aria-label="`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`"
         role="switch"
         :aria-checked="(theme === 'dark').toString()"
         @click="toggleTheme()"
       >
-        <!-- Sun -->
-        <svg class="theme-icon absolute inset-0 m-auto h-5 w-5"
-            :class="theme === 'dark' ? 'icon-hidden' : 'icon-visible'"
-            viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.8 1.42-1.42zM12 4V1h-1v3h1zm5.24.84l1.8-1.79 1.41 1.41-1.79 1.8-1.42-1.42zM20 11h3v1h-3v-1zM1 11h3v1H1v-1zm15.66 7.95l1.79 1.8 1.41-1.41-1.8-1.8-1.4 1.41zM4.24 18.95l-1.79 1.8 1.41 1.41 1.8-1.8-1.42-1.41zM12 7a5 5 0 100 10A5 5 0 0012 7z"/>
+        <svg class="theme-icon icon--sun absolute inset-0 m-auto h-6 w-6 pointer-events-none"
+            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"
+            stroke-linecap="round" stroke-linejoin="round" shape-rendering="geometricPrecision">
+          <path d="M12 3v2.25M18.364 5.636l-1.591 1.591M21 12h-2.25M18.364 18.364l-1.591-1.591M12 18.75V21M6.227 18.773l1.591-1.591M3 12h2.25M6.227 5.227l1.591 1.591M12 8.25a3.75 3.75 0 100 7.5 3.75 3.75 0 000-7.5z"/>
         </svg>
-
-        <!-- Moon -->
-        <svg class="theme-icon absolute inset-0 m-auto h-5 w-5"
-            :class="theme === 'dark' ? 'icon-visible' : 'icon-hidden'"
-            viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d="M20.742 13.045A8 8 0 1111 3.258 7 7 0 0020.742 13.045z"/>
+        <svg class="theme-icon icon--moon absolute inset-0 m-auto h-6 w-6 pointer-events-none"
+            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"
+            stroke-linecap="round" stroke-linejoin="round" shape-rendering="geometricPrecision">
+          <path d="M21.752 15.002A9 9 0 1112.998 2.248 7.5 7.5 0 0021.752 15z"/>
         </svg>
       </button>
+
     </div>
   </div>
 </div>
@@ -182,26 +167,13 @@
   function dgNav () {
     return {
       open: false,
-      theme: 'light',
+      theme: document.documentElement.getAttribute('data-theme') || 'light',
       init() {
-        // initial theme: storage -> OS -> light
-        try {
-          const KEY = 'dg:theme';
-          const saved = localStorage.getItem(KEY);
-          if (saved === 'light' || saved === 'dark') {
-            this.theme = saved;
-          } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            this.theme = 'dark';
-          }
-        } catch (_) {}
-
-        this.applyTheme();
-
-        // keep Alpine state in sync if another tab changes it
+        // keep state in sync across tabs
         window.addEventListener('storage', (e) => {
           if (e.key === 'dg:theme' && (e.newValue === 'light' || e.newValue === 'dark')) {
             this.theme = e.newValue;
-            this.applyTheme();
+            document.documentElement.setAttribute('data-theme', this.theme);
           }
         });
 
@@ -212,15 +184,23 @@
       },
       toggleTheme() {
         this.theme = this.theme === 'dark' ? 'light' : 'dark';
-        this.applyTheme(true);
+        document.documentElement.setAttribute('data-theme', this.theme);
+        try { localStorage.setItem('dg:theme', this.theme); } catch (_) {}
       },
-      applyTheme(persist = false) {
-        const el = document.documentElement;
-        el.setAttribute('data-theme', this.theme);
-        if (persist) {
-          try { localStorage.setItem('dg:theme', this.theme); } catch (_) {}
-        }
-      }
     }
   }
 </script>
+
+<!-- Tiny CSS: theme icons + logo swap (put in your app.css if you prefer) -->
+<style>
+  /* Prevent icon flash: hide both by default, reveal per [data-theme] */
+  .theme-icon { opacity: 0; transform: scale(.95); transition: opacity .15s ease, transform .15s ease; }
+  [data-theme="light"] .icon--sun { opacity: 1; transform: scale(1); }
+  [data-theme="dark"]  .icon--moon { opacity: 1; transform: scale(1); }
+
+  /* Logo auto-swap */
+  .logo-img--light { display: none; }
+  .logo-img--dark  { display: none; }
+  [data-theme="light"] .logo-img--light { display: block; }
+  [data-theme="dark"]  .logo-img--dark  { display: block; }
+</style>
