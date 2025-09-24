@@ -4,18 +4,36 @@ A modern, multilingual Laravel 12.x website for **DGstep** — a technology comp
 
 This site features a clean, responsive UI built with **Tailwind CSS** and **Alpine.js**, emphasizing clarity, performance, and a professional brand presence.
 
-> **Updated:** 2025‑09‑24
+> **Updated:** 2025-09-24
+
+---
+
+## 📜 Changelog (last 7 days)
+
+* **2025-09-24**
+
+  * Integrated Spatie for translations (English + Georgian).
+  * Completed About page translations with mission cards.
+  * Services page refactored with problem-solving circle layout.
+  * Projects page redesigned (lazy images, translated headings).
+  * Contact form: Alpine.js client-side + server-side validation.
+  * Auth views (login, register, reset, forgot) localized.
+  * Footer: added clickable contact info + terms link.
+  * Fixed Vite asset handling for logos (import.meta.glob).
 
 ---
 
 ## 🔧 What’s new
 
-* **Brand assets integrated** (PNG logos from the brand book), with **light/dark auto‑swap** via `[data-theme]` and CSS variables.
-* **Vite asset handling fixed** for images: use `import.meta.glob()` to eagerly include brand images so they appear in the build manifest.
-* **Mobile menu polished** (Alpine.js), unified desktop/mobile behavior, and improved focus/escape handling.
-* **Projects page**: refined grid and layout; consistent gradient background & typography across pages.
-* **Features section (light mode)**: contrast tuned to stay within brand palette.
-* **Footer**: clickable email/phone, social links, and tidy terms link.
+* **Brand assets integrated** (PNG logos from the brand book), with **light/dark auto-swap** via `[data-theme]` and CSS variables.
+* **Vite asset handling fixed** for images: `import.meta.glob()` eagerly includes brand images so they appear in the manifest.
+* **Mobile menu polished** (Alpine.js), unified desktop/mobile behavior, improved escape/focus handling.
+* **Services page refactored** with problem-solving circle layout and translations for problem lists .
+* **Projects page** redesigned with translated headings/subheadings, lazy-loaded images, and consistent typography .
+* **Contact form** fully validated (name, surname, phone regex, comments) with Alpine.js live validation and session flash success.
+* **About page** translation completed with mission cards rendered via foreach loop.
+* **Auth views** (login, register, reset, forgot) added with localized strings.
+* **Footer** improved with clickable email/phone, social links, and terms link.
 
 ---
 
@@ -33,38 +51,21 @@ This site features a clean, responsive UI built with **Tailwind CSS** and **Alpi
 ## 🎨 Branding & Theming
 
 * **Primary brand color:** `#5B56D6` ("Electric Sky")
-* **Palette tokens:** implemented as CSS custom properties; dark/light themes applied via `:root[data-theme="dark"|"light"]`.
-* **Logo switching:** dark/light logo variants swap automatically based on the root `[data-theme]` attribute.
-* **Non-selectable UI text:** critical navigational and decorative text uses `select-none` to reduce accidental highlights.
-
-### Example (theme tokens)
-
-```css
-:root[data-theme="light"] {
-  --bg-default: #faf9ff;
-  --text-default: var(--neutral-900);
-  --bg-elevated: #ffffff;
-  /* brand */
-  --color-electric-sky: #5b56d6;
-}
-:root[data-theme="dark"] {
-  --bg-default: #0b0f1a;
-  --text-default: #e6e8ef;
-  --bg-elevated: #141d2f;
-  --color-electric-sky: #5b56d6;
-}
-```
+* **Palette tokens:** implemented as CSS custom properties; dark/light themes applied via `:root[data-theme]`.
+* **Logo switching:** dark/light logo variants swap automatically based on theme.
+* **Non-selectable UI text:** navigation/decorative text uses `select-none`.
 
 ---
 
-## 🌐 Localization (spatie)
+## 🌐 Localization (Spatie)
 
 * **Locales:** English (`en`) and Georgian (`ka`)
-* **Mode:** Session‑based locale powered by a `SetLocale` middleware
+* **Package:** [Spatie Laravel Translatable](https://spatie.be/docs/laravel-translatable)
+* **Middleware:** `SetLocale` applied globally
 * **Switcher:** POST to `/locale` with `{ locale: 'en'|'ka' }`
-* **Usage:** `__('messages.home')`, page‑specific files under `lang/{locale}/`
+* **Translations:** structured in `lang/en/`, `lang/ka/` (about, services, projects, terms, contact, auth, etc.)
 
-> We do **not** currently use locale‑prefixed routes; URLs remain unprefixed and the session determines language.
+> Routes are **not** prefixed with locale. Language is session-based.
 
 ---
 
@@ -72,37 +73,36 @@ This site features a clean, responsive UI built with **Tailwind CSS** and **Alpi
 
 * **Active states:** `request()->routeIs()`
 * **Keyboard:** `Esc` closes mobile menu
-* **Responsive behavior:** when crossing the desktop breakpoint (≥ `lg`), the mobile menu auto‑closes.
-* **Buttons/links:** unified variants for desktop and mobile (
-  hover/active borders, subtle glow using the Electric Sky color).
+* **Responsive:** mobile menu closes automatically at desktop breakpoint
+* **Buttons/links:** unified variants (desktop & mobile) with hover borders and subtle Electric Sky glow
 
 ---
 
 ## 📄 Pages
 
-* **Home** — hero slider (3 slides), soft separators, features grid.
-* **About** — Who we are, Mission, Vision (with card highlights), Management (placeholder avatars).
-* **Services** — left text / right graphic; "What problems do we solve?" circle layout.
-* **Projects** — grid of project cards, tidy responsive spacing.
-* **Contact** — two‑column layout; validated form (name, surname, phone, message); success flash.
-* **Terms** — basic legal copy with CTA link to Contact.
-* **Auth (UI only)** — login, register, forgot, reset (no backend logic yet).
+* **Home** — hero slider (3 slides), separators, features grid
+* **About** — Who we are, Mission (cards), Vision, CTA
+* **Services** — problem-solving circle layout (pawnshop, SMB, compliance)
+* **Projects** — responsive cards, translated headings, lazy images
+* **Contact** — validated form with Alpine.js + server-side
+* **Terms** — legal copy with CTA
+* **Auth** — login, register, forgot, reset (UI only)
 
 ---
 
-## 🗂️ Project Structure (high level)
+## 🗂️ Project Structure
 
 ```
 resources/
   views/
-    components/       # Blade UI components (navbar, footer, features, etc.)
+    components/       # Navbar, footer, features, etc.
     layouts/          # base.blade.php
     pages/            # home, about, services, projects, terms, contact
     auth/             # login, register, forgot, reset
 lang/
-  en/, ka/           # translations (messages, about, services, projects, terms, contact)
+  en/, ka/           # Spatie translations (auth, about, services, projects...)
 routes/
-  web.php            # web routes + locale switch POST
+  web.php            # routes + locale switch POST
 app/
   Http/
     Middleware/SetLocale.php
@@ -111,46 +111,33 @@ app/
 
 ---
 
-## ✉️ Contact form
+## ✉️ Contact Form Validation
 
-Validated server‑side; phone supports optional leading `+` and 7–15 digits.
+* `name`: required, ≤ 255
+* `surname`: required, ≤ 255
+* `phone`: regex `^\+?\d{7,15}$`
+* `comments`: optional, ≤ 1000
 
-**Rules:**
-
-* `name`: required, string ≤ 255
-* `surname`: required, string ≤ 255
-* `phone`: required, regex `^\+?\d{7,15}$`
-* `comments`: optional, string ≤ 1000
-
-Success shows a session flash message.
+Live client-side validation (Alpine.js) + server validation. Success triggers flash message.
 
 ---
 
 ## 🧩 Vite & Assets
 
-### JavaScript/CSS entries
-
-* `resources/js/app.js`
-* `resources/css/app.css`
-
-### Images & logos
-
-Vite only bundles assets that are imported. To ensure brand logos (light/dark) are available in production builds, import them in JS:
+* **Entries:** `resources/js/app.js`, `resources/css/app.css`
+* **Logos/Images:** must be imported so they appear in the manifest:
 
 ```js
 // resources/js/app.js
-// Eagerly include brand images so they appear in manifest and can be referenced by URL
 const brandImages = import.meta.glob('../images/brand/*', { eager: true });
 ```
-
-Use `data-theme` on the root element and swap `<img>` `src` or `background-image` via CSS/JS as needed.
 
 ---
 
 ## 🧪 Tests
 
-* Basic feature test to ensure `/` returns HTTP 200
-* PestPHP configured; run with `php artisan test`
+* Feature test for homepage 200 response
+* PestPHP 3 configured
 
 ---
 
@@ -168,7 +155,7 @@ cp .env.example .env
 composer install
 npm install
 php artisan key:generate
-php artisan migrate --graceful
+php artisan migrate
 ```
 
 ### Run (concurrent dev)
@@ -176,8 +163,6 @@ php artisan migrate --graceful
 ```bash
 composer run dev
 ```
-
-This concurrently starts: Laravel server, queue listener, log viewer, and Vite.
 
 ### Build
 
@@ -187,23 +172,15 @@ npm run build
 
 ---
 
-## 🔎 Known gotchas
+## 🗺️ Roadmap
 
-* **Images not in manifest?** Vite won’t include static images unless imported. Use `import.meta.glob()` or reference them via CSS `url()` from a file that’s part of the dependency graph.
-* **Mobile menu stuck open after resize?** Ensure the resize watcher (via `matchMedia('(min-width: 1024px)')`) closes the menu when entering desktop.
-* **Light mode feature contrast:** keep within brand palette; avoid overly bright grays.
-
----
-
-## 🗺️ Roadmap (near‑term)
-
-* Theme switcher UI (persisted in localStorage)
-* Replace management placeholders with real photos & bios
-* Hook Contact form to mailer + database
-* Project cards → real case studies with links and hero images
+* Theme switcher (persist localStorage)
+* Replace placeholder avatars with management bios
+* Connect Contact form to mailer & DB
+* Add real project case studies with images
 
 ---
 
 ## 📜 License
 
-MIT (project template). Content and brand assets © DGstep.
+MIT (template). Content & assets © DGstep.
