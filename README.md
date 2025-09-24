@@ -8,7 +8,7 @@ This site features a clean, responsive UI built with **Tailwind CSS** and **Alpi
 
 ---
 
-## 🔧 What’s new (last 4 days)
+## 🔧 What’s new
 
 * **Brand assets integrated** (PNG logos from the brand book), with **light/dark auto‑swap** via `[data-theme]` and CSS variables.
 * **Vite asset handling fixed** for images: use `import.meta.glob()` to eagerly include brand images so they appear in the build manifest.
