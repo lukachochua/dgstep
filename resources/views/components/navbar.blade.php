@@ -8,7 +8,8 @@
     <div class="mx-auto px-4 sm:px-6 md:px-8">
 
       <!-- STORY 1: Top bar (logo left, controls right) -->
-      <div class="nav-story-top nav-bleed h-16 md:h-20 flex items-center justify-between">
+      <!-- height now comes from CSS var: .nav-story-top { height: var(--nav-top-h) } -->
+      <div class="nav-story-top nav-bleed flex items-center justify-between">
         <!-- Logo (auto-swaps by data-theme) -->
         <a href="{{ route('home') }}" id="logo-text" aria-label="DGstep logo"
            class="group flex items-center gap-2 select-none transition-transform duration-200 ease-[var(--ease-brand)] active:scale-95 focus-visible:outline-none">
@@ -92,10 +93,12 @@
       </div>
 
       <!-- Divider between stories -->
+      <!-- height now comes from CSS var: .nav-story-divider { height: var(--nav-divider-h) } -->
       <div class="hidden lg:block nav-story-divider nav-divider-bleed"></div>
 
       <!-- STORY 2: Bottom bar (primary links on their own line) -->
-      <div class="nav-story-bottom nav-bleed hidden lg:flex items-center justify-center gap-3 h-12 text-[15px] tracking-tight">
+      <!-- height now comes from CSS var: .nav-story-bottom { height: var(--nav-bottom-h) } -->
+      <div class="nav-story-bottom nav-bleed hidden lg:flex items-center justify-center gap-3 text-[15px] tracking-tight">
         @foreach (['home', 'services', 'about'] as $routeName)
           <div class="relative group rounded-[6px]">
             <x-nav.anchor-button :route="$routeName" label="{{ __('messages.' . $routeName) }}" variant="desktop" />

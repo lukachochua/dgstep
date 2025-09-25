@@ -29,9 +29,9 @@
   --color-brand-950: #1e1c4a;
 
   /* Alternate brand accents (LIGHT MODE emphasis) */
-  --color-accent-1: #6c63ff;   /* Iris / vivid periwinkle */
+  --color-accent-1: #6c63ff;
   --color-accent-1-600: #5a52f5;
-  --color-accent-2: #7aa2ff;   /* Sky / cool periwinkle */
+  --color-accent-2: #7aa2ff;
   --color-accent-2-600: #5f8dff;
 
   /* Neutrals */
@@ -85,17 +85,34 @@
    CSS-only Navbar Height Tokens (single source of truth)
    ────────────────────────────────────────────────────────────── */
 :root {
-  /* Mobile (one-story) */
-  --nav-top-h: 64px;      /* h-16 */
-  --nav-bottom-h: 0px;    /* hidden on mobile */
-  --nav-divider-h: 0px;   /* hidden on mobile */
+  /* Mobile / md (single-story) defaults */
+  --nav-top-h: 64px;              /* mobile top row height */
+  --nav-bottom-h: 0px;            /* hidden < lg */
+  --nav-divider-h: 0px;           /* hidden < lg */
 
-  /* Aggregate → used by hero & anchors */
+  /* Aggregate used elsewhere (e.g., hero) */
   --navbar-h: calc(var(--nav-top-h) + var(--nav-divider-h) + var(--nav-bottom-h));
 }
-@media (min-width: 768px) { :root { --nav-top-h: 80px; } }        /* md:h-20 */
+
+/* md: taller single-story top */
+@media (min-width: 768px) {
+  :root { --nav-top-h: 80px; }
+}
+
+/* lg+: two-story split — keep total the SAME as before, split 55% / 45% */
 @media (min-width: 1024px) {
-  :root { --nav-bottom-h: 42px; --nav-divider-h: 1px; }           /* lg:h-12 + 1px divider */
+  :root {
+    /* Previously: top 80px + divider 1px + bottom ~42px ≈ 123px total.
+       Keep the total the same. We give top 55% and bottom 45% of the usable stack
+       (excluding the divider), then add the 1px divider back in. */
+    --navbar-target-lg: 122px;                 /* top + bottom only */
+    --nav-top-h:    calc(var(--navbar-target-lg) * 0.55);  /* ~67.1px */
+    --nav-bottom-h: calc(var(--navbar-target-lg) * 0.45);  /* ~54.9px */
+    --nav-divider-h: 1px;
+
+    /* Aggregate for consumers */
+    --navbar-h: calc(var(--nav-top-h) + var(--nav-divider-h) + var(--nav-bottom-h));
+  }
 }
 
 /* ──────────────────────────────────────────────────────────────
@@ -107,13 +124,13 @@
   --text-default: var(--neutral-900);
   --bg-elevated:  var(--neutral-white);
 
-  /* NAV — exact, opaque accent-1 (#6C63FF) */
+  /* NAV — exact, opaque accent-1 */
   --nav-bg:        #8f89ea;
   --nav-border:    rgba(0,0,0,0.12);
   --mobile-nav-bg: #8f89ea;
   --nav-fg:        #ffffff;
   --nav-fg-muted:  rgba(255,255,255,0.90);
-  --nav-blur:      0px; /* no blur in light */
+  --nav-blur:      0px;
 
   /* Two-story navbar tokens (LIGHT) */
   --nav-top-bg:     var(--nav-bg);
@@ -451,12 +468,12 @@
     backdrop-filter: blur(var(--nav-blur, 0px));
   }
 
-  /* Two-story navbar layers */
-  .nav-story-top    { background-color: var(--nav-top-bg);    color: var(--nav-fg); }
-  .nav-story-bottom { background-color: var(--nav-bottom-bg); color: var(--nav-fg); }
+  /* Two-story navbar layers — height driven by vars */
+  .nav-story-top    { background-color: var(--nav-top-bg);    color: var(--nav-fg); height: var(--nav-top-h); }
+  .nav-story-bottom { background-color: var(--nav-bottom-bg); color: var(--nav-fg); height: var(--nav-bottom-h); }
 
-  /* Divider between stories */
-  .nav-story-divider { height: 1px; background: var(--nav-divider-bg); }
+  /* Divider between stories (height via var) */
+  .nav-story-divider { height: var(--nav-divider-h); background: var(--nav-divider-bg); }
 
   /* Full-bleed bgs for constrained rows */
   .nav-bleed { position: relative; isolation: isolate; }
@@ -465,8 +482,8 @@
     width: 100vw; transform: translateX(-50%); background: inherit; z-index: -1;
   }
 
-  /* Full-bleed 1px divider */
-  .nav-divider-bleed { position: relative; isolation: isolate; height: 1px; }
+  /* Full-bleed divider */
+  .nav-divider-bleed { position: relative; isolation: isolate; }
   .nav-divider-bleed::before {
     content: ""; position: absolute; top: 0; bottom: 0; left: 50%;
     width: 100vw; transform: translateX(-50%); background: var(--nav-divider-bg); z-index: -1;
