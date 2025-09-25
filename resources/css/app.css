@@ -95,7 +95,7 @@
 }
 @media (min-width: 768px) { :root { --nav-top-h: 80px; } }        /* md:h-20 */
 @media (min-width: 1024px) {
-  :root { --nav-bottom-h: 48px; --nav-divider-h: 1px; }           /* lg:h-12 + 1px divider */
+  :root { --nav-bottom-h: 42px; --nav-divider-h: 1px; }           /* lg:h-12 + 1px divider */
 }
 
 /* ──────────────────────────────────────────────────────────────
