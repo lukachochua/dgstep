@@ -23,8 +23,6 @@
     }],
     next(){ this.activeSlide = (this.activeSlide + 1) % this.slides.length },
     prev(){ this.activeSlide = (this.activeSlide - 1 + this.slides.length) % this.slides.length },
-
-    /* height measuring to eliminate layout jump */
     measure() {
       const nodes = this.$refs.textMeasure?.querySelectorAll('[data-measure]') || [];
       let max = 0;
@@ -37,12 +35,11 @@
     $nextTick(() => { measure(); });
     (() => { const ro = new ResizeObserver(() => measure()); ro.observe($root); })();
   "
-  style="min-height: calc(100vh - 5rem);"
+  style="min-height: calc(100svh - var(--navbar-h))"
   class="relative z-0 select-none overflow-hidden
          text-[color:var(--hero-ink)]
          bg-[linear-gradient(90deg,var(--hero-bg-start),var(--hero-bg-mid)_55%,var(--hero-bg-end))]"
 >
-
   <!-- Background layer -->
   <template x-for="(slide, index) in slides" :key="'bg-'+index">
     <div
@@ -66,10 +63,10 @@
   </template>
 
   <!-- Foreground content -->
-  <div class="relative z-10 mx-auto max-w-[var(--container-content)] px-4 sm:px-6 md:px-8 mt-20">
+  <div class="relative z-10 mx-auto max-w-[var(--container-content)] px-4 sm:px-6 md:px-8">
     <div class="grid items-center gap-10 md:gap-16 py-12 md:py-16 grid-cols-1 md:grid-cols-[1.1fr_0.9fr]">
 
-      <!-- LEFT: Text column (fixed-height wrapper prevents jump) -->
+      <!-- LEFT: Text column -->
       <div class="w-full max-w-[48ch] justify-self-start">
         <div class="relative" :style="`height:${textColH||0}px`">
           <template x-for="(slide, index) in slides" :key="'txt-'+index">
@@ -124,15 +121,14 @@
         <a href="" class="block rounded-2xl overflow-hidden border
                           border-[color-mix(in_oklab,var(--hero-ink)_14%,transparent)]
                           shadow-[0_18px_40px_rgba(0,0,0,.35)]">
-            <img
-              src="{{ Vite::asset('resources/images/brand/hero_image.png') }}"
-              alt="App Preview"
-              class="w-full h-auto object-cover object-center"
-              loading="lazy"
-            />
+          <img
+            src="{{ Vite::asset('resources/images/brand/hero_image.png') }}"
+            alt="App Preview"
+            class="w-full h-auto object-cover object-center"
+            loading="lazy"
+          />
         </a>
       </div>
-
     </div>
   </div>
 
