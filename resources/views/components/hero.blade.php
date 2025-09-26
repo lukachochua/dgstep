@@ -144,9 +144,9 @@
                   <x-ui.button route="services" variant="hero" size="lg" class="shrink-0">
                     {{ __('messages.services') }}
                   </x-ui.button>
-                  <x-ui.button href="#features" variant="hero" size="lg" class="hidden md:inline-flex shrink-0">
+                  {{-- <x-ui.button href="#features" variant="hero" size="lg" class="hidden md:inline-flex shrink-0">
                     {{ __('messages.see_how_it_works') }}
-                  </x-ui.button>
+                  </x-ui.button> --}}
                 </div>
               </div>
             </template>
