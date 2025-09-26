@@ -8,31 +8,33 @@ return [
     'contact'   => 'Contact',
     'login'     => 'Login',
     'register'  => 'Register',
+    'see_how_it_works' => 'See how it works',
+
     'hero' => [
         'slides' => [
             [
-                'title'    => 'Simplify Pawnshop Operations',
+                'title'     => 'Simplify Pawnshop Operations',
                 'highlight' => 'with DG STEP',
-                'subtitle' => 'From records to renewals — manage it all with one tool.',
-                'button'   => [
+                'subtitle'  => 'From records to renewals — manage it all with one tool.',
+                'button'    => [
                     'text' => 'Contact Us',
                     'link' => '#contact',
                 ],
             ],
             [
-                'title'    => 'Boost Business Efficiency',
+                'title'     => 'Boost Business Efficiency',
                 'highlight' => 'across all industries',
-                'subtitle' => 'We help small businesses serve faster, smarter, and better.',
-                'button'   => [
+                'subtitle'  => 'We help small businesses serve faster, smarter, and better.',
+                'button'    => [
                     'text' => 'Get in Touch',
                     'link' => '#contact',
                 ],
             ],
             [
-                'title'    => 'Built for Georgian Businesses',
+                'title'     => 'Built for Georgian Businesses',
                 'highlight' => 'Local + Compliant',
-                'subtitle' => 'Tailored tools for your workflow and regulations.',
-                'button'   => [
+                'subtitle'  => 'Tailored tools for your workflow and regulations.',
+                'button'    => [
                     'text' => 'Start Now',
                     'link' => '#contact',
                 ],
@@ -71,11 +73,10 @@ return [
         ],
     ],
 
-
     'footer' => [
         'nav' => [
             'contact' => 'Contact',
-            'terms' => 'Terms and Conditions',
+            'terms'   => 'Terms and Conditions',
         ],
         'copyright' => '© :year DGstep. All rights reserved.',
     ],

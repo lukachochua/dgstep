@@ -7,11 +7,10 @@
   <nav id="site-nav" aria-label="Main Navigation" class="nav-surface text-[15px] tracking-tight font-medium max-w-full">
     <div class="mx-auto px-4 sm:px-6 md:px-8">
 
-      <!-- STORY 1: Top bar (logo left, controls right) -->
-      <!-- height now comes from CSS var: .nav-story-top { height: var(--nav-top-h) } -->
+      <!-- STORY 1: Top bar -->
       <div class="nav-story-top nav-bleed flex items-center justify-between">
         <!-- Logo (auto-swaps by data-theme) -->
-        <a href="{{ route('home') }}" id="logo-text" aria-label="DGstep logo"
+        <a href="{{ route('home') }}" aria-label="DGstep logo"
            class="group flex items-center gap-2 select-none transition-transform duration-200 ease-[var(--ease-brand)] active:scale-95 focus-visible:outline-none">
           <!-- Light -->
           <img
@@ -24,7 +23,7 @@
           <img
             src="{{ Vite::asset('resources/images/brand/logo-color-01.png') }}"
             alt=""
-            class="logo-img--dark  h-7 md:h-8 w-auto select-none pointer-events-none"
+            class="logo-img--dark h-7 md:h-8 w-auto select-none pointer-events-none"
             width="160" height="40" decoding="async"
           />
         </a>
@@ -77,7 +76,7 @@
           </button>
         </div>
 
-        <!-- Mobile Toggle -->
+        <!-- Mobile Toggle (Alpine only) -->
         <button
           class="lg:hidden p-2 rounded-[6px] hover:text-electric transition"
           aria-label="Toggle navigation menu"
@@ -92,12 +91,10 @@
         </button>
       </div>
 
-      <!-- Divider between stories -->
-      <!-- height now comes from CSS var: .nav-story-divider { height: var(--nav-divider-h) } -->
+      <!-- Divider -->
       <div class="hidden lg:block nav-story-divider nav-divider-bleed"></div>
 
-      <!-- STORY 2: Bottom bar (primary links on their own line) -->
-      <!-- height now comes from CSS var: .nav-story-bottom { height: var(--nav-bottom-h) } -->
+      <!-- STORY 2: Bottom bar (primary links) -->
       <div class="nav-story-bottom nav-bleed hidden lg:flex items-center justify-center gap-3 text-[15px] tracking-tight">
         @foreach (['home', 'services', 'about'] as $routeName)
           <div class="relative group rounded-[6px]">
@@ -174,18 +171,21 @@
       open: false,
       theme: document.documentElement.getAttribute('data-theme') || 'light',
       init() {
+        // Keep mobile menu closed on jump to desktop
+        const mq = window.matchMedia('(min-width: 1024px)');
+        const sync = () => { if (mq.matches) this.open = false; };
+        (mq.addEventListener ? mq.addEventListener('change', sync) : mq.addListener(sync));
+
+        // Watch external theme changes
         window.addEventListener('storage', (e) => {
           if (e.key === 'dg:theme' && (e.newValue === 'light' || e.newValue === 'dark')) {
             this.theme = e.newValue;
             document.documentElement.setAttribute('data-theme', this.theme);
           }
         });
-        const mq = window.matchMedia('(min-width: 1024px)');
-        const sync = () => { if (mq.matches) this.open = false; };
-        (mq.addEventListener ? mq.addEventListener('change', sync) : mq.addListener(sync));
       },
       toggleTheme() {
-        this.theme = this.theme === 'dark' ? 'light' : 'dark';
+        this.theme = (this.theme === 'dark') ? 'light' : 'dark';
         document.documentElement.setAttribute('data-theme', this.theme);
         try { localStorage.setItem('dg:theme', this.theme); } catch (_) {}
       },

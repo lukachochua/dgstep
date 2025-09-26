@@ -1,14 +1,13 @@
-<footer class="footer-surface select-none text-sm tracking-tight font-[Calibri] backdrop-blur-0 shadow-[0_-8px_20px_rgba(0,0,0,.25)]">
+<footer class="footer-surface select-none text-sm tracking-tight backdrop-blur-0">
   <div class="mx-auto max-w-[var(--container-content)] px-4 sm:px-6 md:px-8 py-10
               flex flex-col md:flex-row justify-between gap-6">
 
-    <!-- Left: Info + GitHub + Stack + Social -->
+    <!-- Left: Info + GitHub + Social -->
     <div class="flex flex-col items-center md:items-start text-center md:text-left space-y-1">
-      <p class="opacity-80">
+      <p class="opacity-90">
         {{ trans('messages.footer.copyright', ['year' => now()->year]) }}
       </p>
 
-      <!-- GitHub -->
       <a href="https://github.com/lukachochua/dgstep" target="_blank" rel="noopener noreferrer"
          class="inline-flex items-center gap-2 text-[color:var(--nav-fg-muted)] hover:text-[color:var(--nav-fg)]
                 transition-colors">
@@ -19,9 +18,7 @@
         GitHub: lukachochua/dgstep
       </a>
 
-      <!-- Social media -->
       <div class="flex items-center gap-4 pt-1" aria-label="Social media">
-        <!-- Instagram -->
         <a href="https://instagram.com/yourpage" target="_blank" rel="noopener noreferrer"
            class="inline-flex items-center gap-2 text-[color:var(--nav-fg-muted)] hover:text-[color:var(--nav-fg)]
                   transition-colors">
@@ -34,7 +31,6 @@
           Instagram
         </a>
 
-        <!-- Facebook -->
         <a href="https://facebook.com/yourpage" target="_blank" rel="noopener noreferrer"
            class="inline-flex items-center gap-2 text-[color:var(--nav-fg-muted)] hover:text-[color:var(--nav-fg)]
                   transition-colors">
@@ -46,7 +42,7 @@
         </a>
       </div>
 
-      <p class="opacity-85">
+      <p class="opacity-90">
         Stack: Laravel 12 / Tailwind CSS / Alpine.js
       </p>
     </div>

@@ -16,7 +16,7 @@
                   opacity-60"></div>
     </div>
 
-    <!-- Features with distinct bg -->
+    <!-- Features on distinct surface from brandbook -->
     <section class="relative bg-[color:var(--features-surface)]">
       <x-features />
     </section>
