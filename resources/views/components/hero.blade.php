@@ -78,8 +78,8 @@
   @keydown.arrow-right.prevent="next()" @keydown.arrow-left.prevent="prev()"
   tabindex="0" role="region" aria-roledescription="carousel" aria-label="DGstep hero"
   class="hero-surface relative z-0 select-none overflow-hidden text-[color:var(--hero-ink)]"
-  style="min-height: calc(100svh - var(--navbar-h))"
->
+  style="min-height: calc(100svh)">
+
 
   <!-- Backgrounds -->
   <template x-for="(slide, index) in slides" :key="'bg-'+index">
@@ -105,7 +105,7 @@
   </template>
 
   <!-- Foreground -->
-  <div class="relative z-10 mx-auto max-w-[var(--container-content)] px-4 sm:px-6 md:px-8">
+  <div class="relative mt-24 z-10 mx-auto max-w-[var(--container-content)] px-4 sm:px-6 md:px-8">
     <!-- Center vertically; give the inner area a ref for measurements -->
     <div x-ref="inner" class="min-h-[calc(100svh-var(--navbar-h)-1rem)] flex items-center">
       <!-- Bias image larger so text/media feel similar in scale -->

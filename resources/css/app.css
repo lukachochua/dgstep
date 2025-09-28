@@ -90,7 +90,7 @@
   --nav-divider-h: 0px;
 
   /* Aggregate used elsewhere (e.g., hero) */
-  --navbar-h: calc(var(--nav-top-h) + var(--nav-divider-h) + var(--nav-bottom-h));
+  --navbar-h: calc(var(--nav-top-h));
 }
 
 /* md: taller single-story top */
