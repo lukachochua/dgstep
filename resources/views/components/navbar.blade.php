@@ -217,29 +217,32 @@
   >
     <div class="mx-auto w-full max-w-[var(--container-content)] flex items-center justify-between">
 
-      <!-- Left: Logo (hover swap) -->
-      <a href="{{ route('home') }}" aria-label="DGstep logo"
-        class="group logo-swap flex items-center gap-2 select-none transition-transform duration-200 ease-[var(--ease-brand)] active:scale-95 focus-visible:outline-none">
-        <img x-cloak
-            src="{{ Vite::asset('resources/images/brand/logo-white-01.png') }}"
-            alt="DGstep logo light"
-            class="logo-img--light select-none pointer-events-none"
-            width="160" height="40" fetchpriority="high" decoding="async" />
-        <img x-cloak
-            src="{{ Vite::asset('resources/images/brand/logo-color-01.png') }}"
-            alt="DGstep logo dark"
-            class="logo-img--dark  select-none pointer-events-none"
-            width="160" height="40" decoding="async" />
-      </a>
+  <!-- Left group: Logo + Primary links inline -->
+  <div class="flex items-center gap-4 md:gap-6">
+    <!-- Logo (hover swap) -->
+    <a href="{{ route('home') }}" aria-label="DGstep logo"
+       class="group logo-swap flex items-center gap-2 select-none transition-transform duration-200 ease-[var(--ease-brand)] active:scale-95 focus-visible:outline-none">
+      <img x-cloak
+           src="{{ Vite::asset('resources/images/brand/logo-white-01.png') }}"
+           alt="DGstep logo light"
+           class="logo-img--light h-6 md:h-7 w-auto select-none pointer-events-none"
+           width="160" height="40" fetchpriority="high" decoding="async" />
+      <img x-cloak
+           src="{{ Vite::asset('resources/images/brand/logo-color-01.png') }}"
+           alt="DGstep logo dark"
+           class="logo-img--dark h-6 md:h-7 w-auto select-none pointer-events-none"
+           width="160" height="40" decoding="async" />
+    </a>
 
-      <!-- Primary links (desktop) -->
-      <ul class="hidden md:flex items-center gap-2 md:gap-3 text-[13px] md:text-[15px]">
-        @foreach ($routes as $routeName)
-          <li class="relative">
-            <x-nav.anchor-button :route="$routeName" label="{{ __('messages.' . $routeName) }}" variant="desktop" />
-          </li>
-        @endforeach
-      </ul>
+    <!-- Primary links (desktop) -->
+    <ul class="hidden md:flex items-center gap-2 md:gap-3 text-[13px] md:text-[15px]">
+      @foreach ($routes as $routeName)
+        <li class="relative">
+          <x-nav.anchor-button :route="$routeName" label="{{ __('messages.' . $routeName) }}" variant="desktop" />
+        </li>
+      @endforeach
+    </ul>
+  </div>
 
       <!-- Right: actions -->
       <div class="flex items-center gap-1.5 md:gap-2">
