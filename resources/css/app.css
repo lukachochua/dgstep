@@ -7,6 +7,55 @@
 /* Tailwind core */
 @import "tailwindcss";
 
+@source "../../storage/framework/views/*.php";
+@source "../**/*.blade.php";
+@source "../**/*.js";
+@source "../**/*.vue";
+
+/* Tailwind core */
+@import "tailwindcss";
+
+/* ──────────────────────────────────────────────────────────────
+   CRITICAL ANTI-JITTER: Set theme BEFORE anything renders
+   ────────────────────────────────────────────────────────────── */
+
+/* Default to dark theme to prevent white flash */
+:root {
+  --initial-theme: dark;
+}
+
+/* Hide everything until Alpine and theme are ready */
+html:not([data-theme]) {
+  background-color: #1a1a1a;
+  color: #f3f2ff;
+}
+
+/* Hide nav until Alpine is fully initialized */
+#site-nav:not([data-ready="true"]) {
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
+#site-nav[data-ready="true"] {
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Prevent Alpine component flash */
+[x-cloak] { 
+  display: none !important; 
+}
+
+/* Disable all transitions until Alpine is ready */
+.nav-no-transitions,
+.nav-no-transitions *,
+.nav-no-transitions *::before,
+.nav-no-transitions *::after {
+  transition: none !important;
+  animation: none !important;
+  transform: none !important;
+}
+
 /* ──────────────────────────────────────────────────────────────
    Theme Tokens — DGstep Brandbook (exact hexes)
    ────────────────────────────────────────────────────────────── */
@@ -46,27 +95,10 @@
   --color-warning: #f59e0b;
   --color-danger:  #ef4444;
 
-  /* “Electric” helpers map to brand purple */
+  /* "Electric" helpers map to brand purple */
   --color-electric-sky:        var(--color-brand-500);
   --color-electric-sky-hover:  var(--color-brand-600);
   --color-electric-sky-focus:  var(--color-brand-800);
-
-  /* Base defaults (light-first) */
-  --bg-default:   var(--color-brand-100);
-  --text-default: var(--neutral-900);
-  --bg-elevated:  var(--neutral-white);
-
-  /* Navbar defaults (overridden per-theme below) */
-  --nav-bg:        rgba(255,255,255,0.92);
-  --nav-border:    rgba(0,0,0,0.08);
-  --mobile-nav-bg: #ffffff;
-  --nav-fg:        var(--neutral-900);
-  --nav-fg-muted:  color-mix(in oklab, var(--neutral-900) 72%, transparent);
-
-  /* Footer defaults (overridden per-theme) */
-  --footer-bg:     var(--color-brand-500);
-  --footer-fg:     #ffffff;
-  --footer-border: rgba(0,0,0,0.10);
 
   /* Layout & polish */
   --container-content: 72rem; /* 1152px */
@@ -110,19 +142,45 @@
 }
 
 /* ──────────────────────────────────────────────────────────────
-   Theme overrides (light / dark)
+   Theme overrides (light / dark) - STANDARDIZED FOR NAV
    ────────────────────────────────────────────────────────────── */
 
-/* LIGHT */
+/* Base defaults (dark-first to prevent flash) */
+:root {
+  /* Page */
+  --bg-default:   #2c2a70;
+  --text-default: #f3f2ff;
+  --bg-elevated:  #161821;
+
+  /* NAV - Default to dark theme */
+  --nav-bg:        rgba(24,24,27,0.60);
+  --nav-border:    rgba(255,255,255,0.12);
+  --mobile-nav-bg: rgba(24,24,27,0.96);
+  --nav-fg:        #f3f2ff;
+  --nav-fg-muted:  rgba(243,242,255,0.82);
+  --nav-blur:      12px;
+
+  /* Two-story navbar tokens */
+  --nav-top-bg:     var(--nav-bg);
+  --nav-bottom-bg:  color-mix(in oklab, var(--nav-bg) 85%, #fff 15%);
+  --nav-divider-bg: linear-gradient(90deg, transparent, rgba(255,255,255,.10), transparent);
+
+  /* Footer defaults */
+  --footer-bg:     color-mix(in oklab, var(--color-brand-950) 92%, #000 8%);
+  --footer-fg:     #f3f2ff;
+  --footer-border: rgba(255,255,255,.12);
+}
+
+/* LIGHT THEME OVERRIDES */
 :root[data-theme="light"] {
   /* Page */
   --bg-default:   var(--color-brand-100);
   --text-default: var(--neutral-900);
   --bg-elevated:  var(--neutral-white);
 
-  /* NAV */
-  --nav-bg:        #8f89ea;
-  --nav-border:    rgba(0,0,0,0.12);
+  /* NAV - Updated to match component expectations */
+  --nav-bg:        color-mix(in oklab, var(--nav-bottom-bg, #726EDB) 85%, transparent);
+  --nav-border:    rgba(255,255,255,0.12);
   --mobile-nav-bg: #726EDB;           
   --nav-fg:        #ffffff;
   --nav-fg-muted:  rgba(255,255,255,0.90);
@@ -204,7 +262,7 @@
   --footer-border: rgba(0,0,0,0.14);
 }
 
-/* DARK */
+/* DARK THEME OVERRIDES */
 :root[data-theme="dark"] {
   /* Accents tuned for dark */
   --color-electric-sky:       #8f89ea;
@@ -216,8 +274,8 @@
   --text-default: var(--neutral-200);
   --bg-elevated:  #161821;
 
-  /* NAV */
-  --nav-bg:        color-mix(in oklab, var(--color-brand-950) 92%, #000 8%);
+  /* NAV - Matches component expectations */
+  --nav-bg:        rgba(24,24,27,0.60);
   --nav-border:    rgba(255,255,255,0.12);
   --mobile-nav-bg: color-mix(in oklab, var(--color-brand-950) 96%, #000 4%);
   --nav-fg:        #f3f2ff;
@@ -297,9 +355,6 @@
   --footer-border: rgba(255,255,255,.12);
 }
 
-/* prevent FOIT for Alpine x-cloak content */
-[x-cloak] { display: none !important; }
-
 /* ──────────────────────────────────────────────────────────────
    Fonts
    ────────────────────────────────────────────────────────────── */
@@ -336,7 +391,11 @@
     font-weight: 300; font-style: italic; font-display: swap;
   }
 
-  html { font-family: "Calibri", var(--font-sans); }
+  html { 
+    font-family: "Calibri", var(--font-sans); 
+    /* Smooth theme transitions */
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
   [lang="ka"] { font-family: "Calibri", sans-serif; }
 }
 
@@ -354,7 +413,9 @@
   /* Focus ring */
   .focus-ring { outline: none; }
   .focus-ring:focus-visible {
-    outline: none;
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+    border-radius: inherit;
     box-shadow: 0 0 0 2px color-mix(in oklab, var(--color-electric-sky) 70%, transparent);
   }
 
@@ -376,7 +437,138 @@
     background-color: color-mix(in oklab, #fff 6%, transparent);
   }
 
-  /* Buttons (base + sizes) */
+  /* ──────────────────────────────────────────────────────────────
+     NAVIGATION STYLES - STANDARDIZED
+     ────────────────────────────────────────────────────────────── */
+
+  /* Controlled backdrop blur application */
+  .nav-backdrop-blur {
+    backdrop-filter: blur(var(--nav-blur, 12px));
+    -webkit-backdrop-filter: blur(var(--nav-blur, 12px));
+  }
+
+  /* Main navigation surface - matches Alpine component */
+  .nav-surface,
+  #site-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    height: var(--nav-top-h);
+    
+    /* Visual properties */
+    background-color: var(--nav-bg);
+    border-bottom: 1px solid var(--nav-border);
+    color: var(--nav-fg);
+    box-shadow: 0 6px 20px rgba(0,0,0,.22);
+    
+    /* Performance optimizations */
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+    -webkit-font-smoothing: antialiased;
+    transform: translate3d(0,0,0);
+    background-clip: padding-box;
+    
+    /* Smooth transitions */
+    transition-property: transform, opacity, box-shadow, border-color, background-color;
+    transition-duration: 220ms;
+    transition-timing-function: cubic-bezier(.16,1,.3,1);
+  }
+
+  /* Mobile navigation surface */
+  .nav-mobile-surface {
+    background-color: var(--mobile-nav-bg);
+    border-top: 1px solid var(--nav-border);
+    color: var(--nav-fg);
+    box-shadow: 0 8px 20px rgba(0,0,0,.25);
+  }
+
+  /* Navigation link styles - desktop */
+  .nav-link-desktop {
+    display: inline-flex; 
+    align-items: center; 
+    padding: .5rem .75rem;
+    border-radius: 6px; 
+    font-size: 15px; 
+    color: var(--nav-fg-muted);
+    background-color: var(--nav-link-bg);
+    border: 1px solid rgba(255,255,255,.18);
+    transition: color .2s, background-color .2s, box-shadow .2s, border-color .2s;
+  }
+  
+  .nav-link-desktop:hover { 
+    color: var(--nav-fg); 
+    background-color: var(--nav-link-hover-bg); 
+  }
+
+  /* Navigation link styles - mobile */
+  .nav-link-mobile {
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: center; 
+    width: 100%;
+    padding: .5rem 1rem; 
+    border-radius: 8px; 
+    color: var(--nav-fg); 
+    background-color: var(--nav-link-bg);
+    transition: color .2s, background-color .2s;
+  }
+  
+  .nav-link-mobile:hover { 
+    color: var(--nav-fg); 
+    background-color: var(--nav-link-hover-bg); 
+  }
+
+  /* Active link state */
+  .nav-link-active { 
+    color: var(--color-electric-sky); 
+    background-color: var(--nav-link-active-bg); 
+  }
+
+  /* Light theme active link enhancement */
+  :root[data-theme="light"] .nav-link-active {
+    color: #ffffff;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.35), 0 6px 14px rgba(0,0,0,.18);
+  }
+
+  /* Two-story navbar layers */
+  .nav-story-top    { 
+    background-color: var(--nav-top-bg);    
+    color: var(--nav-fg); 
+    height: var(--nav-top-h); 
+  }
+  
+  .nav-story-bottom { 
+    background-color: var(--nav-bottom-bg); 
+    color: var(--nav-fg); 
+    height: var(--nav-bottom-h); 
+  }
+
+  /* Divider between stories */
+  .nav-story-divider { 
+    height: var(--nav-divider-h); 
+    background: var(--nav-divider-bg); 
+  }
+
+  /* Full-bleed backgrounds */
+  .nav-bleed { position: relative; isolation: isolate; }
+  .nav-bleed::before {
+    content: ""; position: absolute; inset: 0 0 0 50%;
+    width: 100vw; transform: translateX(-50%); background: inherit; z-index: -1;
+  }
+
+  .nav-divider-bleed { position: relative; isolation: isolate; }
+  .nav-divider-bleed::before {
+    content: ""; position: absolute; top: 0; bottom: 0; left: 50%;
+    width: 100vw; transform: translateX(-50%); background: var(--nav-divider-bg); z-index: -1;
+  }
+
+  /* ──────────────────────────────────────────────────────────────
+     BUTTON STYLES
+     ────────────────────────────────────────────────────────────── */
+
+  /* Base button */
   .btn {
     display: inline-flex; align-items: center; gap: .5rem; border-radius: 1rem;
     padding: .5rem 1rem; font-weight: 500;
@@ -384,6 +576,8 @@
     transition-duration: 200ms; transition-timing-function: var(--ease-brand);
     position: relative;
   }
+  
+  /* Button sizes */
   .btn-xs { padding:.375rem .625rem; font-size:.8125rem; border-radius:.625rem; }
   .btn-sm { padding:.4375rem .75rem;  font-size:.875rem;  border-radius:.75rem; }
   .btn-md { padding:.5rem 1rem;       font-size:.9375rem; border-radius:1rem; }
@@ -431,7 +625,7 @@
   .btn-danger:hover { background: var(--btn-danger-bg-hover); }
   .btn-danger:active { transform: translateY(.5px) scale(.995); }
 
-  /* Shared focus (includes .btn-hero) */
+  /* Button focus states */
   .btn:focus-visible,
   .btn-primary:focus-visible,
   .btn-secondary:focus-visible,
@@ -443,7 +637,7 @@
     box-shadow: 0 0 0 2px color-mix(in oklab, var(--color-electric-sky) 70%, transparent);
   }
 
-  /* THEME-AWARE HERO BUTTON (no @apply) */
+  /* THEME-AWARE HERO BUTTON */
   :root[data-theme="light"] .btn-hero {
     background: var(--btn-primary-bg);
     color: var(--btn-primary-fg);
@@ -463,88 +657,6 @@
   }
   :root[data-theme="dark"] .btn-hero:hover { background: var(--btn-secondary-bg-hover); }
   :root[data-theme="dark"] .btn-hero:active { transform: translateY(.5px) scale(.995); }
-
-  /* NAVBAR SURFACE */
-  .nav-surface {
-    position: sticky; top: 0; z-index: 50;
-    -webkit-backdrop-filter: blur(var(--nav-blur, 0px));
-    backdrop-filter: blur(var(--nav-blur, 0px));
-    border-bottom-width: 1px;
-    transition-property: color, background-color, border-color, fill, stroke, box-shadow, filter, backdrop-filter;
-    transition-duration: 300ms;
-    color: var(--nav-fg);
-    background-color: transparent; /* inner rows paint bg */
-    border-color: var(--nav-border);
-    box-shadow: 0 8px 20px rgba(0,0,0,.25);
-  }
-  .nav-mobile-surface {
-    border-top-width: 1px;
-    border-color: color-mix(in oklab, #fff 10%, transparent);
-    box-shadow: 0 8px 20px rgba(0,0,0,.25);
-    color: var(--nav-fg);
-    background-color: var(--mobile-nav-bg);
-    -webkit-backdrop-filter: blur(var(--nav-blur, 0px));
-    backdrop-filter: blur(var(--nav-blur, 0px));
-  }
-
-  /* Two-story navbar layers — height driven by vars */
-  .nav-story-top    { background-color: var(--nav-top-bg);    color: var(--nav-fg); height: var(--nav-top-h); }
-  .nav-story-bottom { background-color: var(--nav-bottom-bg); color: var(--nav-fg); height: var(--nav-bottom-h); }
-
-  /* Divider between stories (height via var) */
-  .nav-story-divider { height: var(--nav-divider-h); background: var(--nav-divider-bg); }
-
-  /* Full-bleed bgs for constrained rows */
-  .nav-bleed { position: relative; isolation: isolate; }
-  .nav-bleed::before {
-    content: ""; position: absolute; inset: 0 0 0 50%;
-    width: 100vw; transform: translateX(-50%); background: inherit; z-index: -1;
-  }
-
-  /* Full-bleed divider */
-  .nav-divider-bleed { position: relative; isolation: isolate; }
-  .nav-divider-bleed::before {
-    content: ""; position: absolute; top: 0; bottom: 0; left: 50%;
-    width: 100vw; transform: translateX(-50%); background: var(--nav-divider-bg); z-index: -1;
-  }
-
-  /* desktop links */
-  .nav-link-desktop {
-    display: inline-flex; align-items: center; padding: .5rem .75rem;
-    border-radius: 6px; transition: color .2s, background-color .2s, box-shadow .2s, border-color .2s;
-    font-size: 15px; color: var(--nav-fg-muted);
-    background-color: var(--nav-link-bg);
-  }
-  .nav-link-desktop:hover { color: var(--nav-fg); background-color: var(--nav-link-hover-bg); }
-
-  /* mobile links */
-  .nav-link-mobile {
-    display: inline-flex; align-items: center; justify-content: center; width: 100%;
-    padding: .5rem 1rem; border-radius: 8px; transition: color .2s, background-color .2s;
-    color: var(--nav-fg); background-color: var(--nav-link-bg);
-  }
-  .nav-link-mobile:hover { color: var(--nav-fg); background-color: var(--nav-link-hover-bg); }
-
-  .nav-link-active { color: var(--color-electric-sky); background-color: var(--nav-link-active-bg); }
-
-  .nav-select { background: transparent; color: var(--nav-fg); font-size: .875rem; outline: none; cursor: pointer; }
-  .nav-select:hover { color: var(--color-electric-sky); }
-
-  /* extra contrast on active link (light) */
-  :root[data-theme="light"] .nav-link-active {
-    color: #ffffff;
-    box-shadow: inset 0 0 0 1px rgba(255,255,255,.35), 0 6px 14px rgba(0,0,0,.18);
-  }
-  :root[data-theme="light"] .nav-link-desktop,
-  :root[data-theme="light"] .nav-link-mobile {
-    border: 1px solid rgba(255,255,255,.18);
-  }
-
-  /* LOGO CHIPS (legacy) */
-  .logo-chip { display: grid; place-items: center; border-radius: 6px;
-               box-shadow: 0 8px 16px rgba(0,0,0,.28); width: 2.5rem; height: 2.5rem; color: #fff; }
-  .logo-chip-dg   { background: var(--color-brand-500); }
-  .logo-chip-step { background: var(--color-brand-300); }
 
   /* Auth CTAs */
   .nav-link-auth-login {
@@ -567,7 +679,7 @@
   .nav-link-auth-register:hover { background: var(--btn-primary-bg-hover); }
   .nav-link-auth-register:active { transform: translateY(.5px) scale(.995); }
 
-  /* Extra contrast in light inside nav bar */
+  /* Extra contrast for buttons in light nav */
   :root[data-theme="light"] .nav-surface .btn-primary {
     background: #ffffff; color: var(--color-brand-700); box-shadow: 0 8px 18px rgba(0,0,0,.25);
   }
@@ -578,7 +690,64 @@
   :root[data-theme="light"] .nav-surface .btn-secondary:hover { background: rgba(255,255,255,.10); }
   :root[data-theme="dark"] .nav-surface .btn-secondary { border-color: rgba(255,255,255,.22); }
 
-  /* HERO CONTROLS */
+  /* ──────────────────────────────────────────────────────────────
+     THEME ICON & LOGO TRANSITIONS - ANTI-JITTER
+     ────────────────────────────────────────────────────────────── */
+
+  /* Theme icons - hide by default, reveal per theme */
+  .theme-icon {
+    pointer-events: none;
+    opacity: 0; 
+    transform: scale(0.8) rotate(-45deg);
+    transition: opacity 0.15s ease, transform 0.15s ease;
+    position: absolute;
+    inset: 0;
+    margin: auto;
+  }
+
+  /* Show appropriate icon per theme */
+  [data-theme="light"] .icon--sun { 
+    opacity: 1; 
+    transform: scale(1) rotate(0deg); 
+  }
+  
+  [data-theme="dark"] .icon--moon { 
+    opacity: 1; 
+    transform: scale(1) rotate(0deg); 
+  }
+
+  /* Logo auto-swap - hide both by default */
+  .logo-img--light, 
+  .logo-img--dark { 
+    display: none; 
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+  
+  /* Show appropriate logo per theme */
+  [data-theme="light"] .logo-img--light { 
+    display: block; 
+    opacity: 1;
+  }
+  
+  [data-theme="dark"] .logo-img--dark { 
+    display: block; 
+    opacity: 1;
+  }
+
+  /* Prevent initial icon visibility states from causing flash */
+  html:not([data-theme]) .theme-icon,
+  html:not([data-theme]) .logo-img--light,
+  html:not([data-theme]) .logo-img--dark {
+    opacity: 0 !important;
+    visibility: hidden !important;
+  }
+
+  /* ──────────────────────────────────────────────────────────────
+     HERO STYLES
+     ────────────────────────────────────────────────────────────── */
+
+  /* Hero controls */
   .hero-arrow {
     display: inline-flex; align-items: center; justify-content: center;
     width: 48px; height: 48px; border-radius: 9999px;
@@ -586,143 +755,177 @@
     color: var(--hero-arrow-fg);
     border: 1px solid var(--hero-arrow-border);
     box-shadow: 0 8px 18px rgba(0,0,0,.18);
-    transition: background-color .18s var(--ease-brand), color .18s var(--ease-brand), transform .18s var(--ease-brand), box-shadow .18s var(--ease-brand);
+    transition: background-color .18s var(--ease-brand), color .18s var(--ease-brand), 
+                transform .18s var(--ease-brand), box-shadow .18s var(--ease-brand);
   }
-  .hero-arrow:hover { background-color: var(--hero-arrow-bg-hover); transform: translateY(-1px); box-shadow: 0 10px 22px rgba(0,0,0,.22); }
+  .hero-arrow:hover { 
+    background-color: var(--hero-arrow-bg-hover); 
+    transform: translateY(-1px); 
+    box-shadow: 0 10px 22px rgba(0,0,0,.22); 
+  }
   .hero-arrow:active { transform: translateY(0); }
 
-  /* HERO DOTS */
+  /* Hero dots */
   .hero-dot {
-    width: 12px; height: 12px; border-radius: 9999px; border: 1px solid var(--hero-dot-border);
-    transition: background-color .18s var(--ease-brand), transform .18s var(--ease-brand), box-shadow .18s var(--ease-brand);
+    width: 12px; height: 12px; border-radius: 9999px; 
+    border: 1px solid var(--hero-dot-border);
+    background-color: var(--hero-dot);
+    transition: background-color .18s var(--ease-brand), 
+                transform .18s var(--ease-brand), 
+                box-shadow .18s var(--ease-brand);
   }
-  .hero-dot:hover { transform: translateY(-1px); }
+  .hero-dot:hover { 
+    background-color: var(--hero-dot-hover);
+    transform: translateY(-1px); 
+  }
   .hero-dot.is-active {
+    background-color: var(--hero-dot-active);
     transform: scale(1.15);
     box-shadow: 0 0 0 3px color-mix(in oklab, var(--hero-dot-active) 28%, transparent);
     animation: heroPulse .9s ease-out;
   }
+  
   @keyframes heroPulse {
     from { box-shadow: 0 0 0 0 color-mix(in oklab, var(--hero-dot-active) 30%, transparent); }
     to   { box-shadow: 0 0 0 10px transparent; }
   }
 
+  /* Hero mesh & visual effects */
+  :root {
+    --hero-mesh-a: color-mix(in oklab, var(--color-brand-500) 40%, #0b1023);
+    --hero-mesh-b: color-mix(in oklab, var(--color-accent-2) 32%, #0b1023);
+    --hero-mesh-c: color-mix(in oklab, #8f89ea 44%, #0b1023);
+    --hero-noise:
+        radial-gradient(1200px 700px at 70% -20%, color-mix(in oklab, var(--hero-mesh-b) 16%, transparent), transparent 70%),
+        radial-gradient(900px 520px at 25% 10%, color-mix(in oklab, var(--hero-mesh-a) 22%, transparent), transparent 70%);
+
+    --hero-headline-from: #cfd0ff;
+    --hero-headline-to:   #7a83ff;
+    --cta-shadow: 0 12px 28px color-mix(in oklab, var(--color-brand-500) 30%, transparent);
+  }
+
+  .hero-surface {
+    background:
+      radial-gradient(60% 50% at 50% 40%, color-mix(in oklab, #000 40%, transparent), transparent 60%),
+      var(--hero-noise),
+      linear-gradient(90deg, var(--hero-bg-start), var(--hero-bg-mid) 55%, var(--hero-bg-end));
+    isolation: isolate;
+  }
+
+  .hero-highlight {
+    background-image: linear-gradient(90deg, var(--hero-headline-from), var(--hero-headline-to));
+    -webkit-background-clip: text; background-clip: text;
+    color: transparent;
+    text-shadow: 0 1px 0 rgba(0,0,0,.25);
+  }
+
+  .hero-media {
+    border: 1px solid color-mix(in oklab, #fff 10%, transparent);
+    backdrop-filter: blur(10px);
+    background: color-mix(in oklab, #fff 6%, transparent);
+    box-shadow: 0 18px 40px rgba(0,0,0,.35);
+    transition: transform .25s var(--ease-brand), box-shadow .25s var(--ease-brand), border-color .25s var(--ease-brand);
+  }
+  .hero-media:hover {
+    transform: translateY(-2px) scale(1.01) rotate(-.25deg);
+    border-color: color-mix(in oklab, #fff 18%, transparent);
+    box-shadow: 0 26px 60px rgba(0,0,0,.45);
+  }
+
+  @keyframes kenburns {
+    0% { transform: scale(1) translate3d(0,0,0); }
+    100% { transform: scale(1.06) translate3d(0,0,0); }
+  }
+  .hero-bgimg {
+    will-change: transform, opacity;
+    animation: kenburns 18s ease-in-out both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fadeUp { animation: fadeUp .6s var(--ease-brand) both; }
+
+  /* ──────────────────────────────────────────────────────────────
+     FEATURE CARDS & SECTIONS
+     ────────────────────────────────────────────────────────────── */
+
   .section-wash-bg { background: var(--section-wash); }
-  .feature-card    { background-color: var(--features-card-bg); border: 1px solid var(--features-card-border); box-shadow: var(--features-card-shadow); }
-  .feature-muted   { color: var(--features-text-muted); }
+  
+  .feature-card { 
+    background-color: var(--features-card-bg); 
+    border: 1px solid var(--features-card-border); 
+    box-shadow: var(--features-card-shadow); 
+  }
+  
+  .feature-muted { color: var(--features-text-muted); }
 
-  /* FOOTER SURFACE */
-  .footer-surface { color: var(--footer-fg); background-color: var(--footer-bg); border-top: 1px solid var(--footer-border); }
+  /* ──────────────────────────────────────────────────────────────
+     FOOTER
+     ────────────────────────────────────────────────────────────── */
 
-  /* EXACT-HEX GUARD */
-  .no-tint, .no-tint * { mix-blend-mode: normal !important; opacity: 1 !important; filter: none !important; isolation: isolate; }
+  .footer-surface { 
+    color: var(--footer-fg); 
+    background-color: var(--footer-bg); 
+    border-top: 1px solid var(--footer-border); 
+  }
 
-  /* Optional helper */
+  /* ──────────────────────────────────────────────────────────────
+     LEGACY & MISC
+     ────────────────────────────────────────────────────────────── */
+
+  .logo-chip { 
+    display: grid; place-items: center; border-radius: 6px;
+    box-shadow: 0 8px 16px rgba(0,0,0,.28); 
+    width: 2.5rem; height: 2.5rem; 
+    color: #fff; 
+  }
+  .logo-chip-dg   { background: var(--color-brand-500); }
+  .logo-chip-step { background: var(--color-brand-300); }
+
+  .flag-emoji { 
+    display: inline-block;
+    width: 1.25em;
+    text-align: center;
+    font-size: 18px; 
+    line-height: 1; 
+    transform: translateY(1px); 
+  }
+
+  .no-tint, .no-tint * { 
+    mix-blend-mode: normal !important; 
+    opacity: 1 !important; 
+    filter: none !important; 
+    isolation: isolate; 
+  }
+
   .bg-brand-screen { background-color: #5b56d6; }
 }
 
-/* Respect reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  .theme-icon { transition: opacity .2s linear !important; transform: none !important; }
-  .icon-hidden { opacity: 0; }
-  .hero-arrow { transition: none !important; transform: none !important; }
-}
-
 /* ──────────────────────────────────────────────────────────────
-   Icons & Logo swapping (consolidated)
+   REDUCED MOTION PREFERENCES
    ────────────────────────────────────────────────────────────── */
 
-/* Prevent icon flash: hide both by default, reveal per [data-theme] */
-.theme-icon {
-  pointer-events: none;
-  opacity: 0; transform: scale(.95);
-  transition: opacity .22s var(--ease-brand), transform .28s var(--ease-brand), color .2s var(--ease-brand);
-  transform-origin: 50% 50%;
-}
-.icon-visible { opacity: 1; transform: rotate(0deg) scale(1); }
-.icon-hidden  { opacity: 0; transform: rotate(40deg) scale(.85); }
-
-[data-theme="light"] .icon--sun { opacity: 1; transform: scale(1); }
-[data-theme="dark"]  .icon--moon { opacity: 1; transform: scale(1); }
-
-/* Logo auto-swap (single source of truth) */
-.logo-img--light, .logo-img--dark { display: none; }
-[data-theme="light"] .logo-img--light { display: block; }
-[data-theme="dark"]  .logo-img--dark  { display: block; }
-
-/* Misc */
-.flag-emoji { font-size: 18px; line-height: 1; transform: translateY(1px); }
-
-/* ──────────────────────────────────────────────────────────────
-   HERO VISUAL OVERHAUL (surface, headline, media, motion)
-   ────────────────────────────────────────────────────────────── */
-
-/* Mesh / light blooms */
-:root {
-  --hero-mesh-a: color-mix(in oklab, var(--color-brand-500) 40%, #0b1023);
-  --hero-mesh-b: color-mix(in oklab, var(--color-accent-2) 32%, #0b1023);
-  --hero-mesh-c: color-mix(in oklab, #8f89ea 44%, #0b1023);
-  --hero-noise:
-      radial-gradient(1200px 700px at 70% -20%, color-mix(in oklab, var(--hero-mesh-b) 16%, transparent), transparent 70%),
-      radial-gradient(900px 520px at 25% 10%, color-mix(in oklab, var(--hero-mesh-a) 22%, transparent), transparent 70%);
-
-  /* Headline gradient + glow */
-  --hero-headline-from: #cfd0ff;
-  --hero-headline-to:   #7a83ff;
-
-  /* CTA elevation */
-  --cta-shadow: 0 12px 28px color-mix(in oklab, var(--color-brand-500) 30%, transparent);
-}
-
-/* Replace the basic hero bg with a layered mesh + radial wash */
-.hero-surface {
-  background:
-    radial-gradient(60% 50% at 50% 40%, color-mix(in oklab, #000 40%, transparent), transparent 60%),
-    var(--hero-noise),
-    linear-gradient(90deg, var(--hero-bg-start), var(--hero-bg-mid) 55%, var(--hero-bg-end));
-  isolation: isolate;
-}
-
-/* Headline gradient highlight */
-.hero-highlight {
-  background-image: linear-gradient(90deg, var(--hero-headline-from), var(--hero-headline-to));
-  -webkit-background-clip: text; background-clip: text;
-  color: transparent;
-  text-shadow: 0 1px 0 rgba(0,0,0,.25);
-}
-
-/* Glass media card hover lift */
-.hero-media {
-  border: 1px solid color-mix(in oklab, #fff 10%, transparent);
-  backdrop-filter: blur(10px);
-  background: color-mix(in oklab, #fff 6%, transparent);
-  box-shadow: 0 18px 40px rgba(0,0,0,.35);
-  transition: transform .25s var(--ease-brand), box-shadow .25s var(--ease-brand), border-color .25s var(--ease-brand);
-}
-.hero-media:hover {
-  transform: translateY(-2px) scale(1.01) rotate(-.25deg);
-  border-color: color-mix(in oklab, #fff 18%, transparent);
-  box-shadow: 0 26px 60px rgba(0,0,0,.45);
-}
-
-/* Ken-Burns background (subtle) */
-@keyframes kenburns {
-  0% { transform: scale(1) translate3d(0,0,0); }
-  100% { transform: scale(1.06) translate3d(0,0,0); }
-}
-.hero-bgimg {
-  will-change: transform, opacity;
-  animation: kenburns 18s ease-in-out both;
-}
-
-/* Slide text entry */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(6px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-.animate-fadeUp { animation: fadeUp .6s var(--ease-brand) both; }
-
-/* Prefer reduced motion: kill fancy bits */
 @media (prefers-reduced-motion: reduce) {
-  .hero-bgimg, .animate-fadeUp { animation: none !important; }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .theme-icon { 
+    transition: opacity .2s linear !important; 
+    transform: none !important; 
+  }
+  
+  .hero-arrow,
+  .hero-bgimg,
+  .animate-fadeUp { 
+    transition: none !important; 
+    transform: none !important; 
+    animation: none !important;
+  }
 }
