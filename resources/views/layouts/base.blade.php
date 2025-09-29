@@ -21,7 +21,6 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    {{-- Alpine.js for navbar + hero interactivity --}}
     <script src="https://unpkg.com/alpinejs@3.x.x" defer></script>
 
     <!-- SEO Meta -->

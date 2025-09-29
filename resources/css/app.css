@@ -20,9 +20,10 @@ html:not([data-theme]) {
   color: #f3f2ff;
 }
 
-/* Hide nav until Alpine is fully initialized */
-#site-nav:not([data-ready="true"]) { visibility: hidden !important; opacity: 0 !important; }
-#site-nav[data-ready="true"]       { visibility: visible !important;  opacity: 1 !important; }
+/* Don't hide nav — just allow Alpine to enhance later */
+#site-nav:not([data-ready="true"]) { visibility: visible !important; opacity: 1 !important; }
+#site-nav[data-ready="true"]       { visibility: visible !important; opacity: 1 !important; }
+
 
 /* Prevent Alpine component flash */
 [x-cloak] { display: none !important; }
