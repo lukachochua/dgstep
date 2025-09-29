@@ -7,7 +7,7 @@
                    text-[var(--text-default)]
                    bg-[var(--bg-default)]
                    [background-image:linear-gradient(180deg,transparent_0%,transparent_40%,color-mix(in_oklab,var(--color-brand-950)_6%,transparent)_100%)] dark:[background-image:linear-gradient(180deg,color-mix(in_oklab,var(--color-brand-950)_16%,transparent)_0%,transparent_60%,transparent_100%)]
-                   py-10 sm:py-12 md:py-28">
+                   py-22 sm:py-22 md:py-28">
 
             <!-- Match navbar width + paddings -->
             <div class="mx-auto w-full max-w-[var(--container-content)] px-4 sm:px-6 md:px-8 text-center space-y-12 md:space-y-16">

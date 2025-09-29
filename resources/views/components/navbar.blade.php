@@ -221,17 +221,17 @@
   <div class="flex items-center gap-4 md:gap-6">
     <!-- Logo (hover swap) -->
     <a href="{{ route('home') }}" aria-label="DGstep logo"
-       class="group logo-swap flex items-center gap-2 select-none transition-transform duration-200 ease-[var(--ease-brand)] active:scale-95 focus-visible:outline-none">
-      <img x-cloak
-           src="{{ Vite::asset('resources/images/brand/logo-white-01.png') }}"
-           alt="DGstep logo light"
-           class="logo-img--light h-6 md:h-7 w-auto select-none pointer-events-none"
-           width="160" height="40" fetchpriority="high" decoding="async" />
-      <img x-cloak
-           src="{{ Vite::asset('resources/images/brand/logo-color-01.png') }}"
-           alt="DGstep logo dark"
-           class="logo-img--dark h-6 md:h-7 w-auto select-none pointer-events-none"
-           width="160" height="40" decoding="async" />
+      class="group logo-swap flex items-center gap-2 select-none transition-transform duration-200 ease-[var(--ease-brand)] active:scale-95 focus-visible:outline-none">
+      <img
+          src="{{ Vite::asset('resources/images/brand/logo-white-01.png') }}"
+          alt="DGstep logo light"
+          class="logo-img--light h-6 md:h-7 w-auto select-none pointer-events-none"
+          width="160" height="40" fetchpriority="high" decoding="async" />
+      <img
+          src="{{ Vite::asset('resources/images/brand/logo-color-01.png') }}"
+          alt="DGstep logo dark"
+          class="logo-img--dark h-6 md:h-7 w-auto select-none pointer-events-none"
+          width="160" height="40" decoding="async" />
     </a>
 
     <!-- Primary links (desktop) -->
