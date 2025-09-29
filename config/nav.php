@@ -5,8 +5,8 @@ return [
         // Top navbar (desktop)
         'desktop' => [
             // Chip-like anchors on a translucent bar
-            'base'     => 'nav-link-desktop ring-1 ring-white/10 shadow-[0_0_2px_color-mix(in_oklab,var(--color-electric-sky)_28%,transparent)]',
-            'active'   => 'nav-link-active ring-2 ring-white/35 font-semibold',
+            'base'     => 'nav-link-desktop',
+            'active'   => 'nav-link-active',
             'inactive' => '',
         ],
 
