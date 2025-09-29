@@ -44,8 +44,6 @@
     <meta name="twitter:description" content="Tailored software solutions for Georgian SMBs.">
     <meta name="twitter:image" content="{{ asset('images/og-preview.jpg') }}">
 
-    <link rel="preload" as="image" href="{{ Vite::asset('resources/images/brand/logo-white-01.png') }}">
-
     <link rel="canonical" href="{{ url()->current() }}">
 </head>
 
