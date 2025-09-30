@@ -69,17 +69,19 @@ class HeroSlideResource extends Resource
         return $table->columns([
             Tables\Columns\TextColumn::make('title_en')
                 ->label('Title (EN)')
-                ->getStateUsing(fn ($record) => $record->getTranslation('title', 'en'))
+                ->getStateUsing(fn (HeroSlide $record) => $record->getTranslation('title', 'en'))
                 ->limit(30),
 
             Tables\Columns\TextColumn::make('title_ka')
                 ->label('Title (KA)')
-                ->getStateUsing(fn ($record) => $record->getTranslation('title', 'ka'))
+                ->getStateUsing(fn (HeroSlide $record) => $record->getTranslation('title', 'ka'))
                 ->limit(30),
 
-            Tables\Columns\ImageColumn::make('image_path')
+            // Use the accessor, not the raw DB field
+            Tables\Columns\ImageColumn::make('image_url')
                 ->label('Background')
-                ->disk('public'), // ensure thumbnail previews work
+                ->extraImgAttributes(['alt' => 'Background'])
+                ->defaultImageUrl('https://via.placeholder.com/80x48?text=—'),
 
             Tables\Columns\TextColumn::make('created_at')->dateTime(),
         ]);
