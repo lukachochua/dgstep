@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('hero_slides', function (Blueprint $table) {
+            $table->id();
             $table->json('title')->nullable();
             $table->json('highlight')->nullable();
             $table->json('subtitle')->nullable();
@@ -22,11 +23,9 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('hero_slides');
     }
+
 };
