@@ -6,37 +6,11 @@
     timer: null,
     prefersReduced: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
 
-    // Slides (texts + bg images)
-    slides: @js([
-      [
-        'title'    => __('messages.hero.slides.0.title'),
-        'highlight'=> __('messages.hero.slides.0.highlight'),
-        'subtitle' => __('messages.hero.slides.0.subtitle'),
-        'button'   => ['text' => __('messages.hero.slides.0.button.text'), 'link' => route('contact')],
-        'image'    => 'https://images.unsplash.com/photo-1499428665502-503f6c608263?q=80&w=1800&auto=format&fit=crop',
-      ],
-      [
-        'title'    => __('messages.hero.slides.1.title'),
-        'highlight'=> __('messages.hero.slides.1.highlight'),
-        'subtitle' => __('messages.hero.slides.1.subtitle'),
-        'button'   => ['text' => __('messages.hero.slides.1.button.text'), 'link' => route('contact')],
-        'image'    => 'https://images.unsplash.com/photo-1499428665502-503f6c608263?q=80&w=1800&auto=format&fit=crop',
-      ],
-      [
-        'title'    => __('messages.hero.slides.2.title'),
-        'highlight'=> __('messages.hero.slides.2.highlight'),
-        'subtitle' => __('messages.hero.slides.2.subtitle'),
-        'button'   => ['text' => __('messages.hero.slides.2.button.text'), 'link' => route('contact')],
-        'image'    => 'https://images.unsplash.com/photo-1499428665502-503f6c608263?q=80&w=1800&auto=format&fit=crop',
-      ],
-    ]),
+    // Slides (from DB)
+    slides: @js($slides),
 
     // Right-side media (PNG files next to hero_image)
-    media: @js([
-      Vite::asset('resources/images/brand/hero_image.png'),
-      Vite::asset('resources/images/brand/hero_image_2.png'),
-      Vite::asset('resources/images/brand/hero_image_3.png'),
-    ]),
+    media: @js($media),
 
     next(){ this.activeSlide = (this.activeSlide + 1) % this.slides.length },
     prev(){ this.activeSlide = (this.activeSlide - 1 + this.slides.length) % this.slides.length },
@@ -80,7 +54,6 @@
   class="hero-surface relative z-0 select-none overflow-hidden text-[color:var(--hero-ink)]"
   style="min-height: calc(100svh)">
 
-
   <!-- Backgrounds -->
   <template x-for="(slide, index) in slides" :key="'bg-'+index">
     <div
@@ -108,7 +81,6 @@
   <div class="relative mt-24 z-10 mx-auto max-w-[var(--container-content)] px-4 sm:px-6 md:px-8">
     <!-- Center vertically; give the inner area a ref for measurements -->
     <div x-ref="inner" class="min-h-[calc(100svh-var(--navbar-h)-1rem)] flex items-center">
-      <!-- Bias image larger so text/media feel similar in scale -->
       <div class="grid items-center w-full gap-8 md:gap-12 lg:gap-16 grid-cols-1 md:grid-cols-2 xl:grid-cols-[0.7fr_1.3fr]">
 
         <!-- LEFT: Text -->
@@ -126,7 +98,6 @@
                 x-transition:leave-end="opacity-0 -translate-y-2"
                 role="group" aria-roledescription="slide" :aria-label="`Slide ${index+1} of ${slides.length}`"
               >
-                <!-- Keep CTA baseline using a fixed min-height for the text group -->
                 <div :style="`min-height:${textBlockH||0}px`">
                   <h1 class="text-2xl md:text-4xl lg:text-5xl font-extrabold leading-[1.15] tracking-tight [text-wrap:balance] animate-fadeUp drop-shadow-lg">
                     <span x-text="slide.title"></span><br>
@@ -144,9 +115,6 @@
                   <x-ui.button route="services" variant="hero" size="lg" class="shrink-0">
                     {{ __('messages.services') }}
                   </x-ui.button>
-                  {{-- <x-ui.button href="#features" variant="hero" size="lg" class="hidden md:inline-flex shrink-0">
-                    {{ __('messages.see_how_it_works') }}
-                  </x-ui.button> --}}
                 </div>
               </div>
             </template>
@@ -169,7 +137,7 @@
           </div>
         </div>
 
-        <!-- RIGHT: Media (cross-fades image in sync with slide) -->
+        <!-- RIGHT: Media -->
         <div class="hidden md:block justify-self-end w-full min-w-0 relative z-0">
           <a href="#" class="block rounded-2xl overflow-hidden hero-media">
             <div class="relative aspect-[16/9] md:max-h-[82vh]">

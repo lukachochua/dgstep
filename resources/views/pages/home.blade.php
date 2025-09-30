@@ -4,7 +4,7 @@
                bg-[color:var(--bg-default)]
                text-[color:var(--text-default)]">
 
-    <x-hero />
+    <x-hero :slides="$slides" :media="$media" />
 
     <!-- Soft separator -->
     <div class="md:my-2">
