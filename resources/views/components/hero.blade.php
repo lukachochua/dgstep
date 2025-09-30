@@ -9,8 +9,7 @@
     // Slides (from DB)
     slides: @js($slides),
 
-    // Right-side media (PNG files next to hero_image)
-    media: @js($media),
+
 
     next(){ this.activeSlide = (this.activeSlide + 1) % this.slides.length },
     prev(){ this.activeSlide = (this.activeSlide - 1 + this.slides.length) % this.slides.length },
@@ -137,15 +136,15 @@
           </div>
         </div>
 
-        <!-- RIGHT: Media -->
+        <!-- RIGHT: Media (DB-driven, styles/transitions unchanged) -->
         <div class="hidden md:block justify-self-end w-full min-w-0 relative z-0">
           <a href="#" class="block rounded-2xl overflow-hidden hero-media">
             <div class="relative aspect-[16/9] md:max-h-[82vh]">
-              <template x-for="(src, i) in media" :key="'media-'+i">
+              <template x-for="(src, i) in (slides[activeSlide]?.media || [])" :key="'media-'+i">
                 <img
                   :src="src"
-                  :alt="slides[i]?.title || 'App preview'"
-                  x-show="activeSlide === i"
+                  :alt="slides[activeSlide]?.title || 'App preview'"
+                  x-show="true"
                   x-transition:enter="transition ease-out duration-500"
                   x-transition:enter-start="opacity-0 scale-[.995]"
                   x-transition:enter-end="opacity-100 scale-100"

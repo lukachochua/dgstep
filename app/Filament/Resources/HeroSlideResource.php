@@ -14,7 +14,7 @@ class HeroSlideResource extends Resource
 {
     protected static ?string $model = HeroSlide::class;
     protected static ?string $navigationIcon = 'heroicon-o-photo';
-    protected static ?string $navigationGroup = 'Content'; // groups sidebar items
+    protected static ?string $navigationGroup = 'Content';
 
     public static function form(Form $form): Form
     {
@@ -23,66 +23,66 @@ class HeroSlideResource extends Resource
             Forms\Components\TextInput::make('title.en')
                 ->label('Title (EN)')
                 ->required(),
-
             Forms\Components\TextInput::make('title.ka')
                 ->label('Title (KA)')
                 ->required(),
 
             // Highlight
-            Forms\Components\TextInput::make('highlight.en')
-                ->label('Highlight (EN)'),
-
-            Forms\Components\TextInput::make('highlight.ka')
-                ->label('Highlight (KA)'),
+            Forms\Components\TextInput::make('highlight.en')->label('Highlight (EN)'),
+            Forms\Components\TextInput::make('highlight.ka')->label('Highlight (KA)'),
 
             // Subtitle
-            Forms\Components\Textarea::make('subtitle.en')
-                ->label('Subtitle (EN)'),
-
-            Forms\Components\Textarea::make('subtitle.ka')
-                ->label('Subtitle (KA)'),
+            Forms\Components\Textarea::make('subtitle.en')->label('Subtitle (EN)'),
+            Forms\Components\Textarea::make('subtitle.ka')->label('Subtitle (KA)'),
 
             // Button Text
-            Forms\Components\TextInput::make('button_text.en')
-                ->label('Button Text (EN)'),
-
-            Forms\Components\TextInput::make('button_text.ka')
-                ->label('Button Text (KA)'),
+            Forms\Components\TextInput::make('button_text.en')->label('Button Text (EN)'),
+            Forms\Components\TextInput::make('button_text.ka')->label('Button Text (KA)'),
 
             // Button Link
             Forms\Components\TextInput::make('button_link')
                 ->label('Button Link')
                 ->url(),
 
-            // Image Upload
+            // Background Image (stored at storage/app/public/hero/...)
             Forms\Components\FileUpload::make('image_path')
-                ->label('Hero Image')
+                ->label('Background Image')
                 ->image()
+                ->disk('public')
                 ->directory('hero')
                 ->maxSize(2048),
+
+            // Right-side Media Images (stored at storage/app/public/hero_media/...)
+            Forms\Components\FileUpload::make('media_paths')
+                ->label('Right-side Media Images')
+                ->image()
+                ->multiple()
+                ->disk('public')
+                ->directory('hero_media')
+                ->maxFiles(6)
+                ->maxSize(4096),
         ]);
     }
 
     public static function table(Table $table): Table
     {
-        return $table
-            ->columns([
-                Tables\Columns\TextColumn::make('title_en')
-                    ->label('Title (EN)')
-                    ->getStateUsing(fn ($record) => $record->getTranslation('title', 'en'))
-                    ->limit(30),
+        return $table->columns([
+            Tables\Columns\TextColumn::make('title_en')
+                ->label('Title (EN)')
+                ->getStateUsing(fn ($record) => $record->getTranslation('title', 'en'))
+                ->limit(30),
 
-                Tables\Columns\TextColumn::make('title_ka')
-                    ->label('Title (KA)')
-                    ->getStateUsing(fn ($record) => $record->getTranslation('title', 'ka'))
-                    ->limit(30),
+            Tables\Columns\TextColumn::make('title_ka')
+                ->label('Title (KA)')
+                ->getStateUsing(fn ($record) => $record->getTranslation('title', 'ka'))
+                ->limit(30),
 
-                Tables\Columns\ImageColumn::make('image_path')
-                    ->label('Image'),
+            Tables\Columns\ImageColumn::make('image_path')
+                ->label('Background')
+                ->disk('public'), // ensure thumbnail previews work
 
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime(),
-            ]);
+            Tables\Columns\TextColumn::make('created_at')->dateTime(),
+        ]);
     }
 
     public static function getPages(): array
