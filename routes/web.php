@@ -2,12 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use App\Http\Controllers\HeroController;
 
 // Standard Routes
 
-Route::get('/', function () {
-    return view('pages.home');
-})->name('home');
+Route::get('/', [HeroController::class, 'index'])->name('home');
+
 
 Route::get('/about', function () {
     return view('pages.about');

@@ -45,4 +45,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function canAccessFilament(): bool
+    {
+        // Adjust logic as needed
+        return $this->is_admin ?? false;
+    }
 }
