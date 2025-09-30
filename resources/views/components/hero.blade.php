@@ -108,9 +108,13 @@
                 </div>
 
                 <div class="mt-6 md:mt-7 flex flex-wrap items-center gap-3 animate-fadeUp" style="animation-delay:.1s">
-                  <x-ui.button x-bind:href="slide.button.link" variant="hero" size="lg" class="shrink-0">
-                    <span x-text="slide.button.text"></span>
+                  <!-- Prefer new resolved href (button_href), fallback to existing keys -->
+                  <x-ui.button
+                    x-bind:href="slide.button_href ?? (slide.button?.href ?? slide.button?.link ?? slide.button_link ?? '#')"
+                    variant="hero" size="lg" class="shrink-0">
+                    <span x-text="slide.button?.text ?? slide.button_text ?? '{{ __('messages.learn_more') }}'"></span>
                   </x-ui.button>
+
                   <x-ui.button route="services" variant="hero" size="lg" class="shrink-0">
                     {{ __('messages.services') }}
                   </x-ui.button>
@@ -138,7 +142,8 @@
 
         <!-- RIGHT: Media (DB-driven, styles/transitions unchanged) -->
         <div class="hidden md:block justify-self-end w-full min-w-0 relative z-0">
-          <a href="#" class="block rounded-2xl overflow-hidden hero-media">
+          <a :href="slides[activeSlide]?.button_href ?? (slides[activeSlide]?.button?.href ?? slides[activeSlide]?.button?.link ?? slides[activeSlide]?.button_link ?? '#')"
+             class="block rounded-2xl overflow-hidden hero-media">
             <div class="relative aspect-[16/9] md:max-h-[82vh]">
               <template x-for="(src, i) in (slides[activeSlide]?.media || [])" :key="'media-'+i">
                 <img

@@ -39,10 +39,52 @@ class HeroSlideResource extends Resource
             Forms\Components\TextInput::make('button_text.en')->label('Button Text (EN)'),
             Forms\Components\TextInput::make('button_text.ka')->label('Button Text (KA)'),
 
-            // Button Link
+            // ────────────────────────────────────────────────────────────────
+            // Button Link (Backwards-compatible + Better Routing)
+            // ────────────────────────────────────────────────────────────────
+
+            // 1) Pick how to link
+            Forms\Components\Radio::make('link_type')
+                ->label('Button Link Type')
+                ->options([
+                    'internal' => 'Internal route (recommended)',
+                    // 'external' => 'External URL',
+                    // 'legacy'   => 'Legacy plain URL (uses button_link field)',
+                ])
+                ->inline()
+                ->default('internal')
+                ->live(),
+
+            // 2) Internal route name (curated list)
+            Forms\Components\Select::make('button_route')
+                ->label('Route name')
+                ->options(self::routeOptions())
+                ->searchable()
+                ->visible(fn (callable $get) => $get('link_type') === 'internal')
+                ->required(fn (callable $get) => $get('link_type') === 'internal'),
+
+            // 3) Internal route params (key/value)
+            Forms\Components\KeyValue::make('button_params')
+                ->label('Route parameters')
+                ->keyLabel('Param')
+                ->valueLabel('Value')
+                ->addButtonLabel('Add parameter')
+                ->visible(fn (callable $get) => $get('link_type') === 'internal')
+                ->columnSpan('full'),
+
+            // 4) External URL
+            Forms\Components\TextInput::make('button_url')
+                ->label('External URL')
+                ->url()
+                ->placeholder('https://example.com/contact')
+                ->visible(fn (callable $get) => $get('link_type') === 'external')
+                ->required(fn (callable $get) => $get('link_type') === 'external'),
+
+            // 5) Legacy field (kept exactly as-is, just tucked under "legacy")
             Forms\Components\TextInput::make('button_link')
                 ->label('Button Link')
-                ->url(),
+                ->url()
+                ->visible(fn (callable $get) => $get('link_type') === 'legacy'),
 
             // Background Image (stored at storage/app/public/hero/...)
             Forms\Components\FileUpload::make('image_path')
@@ -83,6 +125,13 @@ class HeroSlideResource extends Resource
                 ->extraImgAttributes(['alt' => 'Background'])
                 ->defaultImageUrl('https://via.placeholder.com/80x48?text=—'),
 
+            // NEW: Always show the resolved, safe href (works for internal/external/legacy)
+            Tables\Columns\TextColumn::make('button_href')
+                ->label('Button Link')
+                ->url(fn (HeroSlide $record) => $record->button_href)
+                ->openUrlInNewTab()
+                ->limit(40),
+
             Tables\Columns\TextColumn::make('created_at')->dateTime(),
         ]);
     }
@@ -93,6 +142,22 @@ class HeroSlideResource extends Resource
             'index'  => Pages\ListHeroSlides::route('/'),
             'create' => Pages\CreateHeroSlide::route('/create'),
             'edit'   => Pages\EditHeroSlide::route('/{record}/edit'),
+        ];
+    }
+
+    /**
+     * Curated list of internal route names for editors.
+     * Add/remove to match your app's public routes.
+     */
+    protected static function routeOptions(): array
+    {
+        return [
+            'home'            => 'Home',
+            'about'           => 'About',
+            'services'        => 'Services',
+            'projects.index'  => 'Projects / Index',
+            'projects.show'   => 'Projects / Show (requires param)',
+            'contact'         => 'Contact',
         ];
     }
 }
