@@ -18,7 +18,7 @@
 
     <!-- Features on distinct surface from brandbook -->
     <section class="relative bg-[color:var(--features-surface)]">
-      <x-features />
+      <x-features :items="$featured"/>
     </section>
   </main>
 </x-layouts.base>

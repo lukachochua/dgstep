@@ -26,7 +26,7 @@ return [
                 'highlight' => 'across all industries',
                 'subtitle'  => 'We help small businesses serve faster, smarter, and better.',
                 'button'    => [
-                    'text' => 'Get in Touch',
+                    'text' => 'Contact Us',
                     'link' => '#contact',
                 ],
             ],
@@ -35,7 +35,7 @@ return [
                 'highlight' => 'Local + Compliant',
                 'subtitle'  => 'Tailored tools for your workflow and regulations.',
                 'button'    => [
-                    'text' => 'Start Now',
+                    'text' => 'Contact Us',
                     'link' => '#contact',
                 ],
             ],

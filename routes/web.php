@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Http\Controllers\HeroController;
+use App\Models\Service;
 
 // Standard Routes
 
@@ -48,6 +49,8 @@ Route::get('/pw1', function () {
 Route::get('/terms', function () {
     return view('pages.terms');
 })->name('terms');
+
+
 
 Route::get('/contact', [\App\Http\Controllers\ContactController::class, 'show'])->name('contact');
 Route::post('/contact', [\App\Http\Controllers\ContactController::class, 'submit'])->name('contact.submit');

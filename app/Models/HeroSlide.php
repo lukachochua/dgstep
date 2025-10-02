@@ -15,15 +15,21 @@ class HeroSlide extends Model
         'highlight',
         'subtitle',
         'button_text',
+        'secondary_button_text',
 
         // Legacy field (plain URL)
         'button_link',
+        'secondary_button_link',
 
         // New, route-aware linking
         'link_type',       // 'internal' | 'external' | 'legacy'
         'button_route',    // route name (e.g., 'projects.show')
         'button_params',   // json array of route params
         'button_url',      // external URL (e.g., 'https://example.com')
+        'secondary_link_type',
+        'secondary_button_route',
+        'secondary_button_params',
+        'secondary_button_url',
 
         'image_path',
         'media_paths',
@@ -37,6 +43,7 @@ class HeroSlide extends Model
         'highlight',
         'subtitle',
         'button_text',
+        'secondary_button_text',
     ];
 
     /**
@@ -45,10 +52,12 @@ class HeroSlide extends Model
     protected $casts = [
         'media_paths'   => 'array',
         'button_params' => 'array', // new
+        'secondary_button_params' => 'array',
     ];
 
     protected $appends = [
         'button_href',
+        'secondary_button_href',
         'image_url',
         'media_urls',
     ];
@@ -102,25 +111,44 @@ class HeroSlide extends Model
      */
     public function getButtonHrefAttribute(): ?string
     {
-        $type = $this->link_type ?? null;
+        return $this->resolveButtonHref(
+            $this->link_type,
+            $this->button_route,
+            $this->button_params,
+            $this->button_url,
+            $this->button_link,
+        );
+    }
 
-        // Internal route
-        if ($type === 'internal' && !empty($this->button_route)) {
+    public function getSecondaryButtonHrefAttribute(): ?string
+    {
+        return $this->resolveButtonHref(
+            $this->secondary_link_type,
+            $this->secondary_button_route,
+            $this->secondary_button_params,
+            $this->secondary_button_url,
+            $this->secondary_button_link,
+        );
+    }
+
+    protected function resolveButtonHref(?string $type, ?string $routeName, $params, ?string $url, ?string $legacy): ?string
+    {
+        $type = $type ?: null;
+
+        if ($type === 'internal' && !empty($routeName)) {
             try {
-                return route($this->button_route, (array) ($this->button_params ?? []));
+                return route($routeName, (array) ($params ?? []));
             } catch (\Throwable $e) {
-                // Unknown route or missing params → fall through safely
+                // Ignore and fall through to other options when route fails
             }
         }
 
-        // External URL
-        if ($type === 'external' && !empty($this->button_url)) {
-            return $this->button_url;
+        if ($type === 'external' && !empty($url)) {
+            return $url;
         }
 
-        // Legacy plain URL
-        if (!empty($this->button_link)) {
-            return $this->button_link;
+        if (!empty($legacy)) {
+            return $legacy;
         }
 
         return null;

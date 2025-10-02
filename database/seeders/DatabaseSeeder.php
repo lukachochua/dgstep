@@ -41,6 +41,15 @@ class DatabaseSeeder extends Seeder
                     'ka' => 'დაგვიკავშირდით',
                 ],
                 'button_link' => '#contact',
+                'secondary_button_text' => [
+                    'en' => 'Services',
+                    'ka' => 'სერვისები',
+                ],
+                'secondary_link_type' => 'internal',
+                'secondary_button_route' => 'services',
+                'secondary_button_params' => null,
+                'secondary_button_url' => null,
+                'secondary_button_link' => null,
                 'image_path' => null,
             ],
             [
@@ -57,10 +66,19 @@ class DatabaseSeeder extends Seeder
                     'ka' => 'ჩვენ ვეხმარებით მცირე ბიზნესებს სწრაფ, ჭკვიან და ხარისხიან მომსახურებაში.',
                 ],
                 'button_text' => [
-                    'en' => 'Get in Touch',
+                    'en' => 'Contact Us',
                     'ka' => 'დაგვიკავშირდით',
                 ],
                 'button_link' => '#contact',
+                'secondary_button_text' => [
+                    'en' => 'Services',
+                    'ka' => 'სერვისები',
+                ],
+                'secondary_link_type' => 'internal',
+                'secondary_button_route' => 'services',
+                'secondary_button_params' => null,
+                'secondary_button_url' => null,
+                'secondary_button_link' => null,
                 'image_path' => null,
             ],
             [
@@ -77,10 +95,19 @@ class DatabaseSeeder extends Seeder
                     'ka' => 'ინსტრუმენტები მორგებული თქვენს სამუშაო ნაკადსა და რეგულაციებს.',
                 ],
                 'button_text' => [
-                    'en' => 'Start Now',
-                    'ka' => 'დაიწყეთ ახლა',
+                    'en' => 'Contact Us',
+                    'ka' => 'დაგვიკავშირდით',
                 ],
                 'button_link' => '#contact',
+                'secondary_button_text' => [
+                    'en' => 'Services',
+                    'ka' => 'სერვისები',
+                ],
+                'secondary_link_type' => 'internal',
+                'secondary_button_route' => 'services',
+                'secondary_button_params' => null,
+                'secondary_button_url' => null,
+                'secondary_button_link' => null,
                 'image_path' => null,
             ],
         ];
@@ -91,5 +118,9 @@ class DatabaseSeeder extends Seeder
                 $slide
             );
         }
+
+        $this->call([
+            ServiceSeeder::class,
+        ]);
     }
 }

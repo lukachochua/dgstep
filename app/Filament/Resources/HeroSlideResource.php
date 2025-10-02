@@ -15,6 +15,7 @@ class HeroSlideResource extends Resource
     protected static ?string $model = HeroSlide::class;
     protected static ?string $navigationIcon = 'heroicon-o-photo';
     protected static ?string $navigationGroup = 'Content';
+    protected static ?int $navigationSort = 10; 
 
     public static function form(Form $form): Form
     {
@@ -43,25 +44,16 @@ class HeroSlideResource extends Resource
             // Button Link (Backwards-compatible + Better Routing)
             // ────────────────────────────────────────────────────────────────
 
-            // 1) Pick how to link
-            Forms\Components\Radio::make('link_type')
-                ->label('Button Link Type')
-                ->options([
-                    'internal' => 'Internal route (recommended)',
-                    // 'external' => 'External URL',
-                    // 'legacy'   => 'Legacy plain URL (uses button_link field)',
-                ])
-                ->inline()
+            Forms\Components\Hidden::make('link_type')
                 ->default('internal')
-                ->live(),
+                ->afterStateHydrated(fn ($component) => $component->state('internal')),
 
             // 2) Internal route name (curated list)
             Forms\Components\Select::make('button_route')
                 ->label('Route name')
                 ->options(self::routeOptions())
                 ->searchable()
-                ->visible(fn (callable $get) => $get('link_type') === 'internal')
-                ->required(fn (callable $get) => $get('link_type') === 'internal'),
+                ->required(),
 
             // 3) Internal route params (key/value)
             Forms\Components\KeyValue::make('button_params')
@@ -69,22 +61,34 @@ class HeroSlideResource extends Resource
                 ->keyLabel('Param')
                 ->valueLabel('Value')
                 ->addButtonLabel('Add parameter')
-                ->visible(fn (callable $get) => $get('link_type') === 'internal')
+                ->columnSpan('full'),
+            Forms\Components\Hidden::make('button_link'),
+            Forms\Components\Hidden::make('button_url'),
+
+            // Secondary Button Text
+            Forms\Components\TextInput::make('secondary_button_text.en')->label('Secondary Button Text (EN)'),
+            Forms\Components\TextInput::make('secondary_button_text.ka')->label('Secondary Button Text (KA)'),
+
+            // Secondary Button Link settings
+            Forms\Components\Hidden::make('secondary_link_type')
+                ->default('internal')
+                ->afterStateHydrated(fn ($component) => $component->state('internal')),
+
+            Forms\Components\Select::make('secondary_button_route')
+                ->label('Secondary Route name')
+                ->options(self::routeOptions())
+                ->searchable()
+                ->required(),
+
+            Forms\Components\KeyValue::make('secondary_button_params')
+                ->label('Secondary Route parameters')
+                ->keyLabel('Param')
+                ->valueLabel('Value')
+                ->addButtonLabel('Add parameter')
                 ->columnSpan('full'),
 
-            // 4) External URL
-            Forms\Components\TextInput::make('button_url')
-                ->label('External URL')
-                ->url()
-                ->placeholder('https://example.com/contact')
-                ->visible(fn (callable $get) => $get('link_type') === 'external')
-                ->required(fn (callable $get) => $get('link_type') === 'external'),
-
-            // 5) Legacy field (kept exactly as-is, just tucked under "legacy")
-            Forms\Components\TextInput::make('button_link')
-                ->label('Button Link')
-                ->url()
-                ->visible(fn (callable $get) => $get('link_type') === 'legacy'),
+            Forms\Components\Hidden::make('secondary_button_link'),
+            Forms\Components\Hidden::make('secondary_button_url'),
 
             // Background Image (stored at storage/app/public/hero/...)
             Forms\Components\FileUpload::make('image_path')
@@ -129,6 +133,12 @@ class HeroSlideResource extends Resource
             Tables\Columns\TextColumn::make('button_href')
                 ->label('Button Link')
                 ->url(fn (HeroSlide $record) => $record->button_href)
+                ->openUrlInNewTab()
+                ->limit(40),
+
+            Tables\Columns\TextColumn::make('secondary_button_href')
+                ->label('Secondary Link')
+                ->url(fn (HeroSlide $record) => $record->secondary_button_href)
                 ->openUrlInNewTab()
                 ->limit(40),
 

@@ -674,10 +674,10 @@ html:not([data-theme]) {
   }
 
   /* DEFAULTS */
-  :root[data-theme="light"] .logo-swap .logo-img--light { opacity: 1; } 
+  :root[data-theme="light"] .logo-swap .logo-img--light { opacity: 1; }
   :root[data-theme="light"] .logo-swap .logo-img--dark  { opacity: 0; }
 
-  :root[data-theme="dark"]  .logo-swap .logo-img--light { opacity: 1; }  
+  :root[data-theme="dark"]  .logo-swap .logo-img--light { opacity: 1; }
   :root[data-theme="dark"]  .logo-swap .logo-img--dark  { opacity: 0; }
 
   /* HOVER */

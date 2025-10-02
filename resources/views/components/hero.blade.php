@@ -115,8 +115,11 @@
                     <span x-text="slide.button?.text ?? slide.button_text ?? '{{ __('messages.learn_more') }}'"></span>
                   </x-ui.button>
 
-                  <x-ui.button route="services" variant="hero" size="lg" class="shrink-0">
-                    {{ __('messages.services') }}
+                  <x-ui.button
+                    href="{{ Route::has('services') ? route('services') : '#' }}"
+                    x-bind:href="slide.secondary_button?.href ?? (slide.secondary_button_href ?? '#')"
+                    variant="hero" size="lg" class="shrink-0">
+                    <span x-text="slide.secondary_button?.text ?? '{{ __('messages.services') }}'"></span>
                   </x-ui.button>
                 </div>
               </div>
