@@ -2,6 +2,8 @@
 
 return [
     'title' => 'Services — DGstep',
+    'our_key_services' => 'Our Key Services',
+    'how_we_can_help' => 'How we can help — focused on impact and outcomes.',
     'sections' => [
         'pawnshop' => [
             'title' => 'Pawnshop Operations',

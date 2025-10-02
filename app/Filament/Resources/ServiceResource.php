@@ -27,8 +27,6 @@ class ServiceResource extends Resource
 
         return $form->schema([
             Forms\Components\Grid::make(12)->schema([
-
-                // Content (localized)
                 Forms\Components\Section::make('Content')
                     ->columnSpan(8)
                     ->schema([
@@ -43,12 +41,10 @@ class ServiceResource extends Resource
                                                 ->label('Title')
                                                 ->required()
                                                 ->maxLength(160),
-
                                             Forms\Components\Textarea::make("description.$code")
                                                 ->label('Description')
                                                 ->rows(4)
                                                 ->required(),
-
                                             Forms\Components\Repeater::make("problems.$code")
                                                 ->label('Problems')
                                                 ->schema([
@@ -66,7 +62,6 @@ class ServiceResource extends Resource
                             ),
                     ]),
 
-                // Meta
                 Forms\Components\Section::make('Meta')
                     ->columnSpan(4)
                     ->schema([
@@ -163,10 +158,7 @@ class ServiceResource extends Resource
         ];
     }
 
-    /**
-     * Helper used by page hooks to convert repeater payload
-     * problems.en => [ ['value'=>'…'], ... ]  into  problems.en => ['…', ...]
-     */
+    // Helper for page hooks (Create/Edit) to normalize repeater payload to plain arrays.
     public static function normalizeProblems(array $data, array $locales): array
     {
         if (! isset($data['problems'])) {

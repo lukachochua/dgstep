@@ -15,7 +15,7 @@ class HeroSlideResource extends Resource
     protected static ?string $model = HeroSlide::class;
     protected static ?string $navigationIcon = 'heroicon-o-photo';
     protected static ?string $navigationGroup = 'Content';
-    protected static ?int $navigationSort = 10; 
+    protected static ?int $navigationSort = 10;
 
     public static function form(Form $form): Form
     {
@@ -41,35 +41,32 @@ class HeroSlideResource extends Resource
             Forms\Components\TextInput::make('button_text.ka')->label('Button Text (KA)'),
 
             // ────────────────────────────────────────────────────────────────
-            // Button Link (Backwards-compatible + Better Routing)
+            // Button Link (internal only, per your current setup)
             // ────────────────────────────────────────────────────────────────
-
             Forms\Components\Hidden::make('link_type')
                 ->default('internal')
                 ->afterStateHydrated(fn ($component) => $component->state('internal')),
 
-            // 2) Internal route name (curated list)
             Forms\Components\Select::make('button_route')
                 ->label('Route name')
                 ->options(self::routeOptions())
                 ->searchable()
                 ->required(),
 
-            // 3) Internal route params (key/value)
             Forms\Components\KeyValue::make('button_params')
                 ->label('Route parameters')
                 ->keyLabel('Param')
                 ->valueLabel('Value')
                 ->addButtonLabel('Add parameter')
                 ->columnSpan('full'),
+
             Forms\Components\Hidden::make('button_link'),
             Forms\Components\Hidden::make('button_url'),
 
-            // Secondary Button Text
+            // Secondary
             Forms\Components\TextInput::make('secondary_button_text.en')->label('Secondary Button Text (EN)'),
             Forms\Components\TextInput::make('secondary_button_text.ka')->label('Secondary Button Text (KA)'),
 
-            // Secondary Button Link settings
             Forms\Components\Hidden::make('secondary_link_type')
                 ->default('internal')
                 ->afterStateHydrated(fn ($component) => $component->state('internal')),
@@ -90,23 +87,31 @@ class HeroSlideResource extends Resource
             Forms\Components\Hidden::make('secondary_button_link'),
             Forms\Components\Hidden::make('secondary_button_url'),
 
-            // Background Image (stored at storage/app/public/hero/...)
+            // ────────────────────────────────────────────────────────────────
+            // Uploads (fixed)
+            // ────────────────────────────────────────────────────────────────
             Forms\Components\FileUpload::make('image_path')
                 ->label('Background Image')
                 ->image()
-                ->disk('public')
-                ->directory('hero')
-                ->maxSize(2048),
+                ->imageEditor()
+                ->disk('public')                // storage/app/public
+                ->directory('hero')             // storage/app/public/hero
+                ->visibility('public')          // ensures public ACL
+                ->acceptedFileTypes(['image/png', 'image/jpeg', 'image/webp'])
+                ->maxSize(8192),                // 8 MB
 
-            // Right-side Media Images (stored at storage/app/public/hero_media/...)
             Forms\Components\FileUpload::make('media_paths')
                 ->label('Right-side Media Images')
                 ->image()
                 ->multiple()
+                ->reorderable()
+                ->imageEditor()
                 ->disk('public')
                 ->directory('hero_media')
+                ->visibility('public')
+                ->acceptedFileTypes(['image/png', 'image/jpeg', 'image/webp'])
                 ->maxFiles(6)
-                ->maxSize(4096),
+                ->maxSize(8192),
         ]);
     }
 
@@ -123,13 +128,11 @@ class HeroSlideResource extends Resource
                 ->getStateUsing(fn (HeroSlide $record) => $record->getTranslation('title', 'ka'))
                 ->limit(30),
 
-            // Use the accessor, not the raw DB field
-            Tables\Columns\ImageColumn::make('image_url')
+            Tables\Columns\ImageColumn::make('image_url') // use accessor
                 ->label('Background')
                 ->extraImgAttributes(['alt' => 'Background'])
                 ->defaultImageUrl('https://via.placeholder.com/80x48?text=—'),
 
-            // NEW: Always show the resolved, safe href (works for internal/external/legacy)
             Tables\Columns\TextColumn::make('button_href')
                 ->label('Button Link')
                 ->url(fn (HeroSlide $record) => $record->button_href)
@@ -157,7 +160,6 @@ class HeroSlideResource extends Resource
 
     /**
      * Curated list of internal route names for editors.
-     * Add/remove to match your app's public routes.
      */
     protected static function routeOptions(): array
     {

@@ -17,10 +17,10 @@
   <div class="relative z-10 mx-auto max-w-[var(--container-content)] px-4 sm:px-6 md:px-8">
     <header class="text-center mb-10 md:mb-12">
       <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-tight">
-        {{ __('Our Key Services') }}
+        {{ __('services.our_key_services') }}
       </h2>
       <p class="mt-3 text-base md:text-lg leading-relaxed max-w-2xl mx-auto text-[color:var(--hero-ink-muted)]">
-        {{ __('How we can help — focused on impact and outcomes.') }}
+        {{ __('services.how_we_can_help') }}
       </p>
     </header>
 
