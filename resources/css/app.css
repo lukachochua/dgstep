@@ -393,6 +393,9 @@ html:not([data-theme]) {
   .page-wrapper {
     position: fixed; inset: 0; width: 100%; height: 100%;
     overflow-y: auto; overflow-x: hidden;
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--navbar-h, 64px) + 1rem);
+    background-color: var(--bg-default);
   }
 
   /* Cards / Glass */
@@ -815,4 +818,3 @@ html:not([data-theme]) {
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 /* Extra belt-and-suspenders for some Edge/Win builds */
 .no-scrollbar { scrollbar-color: transparent transparent; }
-
