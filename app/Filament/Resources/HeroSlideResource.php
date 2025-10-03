@@ -20,7 +20,9 @@ class HeroSlideResource extends Resource
     public static function form(Form $form): Form
     {
         return $form->schema([
-            // Title
+            // ────────────────────────────────────────────────
+            // Title (translations)
+            // ────────────────────────────────────────────────
             Forms\Components\TextInput::make('title.en')
                 ->label('Title (EN)')
                 ->required(),
@@ -36,16 +38,14 @@ class HeroSlideResource extends Resource
             Forms\Components\Textarea::make('subtitle.en')->label('Subtitle (EN)'),
             Forms\Components\Textarea::make('subtitle.ka')->label('Subtitle (KA)'),
 
-            // Button Text
+            // Button Texts
             Forms\Components\TextInput::make('button_text.en')->label('Button Text (EN)'),
             Forms\Components\TextInput::make('button_text.ka')->label('Button Text (KA)'),
 
-            // ────────────────────────────────────────────────────────────────
-            // Button Link (internal only, per your current setup)
-            // ────────────────────────────────────────────────────────────────
-            Forms\Components\Hidden::make('link_type')
-                ->default('internal')
-                ->afterStateHydrated(fn ($component) => $component->state('internal')),
+            // ────────────────────────────────────────────────
+            // Primary Button (internal links only)
+            // ────────────────────────────────────────────────
+            Forms\Components\Hidden::make('link_type')->default('internal'),
 
             Forms\Components\Select::make('button_route')
                 ->label('Route name')
@@ -60,22 +60,19 @@ class HeroSlideResource extends Resource
                 ->addButtonLabel('Add parameter')
                 ->columnSpan('full'),
 
-            Forms\Components\Hidden::make('button_link'),
-            Forms\Components\Hidden::make('button_url'),
-
-            // Secondary
+            // ────────────────────────────────────────────────
+            // Secondary Button (optional)
+            // ────────────────────────────────────────────────
             Forms\Components\TextInput::make('secondary_button_text.en')->label('Secondary Button Text (EN)'),
             Forms\Components\TextInput::make('secondary_button_text.ka')->label('Secondary Button Text (KA)'),
 
-            Forms\Components\Hidden::make('secondary_link_type')
-                ->default('internal')
-                ->afterStateHydrated(fn ($component) => $component->state('internal')),
+            Forms\Components\Hidden::make('secondary_link_type')->default('internal'),
 
             Forms\Components\Select::make('secondary_button_route')
                 ->label('Secondary Route name')
                 ->options(self::routeOptions())
                 ->searchable()
-                ->required(),
+                ->nullable(), // optional
 
             Forms\Components\KeyValue::make('secondary_button_params')
                 ->label('Secondary Route parameters')
@@ -84,21 +81,18 @@ class HeroSlideResource extends Resource
                 ->addButtonLabel('Add parameter')
                 ->columnSpan('full'),
 
-            Forms\Components\Hidden::make('secondary_button_link'),
-            Forms\Components\Hidden::make('secondary_button_url'),
-
-            // ────────────────────────────────────────────────────────────────
-            // Uploads (fixed)
-            // ────────────────────────────────────────────────────────────────
+            // ────────────────────────────────────────────────
+            // Uploads
+            // ────────────────────────────────────────────────
             Forms\Components\FileUpload::make('image_path')
                 ->label('Background Image')
                 ->image()
                 ->imageEditor()
-                ->disk('public')                // storage/app/public
-                ->directory('hero')             // storage/app/public/hero
-                ->visibility('public')          // ensures public ACL
-                ->acceptedFileTypes(['image/png', 'image/jpeg', 'image/webp'])
-                ->maxSize(8192),                // 8 MB
+                ->disk('public')
+                ->directory('hero')
+                ->visibility('public')
+                ->acceptedFileTypes(['image/png', 'image/jpeg', 'image/webp', 'image/bmp'])
+                ->maxSize(8192), // 8 MB
 
             Forms\Components\FileUpload::make('media_paths')
                 ->label('Right-side Media Images')
@@ -109,7 +103,7 @@ class HeroSlideResource extends Resource
                 ->disk('public')
                 ->directory('hero_media')
                 ->visibility('public')
-                ->acceptedFileTypes(['image/png', 'image/jpeg', 'image/webp'])
+                ->acceptedFileTypes(['image/png', 'image/jpeg', 'image/webp', 'image/bmp'])
                 ->maxFiles(6)
                 ->maxSize(8192),
         ]);
@@ -118,21 +112,22 @@ class HeroSlideResource extends Resource
     public static function table(Table $table): Table
     {
         return $table->columns([
-            Tables\Columns\TextColumn::make('title_en')
+            // Titles (using JSON keys directly)
+            Tables\Columns\TextColumn::make('title.en')
                 ->label('Title (EN)')
-                ->getStateUsing(fn (HeroSlide $record) => $record->getTranslation('title', 'en'))
                 ->limit(30),
 
-            Tables\Columns\TextColumn::make('title_ka')
+            Tables\Columns\TextColumn::make('title.ka')
                 ->label('Title (KA)')
-                ->getStateUsing(fn (HeroSlide $record) => $record->getTranslation('title', 'ka'))
                 ->limit(30),
 
-            Tables\Columns\ImageColumn::make('image_url') // use accessor
+            // Background image (via accessor on model)
+            Tables\Columns\ImageColumn::make('image_url')
                 ->label('Background')
                 ->extraImgAttributes(['alt' => 'Background'])
                 ->defaultImageUrl('https://via.placeholder.com/80x48?text=—'),
 
+            // Button links
             Tables\Columns\TextColumn::make('button_href')
                 ->label('Button Link')
                 ->url(fn (HeroSlide $record) => $record->button_href)
@@ -164,12 +159,12 @@ class HeroSlideResource extends Resource
     protected static function routeOptions(): array
     {
         return [
-            'home'            => 'Home',
-            'about'           => 'About',
-            'services'        => 'Services',
-            'projects.index'  => 'Projects / Index',
-            'projects.show'   => 'Projects / Show (requires param)',
-            'contact'         => 'Contact',
+            'home'           => 'Home',
+            'about'          => 'About',
+            'services'       => 'Services',
+            'projects.index' => 'Projects / Index',
+            'projects.show'  => 'Projects / Show (requires param)',
+            'contact'        => 'Contact',
         ];
     }
 }

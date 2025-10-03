@@ -11,6 +11,8 @@ return [
 
     'mission' => [
         'heading' => 'Our <span class="text-[var(--color-electric-sky)]">Mission</span>',
+        'label' => 'MISSION',
+        'description' => 'DGstep builds software that removes operational friction so owners can focus on customers. We tailor every platform to Georgian legal realities and business culture for results that feel local and practical. Our team ships modern Laravel, Tailwind, and Alpine.js solutions that stay clean, fast, and dependable.',
         'cards' => [
             [
                 'title' => 'Simplify Complexity',
@@ -27,10 +29,13 @@ return [
         ],
     ],
 
+    // kept for backward compatibility (not rendered on the page anymore)
     'cta' => 'Contact Us',
 
     'management' => [
         'heading' => 'Our <span class="text-[var(--color-electric-sky)]">Management Team</span>',
+        'view_all' => 'View all',
+        'collapse' => 'Collapse',
         'members' => [
             1 => [
                 'name' => 'Sergo Matiashvili',
@@ -49,7 +54,8 @@ return [
 
     'vision' => [
         'heading' => 'Our <span class="text-[var(--color-electric-sky)]">Vision</span>',
-        'text' => 'We aim to become the trusted digital backbone for Georgia’s regulated industries — empowering businesses with tools that are reliable, transparent, and built for the future.',
+        'label' => 'VISION',
+        'description' => 'We aim to become the trusted digital backbone for Georgia’s regulated industries, delivering tools that are reliable, transparent, and future-ready. Our platform scales from single shops to national networks without costly rewrites. We design intuitive experiences and stay ahead of compliance shifts so businesses stay ready for what’s next.',
         'cards' => [
             [
                 'title' => 'Designed for Scale',
@@ -65,5 +71,4 @@ return [
             ],
         ],
     ],
-
 ];

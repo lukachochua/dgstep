@@ -809,3 +809,10 @@ html:not([data-theme]) {
   .theme-icon { transition: opacity .2s linear !important; transform: none !important; }
   .hero-arrow, .hero-bgimg, .animate-fadeUp { transition: none !important; transform: none !important; animation: none !important; }
 }
+
+/* Hide all horizontal scrollbar UI across browsers */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+/* Extra belt-and-suspenders for some Edge/Win builds */
+.no-scrollbar { scrollbar-color: transparent transparent; }
+
