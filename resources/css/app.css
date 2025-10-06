@@ -365,6 +365,8 @@ html:not([data-theme]) {
   html {
     font-family: "Calibri", var(--font-sans);
     transition: background-color 0.2s ease, color 0.2s ease;
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--navbar-h, 64px) + 1rem);
   }
   [lang="ka"] { font-family: "Calibri", sans-serif; }
 }
@@ -391,10 +393,6 @@ html:not([data-theme]) {
 
   /* Page wrapper (optional) */
   .page-wrapper {
-    position: fixed; inset: 0; width: 100%; height: 100%;
-    overflow-y: auto; overflow-x: hidden;
-    scroll-behavior: smooth;
-    scroll-padding-top: calc(var(--navbar-h, 64px) + 1rem);
     background-color: var(--bg-default);
   }
 

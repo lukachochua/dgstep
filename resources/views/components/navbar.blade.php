@@ -26,6 +26,7 @@
     transitionsEnabled: false,
     ready: false,
     mounted: false,
+    userScrollIntent: false,
 
     /* Scroll context */
     scroller: null,
@@ -47,7 +48,18 @@
       document.documentElement.setAttribute('data-theme', this.theme);
       try { localStorage.setItem('dg:theme', this.theme); } catch (_) {}
     },
-    getScroller(){ return document.querySelector('.page-wrapper') || window; },
+    getScroller(){
+      const wrapper = document.querySelector('.page-wrapper');
+      if (!wrapper) return window;
+
+      try {
+        const overflowY = window.getComputedStyle(wrapper).overflowY;
+        const isScrollable = overflowY === 'auto' || overflowY === 'scroll';
+        return isScrollable ? wrapper : window;
+      } catch (_) {
+        return window;
+      }
+    },
     getScrollY(){
       const s = this.scroller;
       return (s === window)
@@ -57,11 +69,17 @@
     now(){ return (performance && performance.now) ? performance.now() : Date.now(); },
 
     measureScrollbarGutter(){
+      const nav = this.$refs.nav;
+      if (!nav) return;
+
+      if (this.scroller === window) {
+        nav.style.right = '0px';
+        return;
+      }
+
       const s = this.scroller;
-      const sbw = (s === window)
-        ? (window.innerWidth - document.documentElement.clientWidth)
-        : (s.offsetWidth - s.clientWidth);
-      if (this.$refs.nav) this.$refs.nav.style.right = (sbw > 0 ? sbw + 'px' : '0px');
+      const sbw = s.offsetWidth - s.clientWidth;
+      nav.style.right = sbw > 0 ? sbw + 'px' : '0px';
     },
     lockScroll(lock){
       const s = this.scroller;
@@ -81,6 +99,13 @@
     /* ---------- Visibility rules ---------- */
     applyVisibility(nextY, ts){
       if (this.open) { this.isHiding = false; this.isVisible = true; return; }
+
+      if (!this.userScrollIntent) {
+        this.isHiding = false;
+        this.isVisible = true;
+        this.lastRevealY = nextY;
+        return;
+      }
 
       if (nextY <= this.topSnap) {
         this.isHiding = false;
@@ -154,10 +179,33 @@
         this.lastY = y2; this.lastTS = t2;
       };
 
-      (this.scroller === window
-        ? window.addEventListener('scroll', onScroll, { passive: true })
-        : this.scroller.addEventListener('scroll', onScroll, { passive: true })
-      );
+      const scrollerEl = (this.scroller === window) ? window : this.scroller;
+
+      const onKeyDown = (evt) => {
+        if (this.userScrollIntent) return;
+        const keys = ['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' '];
+        if (keys.includes(evt.key)) markUserScroll();
+      };
+
+      const markUserScroll = () => {
+        if (this.userScrollIntent) return;
+        this.userScrollIntent = true;
+        scrollerEl.removeEventListener('wheel', markUserScroll);
+        window.removeEventListener('wheel', markUserScroll);
+        window.removeEventListener('touchstart', markUserScroll);
+        window.removeEventListener('touchmove', markUserScroll);
+        window.removeEventListener('keydown', onKeyDown);
+      };
+
+      scrollerEl.addEventListener('scroll', onScroll, { passive: true });
+      if (scrollerEl !== window) {
+        scrollerEl.addEventListener('wheel', markUserScroll, { passive: true });
+      }
+
+      window.addEventListener('wheel', markUserScroll, { passive: true });
+      window.addEventListener('touchstart', markUserScroll, { passive: true });
+      window.addEventListener('touchmove', markUserScroll, { passive: true });
+      window.addEventListener('keydown', onKeyDown, { passive: true });
       window.addEventListener('resize', onResize, { passive: true });
 
       this.$watch('open', (v) => {

@@ -5,36 +5,18 @@
            bg-[var(--bg-default)]
            [background-image:linear-gradient(180deg,transparent_0%,transparent_40%,color-mix(in_oklab,var(--color-brand-950)_6%,transparent)_100%)]
            dark:[background-image:linear-gradient(180deg,color-mix(in_oklab,var(--color-brand-950)_16%,transparent)_0%,transparent_60%,transparent_100%)]">
+
     <div class="container mx-auto px-4 sm:px-6 md:px-8 grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
 
-      {{-- Left Content --}}
+      {{-- Left Content (DB-driven) --}}
       <div class="space-y-6">
-        <span class="uppercase font-medium tracking-wide text-[12px] sm:text-[13px] text-[var(--color-electric-sky)]">
-          {{ __('contact.tagline') }}
-        </span>
-
         <h2 class="text-3xl sm:text-4xl font-extrabold leading-snug text-[color-mix(in_oklab,var(--text-default)_94%,transparent)]">
-          {{ __('contact.headline') }}
+          {{ $headline }}
         </h2>
 
         <p class="text-[16px] leading-relaxed text-[color-mix(in_oklab,var(--text-default)_78%,transparent)]">
-          {{ __('contact.description') }}
+          {{ $desc }}
         </p>
-
-        {{-- Client Satisfaction --}}
-        <div class="space-y-2">
-          <p class="text-[14px] font-medium flex justify-between
-                    text-[color-mix(in_oklab,var(--text-default)_88%,transparent)]">
-            <span>{{ __('contact.metric.label') }}</span>
-            <span>100%</span>
-          </p>
-          <div class="w-full h-2 rounded-full overflow-hidden
-                      bg-[color-mix(in_oklab,var(--text-default)_10%,transparent)]">
-            <div class="h-2 w-full
-                        bg-[var(--color-electric-sky)]
-                        shadow-[inset_0_0_6px_rgba(0,0,0,.25)]"></div>
-          </div>
-        </div>
 
         {{-- Feature Badges --}}
         <div class="flex flex-wrap gap-6 pt-4">
@@ -47,7 +29,7 @@
               </svg>
             </div>
             <span class="text-sm font-medium text-[color-mix(in_oklab,var(--text-default)_90%,transparent)]">
-              {{ __('contact.features.professional') }}
+              {{ $featPro }}
             </span>
           </div>
 
@@ -60,20 +42,20 @@
               </svg>
             </div>
             <span class="text-sm font-medium text-[color-mix(in_oklab,var(--text-default)_90%,transparent)]">
-              {{ __('contact.features.guarantees') }}
+              {{ $featGua }}
             </span>
           </div>
         </div>
 
-        {{-- Optional CTA --}}
+        {{-- Primary CTA --}}
         <div class="pt-6">
-          <a href="#contact-form" class="btn btn-md btn-secondary">
-            {{ __('contact.read_more') }}
+          <a href="tel:{{ $ctaPhone }}" class="btn btn-md btn-secondary">
+            {{ $ctaLabel }}
           </a>
         </div>
       </div>
 
-      {{-- Contact Form --}}
+      {{-- Contact Form (unchanged; uses i18n strings) --}}
       <div class="card p-6 sm:p-8 rounded-2xl" id="contact-form">
         <form
           x-data="contactForm()"
@@ -209,7 +191,6 @@
           }
 
           if (Object.keys(this.errors).length === 0) {
-            // Submit the actual FORM element (fixes prior bug submitting a div)
             this.$el.submit();
           }
         }
