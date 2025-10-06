@@ -11,6 +11,9 @@ class HeroController extends Controller
     public function index()
     {
         $locale = app()->getLocale();
+        $isKaLocale = $locale === 'ka';
+        $isEnLocale = $locale === 'en';
+        [$heroHeadingScale, $heroSubtitleScale] = $this->heroTypographyScale($locale);
 
         $slides = HeroSlide::query()
             ->orderBy('id')
@@ -49,6 +52,28 @@ class HeroController extends Controller
         // NEW: pull exactly three featured services (scope enforces limit/order)
         $featured = Service::featured()->get();
 
-        return view('pages.home', compact('slides', 'featured'));
+        return view('pages.home', compact(
+            'slides',
+            'featured',
+            'isKaLocale',
+            'isEnLocale',
+            'heroHeadingScale',
+            'heroSubtitleScale'
+        ));
+    }
+
+    private function heroTypographyScale(string $locale): array
+    {
+        if ($locale === 'ka') {
+            return [
+                'text-[21px] md:text-[28px] lg:text-[36px]',
+                'text-[14px] md:text-[16px]',
+            ];
+        }
+
+        return [
+            'text-[22px] md:text-[32px] lg:text-[42px]',
+            'text-[15px] md:text-[17px]',
+        ];
     }
 }

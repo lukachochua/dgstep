@@ -10,6 +10,17 @@
             .team-scroll { -ms-overflow-style: none; scrollbar-width: none; }
         </style>
 
+        @php
+            $locale = app()->getLocale();
+            $aboutDefaults = $aboutDefaults ?? \App\Models\AboutPage::defaults();
+            $aboutPage = $aboutPage ?? \App\Models\AboutPage::singleton();
+
+            $managementHeading = $aboutPage->translated('management_heading', $locale, $aboutDefaults);
+            $managementViewAll = $aboutPage->translated('management_view_all', $locale, $aboutDefaults);
+            $managementCollapse = $aboutPage->translated('management_collapse', $locale, $aboutDefaults);
+            $managementMembers = $aboutPage->membersForLocale($locale, $aboutDefaults);
+        @endphp
+
         <!-- Page Surface -->
         <section
             class="flex-grow select-none
@@ -194,7 +205,7 @@
                     class="relative"
                 >
                     <h3 class="text-3xl md:text-4xl font-bold mb-4 text-[var(--text-default)]">
-                        {!! __('about.management.heading') !!}
+                        {!! $managementHeading ?? __('about.management.heading') !!}
                     </h3>
 
                     <!-- Strip/Grid switcher -->
@@ -204,7 +215,8 @@
                         <div x-ref="stripWrap" x-cloak
                              class="absolute inset-0 transition duration-300 ease-out"
                              :class="openAll ? 'opacity-0 pointer-events-none translate-y-2' : 'opacity-100 pointer-events-auto translate-y-0'">
-                            <div class="relative h-full">
+                            {{-- Limit the slider viewport to roughly three cards on wide screens --}}
+                            <div class="relative h-full mx-auto w-full max-w-[59.5rem]">
                                 <!-- Left fade + arrow -->
                                 <div x-show="canLeft && !openAll" x-cloak x-transition.opacity
                                      class="pointer-events-none absolute inset-y-0 left-0 w-14 bg-gradient-to-r from-[color-mix(in_oklab,var(--bg-default)_85%,transparent)] to-transparent"
@@ -235,29 +247,40 @@
 
                                 <!-- Strip (horizontal only; vertical hidden) -->
                                 <div x-ref="strip"
-                                     class="team-scroll overflow-x-auto overflow-y-hidden overscroll-contain
+                                     class="team-scroll overflow-x-auto overflow-y-hidden overscroll-contain w-full
                                             [scrollbar-color:transparent_transparent] [scrollbar-gutter:stable] pr-6
                                             transition duration-300 ease-out"
                                      tabindex="0">
                                     <ul class="flex gap-6 snap-x snap-mandatory scroll-pl-1 px-2 py-1 -mb-2">
-                                        @foreach ([1,2,3,4,5,6] as $i)
+                                        @forelse ($managementMembers as $index => $member)
+                                            @php
+                                                $memberName = $member['name'] ?? __('Team member');
+                                                $memberRole = $member['role'] ?? '';
+                                                $memberImage = $member['image_url'] ?? 'https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=300&h=300&fit=crop';
+                                            @endphp
                                             <li class="snap-start shrink-0 w-[min(85vw,18rem)]">
                                                 <div class="card p-5 h-full">
-                                                    <img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?ixid={{ $i }}&w=300&h=300&fit=crop"
-                                                         alt="Team Member {{ $i }}"
+                                                    <img src="{{ $memberImage }}"
+                                                         alt="{{ $memberName }}"
                                                          class="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover mb-3 mx-auto
                                                                 border border-[color-mix(in_oklab,var(--text-default)_18%,transparent)]">
                                                     <div class="text-center space-y-0.5">
                                                         <h4 class="text-[15px] md:text-[16px] font-semibold text-[var(--text-default)]">
-                                                            {{ __('about.management.members.' . (($i<=3)?$i:($i%3+1)) . '.name') }}
+                                                            {{ $memberName }}
                                                         </h4>
                                                         <p class="text-[13px] md:text-[14px] text-[color-mix(in_oklab,var(--text-default)_62%,transparent)]">
-                                                            {{ __('about.management.members.' . (($i<=3)?$i:($i%3+1)) . '.role') }}
+                                                            {{ $memberRole }}
                                                         </p>
                                                     </div>
                                                 </div>
                                             </li>
-                                        @endforeach
+                                        @empty
+                                            <li class="snap-start shrink-0 w-[min(85vw,18rem)]">
+                                                <div class="card p-5 h-full text-center text-sm text-[color-mix(in_oklab,var(--text-default)_62%,transparent)]">
+                                                    {{ __('No team members found.') }}
+                                                </div>
+                                            </li>
+                                        @endforelse
                                     </ul>
                                 </div>
                             </div>
@@ -269,24 +292,33 @@
                              :class="openAll ? 'opacity-100 pointer-events-auto translate-y-0' : 'opacity-0 pointer-events-none translate-y-3'">
                             <div class="mt-2">
                                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 text-left" data-team-grid>
-                                    @foreach ([1,2,3,4,5,6] as $i)
+                                    @forelse ($managementMembers as $index => $member)
+                                        @php
+                                            $memberName = $member['name'] ?? __('Team member');
+                                            $memberRole = $member['role'] ?? '';
+                                            $memberImage = $member['image_url'] ?? 'https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=300&h=300&fit=crop';
+                                        @endphp
                                         <div class="card p-5 transition duration-300 ease-out transform"
                                              :class="openAll ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'"
                                              style="transition-delay: {{ $loop->index * 45 }}ms">
-                                            <img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?ixid={{ $i }}&w=300&h=300&fit=crop"
-                                                 alt="Team Member {{ $i }}"
+                                            <img src="{{ $memberImage }}"
+                                                 alt="{{ $memberName }}"
                                                  class="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover mb-3 mx-auto
                                                         border border-[color-mix(in_oklab,var(--text-default)_18%,transparent)]">
                                             <div class="text-center space-y-0.5">
                                                 <h4 class="text-[15px] md:text-[16px] font-semibold text-[var(--text-default)]">
-                                                    {{ __('about.management.members.' . (($i<=3)?$i:($i%3+1)) . '.name') }}
+                                                    {{ $memberName }}
                                                 </h4>
                                                 <p class="text-[13px] md:text-[14px] text-[color-mix(in_oklab,var(--text-default)_62%,transparent)]">
-                                                    {{ __('about.management.members.' . (($i<=3)?$i:($i%3+1)) . '.role') }}
+                                                    {{ $memberRole }}
                                                 </p>
                                             </div>
                                         </div>
-                                    @endforeach
+                                    @empty
+                                        <div class="card p-5 text-center text-sm text-[color-mix(in_oklab,var(--text-default)_62%,transparent)]">
+                                            {{ __('No team members found.') }}
+                                        </div>
+                                    @endforelse
                                 </div>
                             </div>
                         </div>
@@ -304,7 +336,7 @@
                             x-cloak
                             @click="toggleAll(true)"
                         >
-                            {{ __('about.management.view_all') }}
+                            {{ $managementViewAll ?? __('about.management.view_all') }}
                         </x-ui.button>
                         <x-ui.button
                             as="button"
@@ -316,7 +348,7 @@
                             x-cloak
                             @click="toggleAll(false)"
                         >
-                            {{ __('about.management.collapse') }}
+                            {{ $managementCollapse ?? __('about.management.collapse') }}
                         </x-ui.button>
                     </div>
 

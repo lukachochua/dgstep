@@ -1,3 +1,11 @@
+@props([
+  'slides' => [],
+  'isKaLocale' => false,
+  'isEnLocale' => false,
+  'heroHeadingScale' => 'text-2xl md:text-4xl lg:text-5xl',
+  'heroSubtitleScale' => 'text-base md:text-lg',
+])
+
 <section
   x-data="{
     activeSlide: 0,
@@ -98,12 +106,12 @@
                 role="group" aria-roledescription="slide" :aria-label="`Slide ${index+1} of ${slides.length}`"
               >
                 <div :style="`min-height:${textBlockH||0}px`">
-                  <h1 class="text-2xl md:text-4xl lg:text-5xl font-extrabold leading-[1.15] tracking-tight [text-wrap:balance] animate-fadeUp drop-shadow-lg">
+                  <h1 class="{{ $heroHeadingScale }} font-extrabold leading-[1.15] tracking-tight [text-wrap:balance] animate-fadeUp drop-shadow-lg">
                     <span x-text="slide.title"></span><br>
                     <span class="hero-highlight" x-text="slide.highlight"></span>
                   </h1>
 
-                  <p class="mt-3 md:mt-4 text-base md:text-lg leading-relaxed drop-shadow-sm text-[color:var(--hero-ink-muted)] animate-fadeUp"
+                  <p class="mt-3 md:mt-4 {{ $heroSubtitleScale }} leading-relaxed drop-shadow-sm text-[color:var(--hero-ink-muted)] animate-fadeUp"
                      style="animation-delay:.05s" x-text="slide.subtitle"></p>
                 </div>
 
@@ -131,11 +139,11 @@
             <template x-for="(slide, index) in slides" :key="'measure-'+index">
               <div class="w-[48ch]" data-measure="slide">
                 <div data-measure="hgroup">
-                  <h1 class="text-2xl md:text-4xl lg:text-5xl font-extrabold leading-[1.15] tracking-tight">
+                  <h1 class="{{ $heroHeadingScale }} font-extrabold leading-[1.15] tracking-tight">
                     <span x-text="slide.title"></span><br>
                     <span x-text="slide.highlight"></span>
                   </h1>
-                  <p class="mt-3 md:mt-4 text-base md:text-lg leading-relaxed" x-text="slide.subtitle"></p>
+                  <p class="mt-3 md:mt-4 {{ $heroSubtitleScale }} leading-relaxed" x-text="slide.subtitle"></p>
                 </div>
                 <div class="mt-6 md:mt-7 h-11"></div>
               </div>

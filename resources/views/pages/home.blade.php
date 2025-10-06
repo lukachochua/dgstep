@@ -4,7 +4,13 @@
                bg-[color:var(--bg-default)]
                text-[color:var(--text-default)]">
 
-    <x-hero :slides="$slides" />
+    <x-hero
+      :slides="$slides"
+      :is-ka-locale="$isKaLocale"
+      :is-en-locale="$isEnLocale"
+      :hero-heading-scale="$heroHeadingScale"
+      :hero-subtitle-scale="$heroSubtitleScale"
+    />
 
     <!-- Soft separator -->
     <div class="md:my-2">

@@ -1,5 +1,5 @@
 @props([
-  'items' => collect(), // Collection<Service>
+  'items' => collect(), 
 ])
 
 @php

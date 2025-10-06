@@ -13,27 +13,27 @@ return [
     'hero' => [
         'slides' => [
             [
-                'title'     => 'Simplify Pawnshop Operations',
-                'highlight' => 'with DG STEP',
-                'subtitle'  => 'From records to renewals — manage it all with one tool.',
+                'title'     => 'Digitize your business’s daily operations',
+                'highlight' => 'Save time and resources with DG Step.',
+                'subtitle'  => 'Automate manual workflows and connect every touchpoint into one platform.',
                 'button'    => [
                     'text' => 'Contact Us',
                     'link' => '#contact',
                 ],
             ],
             [
-                'title'     => 'Boost Business Efficiency',
-                'highlight' => 'across all industries',
-                'subtitle'  => 'We help small businesses serve faster, smarter, and better.',
+                'title'     => 'Simplify and increase the efficiency of your business',
+                'highlight' => 'We help businesses simplify their daily operations.',
+                'subtitle'  => 'Gain visibility across teams, track KPIs in real time, and remove bottlenecks.',
                 'button'    => [
                     'text' => 'Contact Us',
                     'link' => '#contact',
                 ],
             ],
             [
-                'title'     => 'Built for Georgian Businesses',
-                'highlight' => 'Local + Compliant',
-                'subtitle'  => 'Tailored tools for your workflow and regulations.',
+                'title'     => 'Time to digitize your business.',
+                'highlight' => 'We provide customized services and solutions for your business.',
+                'subtitle'  => 'Launch tailored software faster with a partner who understands local regulations.',
                 'button'    => [
                     'text' => 'Contact Us',
                     'link' => '#contact',
@@ -74,9 +74,20 @@ return [
     ],
 
     'footer' => [
+        'headings' => [
+            'information' => 'Information',
+            'contact'      => 'Contact',
+        ],
         'nav' => [
+            'about'   => 'About Us',
+            'news'    => 'News',
             'contact' => 'Contact',
             'terms'   => 'Terms and Conditions',
+        ],
+        'cta'       => 'Leave a request',
+        'aria'      => [
+            'information_links' => 'Footer information links',
+            'social_media'      => 'Social media',
         ],
         'copyright' => '© :year DGstep. All rights reserved.',
     ],
