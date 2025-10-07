@@ -141,18 +141,46 @@
                         canLeft:false,
                         canRight:false,
                         openAll:false,
+                        switcherHeight:'auto',
+                        heightTimer:null,
                         toggleAll(state){
+                            if (this.openAll === state) return;
+                            this.lockHeight();
                             this.openAll = state;
-                            this.$nextTick(()=>{
-                                const strip = this.$refs.strip;
-                                if (!state && strip) {
-                                    strip.scrollLeft = 0;
+                            this.syncHeight();
+                            if (!state && this.$refs.strip) {
+                                this.$refs.strip.scrollLeft = 0;
+                            }
+                            requestAnimationFrame(() => this.updateArrows());
+                        },
+                        lockHeight(){
+                            const current = this.openAll ? this.$refs.gridWrap : this.$refs.stripWrap;
+                            if (!current) return;
+                            const height = current.offsetHeight;
+                            if (height) {
+                                this.switcherHeight = `${height}px`;
+                            }
+                        },
+                        syncHeight(){
+                            this.$nextTick(() => {
+                                const target = this.openAll ? this.$refs.gridWrap : this.$refs.stripWrap;
+                                if (!target) return;
+                                const height = target.offsetHeight;
+                                if (!height) return;
+                                this.switcherHeight = `${height}px`;
+                                clearTimeout(this.heightTimer);
+                                this.heightTimer = setTimeout(() => {
+                                    this.switcherHeight = 'auto';
+                                    this.heightTimer = null;
+                                }, 360);
+                                if (!this.openAll) {
                                     requestAnimationFrame(() => this.updateArrows());
                                 }
                             });
                         },
                         updateArrows(){
-                            const el = this.$refs.strip; if (!el || this.openAll) {
+                            const el = this.$refs.strip;
+                            if (!el || this.openAll) {
                                 this.canLeft = false;
                                 this.canRight = false;
                                 return;
@@ -164,11 +192,24 @@
                         init(){
                             const el = this.$refs.strip;
                             if (el) {
-                                this.updateArrows();
-                                el.addEventListener('scroll', ()=>this.updateArrows(), { passive:true });
+                                el.addEventListener('scroll', () => this.updateArrows(), { passive:true });
                             }
-                            addEventListener('resize', ()=>this.updateArrows());
-                            this.$watch('openAll', ()=>this.updateArrows());
+                            addEventListener('resize', () => {
+                                this.syncHeight();
+                                this.updateArrows();
+                            });
+                            this.$nextTick(() => {
+                                this.syncHeight();
+                                this.updateArrows();
+                                setTimeout(() => {
+                                    this.syncHeight();
+                                    this.updateArrows();
+                                }, 260);
+                            });
+                            this.$watch('openAll', () => {
+                                this.syncHeight();
+                                requestAnimationFrame(() => this.updateArrows());
+                            });
                         },
                         nudge(px){ this.$refs.strip?.scrollBy({ left:px, behavior:'smooth' }); }
                     }"
@@ -178,12 +219,14 @@
                         {!! $managementHeading ?? __('about.management.heading') !!}
                     </h3>
 
-                    <!-- Strip/Grid switcher -->
-                    <div class="relative overflow-hidden rounded-lg">
+                    <!-- Strip/Grid switcher (height-locked to avoid layout jump) -->
+                    <div class="relative overflow-hidden rounded-lg transition-[height] duration-300 ease-out"
+                         :style="switcherHeight ? { height: switcherHeight } : null">
                         <!-- Slider viewport -->
                         <div x-ref="stripWrap" x-cloak
                              x-show="!openAll"
-                             x-transition.opacity.duration.300ms
+                             x-transition.opacity.duration.200ms
+                             x-transition:leave.opacity.duration.0ms
                              class="transition duration-300 ease-out"
                              :class="openAll ? 'pointer-events-none' : 'pointer-events-auto'">
                             {{-- Limit the slider viewport to roughly three cards on wide screens --}}
@@ -260,7 +303,7 @@
                         <!-- Expanded grid -->
                         <div x-ref="gridWrap" x-cloak
                              x-show="openAll"
-                             x-transition.opacity.duration.300ms
+                             x-transition.opacity.duration.250ms
                              class="transition duration-300 ease-out"
                              :class="openAll ? 'pointer-events-auto' : 'pointer-events-none'">
                             <div class="mt-2">
