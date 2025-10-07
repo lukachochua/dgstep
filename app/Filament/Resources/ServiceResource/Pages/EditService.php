@@ -9,6 +9,13 @@ class EditService extends EditRecord
 {
     protected static string $resource = ServiceResource::class;
 
+    protected function mutateFormDataBeforeFill(array $data): array
+    {
+        $locales = ['en' => 'English', 'ka' => 'ქართული'];
+
+        return ServiceResource::expandProblemsForForm($data, $locales);
+    }
+
     protected function mutateFormDataBeforeSave(array $data): array
     {
         $locales = ['en' => 'English', 'ka' => 'ქართული'];

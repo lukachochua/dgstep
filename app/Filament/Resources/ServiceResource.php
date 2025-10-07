@@ -77,7 +77,8 @@ class ServiceResource extends Resource
                             ->imageEditor()
                             ->downloadable()
                             ->visibility('public')
-                            ->required(),
+                            ->required()
+                            ->helperText('Use a 16:10 image (about 1280×800) so the homepage cards stay crisp.'),
 
                         Forms\Components\TextInput::make('image_alt')
                             ->label('Image alt')
@@ -171,6 +172,24 @@ class ServiceResource extends Resource
                     ->map(fn ($row) => is_array($row) ? ($row['value'] ?? '') : (string) $row)
                     ->filter()
                     ->values()
+                    ->all();
+            }
+        }
+
+        return $data;
+    }
+
+    // Prepare persisted plain strings for the repeater field expectations.
+    public static function expandProblemsForForm(array $data, array $locales): array
+    {
+        if (! isset($data['problems'])) {
+            return $data;
+        }
+
+        foreach ($locales as $code => $_) {
+            if (isset($data['problems'][$code]) && is_array($data['problems'][$code])) {
+                $data['problems'][$code] = collect($data['problems'][$code])
+                    ->map(fn ($row) => is_array($row) ? $row : ['value' => $row])
                     ->all();
             }
         }

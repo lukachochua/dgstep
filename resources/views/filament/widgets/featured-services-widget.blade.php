@@ -1,7 +1,7 @@
 @php use Illuminate\Support\Str; @endphp
 
 <x-filament-widgets::widget>
-    <div class="grid gap-6 lg:grid-cols-2">
+    <div class="grid gap-6 lg:grid-cols-2 xl:gap-8">
         <div class="space-y-3">
             <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wide dark:text-gray-400">Hero slides</h3>
 

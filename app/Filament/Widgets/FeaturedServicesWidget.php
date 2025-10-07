@@ -10,6 +10,15 @@ class FeaturedServicesWidget extends Widget
 {
     protected static string $view = 'filament.widgets.featured-services-widget';
 
+    /**
+     * Span the widget across both dashboard columns on wide screens so the
+     * inner lists have room to sit side-by-side.
+     */
+    protected int | string | array $columnSpan = [
+        'default' => 1,
+        'xl' => 2,
+    ];
+
     protected function getViewData(): array
     {
         $locale = app()->getLocale();

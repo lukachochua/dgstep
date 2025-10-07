@@ -94,7 +94,8 @@ class HeroSlideResource extends Resource
                 ->directory('hero')
                 ->visibility('public')
                 ->acceptedFileTypes(['image/png', 'image/jpeg', 'image/webp', 'image/bmp'])
-                ->maxSize(8192), // 8 MB
+                ->maxSize(8192) // 8 MB
+                ->helperText('Upload a wide 16:9 image (minimum 2560×1440) so it stays sharp on the full-height hero background.'),
 
             Forms\Components\FileUpload::make('media_paths')
                 ->label('Right-side Media Images')
@@ -107,7 +108,8 @@ class HeroSlideResource extends Resource
                 ->visibility('public')
                 ->acceptedFileTypes(['image/png', 'image/jpeg', 'image/webp', 'image/bmp'])
                 ->maxFiles(6)
-                ->maxSize(8192),
+                ->maxSize(8192)
+                ->helperText('Design for a 16:9 frame (around 1920×1080) to match the right-hand preview mockup.'),
         ]);
     }
 
