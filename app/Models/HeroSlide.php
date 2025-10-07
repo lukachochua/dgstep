@@ -61,6 +61,16 @@ class HeroSlide extends Model
         'image_url',
         'media_urls',
     ];
+
+    protected static function booted(): void
+    {
+        static::saving(function (HeroSlide $slide): void {
+            // Primary CTA should always lead to the Contact page when persisted.
+            $slide->link_type = 'internal';
+            $slide->button_route = 'contact';
+            $slide->button_params = [];
+        });
+    }
     /**
      * Background image URL (left-side) as an absolute URL.
      */

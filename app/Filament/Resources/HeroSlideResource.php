@@ -47,11 +47,13 @@ class HeroSlideResource extends Resource
             // ────────────────────────────────────────────────
             Forms\Components\Hidden::make('link_type')->default('internal'),
 
-            Forms\Components\Select::make('button_route')
-                ->label('Route name')
-                ->options(self::routeOptions())
-                ->searchable()
-                ->required(),
+            Forms\Components\Placeholder::make('button_route_label')
+                ->label('Primary Button Route')
+                ->content('Always points to the Contact page.'),
+
+            Forms\Components\Hidden::make('button_route')
+                ->default('contact')
+                ->dehydrated(),
 
             Forms\Components\KeyValue::make('button_params')
                 ->label('Route parameters')
