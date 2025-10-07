@@ -64,4 +64,30 @@ class ContactPageResource extends Resource
             'edit' => Pages\EditContactPage::route('/{record}/edit'),
         ];
     }
+
+    public static function getNavigationUrl(): string
+    {
+        $record = ContactPage::query()->latest('id')->first();
+
+        if ($record) {
+            return static::getUrl('edit', ['record' => $record]);
+        }
+
+        return static::getUrl('create');
+    }
+
+    public static function canCreate(): bool
+    {
+        return ! ContactPage::query()->exists();
+    }
+
+    public static function canDelete($record): bool
+    {
+        return false;
+    }
+
+    public static function canDeleteAny(): bool
+    {
+        return false;
+    }
 }

@@ -141,44 +141,25 @@
                         canLeft:false,
                         canRight:false,
                         openAll:false,
-                        containerH:0,
                         toggleAll(state){
                             this.openAll = state;
-                            const refresh = () => {
-                                if (!state) {
-                                    const strip = this.$refs.strip;
-                                    if (strip) {
-                                        strip.scrollLeft = 0;
-                                    }
-                                }
-                                this.updateArrows();
-                                this.measureHeights();
-                            };
                             this.$nextTick(()=>{
-                                refresh();
-                                if (!state) {
-                                    requestAnimationFrame(refresh);
-                                    setTimeout(refresh, 220);
+                                const strip = this.$refs.strip;
+                                if (!state && strip) {
+                                    strip.scrollLeft = 0;
+                                    requestAnimationFrame(() => this.updateArrows());
                                 }
                             });
                         },
                         updateArrows(){
-                            const el = this.$refs.strip; if (!el) return;
+                            const el = this.$refs.strip; if (!el || this.openAll) {
+                                this.canLeft = false;
+                                this.canRight = false;
+                                return;
+                            }
                             const max = Math.max(0, el.scrollWidth - el.clientWidth);
                             this.canLeft  = el.scrollLeft > 2;
                             this.canRight = el.scrollLeft < (max - 2);
-                        },
-                        measureHeights(){
-                            const slider = this.$refs.strip;
-                            const sliderH = slider ? slider.scrollHeight : 0;
-                            const gridWrap = this.$refs.gridWrap;
-                            let gridH = 0;
-                            if (gridWrap) {
-                                const gridContent = gridWrap.querySelector('[data-team-grid]');
-                                gridH = gridContent ? gridContent.scrollHeight : gridWrap.scrollHeight;
-                            }
-                            const preferred = this.openAll ? gridH : sliderH;
-                            this.containerH = preferred || Math.max(sliderH, gridH);
                         },
                         init(){
                             const el = this.$refs.strip;
@@ -186,19 +167,8 @@
                                 this.updateArrows();
                                 el.addEventListener('scroll', ()=>this.updateArrows(), { passive:true });
                             }
-                            const handleResize = () => {
-                                this.measureHeights();
-                                this.updateArrows();
-                            };
-                            addEventListener('resize', handleResize);
-                            this.$nextTick(()=>{
-                                this.measureHeights();
-                                this.updateArrows();
-                            });
-                            setTimeout(()=>{
-                                this.measureHeights();
-                                this.updateArrows();
-                            }, 160);
+                            addEventListener('resize', ()=>this.updateArrows());
+                            this.$watch('openAll', ()=>this.updateArrows());
                         },
                         nudge(px){ this.$refs.strip?.scrollBy({ left:px, behavior:'smooth' }); }
                     }"
@@ -209,12 +179,13 @@
                     </h3>
 
                     <!-- Strip/Grid switcher -->
-                    <div class="relative overflow-hidden rounded-lg"
-                         :style="containerH ? `min-height:${containerH}px` : ''">
+                    <div class="relative overflow-hidden rounded-lg">
                         <!-- Slider viewport -->
                         <div x-ref="stripWrap" x-cloak
-                             class="absolute inset-0 transition duration-300 ease-out"
-                             :class="openAll ? 'opacity-0 pointer-events-none translate-y-2' : 'opacity-100 pointer-events-auto translate-y-0'">
+                             x-show="!openAll"
+                             x-transition.opacity.duration.300ms
+                             class="transition duration-300 ease-out"
+                             :class="openAll ? 'pointer-events-none' : 'pointer-events-auto'">
                             {{-- Limit the slider viewport to roughly three cards on wide screens --}}
                             <div class="relative h-full mx-auto w-full max-w-[59.5rem]">
                                 <!-- Left fade + arrow -->
@@ -288,8 +259,10 @@
 
                         <!-- Expanded grid -->
                         <div x-ref="gridWrap" x-cloak
-                             class="absolute inset-0 transition duration-300 ease-out"
-                             :class="openAll ? 'opacity-100 pointer-events-auto translate-y-0' : 'opacity-0 pointer-events-none translate-y-3'">
+                             x-show="openAll"
+                             x-transition.opacity.duration.300ms
+                             class="transition duration-300 ease-out"
+                             :class="openAll ? 'pointer-events-auto' : 'pointer-events-none'">
                             <div class="mt-2">
                                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 text-left" data-team-grid>
                                     @forelse ($managementMembers as $index => $member)

@@ -155,8 +155,9 @@ class AboutPage extends Model
                         'ka' => 'ლუკა ჩოჩუა',
                     ],
                     'role' => [
-                        'en' => 'Chief Technology Officer',
-                        'ka' => 'ტექნოლოგიური დირექტორი',
+                        'en' => 'Head of Compliance',
+                        'ka' => 'კომპლაიანსის უფროსი',
+
                     ],
                     'image_url' => 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?ixid=4&w=300&h=300&fit=crop',
                 ],
@@ -177,8 +178,8 @@ class AboutPage extends Model
                         'ka' => 'ლაშა ენდელაძე',
                     ],
                     'role' => [
-                        'en' => 'Head of Compliance',
-                        'ka' => 'კომპლაიანსის უფროსი',
+                        'en' => 'Chief Technology Officer',
+                        'ka' => 'ტექნოლოგიური დირექტორი',
                     ],
                     'image_url' => 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixid=5&w=300&h=300&fit=crop',
                 ],

@@ -186,40 +186,40 @@ class AboutPageResource extends Resource
                         ->collapsed()
                         ->default([])
                         ->createItemButtonLabel('Add member')
-                        ->grid(12)
                         ->itemLabel(fn (array $state): string => data_get($state, 'name.en') ?? data_get($state, 'name', 'Team member'))
+                        ->columns([
+                            'default' => 1,
+                            'lg' => 12,
+                        ])
+                        ->grid(1)
                         ->schema([
-                            Forms\Components\Grid::make()
-                                ->columns([
-                                    'sm' => 1,
-                                    'lg' => 12,
-                                ])
-                                ->schema([
-                                    Forms\Components\Group::make([
-                                        Forms\Components\TextInput::make('image_url')
-                                            ->label('Image URL')
-                                            ->maxLength(2048)
-                                            ->url(),
-                                    ])->columnSpan(['lg' => 4]),
-
-                                    Forms\Components\Group::make([
-                                        Forms\Components\Tabs::make('member_locales')
-                                            ->tabs(
-                                                collect(static::getLocales())->map(function (string $label, string $code) {
-                                                    return Forms\Components\Tabs\Tab::make($label)
-                                                        ->schema([
-                                                            Forms\Components\TextInput::make("name.$code")
-                                                                ->label('Name')
-                                                                ->maxLength(120),
-                                                            Forms\Components\TextInput::make("role.$code")
-                                                                ->label('Role')
-                                                                ->maxLength(160),
-                                                        ]);
-                                                })->toArray()
-                                            )
-                                            ->columnSpanFull(),
-                                    ])->columnSpan(['lg' => 8]),
+                            Forms\Components\TextInput::make('image_url')
+                                ->label('Image URL')
+                                ->maxLength(2048)
+                                ->url()
+                                ->columnSpan([
+                                    'default' => 1,
+                                    'lg' => 4,
                                 ]),
+
+                            Forms\Components\Tabs::make('member_locales')
+                                ->columnSpan([
+                                    'default' => 1,
+                                    'lg' => 8,
+                                ])
+                                ->tabs(
+                                    collect(static::getLocales())->map(function (string $label, string $code) {
+                                        return Forms\Components\Tabs\Tab::make($label)
+                                            ->schema([
+                                                Forms\Components\TextInput::make("name.$code")
+                                                    ->label('Name')
+                                                    ->maxLength(120),
+                                                Forms\Components\TextInput::make("role.$code")
+                                                    ->label('Role')
+                                                    ->maxLength(160),
+                                            ]);
+                                    })->toArray()
+                                ),
                         ])
                         ->columnSpanFull(),
                 ])
@@ -259,6 +259,13 @@ class AboutPageResource extends Resource
             'index' => Pages\ListAboutPages::route('/'),
             'edit' => Pages\EditAboutPage::route('/{record}/edit'),
         ];
+    }
+
+    public static function getNavigationUrl(): string
+    {
+        $record = AboutPage::singleton();
+
+        return static::getUrl('edit', ['record' => $record]);
     }
 
     public static function canCreate(): bool
