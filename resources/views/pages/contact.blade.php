@@ -165,6 +165,20 @@
                      placeholder:text-[color-mix(in_oklab,var(--text-default)_55%,transparent)]"></textarea>
           </div>
 
+          @if ($recaptchaSiteKey)
+            <div class="flex justify-center">
+              <div class="g-recaptcha" data-sitekey="{{ $recaptchaSiteKey }}"></div>
+            </div>
+          @else
+            <p class="text-[13px] text-[color-mix(in_oklab,#f97316_82%,transparent)] bg-[color-mix(in_oklab,#f97316_16%,transparent)]/40 border border-[color-mix(in_oklab,#f97316_46%,transparent)] rounded-md px-3 py-2">
+              {{ __('contact.validation.captcha_unavailable') }}
+            </p>
+          @endif
+
+          @error('g-recaptcha-response')
+            <p class="text-[13px] mt-2 text-[color-mix(in_oklab,#ef4444_86%,transparent)]">{{ $message }}</p>
+          @enderror
+
           <button type="submit" class="btn btn-lg btn-primary w-full">
             {{ __('contact.form.cta') }}
           </button>
@@ -176,7 +190,12 @@
   <script>
     function contactForm() {
       return {
-        form: { name: '', surname: '', phone: '', comments: '' },
+        form: {
+          name: @js(old('name', '')),
+          surname: @js(old('surname', '')),
+          phone: @js(old('phone', '')),
+          comments: @js(old('comments', '')),
+        },
         errors: {},
         submitForm() {
           this.errors = {};
@@ -197,4 +216,8 @@
       }
     }
   </script>
+
+  @if ($recaptchaSiteKey)
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  @endif
 </x-layouts.base>

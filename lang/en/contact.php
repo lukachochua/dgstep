@@ -28,5 +28,9 @@ return [
         'surname' => 'Surname is required.',
         'phone_required' => 'Phone number is required.',
         'phone_invalid' => 'Invalid phone number format.',
+        'captcha_required' => 'Please confirm you are not a robot.',
+        'captcha_invalid' => 'Captcha verification failed. Please try again.',
+        'captcha_unavailable' => 'Captcha is unavailable right now. Please refresh the page or contact us directly.',
+        'captcha_unreachable' => 'We could not contact the captcha verification service. Please try again shortly.',
     ],
 ];

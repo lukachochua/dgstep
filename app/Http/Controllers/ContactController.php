@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\ContactPage;
+use App\Models\ContactSubmission;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Validation\ValidationException;
 
 class ContactController extends Controller
 {
@@ -54,6 +57,8 @@ class ContactController extends Controller
 
             'ctaPhone' => $record?->cta_phone_href
                 ?? ($defaults['cta_phone_href'] ?? __('contact.cta_phone_href')),
+
+            'recaptchaSiteKey' => config('services.recaptcha.site_key'),
         ];
 
         return view('pages.contact', $view);
@@ -66,9 +71,50 @@ class ContactController extends Controller
             'surname'  => ['required', 'string', 'max:255'],
             'phone'    => ['required', 'regex:/^\+?\d{7,15}$/'],
             'comments' => ['nullable', 'string', 'max:1000'],
+            'g-recaptcha-response' => ['required', 'string'],
+        ], [
+            'g-recaptcha-response.required' => __('contact.validation.captcha_required'),
         ]);
 
-        // TODO: send mail / queue a job / store CRM record, etc.
+        $recaptchaSecret = config('services.recaptcha.secret_key');
+
+        if (! $recaptchaSecret) {
+            throw ValidationException::withMessages([
+                'g-recaptcha-response' => __('contact.validation.captcha_unavailable'),
+            ]);
+        }
+
+        try {
+            $response = Http::asForm()
+                ->timeout(5)
+                ->post('https://www.google.com/recaptcha/api/siteverify', [
+                    'secret'   => $recaptchaSecret,
+                    'response' => $validated['g-recaptcha-response'],
+                    'remoteip' => $request->ip(),
+                ]);
+        } catch (\Throwable $exception) {
+            report($exception);
+
+            throw ValidationException::withMessages([
+                'g-recaptcha-response' => __('contact.validation.captcha_unreachable'),
+            ]);
+        }
+
+        if (! data_get($response->json(), 'success')) {
+            throw ValidationException::withMessages([
+                'g-recaptcha-response' => __('contact.validation.captcha_invalid'),
+            ]);
+        }
+
+        ContactSubmission::create([
+            'name'       => $validated['name'],
+            'surname'    => $validated['surname'],
+            'phone'      => $validated['phone'],
+            'comments'   => $validated['comments'] ?? null,
+            'locale'     => app()->getLocale(),
+            'ip_address' => $request->ip(),
+        ]);
+
         return back()->with('success', __('contact.success'));
     }
 }
