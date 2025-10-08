@@ -1,5 +1,37 @@
 {{-- resources/views/pages/about.blade.php --}}
-<x-layouts.base :title="__('about.title')">
+@php
+    $locale = app()->getLocale();
+    $aboutDefaults = $aboutDefaults ?? \App\Models\AboutPage::defaults();
+    $aboutPage = $aboutPage ?? \App\Models\AboutPage::singleton();
+
+    $pageTitle = $aboutPage->translated('title', $locale, $aboutDefaults);
+
+    $heroImageUrl = $aboutPage->hero_image_url ?? ($aboutDefaults['hero_image_url'] ?? null);
+    $heroImageAlt = $aboutPage->translated('hero_image_alt', $locale, $aboutDefaults);
+    $heroCaption = $aboutPage->translated('hero_caption', $locale, $aboutDefaults);
+    $heroStatusLabel = $aboutPage->translated('hero_status_label', $locale, $aboutDefaults);
+
+    $whoHeading = $aboutPage->translated('who_heading', $locale, $aboutDefaults);
+    $whoParagraph1 = $aboutPage->translated('who_paragraph_1', $locale, $aboutDefaults);
+    $whoParagraph2 = $aboutPage->translated('who_paragraph_2', $locale, $aboutDefaults);
+
+    $missionHeading = $aboutPage->translated('mission_heading', $locale, $aboutDefaults);
+    $missionLabel = $aboutPage->translated('mission_label', $locale, $aboutDefaults);
+    $missionDescription = $aboutPage->translated('mission_description', $locale, $aboutDefaults);
+
+    $visionHeading = $aboutPage->translated('vision_heading', $locale, $aboutDefaults);
+    $visionLabel = $aboutPage->translated('vision_label', $locale, $aboutDefaults);
+    $visionDescription = $aboutPage->translated('vision_description', $locale, $aboutDefaults);
+
+    $badges = $aboutPage->badgesForLocale($locale, $aboutDefaults);
+
+    $managementHeading = $aboutPage->translated('management_heading', $locale, $aboutDefaults);
+    $managementViewAll = $aboutPage->translated('management_view_all', $locale, $aboutDefaults);
+    $managementCollapse = $aboutPage->translated('management_collapse', $locale, $aboutDefaults);
+    $managementMembers = $aboutPage->membersForLocale($locale, $aboutDefaults);
+@endphp
+
+<x-layouts.base :title="$pageTitle ?? __('about.title')">
     <div class="min-h-screen flex flex-col">
         <style>
             /* Alpine: prevent initial flash */
@@ -9,17 +41,6 @@
             .team-scroll::-webkit-scrollbar { display: none; }
             .team-scroll { -ms-overflow-style: none; scrollbar-width: none; }
         </style>
-
-        @php
-            $locale = app()->getLocale();
-            $aboutDefaults = $aboutDefaults ?? \App\Models\AboutPage::defaults();
-            $aboutPage = $aboutPage ?? \App\Models\AboutPage::singleton();
-
-            $managementHeading = $aboutPage->translated('management_heading', $locale, $aboutDefaults);
-            $managementViewAll = $aboutPage->translated('management_view_all', $locale, $aboutDefaults);
-            $managementCollapse = $aboutPage->translated('management_collapse', $locale, $aboutDefaults);
-            $managementMembers = $aboutPage->membersForLocale($locale, $aboutDefaults);
-        @endphp
 
         <!-- Page Surface -->
         <section
@@ -42,35 +63,25 @@
                         <div class="md:w-[55%] space-y-5">
                             <div class="space-y-2.5">
                                 <h2 class="text-4xl md:text-5xl font-bold tracking-tight leading-tight text-[var(--text-default)]">
-                                    {!! __('about.who_we_are.heading') !!}
+                                    {!! $whoHeading ?? __('about.who_we_are.heading') !!}
                                 </h2>
                                 <p class="text-[17px] leading-relaxed text-[color-mix(in_oklab,var(--text-default)_78%,transparent)] max-w-prose">
-                                    {!! __('about.who_we_are.paragraph_1') !!}
+                                    {!! $whoParagraph1 ?? __('about.who_we_are.paragraph_1') !!}
                                 </p>
                                 <p class="text-[15px] leading-relaxed text-[color-mix(in_oklab,var(--text-default)_64%,transparent)] max-w-prose">
-                                    {!! __('about.who_we_are.paragraph_2') !!}
+                                    {!! $whoParagraph2 ?? __('about.who_we_are.paragraph_2') !!}
                                 </p>
                             </div>
 
                             <div class="flex flex-wrap gap-2 pt-1.5">
-                                <span class="inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-xs font-medium
-                                             bg-[color-mix(in_oklab,var(--text-default)_10%,transparent)]/25
-                                             border border-[color-mix(in_oklab,var(--text-default)_14%,transparent)]">
-                                    <span class="h-1.5 w-1.5 rounded-full" style="background: color-mix(in oklab, var(--color-electric-sky) 80%, transparent)"></span>
-                                    Laravel 12.x
-                                </span>
-                                <span class="inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-xs font-medium
-                                             bg-[color-mix(in_oklab,var(--text-default)_10%,transparent)]/25
-                                             border border-[color-mix(in_oklab,var(--text-default)_14%,transparent)]">
-                                    <span class="h-1.5 w-1.5 rounded-full" style="background: color-mix(in oklab, var(--color-electric-sky) 80%, transparent)"></span>
-                                    Tailwind &amp; Alpine.js
-                                </span>
-                                <span class="inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-xs font-medium
-                                             bg-[color-mix(in_oklab,var(--text-default)_10%,transparent)]/25
-                                             border border-[color-mix(in_oklab,var(--text-default)_14%,transparent)]">
-                                    <span class="h-1.5 w-1.5 rounded-full" style="background: color-mix(in oklab, var(--color-electric-sky) 80%, transparent)"></span>
-                                    SMB &amp; Pawn Ops
-                                </span>
+                                @foreach ($badges as $badge)
+                                    <span class="inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-xs font-medium
+                                                 bg-[color-mix(in_oklab,var(--text-default)_10%,transparent)]/25
+                                                 border border-[color-mix(in_oklab,var(--text-default)_14%,transparent)]">
+                                        <span class="h-1.5 w-1.5 rounded-full" style="background: color-mix(in oklab, var(--color-electric-sky) 80%, transparent)"></span>
+                                        {{ $badge }}
+                                    </span>
+                                @endforeach
                             </div>
                         </div>
 
@@ -86,20 +97,20 @@
                                             bg-[var(--bg-elevated)]
                                             border border-[color-mix(in_oklab,var(--text-default)_10%,transparent)]
                                             w-[min(100%,460px)]">
-                                    <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=1200&auto=format&fit=crop"
-                                         alt="Team working"
+                                    <img src="{{ $heroImageUrl }}"
+                                         alt="{{ $heroImageAlt ?? 'Team working' }}"
                                          loading="eager" fetchpriority="high"
                                          class="h-64 md:h-[19rem] w-full object-cover object-center" />
                                     <div class="flex items-center justify-between px-4 py-2.5
                                                 bg-[color-mix(in_oklab,var(--text-default)_6%,transparent)]/35
                                                 border-t border-[color-mix(in_oklab,var(--text-default)_10%,transparent)]">
                                         <div class="text-[11px] text-[color-mix(in_oklab,var(--text-default)_70%,transparent)]">
-                                            DGstep • SaaS for regulated services
+                                            {{ $heroCaption ?? 'DGstep • SaaS for regulated services' }}
                                         </div>
                                         <div class="inline-flex items-center gap-1.5 text-[11px] font-semibold
                                                     text-[color-mix(in_oklab,var(--text-default)_90%,transparent)]">
                                             <span class="h-1.5 w-1.5 rounded-full" style="background: color-mix(in oklab, var(--color-electric-sky) 80%, transparent)"></span>
-                                            Live
+                                            {{ $heroStatusLabel ?? 'Live' }}
                                         </div>
                                     </div>
                                 </div>
@@ -116,21 +127,39 @@
                 <section class="card px-6 sm:px-8 py-10 sm:py-12 bg-[var(--bg-elevated)]">
                     <div class="mx-auto max-w-4xl text-left space-y-8">
                         <div class="space-y-2.5">
-                            <h3 class="text-xs font-semibold tracking-[0.35em] uppercase text-[color-mix(in_oklab,var(--text-default)_65%,transparent)]">
-                                {{ __('about.mission.label') }}
-                            </h3>
-                            <p class="text-[17px] md:text-[18px] leading-relaxed text-[color-mix(in_oklab,var(--text-default)_82%,transparent)]">
-                                {!! __('about.mission.description') !!}
-                            </p>
+                            @if ($missionLabel)
+                                <h3 class="text-xs font-semibold tracking-[0.35em] uppercase text-[color-mix(in_oklab,var(--text-default)_65%,transparent)]">
+                                    {{ $missionLabel }}
+                                </h3>
+                            @endif
+                            @if ($missionHeading)
+                                <h2 class="text-3xl md:text-4xl font-semibold tracking-tight leading-tight text-[var(--text-default)]">
+                                    {!! $missionHeading !!}
+                                </h2>
+                            @endif
+                            @if ($missionDescription)
+                                <p class="text-[17px] md:text-[18px] leading-relaxed text-[color-mix(in_oklab,var(--text-default)_82%,transparent)]">
+                                    {!! $missionDescription !!}
+                                </p>
+                            @endif
                         </div>
 
                         <div class="pt-5 md:pt-6 border-t border-[color-mix(in_oklab,var(--text-default)_12%,transparent)] space-y-2.5">
-                            <h3 class="text-xs font-semibold tracking-[0.35em] uppercase text-[color-mix(in_oklab,var(--text-default)_65%,transparent)]">
-                                {{ __('about.vision.label') }}
-                            </h3>
-                            <p class="text-[17px] md:text-[18px] leading-relaxed text-[color-mix(in_oklab,var(--text-default)_82%,transparent)]">
-                                {!! __('about.vision.description') !!}
-                            </p>
+                            @if ($visionLabel)
+                                <h3 class="text-xs font-semibold tracking-[0.35em] uppercase text-[color-mix(in_oklab,var(--text-default)_65%,transparent)]">
+                                    {{ $visionLabel }}
+                                </h3>
+                            @endif
+                            @if ($visionHeading)
+                                <h2 class="text-3xl md:text-4xl font-semibold tracking-tight leading-tight text-[var(--text-default)]">
+                                    {!! $visionHeading !!}
+                                </h2>
+                            @endif
+                            @if ($visionDescription)
+                                <p class="text-[17px] md:text-[18px] leading-relaxed text-[color-mix(in_oklab,var(--text-default)_82%,transparent)]">
+                                    {!! $visionDescription !!}
+                                </p>
+                            @endif
                         </div>
                     </div>
                 </section>
