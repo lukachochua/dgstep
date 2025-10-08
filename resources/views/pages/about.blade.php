@@ -141,6 +141,9 @@
                         canLeft:false,
                         canRight:false,
                         openAll:false,
+                        modalOpen:false,
+                        modalMember:{ name:'', role:'', bio:'', image_url:'' },
+                        previouslyFocused:null,
                         switcherHeight:'auto',
                         heightTimer:null,
                         toggleAll(state){
@@ -211,9 +214,33 @@
                                 requestAnimationFrame(() => this.updateArrows());
                             });
                         },
-                        nudge(px){ this.$refs.strip?.scrollBy({ left:px, behavior:'smooth' }); }
+                        nudge(px){ this.$refs.strip?.scrollBy({ left:px, behavior:'smooth' }); },
+                        openMember(member){
+                            this.previouslyFocused = document.activeElement;
+                            const fallback = 'https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=300&h=300&fit=crop';
+                            this.modalMember = {
+                                name: member?.name ?? '',
+                                role: member?.role ?? '',
+                                bio: member?.bio ?? '',
+                                image_url: member?.image_url ?? fallback,
+                            };
+                            this.modalOpen = true;
+                            this.$nextTick(() => this.$refs.memberModalDialog?.focus());
+                        },
+                        closeMember(){
+                            if (!this.modalOpen) return;
+                            this.modalOpen = false;
+                            this.$nextTick(() => {
+                                this.modalMember = { name:'', role:'', bio:'', image_url:'' };
+                                if (this.previouslyFocused && typeof this.previouslyFocused.focus === 'function') {
+                                    this.previouslyFocused.focus();
+                                }
+                                this.previouslyFocused = null;
+                            });
+                        }
                     }"
                     class="relative"
+                    @keydown.window.escape="closeMember()"
                 >
                     <h3 class="text-3xl md:text-4xl font-bold mb-4 text-[var(--text-default)]">
                         {!! $managementHeading ?? __('about.management.heading') !!}
@@ -270,10 +297,22 @@
                                             @php
                                                 $memberName = $member['name'] ?? __('Team member');
                                                 $memberRole = $member['role'] ?? '';
+                                                $memberBio = $member['bio'] ?? '';
                                                 $memberImage = $member['image_url'] ?? 'https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=300&h=300&fit=crop';
+                                                $memberPayload = [
+                                                    'name' => $memberName,
+                                                    'role' => $memberRole,
+                                                    'bio' => $memberBio,
+                                                    'image_url' => $memberImage,
+                                                ];
                                             @endphp
                                             <li class="snap-start shrink-0 w-[min(85vw,18rem)]">
-                                                <div class="card p-5 h-full">
+                                                <div class="card p-5 h-full cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[color-mix(in_oklab,var(--color-electric-sky)_64%,transparent)]"
+                                                     role="button"
+                                                     tabindex="0"
+                                                     @click="openMember(@js($memberPayload))"
+                                                     @keydown.enter.prevent="openMember(@js($memberPayload))"
+                                                     @keydown.space.prevent="openMember(@js($memberPayload))">
                                                     <img src="{{ $memberImage }}"
                                                          alt="{{ $memberName }}"
                                                          class="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover mb-3 mx-auto
@@ -312,11 +351,23 @@
                                         @php
                                             $memberName = $member['name'] ?? __('Team member');
                                             $memberRole = $member['role'] ?? '';
+                                            $memberBio = $member['bio'] ?? '';
                                             $memberImage = $member['image_url'] ?? 'https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=300&h=300&fit=crop';
+                                            $memberPayload = [
+                                                'name' => $memberName,
+                                                'role' => $memberRole,
+                                                'bio' => $memberBio,
+                                                'image_url' => $memberImage,
+                                            ];
                                         @endphp
-                                        <div class="card p-5 transition duration-300 ease-out transform"
+                                        <div class="card p-5 h-full transition duration-300 ease-out transform cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[color-mix(in_oklab,var(--color-electric-sky)_64%,transparent)]"
                                              :class="openAll ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'"
-                                             style="transition-delay: {{ $loop->index * 45 }}ms">
+                                             style="transition-delay: {{ $loop->index * 45 }}ms"
+                                             role="button"
+                                             tabindex="0"
+                                             @click="openMember(@js($memberPayload))"
+                                             @keydown.enter.prevent="openMember(@js($memberPayload))"
+                                             @keydown.space.prevent="openMember(@js($memberPayload))">
                                             <img src="{{ $memberImage }}"
                                                  alt="{{ $memberName }}"
                                                  class="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover mb-3 mx-auto
@@ -366,6 +417,50 @@
                         >
                             {{ $managementCollapse ?? __('about.management.collapse') }}
                         </x-ui.button>
+                    </div>
+
+                    <!-- Member modal -->
+                    <div x-cloak
+                         x-show="modalOpen"
+                         x-transition.opacity.duration.200ms
+                         class="fixed inset-0 z-[60] flex items-center justify-center px-4 py-8 bg-[color-mix(in_oklab,var(--bg-default)_82%,transparent)]/90 backdrop-blur-sm"
+                         @click.self="closeMember()">
+                        <div x-show="modalOpen"
+                             x-transition.scale.duration.200ms
+                             class="relative w-full max-w-xl card p-6 md:p-8 text-center"
+                             role="dialog"
+                             aria-modal="true"
+                             aria-labelledby="team-member-modal-title"
+                             x-ref="memberModalDialog"
+                             tabindex="-1">
+                            <button type="button"
+                                    class="absolute right-4 top-4 inline-flex h-9 w-9 items-center justify-center rounded-full border border-[color-mix(in_oklab,var(--text-default)_16%,transparent)] bg-[color-mix(in_oklab,var(--bg-default)_74%,transparent)] hover:bg-[color-mix(in_oklab,var(--bg-default)_88%,transparent)] transition"
+                                    @click="closeMember()"
+                                    aria-label="Close team member details">
+                                <svg viewBox="0 0 24 24" class="h-4 w-4" style="color: color-mix(in oklab, var(--text-default) 80%, transparent)"><path fill="currentColor" d="M13.41 12l4.3-4.29a1 1 0 0 0-1.42-1.42L12 10.59l-4.29-4.3a1 1 0 0 0-1.42 1.42L10.59 12l-4.3 4.29a1 1 0 1 0 1.42 1.42L12 13.41l4.29 4.3a1 1 0 0 0 1.42-1.42Z"/></svg>
+                            </button>
+
+                            <img :src="modalMember.image_url"
+                                 :alt="modalMember.name || @js(__('Team member'))"
+                                 class="mx-auto mb-4 h-24 w-24 md:h-28 md:w-28 rounded-full object-cover border border-[color-mix(in_oklab,var(--text-default)_18%,transparent)]">
+
+                            <div class="space-y-2">
+                                <h4 id="team-member-modal-title" class="text-xl md:text-2xl font-semibold text-[var(--text-default)]" x-text="modalMember.name || @js(__('Team member'))"></h4>
+                                <p class="text-sm md:text-base text-[color-mix(in_oklab,var(--text-default)_68%,transparent)]" x-text="modalMember.role"></p>
+                                <p class="text-sm md:text-[15px] leading-relaxed text-[color-mix(in_oklab,var(--text-default)_72%,transparent)]" x-show="modalMember.bio" x-text="modalMember.bio"></p>
+                            </div>
+
+                            <x-ui.button
+                                as="button"
+                                type="button"
+                                size="sm"
+                                class="mt-6"
+                                variant="secondary"
+                                @click="closeMember()"
+                            >
+                                {{ __('Close') }}
+                            </x-ui.button>
+                        </div>
                     </div>
 
                     <!-- Expanded grid handled inside switcher -->

@@ -217,6 +217,10 @@ class AboutPageResource extends Resource
                                                 Forms\Components\TextInput::make("role.$code")
                                                     ->label('Role')
                                                     ->maxLength(160),
+                                                Forms\Components\Textarea::make("bio.$code")
+                                                    ->label('Bio')
+                                                    ->rows(4)
+                                                    ->maxLength(1200),
                                             ]);
                                     })->toArray()
                                 ),

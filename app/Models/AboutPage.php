@@ -147,6 +147,10 @@ class AboutPage extends Model
                         'en' => 'Founder & CEO',
                         'ka' => 'დამფუძნებელი და დირექტორი',
                     ],
+                    'bio' => [
+                        'en' => 'Bootstrapped DGstep after a decade modernising regulated services.',
+                        'ka' => 'Bootstrapped DGstep after a decade modernising regulated services.',
+                    ],
                     'image_url' => 'https://images.unsplash.com/photo-1607746882042-944635dfe10e?ixid=1&w=300&h=300&fit=crop',
                 ],
                 [
@@ -159,6 +163,10 @@ class AboutPage extends Model
                         'ka' => 'კომპლაიანსის უფროსი',
 
                     ],
+                    'bio' => [
+                        'en' => 'Leads policy, AML, and licensing strategy across DGstep products.',
+                        'ka' => 'Leads policy, AML, and licensing strategy across DGstep products.',
+                    ],
                     'image_url' => 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?ixid=4&w=300&h=300&fit=crop',
                 ],
                 [
@@ -169,6 +177,10 @@ class AboutPage extends Model
                     'role' => [
                         'en' => 'Marketing & Operations',
                         'ka' => 'მარკეტინგი და ოპერაციები',
+                    ],
+                    'bio' => [
+                        'en' => 'Runs growth programs and customer operations for the platform.',
+                        'ka' => 'Runs growth programs and customer operations for the platform.',
                     ],
                     'image_url' => 'https://images.unsplash.com/photo-1607746882042-944635dfe10e?ixid=2&w=300&h=300&fit=crop',
                 ],
@@ -181,6 +193,10 @@ class AboutPage extends Model
                         'en' => 'Chief Technology Officer',
                         'ka' => 'ტექნოლოგიური დირექტორი',
                     ],
+                    'bio' => [
+                        'en' => 'Builds the product roadmap and engineering culture behind DGstep.',
+                        'ka' => 'Builds the product roadmap and engineering culture behind DGstep.',
+                    ],
                     'image_url' => 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixid=5&w=300&h=300&fit=crop',
                 ],
                 [
@@ -192,6 +208,10 @@ class AboutPage extends Model
                         'en' => 'Project Manager',
                         'ka' => 'პროექტების მენეჯერი',
                     ],
+                    'bio' => [
+                        'en' => 'Keeps cross-functional deliveries on track from discovery to launch.',
+                        'ka' => 'Keeps cross-functional deliveries on track from discovery to launch.',
+                    ],
                     'image_url' => 'https://images.unsplash.com/photo-1607746882042-944635dfe10e?ixid=3&w=300&h=300&fit=crop',
                 ],
                 [
@@ -202,6 +222,10 @@ class AboutPage extends Model
                     'role' => [
                         'en' => 'Lead Software Engineer',
                         'ka' => 'წამყვანი პროგრამული ინჟინერი',
+                    ],
+                    'bio' => [
+                        'en' => 'Designs the core architecture that powers customer deployments.',
+                        'ka' => 'Designs the core architecture that powers customer deployments.',
                     ],
                     'image_url' => 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixid=6&w=300&h=300&fit=crop',
                 ],
@@ -265,14 +289,16 @@ class AboutPage extends Model
     {
         $name = $this->resolveLocalizedValue($member['name'] ?? null, $locale);
         $role = $this->resolveLocalizedValue($member['role'] ?? null, $locale);
+        $bio = $this->resolveLocalizedValue($member['bio'] ?? null, $locale);
 
-        if (! $name && ! $role) {
+        if (! $name && ! $role && ! $bio) {
             return null;
         }
 
         return [
             'name' => $name ?? '',
             'role' => $role ?? '',
+            'bio' => $bio ?? '',
             'image_url' => $member['image_url'] ?? null,
         ];
     }
