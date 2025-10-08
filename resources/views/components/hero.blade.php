@@ -22,6 +22,7 @@
       cycleDuration: 7500,
       prefersReduced: motionQuery.matches,
       motionQuery,
+      hoverPauseReady: false,
 
       // Slides (from DB)
       slides: @js($slides),
@@ -105,7 +106,11 @@
         this.resumeCycle({ reset: true });
       },
 
-      stop() {
+      stop(origin = 'manual') {
+        if (origin === 'hover' && !this.hoverPauseReady) {
+          return;
+        }
+
         this.pauseCycle();
       },
 
@@ -189,6 +194,17 @@
         const ro = new ResizeObserver(() => this.measure());
         ro.observe(this.$root);
 
+        let hoverReadyTimer = null;
+        const pointerEnable = () => {
+          this.hoverPauseReady = true;
+          if (hoverReadyTimer !== null) {
+            clearTimeout(hoverReadyTimer);
+            hoverReadyTimer = null;
+          }
+        };
+        window.addEventListener('pointermove', pointerEnable, { once: true });
+        hoverReadyTimer = window.setTimeout(pointerEnable, 240);
+
         document.addEventListener('visibilitychange', visibilityHandler);
         if (typeof this.motionQuery.addEventListener === 'function') {
           this.motionQuery.addEventListener('change', motionHandler);
@@ -201,6 +217,10 @@
         return () => {
           this.clearTimers();
           ro.disconnect();
+          window.removeEventListener('pointermove', pointerEnable);
+          if (hoverReadyTimer !== null) {
+            clearTimeout(hoverReadyTimer);
+          }
           document.removeEventListener('visibilitychange', visibilityHandler);
           if (motionCleanup) motionCleanup();
         };
@@ -208,8 +228,8 @@
     };
   })()"
   x-init="init()"
-  @mouseenter="stop()" @mouseleave="start()"
-  @focusin="stop()" @focusout="start()"
+  @mouseenter="stop('hover')" @mouseleave="start()"
+  @focusin="stop('focus')" @focusout="start()"
   @keydown.arrow-right.prevent="next()" @keydown.arrow-left.prevent="prev()"
   tabindex="0" role="region" aria-roledescription="carousel" aria-label="DGstep hero"
   class="hero-surface relative z-0 select-none overflow-hidden text-[color:var(--hero-ink)]"

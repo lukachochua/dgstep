@@ -4,11 +4,19 @@ A modern, multilingual Laravel 12.x website for **DGstep** — a technology comp
 
 This site features a clean, responsive UI built with **Tailwind CSS** and **Alpine.js**, emphasizing clarity, performance, and a professional brand presence.
 
-> **Updated:** 2025-09-24
+> **Updated:** 2025-10-08
 
 ---
 
 ## 📜 Changelog (last 7 days)
+
+* **2025-10-08**
+
+  * Added Google reCAPTCHA to the Contact form with graceful fallbacks when keys are missing.
+  * Captured submissions in a new `contact_submissions` table with a Filament List/View resource.
+  * About page hero, mission, vision, and badges now pull translated content from the CMS singleton.
+  * Management team slider adds bio modals, focus traps, and height-locked transitions.
+  * Hero carousel dots render the auto-play progress ring and respect reduced motion.
 
 * **2025-09-24**
 
@@ -25,15 +33,17 @@ This site features a clean, responsive UI built with **Tailwind CSS** and **Alpi
 
 ## 🔧 What’s new
 
+* **Contact form hardened** with Google reCAPTCHA, localized error states, and Filament inbox for submissions.
+* **About page now CMS-driven** (hero copy, mission, vision, badges) with translation fallbacks to defaults.
+* **Management team gallery** unlocks bios via modal, keeps slider/grid inline, and improves accessible focus flow.
+* **Hero carousel** ships auto-play progress rings, reduced-motion awareness, and smarter pause/resume logic.
 * **Brand assets integrated** (PNG logos from the brand book), with **light/dark auto-swap** via `[data-theme]` and CSS variables.
 * **Vite asset handling fixed** for images: `import.meta.glob()` eagerly includes brand images so they appear in the manifest.
 * **Mobile menu polished** (Alpine.js), unified desktop/mobile behavior, improved escape/focus handling.
-* **Services page refactored** with problem-solving circle layout and translations for problem lists .
-* **Projects page** redesigned with translated headings/subheadings, lazy-loaded images, and consistent typography .
-* **Contact form** fully validated (name, surname, phone regex, comments) with Alpine.js live validation and session flash success.
-* **About page** translation completed with mission cards rendered via foreach loop.
-* **Auth views** (login, register, reset, forgot) added with localized strings.
+* **Projects page** redesigned with translated headings/subheadings, lazy-loaded images, and consistent typography.
+* **Services page** refactored with problem-solving circle layout and translations for problem lists.
 * **Footer** improved with clickable email/phone, social links, and terms link.
+* **Auth views** (login, register, reset, forgot) added with localized strings.
 
 ---
 
@@ -81,10 +91,10 @@ This site features a clean, responsive UI built with **Tailwind CSS** and **Alpi
 ## 📄 Pages
 
 * **Home** — hero slider (3 slides), separators, features grid
-* **About** — Who we are, Mission (cards), Vision, CTA
+* **About** — CMS-driven Who we are, Mission (cards), Vision, CTA
 * **Services** — problem-solving circle layout (pawnshop, SMB, compliance)
 * **Projects** — responsive cards, translated headings, lazy images
-* **Contact** — validated form with Alpine.js + server-side
+* **Contact** — validated form with Alpine.js, reCAPTCHA, and server-side logging
 * **Terms** — legal copy with CTA
 * **Auth** — login, register, forgot, reset (UI only)
 
@@ -105,8 +115,15 @@ routes/
   web.php            # routes + locale switch POST
 app/
   Http/
-    Middleware/SetLocale.php
     Controllers/ContactController.php
+    Middleware/SetLocale.php
+  Filament/
+    Resources/ContactSubmissionResource.php
+  Models/
+    ContactSubmission.php
+database/
+  migrations/
+    2025_10_08_140632_create_contact_submissions_table.php
 ```
 
 ---
@@ -117,8 +134,11 @@ app/
 * `surname`: required, ≤ 255
 * `phone`: regex `^\+?\d{7,15}$`
 * `comments`: optional, ≤ 1000
+* `g-recaptcha-response`: required token when reCAPTCHA is enabled; friendly fallbacks if the widget is offline
 
 Live client-side validation (Alpine.js) + server validation. Success triggers flash message.
+
+Submissions persist to `contact_submissions` with locale/IP context and surface in Filament.
 
 ---
 
@@ -158,6 +178,8 @@ php artisan key:generate
 php artisan migrate
 ```
 
+Add your `RECAPTCHA_SITE_KEY` and `RECAPTCHA_SECRET_KEY` to `.env` so the contact form stays live.
+
 ### Run (concurrent dev)
 
 ```bash
@@ -175,8 +197,8 @@ npm run build
 ## 🗺️ Roadmap
 
 * Theme switcher (persist localStorage)
-* Replace placeholder avatars with management bios
-* Connect Contact form to mailer & DB
+* Swap placeholder management avatars with real photography
+* Wire Contact form to outbound notifications (mail/Slack)
 * Add real project case studies with images
 
 ---
