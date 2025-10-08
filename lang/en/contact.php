@@ -20,7 +20,7 @@ return [
         'name' => 'Name',
         'surname' => 'Surname',
         'phone' => 'Phone Number',
-        'comments' => 'Message',
+        'comments' => 'Leave a Comment',
         'cta' => 'Request a Service',
     ],
     'validation' => [

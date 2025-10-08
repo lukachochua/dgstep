@@ -718,17 +718,30 @@ html:not([data-theme]) {
   .hero-arrow:active { transform: translateY(0); }
 
   .hero-dot {
+    position: relative;
     width: 12px; height: 12px; border-radius: 9999px;
     border: 1px solid var(--hero-dot-border);
     background-color: var(--hero-dot);
+    overflow: hidden;
     transition: background-color .18s var(--ease-brand), transform .18s var(--ease-brand), box-shadow .18s var(--ease-brand);
+  }
+  .hero-dot::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    background: conic-gradient(var(--hero-dot-active) var(--hero-dot-progress, 0deg), transparent var(--hero-dot-progress, 0deg));
+    opacity: 0;
+    transition: opacity .18s var(--ease-brand);
   }
   .hero-dot:hover { background-color: var(--hero-dot-hover); transform: translateY(-1px); }
   .hero-dot.is-active {
-    background-color: var(--hero-dot-active); transform: scale(1.15);
+    transform: scale(1.15);
+    background-color: color-mix(in oklab, var(--hero-dot) 45%, transparent);
     box-shadow: 0 0 0 3px color-mix(in oklab, var(--hero-dot-active) 28%, transparent);
     animation: heroPulse .9s ease-out;
   }
+  .hero-dot.is-active::after { opacity: 1; }
   @keyframes heroPulse {
     from { box-shadow: 0 0 0 0 color-mix(in oklab, var(--hero-dot-active) 30%, transparent); }
     to   { box-shadow: 0 0 0 10px transparent; }

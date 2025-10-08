@@ -7,55 +7,209 @@
 ])
 
 <section
-  x-data="{
-    activeSlide: 0,
-    textColH: 0,        // full text column height (for cross-fade container)
-    textBlockH: 0,      // title+subtitle block height (keeps CTA baseline fixed)
-    timer: null,
-    prefersReduced: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+  x-data="(() => {
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-    // Slides (from DB)
-    slides: @js($slides),
+    return {
+      activeSlide: 0,
+      textColH: 0,        // full text column height (for cross-fade container)
+      textBlockH: 0,      // title+subtitle block height (keeps CTA baseline fixed)
+      timer: null,
+      raf: null,
+      progress: 0,
+      elapsed: 0,
+      startedAt: null,
+      cycleDuration: 7500,
+      prefersReduced: motionQuery.matches,
+      motionQuery,
 
+      // Slides (from DB)
+      slides: @js($slides),
 
+      canAuto() {
+        return !this.prefersReduced && this.slides.length > 1;
+      },
 
-    next(){ this.activeSlide = (this.activeSlide + 1) % this.slides.length },
-    prev(){ this.activeSlide = (this.activeSlide - 1 + this.slides.length) % this.slides.length },
-    start(){ if (this.prefersReduced) return; this.stop(); this.timer = setInterval(() => this.next(), 7000) },
-    stop(){ if (this.timer) { clearInterval(this.timer); this.timer = null } },
+      clearTimers() {
+        if (this.timer) {
+          clearTimeout(this.timer);
+          this.timer = null;
+        }
+        if (this.raf) {
+          cancelAnimationFrame(this.raf);
+          this.raf = null;
+        }
+      },
 
-    // Robust measurement with clamping to the visible hero area
-    measure() {
-      const meas  = this.$refs.textMeasure;
-      const inner = this.$refs.inner;
-      if (!meas || !inner) return;
+      resumeCycle({ reset = false } = {}) {
+        if (!this.canAuto()) {
+          this.clearTimers();
+          this.progress = 0;
+          this.elapsed = 0;
+          this.startedAt = null;
+          return;
+        }
 
-      const avail = Math.max(380, (inner.clientHeight || window.innerHeight) - 32); // safety
+        if (reset) {
+          this.elapsed = 0;
+          this.progress = 0;
+        }
 
-      // Max of all slides (title+subtitle+CTA spacer)
-      let maxCol = 0;
-      meas.querySelectorAll('[data-measure=slide]').forEach(n => { maxCol = Math.max(maxCol, n.offsetHeight); });
+        this.clearTimers();
 
-      // Max of all slides (title+subtitle only)
-      let maxGroup = 0;
-      meas.querySelectorAll('[data-measure=hgroup]').forEach(n => { maxGroup = Math.max(maxGroup, n.offsetHeight); });
+        const baseStart = performance.now() - this.elapsed;
+        this.startedAt = baseStart;
 
-      // Reserve ~72px for CTA row space; clamp to visible area
-      const reservedCTA = 72;
-      this.textColH   = Math.min(avail, Math.max(360, Math.ceil(maxCol + 1)));
-      this.textBlockH = Math.min(this.textColH - reservedCTA, Math.max(220, Math.ceil(maxGroup + 1)));
-    },
+        const step = (timestamp) => {
+          this.elapsed = timestamp - this.startedAt;
+          const pct = Math.min(1, this.elapsed / this.cycleDuration);
+          this.progress = Number.isFinite(pct) ? pct : 0;
 
-    init() {
-      this.start();
-      this.$nextTick(() => this.measure());
-      const ro = new ResizeObserver(() => this.measure());
-      ro.observe(this.$root);
-      document.addEventListener('visibilitychange', () => document.hidden ? this.stop() : this.start());
-    }
-  }"
+          if (this.progress >= 1) {
+            return;
+          }
+
+          this.raf = requestAnimationFrame(step);
+        };
+
+        this.raf = requestAnimationFrame(step);
+
+        const remaining = Math.max(0, this.cycleDuration - this.elapsed);
+
+        this.timer = setTimeout(() => {
+          this.elapsed = 0;
+          this.progress = 0;
+          this.next({ origin: 'auto' });
+        }, remaining || this.cycleDuration);
+      },
+
+      pauseCycle() {
+        if (!this.canAuto()) {
+          return;
+        }
+
+        if (this.startedAt !== null) {
+          const now = performance.now();
+          this.elapsed = Math.min(this.cycleDuration, Math.max(0, now - this.startedAt));
+        }
+
+        this.clearTimers();
+        this.startedAt = null;
+      },
+
+      start() {
+        this.resumeCycle();
+      },
+
+      restart() {
+        this.resumeCycle({ reset: true });
+      },
+
+      stop() {
+        this.pauseCycle();
+      },
+
+      next({ origin = 'manual' } = {}) {
+        if (!this.slides.length) return;
+
+        this.activeSlide = (this.activeSlide + 1) % this.slides.length;
+        this.resumeCycle({ reset: true });
+      },
+
+      prev() {
+        if (!this.slides.length) return;
+
+        this.activeSlide = (this.activeSlide - 1 + this.slides.length) % this.slides.length;
+        this.resumeCycle({ reset: true });
+      },
+
+      goTo(index) {
+        if (index === this.activeSlide) {
+          return;
+        }
+
+        if (index >= 0 && index < this.slides.length) {
+          this.activeSlide = index;
+          this.resumeCycle({ reset: true });
+        }
+      },
+
+      dotStyle(index) {
+        if (index !== this.activeSlide) {
+          return '--hero-dot-progress:0deg;';
+        }
+
+        const value = Math.min(1, Math.max(0, this.progress || 0));
+        const angle = (value * 360).toFixed(1);
+        return `--hero-dot-progress:${angle}deg;`;
+      },
+
+      // Robust measurement with clamping to the visible hero area
+      measure() {
+        const meas  = this.$refs.textMeasure;
+        const inner = this.$refs.inner;
+        if (!meas || !inner) return;
+
+        const avail = Math.max(380, (inner.clientHeight || window.innerHeight) - 32); // safety
+
+        // Max of all slides (title+subtitle+CTA spacer)
+        let maxCol = 0;
+        meas.querySelectorAll('[data-measure=slide]').forEach(n => { maxCol = Math.max(maxCol, n.offsetHeight); });
+
+        // Max of all slides (title+subtitle only)
+        let maxGroup = 0;
+        meas.querySelectorAll('[data-measure=hgroup]').forEach(n => { maxGroup = Math.max(maxGroup, n.offsetHeight); });
+
+        // Reserve ~72px for CTA row space; clamp to visible area
+        const reservedCTA = 72;
+        this.textColH   = Math.min(avail, Math.max(360, Math.ceil(maxCol + 1)));
+        this.textBlockH = Math.min(this.textColH - reservedCTA, Math.max(220, Math.ceil(maxGroup + 1)));
+      },
+
+      init() {
+        const visibilityHandler = () => document.hidden ? this.pauseCycle() : this.resumeCycle();
+        const motionHandler = (event) => {
+          this.prefersReduced = event.matches;
+
+          if (event.matches) {
+            this.pauseCycle();
+            this.progress = 0;
+            this.elapsed = 0;
+          } else {
+            this.resumeCycle({ reset: true });
+          }
+        };
+        let motionCleanup = null;
+
+        if (this.canAuto()) {
+          this.resumeCycle({ reset: true });
+        }
+
+        this.$nextTick(() => this.measure());
+        const ro = new ResizeObserver(() => this.measure());
+        ro.observe(this.$root);
+
+        document.addEventListener('visibilitychange', visibilityHandler);
+        if (typeof this.motionQuery.addEventListener === 'function') {
+          this.motionQuery.addEventListener('change', motionHandler);
+          motionCleanup = () => this.motionQuery.removeEventListener('change', motionHandler);
+        } else if (typeof this.motionQuery.addListener === 'function') {
+          this.motionQuery.addListener(motionHandler);
+          motionCleanup = () => this.motionQuery.removeListener(motionHandler);
+        }
+
+        return () => {
+          this.clearTimers();
+          ro.disconnect();
+          document.removeEventListener('visibilitychange', visibilityHandler);
+          if (motionCleanup) motionCleanup();
+        };
+      }
+    };
+  })()"
   x-init="init()"
-  @mouseenter="stop" @mouseleave="start"
+  @mouseenter="stop()" @mouseleave="start()"
+  @focusin="stop()" @focusout="start()"
   @keydown.arrow-right.prevent="next()" @keydown.arrow-left.prevent="prev()"
   tabindex="0" role="region" aria-roledescription="carousel" aria-label="DGstep hero"
   class="hero-surface relative z-0 select-none overflow-hidden text-[color:var(--hero-ink)]"
@@ -181,14 +335,14 @@
 
   <!-- Arrows -->
   <div class="absolute top-1/2 left-5 -translate-y-1/2 z-20">
-    <button type="button" @click="prev" aria-label="Previous slide" class="hero-arrow focus-ring">
+    <button type="button" @click="prev()" aria-label="Previous slide" class="hero-arrow focus-ring">
       <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="M15 18l-6-6 6-6" />
       </svg>
     </button>
   </div>
   <div class="absolute top-1/2 right-5 -translate-y-1/2 z-20">
-    <button type="button" @click="next" aria-label="Next slide" class="hero-arrow focus-ring">
+    <button type="button" @click="next()" aria-label="Next slide" class="hero-arrow focus-ring">
       <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="M9 18l6-6-6-6" />
       </svg>
@@ -202,12 +356,11 @@
         type="button" role="tab"
         :aria-selected="activeSlide === index"
         :tabindex="activeSlide === index ? 0 : -1"
-        @click="activeSlide = index"
+        @click="goTo(index)"
         :aria-label="`Go to slide ${index+1}`"
         class="hero-dot transition"
-        :class="activeSlide === index
-                ? 'is-active bg-[color:var(--hero-dot-active)]'
-                : 'bg-[color:var(--hero-dot)] hover:bg-[color:var(--hero-dot-hover)]'">
+        :style="dotStyle(index)"
+        :class="{ 'is-active': activeSlide === index }">
       </button>
     </template>
   </div>
