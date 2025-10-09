@@ -116,13 +116,15 @@ class HeroSlideResource extends Resource
     public static function table(Table $table): Table
     {
         return $table->columns([
-            // Titles (using JSON keys directly)
-            Tables\Columns\TextColumn::make('title.en')
+            // Titles (resolve translations explicitly so they render in the table)
+            Tables\Columns\TextColumn::make('title_en')
                 ->label('Title (EN)')
+                ->getStateUsing(fn (HeroSlide $record) => $record->getTranslation('title', 'en'))
                 ->limit(30),
 
-            Tables\Columns\TextColumn::make('title.ka')
+            Tables\Columns\TextColumn::make('title_ka')
                 ->label('Title (KA)')
+                ->getStateUsing(fn (HeroSlide $record) => $record->getTranslation('title', 'ka'))
                 ->limit(30),
 
             // Background image (via accessor on model)

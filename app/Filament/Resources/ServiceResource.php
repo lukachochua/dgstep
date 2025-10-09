@@ -156,8 +156,9 @@ class ServiceResource extends Resource
                     ->square()
                     ->height(48),
 
-                Tables\Columns\TextColumn::make("name->$locale")
+                Tables\Columns\TextColumn::make('name_display')
                     ->label('Title')
+                    ->getStateUsing(fn (Service $record) => $record->display_name)
                     ->limit(40)
                     ->sortable()
                     ->searchable(query: function (Builder $query, string $search) use ($locale) {
