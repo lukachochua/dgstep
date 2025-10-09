@@ -14,7 +14,7 @@ class ServicesPageResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-group';
     protected static ?string $navigationGroup = 'Content';
-    protected static ?int $navigationSort = 20;
+    protected static ?int $navigationSort = 30;
 
     public static function form(Form $form): Form
     {

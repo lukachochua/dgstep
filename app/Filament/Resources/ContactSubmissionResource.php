@@ -15,9 +15,9 @@ class ContactSubmissionResource extends Resource
 {
     protected static ?string $model = ContactSubmission::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-inbox';
-    protected static ?string $navigationParentItem = 'Dashboard';
-    protected static ?int $navigationSort = 1;
+    protected static ?string $navigationIcon = 'heroicon-o-envelope';
+    protected static ?string $navigationGroup = 'Contact';
+    protected static ?int $navigationSort = 10;
 
     public static function table(Table $table): Table
     {

@@ -8,6 +8,7 @@ use Filament\Pages\Dashboard as BaseDashboard;
 
 class Dashboard extends BaseDashboard
 {
+
     /**
      * Widgets displayed on the Filament dashboard.
      */

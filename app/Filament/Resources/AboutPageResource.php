@@ -17,7 +17,7 @@ class AboutPageResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-information-circle';
     protected static ?string $navigationGroup = 'Content';
-    protected static ?int $navigationSort = 30;
+    protected static ?int $navigationSort = 40;
     protected static ?string $modelLabel = 'About Page';
     protected static ?string $pluralModelLabel = 'About Page';
     protected static ?string $navigationLabel = 'About Page';

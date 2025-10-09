@@ -15,7 +15,7 @@ class ContactPageResource extends Resource
     protected static ?string $model = ContactPage::class;
     protected static ?string $navigationIcon = 'heroicon-o-phone';
     protected static ?string $navigationGroup = 'Content';
-    protected static ?int $navigationSort = 12;
+    protected static ?int $navigationSort = 20;
 
     public static function form(Form $form): Form
     {
