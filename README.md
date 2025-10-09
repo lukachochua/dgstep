@@ -4,11 +4,17 @@ A modern, multilingual Laravel 12.x website for **DGstep** — a technology comp
 
 This site features a clean, responsive UI built with **Tailwind CSS** and **Alpine.js**, emphasizing clarity, performance, and a professional brand presence.
 
-> **Updated:** 2025-10-08
+> **Updated:** 2025-10-09
 
 ---
 
 ## 📜 Changelog (last 7 days)
+
+* **2025-10-09**
+
+  * Unified the Services CMS so the homepage cards and Services page now render from the same `Service` entries.
+  * Added `display_order`, cue style/label/value controls, and a merge migration to keep legacy Services Page data intact.
+  * Reordered Filament navigation (Contact vs Content) and fixed localized titles showing in Hero Slide / Service tables.
 
 * **2025-10-08**
 
@@ -33,11 +39,13 @@ This site features a clean, responsive UI built with **Tailwind CSS** and **Alpi
 
 ## 🔧 What’s new
 
+* **Services CMS unified** so homepage highlights and the Services page share ordering, cue styles, and copy from Filament.
 * **Contact form hardened** with Google reCAPTCHA, localized error states, and Filament inbox for submissions.
 * **About page now CMS-driven** (hero copy, mission, vision, badges) with translation fallbacks to defaults.
 * **Management team gallery** unlocks bios via modal, keeps slider/grid inline, and improves accessible focus flow.
 * **Hero carousel** ships auto-play progress rings, reduced-motion awareness, and smarter pause/resume logic.
 * **Brand assets integrated** (PNG logos from the brand book), with **light/dark auto-swap** via `[data-theme]` and CSS variables.
+* **Filament navigation** groups Contact & Content into collapsible sections and surfaces localized hero/service titles in tables.
 * **Vite asset handling fixed** for images: `import.meta.glob()` eagerly includes brand images so they appear in the manifest.
 * **Mobile menu polished** (Alpine.js), unified desktop/mobile behavior, improved escape/focus handling.
 * **Projects page** redesigned with translated headings/subheadings, lazy-loaded images, and consistent typography.
