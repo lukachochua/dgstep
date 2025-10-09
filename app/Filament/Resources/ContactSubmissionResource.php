@@ -18,11 +18,30 @@ class ContactSubmissionResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-envelope';
     protected static ?string $navigationGroup = 'Contact';
     protected static ?int $navigationSort = 10;
+    protected static ?string $navigationBadgeTooltip = 'Unread submissions';
+
+    public static function getNavigationBadge(): ?string
+    {
+        $unread = ContactSubmission::query()->unread()->count();
+
+        return $unread > 0 ? (string) $unread : null;
+    }
+
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return ContactSubmission::query()->unread()->exists() ? 'danger' : null;
+    }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('status')
+                    ->label('Status')
+                    ->state(fn (ContactSubmission $record) => $record->read_at ? 'Read' : 'New')
+                    ->badge()
+                    ->color(fn (ContactSubmission $record) => $record->read_at ? 'gray' : 'danger')
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('name')
                     ->label('Name')
                     ->searchable()
