@@ -14,6 +14,8 @@ class ContactPageResource extends Resource
 {
     protected static ?string $model = ContactPage::class;
     protected static ?string $navigationIcon = 'heroicon-o-phone';
+    protected static ?string $navigationLabel = 'Contact Page';
+    protected static ?string $pluralModelLabel = 'Contact Page';
     protected static ?string $navigationGroup = 'Content';
     protected static ?int $navigationSort = 20;
 

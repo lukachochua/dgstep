@@ -97,7 +97,50 @@ class ServiceResource extends Resource
                             ->default(0)
                             ->visible(fn (Get $get) => (bool) $get('is_featured'))
                             ->helperText('Used only when featured.'),
+
+                        Forms\Components\TextInput::make('display_order')
+                            ->label('Services page order')
+                            ->numeric()
+                            ->minValue(0)
+                            ->default(0)
+                            ->helperText('Lower numbers appear first on the services page.'),
+
+                        Forms\Components\Select::make('cue_style')
+                            ->label('Cue style')
+                            ->options([
+                                'bubbles' => 'Bubbles',
+                                'bars'    => 'Bars',
+                                'dots'    => 'Dots',
+                            ])
+                            ->default('bubbles')
+                            ->required(),
+
+                        Forms\Components\Fieldset::make('Cue label')
+                            ->schema([
+                                Forms\Components\TextInput::make('cue_label.en')
+                                    ->label('Cue label (EN)')
+                                    ->maxLength(120),
+                                Forms\Components\TextInput::make('cue_label.ka')
+                                    ->label('Cue label (KA)')
+                                    ->maxLength(120),
+                            ]),
+
+                        Forms\Components\Repeater::make('cue_values')
+                            ->label('Cue values')
+                            ->schema([
+                                Forms\Components\TextInput::make('value')
+                                    ->label('Value')
+                                    ->numeric()
+                                    ->minValue(0)
+                                    ->maxValue(100)
+                                    ->required(),
+                            ])
+                            ->addActionLabel('Add value')
+                            ->columns(1)
+                            ->default([])
+                            ->helperText('For dots, use 1 for on and 0 for off.'),
                     ]),
+
             ]),
         ])->columns(12);
     }
@@ -135,6 +178,10 @@ class ServiceResource extends Resource
                     ->label('Order')
                     ->sortable(),
 
+                Tables\Columns\TextColumn::make('display_order')
+                    ->label('Services order')
+                    ->sortable(),
+
                 Tables\Columns\TextColumn::make('updated_at')
                     ->since()
                     ->label('Updated'),
@@ -142,7 +189,7 @@ class ServiceResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])
-            ->defaultSort('is_featured', 'desc');
+            ->defaultSort('display_order');
     }
 
     public static function getRelations(): array
@@ -193,6 +240,46 @@ class ServiceResource extends Resource
                     ->all();
             }
         }
+
+        return $data;
+    }
+
+    public static function normalizeCueValues(array $data): array
+    {
+        if (! isset($data['cue_values']) || ! is_array($data['cue_values'])) {
+            return $data;
+        }
+
+        $data['cue_values'] = collect($data['cue_values'])
+            ->map(function ($row) {
+                if (is_array($row)) {
+                    $value = $row['value'] ?? null;
+                } else {
+                    $value = $row;
+                }
+
+                if ($value === null || $value === '') {
+                    return null;
+                }
+
+                return is_numeric($value) ? (int) $value : (int) preg_replace('/[^0-9-]/', '', (string) $value);
+            })
+            ->filter(fn ($value) => $value !== null)
+            ->values()
+            ->all();
+
+        return $data;
+    }
+
+    public static function expandCueValues(array $data): array
+    {
+        if (! isset($data['cue_values']) || ! is_array($data['cue_values'])) {
+            return $data;
+        }
+
+        $data['cue_values'] = collect($data['cue_values'])
+            ->map(fn ($value) => ['value' => $value])
+            ->all();
 
         return $data;
     }

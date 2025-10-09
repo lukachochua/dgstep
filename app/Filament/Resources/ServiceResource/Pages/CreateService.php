@@ -14,6 +14,7 @@ class CreateService extends CreateRecord
         $locales = ['en' => 'English', 'ka' => 'ქართული'];
 
         $data = ServiceResource::normalizeProblems($data, $locales);
+        $data = ServiceResource::normalizeCueValues($data);
         $data['image_alt'] = $data['image_alt'] ?? ($data['name']['en'] ?? ($data['slug'] ?? 'Service'));
 
         return $data;

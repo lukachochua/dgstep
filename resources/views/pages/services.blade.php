@@ -10,36 +10,36 @@
 
       @php
         $locale = app()->getLocale();
-        $page   = \App\Models\ServicesPage::singleton();
-        $sections = $page->sections ?? [];
-        if (!is_array($sections) || empty($sections)) {
-            $sections = \App\Models\ServicesPage::defaults()['sections'];
-        }
+        $services = \App\Models\Service::ordered()->get();
       @endphp
 
       <div class="container mx-auto max-w-6xl px-4 sm:px-6 md:px-8 space-y-8">
         <header class="text-center mb-4">
           <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">
-            {{ $page->translated('title', $locale) ?? __('services.title') }}
+            {{ __('services.title') }}
           </h1>
         </header>
 
         <div class="space-y-6">
-          @foreach($sections as $row)
+          @foreach($services as $service)
             @php
-              $t  = is_array($row['title'] ?? null) ? ($row['title'][$locale] ?? $row['title']['en'] ?? '') : ($row['title'] ?? '');
-              $d  = is_array($row['description'] ?? null) ? ($row['description'][$locale] ?? $row['description']['en'] ?? '') : ($row['description'] ?? '');
-              $cs = $row['cue_style']   ?? 'bubbles';
-              $cl = is_array($row['cue_label'] ?? null) ? ($row['cue_label'][$locale] ?? $row['cue_label']['en'] ?? '') : ($row['cue_label'] ?? '');
-              $cv = array_values($row['cue_values'] ?? []);
+              $names = $service->name ?? [];
+              $descriptions = $service->description ?? [];
+              $cueLabel = $service->cue_label ?? [];
+              $cueValues = $service->cue_values ?? [];
+
+              $title = is_array($names) ? ($names[$locale] ?? $names['en'] ?? '') : (string) $names;
+              $description = is_array($descriptions) ? ($descriptions[$locale] ?? $descriptions['en'] ?? '') : (string) $descriptions;
+              $cueText = is_array($cueLabel) ? ($cueLabel[$locale] ?? $cueLabel['en'] ?? '') : (string) $cueLabel;
+              $values = is_array($cueValues) ? array_values($cueValues) : [];
             @endphp
 
             <x-service.row
-              :title="$t"
-              :description="$d"
-              :cue-style="$cs"
-              :cue-label="$cl"
-              :cue-values="$cv" />
+              :title="$title"
+              :description="$description"
+              :cue-style="$service->cue_style"
+              :cue-label="$cueText"
+              :cue-values="$values" />
           @endforeach
         </div>
 

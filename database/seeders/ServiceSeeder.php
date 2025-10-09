@@ -12,14 +12,32 @@ class ServiceSeeder extends Seeder
     {
         // We’ll seed these specific sections in a fixed order for featured slots.
         $sections = [
-            'pawnshop'   => 1,
-            'smb'        => 2,
-            'compliance' => 3,
+            'pawnshop' => [
+                'featured_order' => 1,
+                'display_order'  => 1,
+                'cue_style'      => 'bubbles',
+                'cue_label'      => ['en' => 'Ops Coverage', 'ka' => 'ოპერაციები'],
+                'cue_values'     => [80, 65, 55],
+            ],
+            'smb' => [
+                'featured_order' => 2,
+                'display_order'  => 2,
+                'cue_style'      => 'bars',
+                'cue_label'      => ['en' => 'Workflow Fit', 'ka' => 'ვორქფლოუ'],
+                'cue_values'     => [70, 60, 40, 30],
+            ],
+            'compliance' => [
+                'featured_order' => 3,
+                'display_order'  => 3,
+                'cue_style'      => 'dots',
+                'cue_label'      => ['en' => 'Audit Ready', 'ka' => 'აუდიტი'],
+                'cue_values'     => [1, 1, 1, 0, 1],
+            ],
         ];
 
         $locales = ['en', 'ka'];
 
-        foreach ($sections as $slug => $order) {
+        foreach ($sections as $slug => $config) {
             $name = [];
             $description = [];
             $problems = [];
@@ -52,13 +70,20 @@ class ServiceSeeder extends Seeder
                     'image_path'      => $existing->image_path ?? "services/{$slug}.jpg",
                     'image_alt'       => $existing->image_alt ?? ($name['en'] ?? ucfirst($slug)),
                     'is_featured'     => true,      // feature all three for the homepage trio
-                    'featured_order'  => $order,    // 1..3 for display order
+                    'featured_order'  => $config['featured_order'],
+                    'display_order'   => $existing->display_order ?? $config['display_order'],
+                    'cue_style'       => $existing->cue_style ?? $config['cue_style'],
+                    'cue_label'       => $existing->cue_label ?? $config['cue_label'],
+                    'cue_values'      => $existing->cue_values ?? $config['cue_values'],
                 ]
             );
         }
 
         // Optionally, un-feature any other services to ensure exactly three are featured.
         Service::whereNotIn('slug', array_keys($sections))
-            ->update(['is_featured' => false, 'featured_order' => 0]);
+            ->update([
+                'is_featured'    => false,
+                'featured_order' => 0,
+            ]);
     }
 }
