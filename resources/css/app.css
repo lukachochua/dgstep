@@ -3,6 +3,7 @@
 @source "../**/*.blade.php";
 @source "../**/*.js";
 @source "../**/*.vue";
+@source "../../config/**/*.php";
 
 /* Tailwind core (single import) */
 @import "tailwindcss";
@@ -441,10 +442,9 @@ html:not([data-theme]) {
 
   /* Mobile navigation surface */
   .nav-mobile-surface {
-    background-color: var(--mobile-nav-bg);
     border-top: 1px solid var(--nav-border);
     color: var(--nav-fg);
-    box-shadow: 0 8px 20px rgba(0,0,0,.25);
+    backdrop-filter: blur(var(--nav-blur, 18px));
   }
 
   /* ─────────────────────────────────────────────
@@ -523,31 +523,6 @@ html:not([data-theme]) {
   /* Reduced motion */
   @media (prefers-reduced-motion: reduce) {
     .nav-link-desktop::after { transition: none; }
-  }
-
-  /* ─────────────────────────────────────────────
-    Mobile nav links — keep chip style (unchanged)
-    ───────────────────────────────────────────── */
-  .nav-link-mobile {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    padding: .5rem 1rem;
-    border-radius: 8px;
-    color: var(--nav-fg);
-    background-color: var(--nav-link-bg);
-    transition: color .2s, background-color .2s;
-  }
-  .nav-link-mobile:hover {
-    color: var(--nav-fg);
-    background-color: var(--nav-link-hover-bg);
-  }
-
-  /* Active (mobile only): keep chip look without affecting desktop */
-  .nav-link-mobile.nav-link-active {
-    color: var(--color-electric-sky);
-    background-color: var(--nav-link-active-bg);
   }
 
   /* Ensure light theme doesn’t resurrect chips on desktop */

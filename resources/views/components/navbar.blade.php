@@ -9,6 +9,8 @@
   x-data="{
     /* ---------- State ---------- */
     open: false,
+    closing: false,
+    scrollbarWidth: 0,
     theme: (() => {
       try {
         const stored = localStorage.getItem('dg:theme');
@@ -68,12 +70,21 @@
     },
     now(){ return (performance && performance.now) ? performance.now() : Date.now(); },
 
+    computeScrollbarWidth(){
+      return Math.max(0, window.innerWidth - document.documentElement.clientWidth);
+    },
     measureScrollbarGutter(){
       const nav = this.$refs.nav;
       if (!nav) return;
 
       if (this.scroller === window) {
-        nav.style.right = '0px';
+        const current = this.computeScrollbarWidth();
+        if (!this.open && !this.closing && current !== this.scrollbarWidth) {
+          this.scrollbarWidth = current;
+        }
+
+        const width = (this.open || this.closing) ? this.scrollbarWidth : current;
+        nav.style.right = width ? width + 'px' : '0px';
         return;
       }
 
@@ -81,19 +92,69 @@
       const sbw = s.offsetWidth - s.clientWidth;
       nav.style.right = sbw > 0 ? sbw + 'px' : '0px';
     },
-    lockScroll(lock){
-      const s = this.scroller;
-      if (s === window) {
-        document.documentElement.style.overflow = lock ? 'hidden' : '';
-        document.body.style.overflow = lock ? 'hidden' : '';
-      } else {
-        s.style.overflowY = lock ? 'hidden' : 'auto';
-      }
-    },
     resolveHideOffset(){
       this.hideOffset = window.matchMedia('(max-width: 767.98px)').matches
         ? this.hideOffsetMobile
         : this.hideOffsetDesktop;
+    },
+
+    toggleMenu(){
+      if (this.open || this.closing) {
+        this.closeMenu();
+        return;
+      }
+
+      this.closing = false;
+      this.scrollbarWidth = this.computeScrollbarWidth();
+      this.open = true;
+      this.$nextTick(() => this.measureScrollbarGutter());
+    },
+    closeMenu(){
+      if (!this.open && !this.closing) return;
+
+      const finalize = () => {
+        this.open = false;
+        this.closing = false;
+        this.scrollbarWidth = this.computeScrollbarWidth();
+        this.measureScrollbarGutter();
+      };
+
+      if (this.closing) {
+        finalize();
+        return;
+      }
+
+      this.closing = true;
+      this.open = false;
+      this.measureScrollbarGutter();
+
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        finalize();
+        return;
+      }
+
+      this.$nextTick(() => {
+        const drawer = this.$refs.drawer;
+        if (!drawer) {
+          finalize();
+          return;
+        }
+
+        const handler = (event) => {
+          if (event.target !== drawer) return;
+          if (event.propertyName !== 'transform' && event.propertyName !== 'opacity') return;
+          drawer.removeEventListener('transitionend', handler);
+          finalize();
+        };
+
+        drawer.addEventListener('transitionend', handler, { once: true });
+      });
+    },
+    forceClose(){
+      this.open = false;
+      this.closing = false;
+      this.scrollbarWidth = this.computeScrollbarWidth();
+      this.measureScrollbarGutter();
     },
 
     /* ---------- Visibility rules ---------- */
@@ -136,6 +197,7 @@
       document.documentElement.setAttribute('data-theme', this.theme);
 
       this.scroller = this.getScroller();
+      this.scrollbarWidth = this.computeScrollbarWidth();
       this.resolveHideOffset();
 
       const y  = this.getScrollY();
@@ -209,7 +271,6 @@
       window.addEventListener('resize', onResize, { passive: true });
 
       this.$watch('open', (v) => {
-        this.lockScroll(v);
         if (v) {
           this.isHiding = false;
           this.isVisible = true;
@@ -219,8 +280,11 @@
       });
     }
   }"
+  x-trap.noscroll="open || closing"
   x-init="setup()"
-  @keydown.window.escape="open = false"
+  @keydown.window.escape.prevent="forceClose()"
+  @keydown.window.arrow-up.prevent="closeMenu()"
+  @keydown.window.arrow-down.prevent="closeMenu()"
 >
   <!-- NAVBAR -->
   <nav
@@ -298,14 +362,30 @@
         <button
           class="md:hidden inline-flex items-center justify-center h-9 w-9 rounded-full focus-ring hover:shadow-sm transition"
           :aria-expanded="open.toString()" aria-controls="mobile-menu" aria-label="Toggle navigation menu"
-          @click="open = !open"
+          @click="toggleMenu()"
         >
-          <svg x-show="!open" x-cloak xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-               viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <svg x-show="!open" x-cloak xmlns="http://www.w3.org/2000/svg"
+               class="h-6 w-6 origin-center transform transition-transform duration-150 ease-out"
+               fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"
+               x-transition:enter="transform ease-out duration-150"
+               x-transition:enter-start="scale-90 -rotate-6 opacity-0"
+               x-transition:enter-end="scale-100 rotate-0 opacity-100"
+               x-transition:leave="transform ease-in duration-120"
+               x-transition:leave-start="scale-100 rotate-0 opacity-100"
+               x-transition:leave-end="scale-75 rotate-3 opacity-0"
+          >
             <path d="M4 6h16M4 12h16M4 18h16"/>
           </svg>
-          <svg x-show="open" x-cloak xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-               viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <svg x-show="open" x-cloak xmlns="http://www.w3.org/2000/svg"
+               class="h-6 w-6 origin-center transform transition-transform duration-150 ease-out"
+               fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"
+               x-transition:enter="transform ease-out duration-150"
+               x-transition:enter-start="scale-90 rotate-6 opacity-0"
+               x-transition:enter-end="scale-100 rotate-0 opacity-100"
+               x-transition:leave="transform ease-in duration-120"
+               x-transition:leave-start="scale-100 rotate-0 opacity-100"
+               x-transition:leave-end="scale-75 -rotate-6 opacity-0"
+          >
             <path d="M6 6l12 12M6 18L18 6"/>
           </svg>
         </button>
@@ -356,39 +436,64 @@
   <!-- MOBILE OVERLAY -->
   <div
     x-show="open" x-cloak
-    class="fixed inset-0 z-40 bg-black/40"
-    @click="open = false"
-    x-transition.opacity
+    class="fixed inset-0 z-40 bg-[rgba(15,17,35,0.65)] backdrop-blur-sm transition-opacity duration-240"
+    @click="closeMenu()"
+    x-transition:enter="ease-[var(--ease-brand)] duration-220"
+    x-transition:enter-start="opacity-0"
+    x-transition:enter-end="opacity-100"
+    x-transition:leave="ease-in duration-200"
+    x-transition:leave-start="opacity-100"
+    x-transition:leave-end="opacity-0"
   ></div>
 
   <!-- MOBILE MENU PANEL -->
   <div
     id="mobile-menu"
     x-show="open" x-cloak
-    class="md:hidden fixed z-50 inset-x-0"
+    class="md:hidden fixed inset-x-0 z-50 origin-top transform"
     :style="{ top: 'var(--nav-top-h)' }"
-    x-transition:enter="transition ease-out duration-200"
+    x-transition:enter="transition ease-[var(--ease-brand)] duration-220"
     x-transition:enter-start="opacity-0 -translate-y-2"
     x-transition:enter-end="opacity-100 translate-y-0"
-    x-transition:leave="transition ease-in duration-150"
+    x-transition:leave="transition ease-in duration-160"
     x-transition:leave-start="opacity-100 translate-y-0"
     x-transition:leave-end="opacity-0 -translate-y-2"
+    x-ref="drawer"
   >
-    <div class="mx-auto max-w-[var(--container-content)] px-4 sm:px-6 md:px-8 py-4
-                nav-mobile-surface rounded-b-xl space-y-4 shadow-lg">
+    <div class="mx-auto max-w-[var(--container-content)] px-5 sm:px-6 md:px-8 py-6
+                nav-mobile-surface space-y-5 rounded-b-3xl border border-white/10
+                bg-[color-mix(in_oklab,var(--bg-default)_88%,transparent)]/92 backdrop-blur-lg
+                shadow-[0_28px_60px_rgba(15,17,35,.35)] transition-[background,box-shadow,border-color] duration-200 ease-[var(--ease-brand)]">
       <!-- Links -->
-      <div class="grid gap-3">
+      <div class="grid gap-3.5">
         @foreach ($routes as $routeName)
-          <x-nav.anchor-button :route="$routeName" label="{{ __('messages.' . $routeName) }}" variant="mobile" />
+          <x-nav.anchor-button
+              :route="$routeName"
+              label="{{ __('messages.' . $routeName) }}"
+              variant="mobile"
+          />
         @endforeach
       </div>
 
-      <div class="flex justify-center items-center gap-3 pt-1">
+      <div class="flex justify-center pt-2">
+        <div
+          x-show="open"
+          x-cloak
+          class="flex items-center gap-3 rounded-2xl border border-white/12 bg-white/8 px-3.5 py-2
+                 shadow-[0_12px_30px_rgba(15,17,35,.16)] transition-[background,border-color,box-shadow] duration-200 ease-[var(--ease-brand)]"
+          x-transition:enter="delay-75 duration-200 ease-out"
+          x-transition:enter-start="opacity-0 translate-y-2"
+          x-transition:enter-end="opacity-100 translate-y-0"
+          x-transition:leave="duration-150 ease-in"
+          x-transition:leave-start="opacity-100 translate-y-0"
+          x-transition:leave-end="opacity-0 translate-y-2"
+        >
         <!-- Language (mobile) -->
         <button
           type="button"
           aria-label="Switch language to {{ strtoupper($targetLocale) }}"
-          class="nav-icon-btn inline-flex items-center justify-center h-10 w-10 p-0 rounded-full cursor-pointer select-none focus-ring hover:shadow-md transition"
+          class="nav-icon-btn inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/14
+                 bg-white/10 p-0 text-lg focus-ring hover:bg-white/16 hover:shadow-md transition"
           onclick="document.getElementById('locale-toggle-inline').submit(); return false;"
         >
           <span class="flag-emoji" aria-hidden="true">
@@ -402,7 +507,8 @@
         <!-- Theme (mobile) -->
         <button
           type="button"
-          class="nav-icon-btn relative inline-flex items-center justify-center h-10 w-10 p-0 rounded-full focus-ring hover:shadow-md transition-all duration-200"
+          class="nav-icon-btn relative inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/14
+                 bg-white/10 p-0 focus-ring hover:bg-white/16 hover:shadow-md transition-all duration-200"
           :aria-label="`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`"
           role="switch"
           :aria-checked="(theme === 'dark').toString()"
@@ -419,6 +525,7 @@
             <path d="M21.752 15.002A9 9 0 1112.998 2.248 7.5 7.5 0 0021.752 15z"/>
           </svg>
         </button>
+        </div>
       </div>
     </div>
   </div>
