@@ -124,7 +124,7 @@ class AboutPage extends Model
                     'SMB და ლომბარდ ოპერაციები',
                 ],
             ],
-            'hero_image_url' => 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=1200&auto=format&fit=crop',
+            'hero_image_url' => 'https://thumbs.dreamstime.com/b/business-deal-technological-devices-financial-document-pen-glass-water-workplace-background-three-partners-57052907.jpg',
             'hero_image_alt' => [
                 'en' => 'Team working',
                 'ka' => 'გუნდი მუშაობის პროცესში',

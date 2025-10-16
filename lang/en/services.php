@@ -1,9 +1,9 @@
 <?php
 
 return [
-    'title' => 'Services — DGstep',
-    'our_key_services' => 'Our Key Services',
-    'how_we_can_help' => 'How we can help — focused on impact and outcomes.',
+    'title' => 'Our Services',
+    'our_key_services' => 'Our Services',
+    'how_we_can_help' => 'We offer a solution that will make your business more efficient.',
     'sections' => [
         'pawnshop' => [
             'title' => 'Pawnshop Operations',

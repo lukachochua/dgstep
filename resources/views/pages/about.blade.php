@@ -1,8 +1,31 @@
 {{-- resources/views/pages/about.blade.php --}}
 @php
+    use Illuminate\Support\Str;
+
     $locale = app()->getLocale();
     $aboutDefaults = $aboutDefaults ?? \App\Models\AboutPage::defaults();
     $aboutPage = $aboutPage ?? \App\Models\AboutPage::singleton();
+
+    $stripPossessiveHeading = function (?string $value) use ($locale) {
+        if (! $value) {
+            return $value;
+        }
+
+        $prefixes = [
+            'en' => ['Our'],
+            'ka' => ['ჩვენი'],
+        ];
+
+        foreach ($prefixes[$locale] ?? [] as $prefix) {
+            $plain = trim(strip_tags($value));
+
+            if (Str::startsWith($plain, $prefix . ' ')) {
+                return preg_replace('/^\s*' . preg_quote($prefix, '/') . '\s+/u', '', $value);
+            }
+        }
+
+        return $value;
+    };
 
     $pageTitle = $aboutPage->translated('title', $locale, $aboutDefaults);
 
@@ -15,17 +38,21 @@
     $whoParagraph1 = $aboutPage->translated('who_paragraph_1', $locale, $aboutDefaults);
     $whoParagraph2 = $aboutPage->translated('who_paragraph_2', $locale, $aboutDefaults);
 
-    $missionHeading = $aboutPage->translated('mission_heading', $locale, $aboutDefaults);
-    $missionLabel = $aboutPage->translated('mission_label', $locale, $aboutDefaults);
+    $missionHeading = $stripPossessiveHeading(
+        $aboutPage->translated('mission_heading', $locale, $aboutDefaults)
+    );
     $missionDescription = $aboutPage->translated('mission_description', $locale, $aboutDefaults);
 
-    $visionHeading = $aboutPage->translated('vision_heading', $locale, $aboutDefaults);
-    $visionLabel = $aboutPage->translated('vision_label', $locale, $aboutDefaults);
+    $visionHeading = $stripPossessiveHeading(
+        $aboutPage->translated('vision_heading', $locale, $aboutDefaults)
+    );
     $visionDescription = $aboutPage->translated('vision_description', $locale, $aboutDefaults);
 
     $badges = $aboutPage->badgesForLocale($locale, $aboutDefaults);
 
-    $managementHeading = $aboutPage->translated('management_heading', $locale, $aboutDefaults);
+    $managementHeading = $stripPossessiveHeading(
+        $aboutPage->translated('management_heading', $locale, $aboutDefaults)
+    );
     $managementViewAll = $aboutPage->translated('management_view_all', $locale, $aboutDefaults);
     $managementCollapse = $aboutPage->translated('management_collapse', $locale, $aboutDefaults);
     $managementMembers = $aboutPage->membersForLocale($locale, $aboutDefaults);
@@ -127,11 +154,6 @@
                 <section class="card px-6 sm:px-8 py-10 sm:py-12 bg-[var(--bg-elevated)]">
                     <div class="mx-auto max-w-4xl text-left space-y-8">
                         <div class="space-y-2.5">
-                            @if ($missionLabel)
-                                <h3 class="text-xs font-semibold tracking-[0.35em] uppercase text-[color-mix(in_oklab,var(--text-default)_65%,transparent)]">
-                                    {{ $missionLabel }}
-                                </h3>
-                            @endif
                             @if ($missionHeading)
                                 <h2 class="text-3xl md:text-4xl font-semibold tracking-tight leading-tight text-[var(--text-default)]">
                                     {!! $missionHeading !!}
@@ -145,11 +167,6 @@
                         </div>
 
                         <div class="pt-5 md:pt-6 border-t border-[color-mix(in_oklab,var(--text-default)_12%,transparent)] space-y-2.5">
-                            @if ($visionLabel)
-                                <h3 class="text-xs font-semibold tracking-[0.35em] uppercase text-[color-mix(in_oklab,var(--text-default)_65%,transparent)]">
-                                    {{ $visionLabel }}
-                                </h3>
-                            @endif
                             @if ($visionHeading)
                                 <h2 class="text-3xl md:text-4xl font-semibold tracking-tight leading-tight text-[var(--text-default)]">
                                     {!! $visionHeading !!}

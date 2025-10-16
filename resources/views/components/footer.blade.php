@@ -2,7 +2,7 @@
   <div class="mx-auto max-w-[var(--container-content)] px-4 sm:px-6 md:px-8 py-12">
     <div class="grid gap-12 md:grid-cols-2">
       <section class="space-y-4 text-center md:text-left">
-        <h3 class="text-xs font-semibold uppercase tracking-[0.3em] text-[color:var(--nav-fg-muted)]">{{ trans('messages.footer.headings.information') }}</h3>
+        <h3 class="text-sm font-extrabold uppercase tracking-[0.2em] text-[color:var(--nav-fg)]">{{ trans('messages.footer.headings.information') }}</h3>
         <nav class="flex flex-col items-center md:items-start space-y-2 text-[color:var(--nav-fg-muted)]" aria-label="{{ trans('messages.footer.aria.information_links') }}">
           <a href="{{ route('about') }}" class="transition-colors hover:text-[color:var(--nav-fg)]">{{ trans('messages.footer.nav.about') }}</a>
           <a href="{{ route('home') }}" class="transition-colors hover:text-[color:var(--nav-fg)]">{{ trans('messages.footer.nav.news') }}</a>
@@ -11,7 +11,7 @@
       </section>
 
       <section class="space-y-4 text-center md:text-right">
-        <h3 class="text-xs font-semibold uppercase tracking-[0.3em] text-[color:var(--nav-fg-muted)]">{{ trans('messages.footer.headings.contact') }}</h3>
+        <h3 class="text-sm font-extrabold uppercase tracking-[0.2em] text-[color:var(--nav-fg)]">{{ trans('messages.footer.headings.contact') }}</h3>
         <div class="space-y-2 text-[color:var(--nav-fg)]/90">
           <a href="tel:+995595002837" class="block transition-colors hover:text-[color:var(--nav-fg)]">+995 595 002837</a>
           <a href="mailto:info@dgstep.ge" class="block transition-colors hover:text-[color:var(--nav-fg)]">info@dgstep.ge</a>
