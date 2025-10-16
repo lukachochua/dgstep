@@ -334,9 +334,9 @@
 
                                 <!-- Strip (horizontal only; vertical hidden) -->
                                 <div x-ref="strip"
-                                     class="team-scroll overflow-x-auto overflow-y-hidden overscroll-contain w-full
-                                            [scrollbar-color:transparent_transparent] [scrollbar-gutter:stable] pr-6
-                                            transition duration-300 ease-out"
+                                     class="team-scroll overflow-x-auto overflow-y-hidden overscroll-x-contain touch-pan-x w-full
+                                             [scrollbar-color:transparent_transparent] [scrollbar-gutter:stable] pr-6
+                                             transition duration-300 ease-out"
                                      tabindex="0">
                                     <ul class="flex gap-6 snap-x snap-mandatory scroll-pl-1 px-2 py-1 -mb-2">
                                         @forelse ($managementMembers as $index => $member)
