@@ -3,15 +3,15 @@
 return [
     'title' => 'Contact',
     'tagline' => 'Let’s Talk',
-    'headline' => 'Take advantage of digital services tailored to your business.',
-    'description' => 'DGstep provides tailored tech solutions for pawnshops and SMEs. We streamline operations, ensure legal compliance, and deliver reliable tools for growing businesses.',
+    'headline' => 'Contact us to get the service you need.',
+    'description' => 'If you run a business and want to simplify your daily operations, contact us, our team will take care of implementing the processes you need.',
     'success' => 'Your message has been sent!',
     'metric' => [
         'label' => 'Client Satisfaction',
     ],
     'features' => [
         'professional' => 'Creative & Professional Team',
-        'guarantees' => 'Guaranteed Support',
+        'guarantees' => 'Qualified Team',
     ],
     'read_more' => 'Read More',
     'cta_button' => 'Contact Us',

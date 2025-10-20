@@ -5,14 +5,14 @@ return [
 
     'who_we_are' => [
         'heading' => 'Who <span class="text-[var(--color-electric-sky)]">We Are</span>',
-        'paragraph_1' => "DGstep is more than a tech studio. We’re strategic partners for small/medium businesses across Georgia, combining software craftsmanship with deep operational knowledge — especially in regulated industries like pawnshops.",
-        'paragraph_2' => "From modernizing inventory systems to automating contracts and customer tracking, our Laravel + Tailwind stack ensures performance, compliance, and elegant user experience.",
+        'paragraph_1' => 'In response to the challenges on the market, we decided to help small and medium-sized businesses to implement digital processes.',
+        'paragraph_2' => 'Our goal is to implement flexible, simple, and customer-oriented digital processes for businesses. Both the companies and their customers will be able to use the service, making everyday operations even easier and more efficient.',
     ],
 
     'mission' => [
         'heading' => '<span class="text-[var(--color-electric-sky)]">Mission</span>',
         'label' => 'MISSION',
-        'description' => 'DGstep builds software that removes operational friction so owners can focus on customers. We tailor every platform to Georgian legal realities and business culture for results that feel local and practical. Our team ships modern Laravel, Tailwind, and Alpine.js solutions that stay clean, fast, and dependable.',
+        'description' => 'To implement flexible, simple, and customer-oriented digital processes for businesses that bring benefits to both sides.',
         'cards' => [
             [
                 'title' => 'Simplify Complexity',
@@ -55,7 +55,7 @@ return [
     'vision' => [
         'heading' => '<span class="text-[var(--color-electric-sky)]">Vision</span>',
         'label' => 'VISION',
-        'description' => 'We aim to become the trusted digital backbone for Georgia’s regulated industries, delivering tools that are reliable, transparent, and future-ready. Our platform scales from single shops to national networks without costly rewrites. We design intuitive experiences and stay ahead of compliance shifts so businesses stay ready for what’s next.',
+        'description' => 'To become a leading company in business process automation and optimization, where every process is simplified and companies can take full advantage of 21st-century digital benefits.',
         'cards' => [
             [
                 'title' => 'Designed for Scale',

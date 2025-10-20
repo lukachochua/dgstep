@@ -120,6 +120,7 @@ class DatabaseSeeder extends Seeder
         }
 
         $this->call([
+            AboutPageSeeder::class,
             ServiceSeeder::class,
             ContactPageSeeder::class,
 

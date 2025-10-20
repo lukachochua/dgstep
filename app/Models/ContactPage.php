@@ -30,24 +30,24 @@ class ContactPage extends Model
     {
         return [
             'headline' => [
-                'en' => 'Let’s talk about your operations',
-                'ka' => 'მოდით, ვისაუბროთ თქვენს ოპერაციებზე',
+                'en' => 'Contact us to get the service you need.',
+                'ka' => 'სასურველი სერვისის მისაღებად დაგვიკავშირდით',
             ],
             'description' => [
-                'en' => 'Whether you run a pawnshop or a growing SMB, we help you streamline workflows, automate paperwork, and stay compliant.',
-                'ka' => 'თუკი მართავთ ლომბარდს ან მზარდ SMB-ს, დაგეხმარებით პროცესების გამარტივებაში, დოკუმენტაციის ავტომატიზაციაში და რეგულაციებთან შესაბამისობაში.',
+                'en' => 'If you run a business and want to simplify your daily operations, contact us, our team will take care of implementing the processes you need.',
+                'ka' => 'თუ მართავ ბიზნესს და გჭირდება ყოველდღიური პროცესების გამარტივება, დაგვიკავშირდი და ჩვენი გუნდი იზრუნებს სასურველი პროცესების დანერგვაზე.',
             ],
             'feature_professional' => [
                 'en' => 'Professional support',
                 'ka' => 'პროფესიონალური მხარდაჭერა',
             ],
             'feature_guarantees' => [
-                'en' => 'Clear guarantees',
-                'ka' => 'მკაფიო გარანტიები',
+                'en' => 'Qualified Team',
+                'ka' => 'გამოცდილი გუნდი',
             ],
             'cta_button' => [
-                'en' => 'Call DGstep',
-                'ka' => 'დარეკეთ DGstep-ში',
+                'en' => 'Contact Us',
+                'ka' => 'დაგვიკავშირდით',
             ],
             'cta_phone_href' => '+9955XXXXXXX',
         ];
