@@ -2,14 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ContactSubmissionReceived;
 use App\Models\ContactPage;
 use App\Models\ContactSubmission;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
 
 class ContactController extends Controller
 {
+    /**
+     * Show the Contact page with DB/default/lang fallbacks
+     */
     public function show()
     {
         $locale   = app()->getLocale();
@@ -64,8 +70,15 @@ class ContactController extends Controller
         return view('pages.contact', $view);
     }
 
+    /**
+     * Handle contact form submit:
+     *  - Validate + verify reCAPTCHA
+     *  - Store ContactSubmission
+     *  - Send local email (Mailpit) synchronously
+     */
     public function submit(Request $request)
     {
+        // 1) Validate input
         $validated = $request->validate([
             'name'     => ['required', 'string', 'max:255'],
             'surname'  => ['required', 'string', 'max:255'],
@@ -76,6 +89,7 @@ class ContactController extends Controller
             'g-recaptcha-response.required' => __('contact.validation.captcha_required'),
         ]);
 
+        // 2) Verify reCAPTCHA
         $recaptchaSecret = config('services.recaptcha.secret_key');
 
         if (! $recaptchaSecret) {
@@ -106,7 +120,8 @@ class ContactController extends Controller
             ]);
         }
 
-        ContactSubmission::create([
+        // 3) Store submission first (source of truth)
+        $submission = ContactSubmission::create([
             'name'       => $validated['name'],
             'surname'    => $validated['surname'],
             'phone'      => $validated['phone'],
@@ -115,6 +130,19 @@ class ContactController extends Controller
             'ip_address' => $request->ip(),
         ]);
 
+        // 4) Send the ops notification email (LOCAL: Mailpit via SMTP)
+        //    This is synchronous for Step A4 to avoid needing a queue worker locally.
+        try {
+            Mail::to('ops@local.test')
+                ->send(new ContactSubmissionReceived($submission));
+        } catch (\Throwable $e) {
+            // Don't block the user if local mailer is misconfigured; just log and proceed.
+            Log::warning('ContactSubmission mail failed (local): '.$e->getMessage(), [
+                'submission_id' => $submission->id,
+            ]);
+        }
+
+        // 5) UX: flash success and return
         return back()->with('success', __('contact.success'));
     }
 }

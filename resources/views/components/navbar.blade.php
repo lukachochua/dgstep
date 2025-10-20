@@ -10,7 +10,9 @@
     /* ---------- State ---------- */
     open: false,
     closing: false,
+    get menuActive(){ return this.open }, // close is instant
     scrollbarWidth: 0,
+    suppressHideUntil: 0, // guard to prevent post-close flicker
     theme: (() => {
       try {
         const stored = localStorage.getItem('dg:theme');
@@ -53,7 +55,6 @@
     getScroller(){
       const wrapper = document.querySelector('.page-wrapper');
       if (!wrapper) return window;
-
       try {
         const overflowY = window.getComputedStyle(wrapper).overflowY;
         const isScrollable = overflowY === 'auto' || overflowY === 'scroll';
@@ -79,12 +80,8 @@
 
       if (this.scroller === window) {
         const current = this.computeScrollbarWidth();
-        if (!this.open && !this.closing && current !== this.scrollbarWidth) {
-          this.scrollbarWidth = current;
-        }
-
-        const width = (this.open || this.closing) ? this.scrollbarWidth : current;
-        nav.style.right = width ? width + 'px' : '0px';
+        this.scrollbarWidth = current;
+        nav.style.right = current ? current + 'px' : '0px';
         return;
       }
 
@@ -99,67 +96,40 @@
     },
 
     toggleMenu(){
-      if (this.open || this.closing) {
-        this.closeMenu();
-        return;
-      }
-
-      this.closing = false;
-      this.scrollbarWidth = this.computeScrollbarWidth();
+      if (this.open) { this.closeMenu(); return; }
+      this.scrollbarWidth = this.computeScrollbarWidth(); // snapshot before body locking
       this.open = true;
       this.$nextTick(() => this.measureScrollbarGutter());
     },
     closeMenu(){
-      if (!this.open && !this.closing) return;
-
-      const finalize = () => {
-        this.open = false;
-        this.closing = false;
-        this.scrollbarWidth = this.computeScrollbarWidth();
-        this.measureScrollbarGutter();
-      };
-
-      if (this.closing) {
-        finalize();
-        return;
-      }
-
-      this.closing = true;
-      this.open = false;
-      this.measureScrollbarGutter();
-
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        finalize();
-        return;
-      }
-
-      this.$nextTick(() => {
-        const drawer = this.$refs.drawer;
-        if (!drawer) {
-          finalize();
-          return;
-        }
-
-        const handler = (event) => {
-          if (event.target !== drawer) return;
-          if (event.propertyName !== 'transform' && event.propertyName !== 'opacity') return;
-          drawer.removeEventListener('transitionend', handler);
-          finalize();
-        };
-
-        drawer.addEventListener('transitionend', handler, { once: true });
-      });
-    },
-    forceClose(){
+      // Instant close: no closing state, no leave transitions, no waiting
       this.open = false;
       this.closing = false;
+
+      // Prevent scroll-hide logic from running immediately post-close
+      this.suppressHideUntil = this.now() + 300;
+
+      // Recompute gutter right away (body unlock)
       this.scrollbarWidth = this.computeScrollbarWidth();
       this.measureScrollbarGutter();
+
+      // Keep navbar visible immediately after close
+      this.isHiding = false;
+      this.isVisible = true;
     },
+    forceClose(){ this.closeMenu(); },
 
     /* ---------- Visibility rules ---------- */
     applyVisibility(nextY, ts){
-      if (this.open) { this.isHiding = false; this.isVisible = true; return; }
+      // Lock visible while menu is open
+      if (this.menuActive) { this.isHiding = false; this.isVisible = true; return; }
+
+      // Guard window after close to avoid flicker
+      if (ts < this.suppressHideUntil) {
+        this.isHiding = false;
+        this.isVisible = true;
+        return;
+      }
 
       if (!this.userScrollIntent) {
         this.isHiding = false;
@@ -193,7 +163,7 @@
 
     /* ---------- Init ---------- */
     setup(){
-      // Set theme immediately on document to prevent flicker
+      // Set theme immediately to prevent paint flash
       document.documentElement.setAttribute('data-theme', this.theme);
 
       this.scroller = this.getScroller();
@@ -202,25 +172,18 @@
 
       const y  = this.getScrollY();
       const ts = this.now();
-      this.lastY = y;
-      this.lastTS = ts;
-      this.lastRevealY = y;
+      this.lastY = y; this.lastTS = ts; this.lastRevealY = y;
       this.applyVisibility(y, ts);
 
-      // Mark as mounted first
       this.mounted = true;
 
-      // Measure scrollbar after mount
       this.$nextTick(() => {
         this.measureScrollbarGutter();
-
-        // Enable transitions after everything is rendered
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            this.transitionsEnabled = true;
-            this.ready = true;
-          });
-        });
+        // Enable transitions after first paint
+        requestAnimationFrame(() => { requestAnimationFrame(() => {
+          this.transitionsEnabled = true;
+          this.ready = true;
+        }); });
       });
 
       const onScroll = () => {
@@ -260,10 +223,7 @@
       };
 
       scrollerEl.addEventListener('scroll', onScroll, { passive: true });
-      if (scrollerEl !== window) {
-        scrollerEl.addEventListener('wheel', markUserScroll, { passive: true });
-      }
-
+      if (scrollerEl !== window) scrollerEl.addEventListener('wheel', markUserScroll, { passive: true });
       window.addEventListener('wheel', markUserScroll, { passive: true });
       window.addEventListener('touchstart', markUserScroll, { passive: true });
       window.addEventListener('touchmove', markUserScroll, { passive: true });
@@ -280,7 +240,7 @@
       });
     }
   }"
-  x-trap.noscroll="open || closing"
+  x-trap.noscroll="menuActive"
   x-init="setup()"
   @keydown.window.escape.prevent="forceClose()"
   @keydown.window.arrow-up.prevent="closeMenu()"
@@ -320,41 +280,39 @@
           ? 'rgba(24,24,27,0.60)'
           : 'color-mix(in oklab, var(--nav-bottom-bg, #726EDB) 85%, transparent)'
       ) : 'transparent',
-      borderColor: mounted ? (
-        (theme === 'dark') ? 'rgba(255,255,255,0.12)' : 'rgba(255,255,255,0.12)'
-      ) : 'transparent',
+      borderColor: mounted ? 'rgba(255,255,255,0.12)' : 'transparent',
       boxShadow: mounted ? '0 6px 20px rgba(0,0,0,.22)' : 'none',
       color: (theme === 'dark') ? '#f3f2ff' : '#ffffff'
     }"
   >
     <div class="mx-auto w-full max-w-[var(--container-content)] flex items-center justify-between">
 
-  <!-- Left group: Logo + Primary links inline -->
-  <div class="flex items-center gap-4 md:gap-6">
-    <!-- Logo (hover swap) -->
-    <a href="{{ route('home') }}" aria-label="DGstep logo"
-      class="group logo-swap flex items-center gap-2 select-none transition-transform duration-200 ease-[var(--ease-brand)] active:scale-95 focus-visible:outline-none">
-      <img
-          src="{{ Vite::asset('resources/images/brand/logo-white-01.png') }}"
-          alt="DGstep logo light"
-          class="logo-img--light h-6 md:h-7 w-auto select-none pointer-events-none"
-          width="160" height="40" fetchpriority="high" decoding="async" />
-      <img
-          src="{{ Vite::asset('resources/images/brand/logo-color-01.png') }}"
-          alt="DGstep logo dark"
-          class="logo-img--dark h-6 md:h-7 w-auto select-none pointer-events-none"
-          width="160" height="40" decoding="async" />
-    </a>
+      <!-- Left group: Logo + Primary links inline -->
+      <div class="flex items-center gap-4 md:gap-6">
+        <!-- Logo (hover swap) -->
+        <a href="{{ route('home') }}" aria-label="DGstep logo"
+           class="group logo-swap flex items-center gap-2 select-none transition-transform duration-200 ease-[var(--ease-brand)] active:scale-95 focus-visible:outline-none">
+          <img
+            src="{{ Vite::asset('resources/images/brand/logo-white-01.png') }}"
+            alt="DGstep logo light"
+            class="logo-img--light h-6 md:h-7 w-auto select-none pointer-events-none"
+            width="160" height="40" fetchpriority="high" decoding="async" />
+          <img
+            src="{{ Vite::asset('resources/images/brand/logo-color-01.png') }}"
+            alt="DGstep logo dark"
+            class="logo-img--dark h-6 md:h-7 w-auto select-none pointer-events-none"
+            width="160" height="40" decoding="async" />
+        </a>
 
-    <!-- Primary links (desktop) -->
-    <ul class="hidden md:flex items-center gap-2 md:gap-3 text-[13px] md:text-[15px]">
-      @foreach ($routes as $routeName)
-        <li class="relative">
-          <x-nav.anchor-button :route="$routeName" label="{{ __('messages.' . $routeName) }}" variant="desktop" />
-        </li>
-      @endforeach
-    </ul>
-  </div>
+        <!-- Primary links (desktop) -->
+        <ul class="hidden md:flex items-center gap-2 md:gap-3 text-[13px] md:text-[15px]">
+          @foreach ($routes as $routeName)
+            <li class="relative">
+              <x-nav.anchor-button :route="$routeName" label="{{ __('messages.' . $routeName) }}" variant="desktop" />
+            </li>
+          @endforeach
+        </ul>
+      </div>
 
       <!-- Right: actions -->
       <div class="flex items-center gap-1.5 md:gap-2">
@@ -363,31 +321,26 @@
           class="md:hidden inline-flex items-center justify-center h-9 w-9 rounded-full focus-ring hover:shadow-sm transition"
           :aria-expanded="open.toString()" aria-controls="mobile-menu" aria-label="Toggle navigation menu"
           @click="toggleMenu()"
+          style="contain: layout paint; /* isolate icon crossfade */"
         >
-          <svg x-show="!open" x-cloak xmlns="http://www.w3.org/2000/svg"
-               class="h-6 w-6 origin-center transform transition-transform duration-150 ease-out"
-               fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"
-               x-transition:enter="transform ease-out duration-150"
-               x-transition:enter-start="scale-90 -rotate-6 opacity-0"
-               x-transition:enter-end="scale-100 rotate-0 opacity-100"
-               x-transition:leave="transform ease-in duration-120"
-               x-transition:leave-start="scale-100 rotate-0 opacity-100"
-               x-transition:leave-end="scale-75 rotate-3 opacity-0"
-          >
-            <path d="M4 6h16M4 12h16M4 18h16"/>
-          </svg>
-          <svg x-show="open" x-cloak xmlns="http://www.w3.org/2000/svg"
-               class="h-6 w-6 origin-center transform transition-transform duration-150 ease-out"
-               fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"
-               x-transition:enter="transform ease-out duration-150"
-               x-transition:enter-start="scale-90 rotate-6 opacity-0"
-               x-transition:enter-end="scale-100 rotate-0 opacity-100"
-               x-transition:leave="transform ease-in duration-120"
-               x-transition:leave-start="scale-100 rotate-0 opacity-100"
-               x-transition:leave-end="scale-75 -rotate-6 opacity-0"
-          >
-            <path d="M6 6l12 12M6 18L18 6"/>
-          </svg>
+          <span class="relative block h-6 w-6">
+            <!-- Hamburger -->
+            <svg
+              class="absolute inset-0 m-auto h-6 w-6 pointer-events-none transition-opacity duration-150 ease-out"
+              :class="open ? 'opacity-0' : 'opacity-100'"
+              xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+            <!-- Close -->
+            <svg
+              class="absolute inset-0 m-auto h-6 w-6 pointer-events-none transition-opacity duration-150 ease-out"
+              :class="open ? 'opacity-100' : 'opacity-0'"
+              xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M6 6l12 12M6 18L18 6"/>
+            </svg>
+          </span>
         </button>
 
         <!-- Language (desktop) -->
@@ -417,17 +370,23 @@
           role="switch"
           :aria-checked="(theme === 'dark').toString()"
           @click="toggleTheme()"
+          style="contain: layout paint;"
         >
-          <!-- Show correct icon per theme -->
-          <svg x-show="theme === 'light'" x-cloak class="theme-icon icon--sun absolute inset-0 m-auto h-5 w-5 pointer-events-none transition-transform duration-200"
-               viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="4"/>
-            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
-          </svg>
-          <svg x-show="theme === 'dark'" x-cloak class="theme-icon icon--moon absolute inset-0 m-auto h-5 w-5 pointer-events-none transition-transform duration-200"
-               viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
-          </svg>
+          <span class="relative block h-5 w-5">
+            <svg
+              class="absolute inset-0 m-auto h-5 w-5 pointer-events-none transition-opacity duration-200"
+              :class="theme === 'light' ? 'opacity-100' : 'opacity-0'"
+              viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="4"/>
+              <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+            </svg>
+            <svg
+              class="absolute inset-0 m-auto h-5 w-5 pointer-events-none transition-opacity duration-200"
+              :class="theme === 'dark' ? 'opacity-100' : 'opacity-0'"
+              viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3a 6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+            </svg>
+          </span>
         </button>
       </div>
     </div>
@@ -435,30 +394,33 @@
 
   <!-- MOBILE OVERLAY -->
   <div
-    x-show="open" x-cloak
-    class="fixed inset-0 z-40 bg-[rgba(15,17,35,0.65)] backdrop-blur-sm transition-opacity duration-240"
+    x-cloak
+    x-show="open"
+    :class="{ 'hidden': !open }"
+    :aria-hidden="(!open).toString()"
+    class="fixed inset-0 z-40 bg-[rgba(15,17,35,0.65)] backdrop-blur-sm"
     @click="closeMenu()"
     x-transition:enter="ease-[var(--ease-brand)] duration-220"
     x-transition:enter-start="opacity-0"
     x-transition:enter-end="opacity-100"
-    x-transition:leave="ease-in duration-200"
-    x-transition:leave-start="opacity-100"
-    x-transition:leave-end="opacity-0"
+    style="transition-property: opacity;"
   ></div>
 
   <!-- MOBILE MENU PANEL -->
   <div
     id="mobile-menu"
-    x-show="open" x-cloak
-    class="md:hidden fixed inset-x-0 z-50 origin-top transform"
+    x-cloak
+    x-show="open"
+    :class="{ 'hidden': !open }"
+    :aria-hidden="(!open).toString()"
+    class="md:hidden fixed inset-x-0 z-50 origin-top"
     :style="{ top: 'var(--nav-top-h)' }"
     x-transition:enter="transition ease-[var(--ease-brand)] duration-220"
     x-transition:enter-start="opacity-0 -translate-y-2"
     x-transition:enter-end="opacity-100 translate-y-0"
-    x-transition:leave="transition ease-in duration-160"
-    x-transition:leave-start="opacity-100 translate-y-0"
-    x-transition:leave-end="opacity-0 -translate-y-2"
     x-ref="drawer"
+    @click.stop
+    style="transition-property: opacity, transform;"
   >
     <div class="mx-auto max-w-[var(--container-content)] px-5 sm:px-6 md:px-8 py-6
                 nav-mobile-surface space-y-5 rounded-b-3xl border border-white/10
@@ -477,54 +439,60 @@
 
       <div class="flex justify-center pt-2">
         <div
-          x-show="open"
           x-cloak
+          x-show="open"
+          :class="{ 'hidden': !open }"
+          :aria-hidden="(!open).toString()"
           class="flex items-center gap-3 rounded-2xl border border-white/12 bg-white/8 px-3.5 py-2
                  shadow-[0_12px_30px_rgba(15,17,35,.16)] transition-[background,border-color,box-shadow] duration-200 ease-[var(--ease-brand)]"
           x-transition:enter="delay-75 duration-200 ease-out"
           x-transition:enter-start="opacity-0 translate-y-2"
           x-transition:enter-end="opacity-100 translate-y-0"
-          x-transition:leave="duration-150 ease-in"
-          x-transition:leave-start="opacity-100 translate-y-0"
-          x-transition:leave-end="opacity-0 translate-y-2"
         >
-        <!-- Language (mobile) -->
-        <button
-          type="button"
-          aria-label="Switch language to {{ strtoupper($targetLocale) }}"
-          class="nav-icon-btn inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/14
-                 bg-white/10 p-0 text-lg focus-ring hover:bg-white/16 hover:shadow-md transition"
-          onclick="document.getElementById('locale-toggle-inline').submit(); return false;"
-        >
-          <span class="flag-emoji" aria-hidden="true">
-            @if($targetLocale === 'ka') 🇬🇪 @else 🇬🇧 @endif
-          </span>
-          <span class="sr-only">
-            {{ ($targetLocale === 'ka') ? 'Switch to Georgian' : 'Switch to English' }}
-          </span>
-        </button>
+          <!-- Language (mobile) -->
+          <button
+            type="button"
+            aria-label="Switch language to {{ strtoupper($targetLocale) }}"
+            class="nav-icon-btn inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/14
+                   bg-white/10 p-0 text-lg focus-ring hover:bg-white/16 hover:shadow-md transition"
+            onclick="document.getElementById('locale-toggle-inline').submit(); return false;"
+          >
+            <span class="flag-emoji" aria-hidden="true">
+              @if($targetLocale === 'ka') 🇬🇪 @else 🇬🇧 @endif
+            </span>
+            <span class="sr-only">
+              {{ ($targetLocale === 'ka') ? 'Switch to Georgian' : 'Switch to English' }}
+            </span>
+          </button>
 
-        <!-- Theme (mobile) -->
-        <button
-          type="button"
-          class="nav-icon-btn relative inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/14
-                 bg-white/10 p-0 focus-ring hover:bg-white/16 hover:shadow-md transition-all duration-200"
-          :aria-label="`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`"
-          role="switch"
-          :aria-checked="(theme === 'dark').toString()"
-          @click="toggleTheme()"
-        >
-          <svg x-show="theme === 'light'" x-cloak class="theme-icon icon--sun absolute inset-0 m-auto h-6 w-6 pointer-events-none"
-               viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"
-               stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 3v2.25M18.364 5.636l-1.591 1.591M21 12h-2.25M18.364 18.364l-1.591-1.591M12 18.75V21M6.227 18.773l1.591-1.591M3 12h2.25M6.227 5.227l1.591 1.591M12 8.25a3.75 3.75 0 100 7.5 3.75 3.75 0 000-7.5z"/>
-          </svg>
-          <svg x-show="theme === 'dark'" x-cloak class="theme-icon icon--moon absolute inset-0 m-auto h-6 w-6 pointer-events-none"
-               viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"
-               stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21.752 15.002A9 9 0 1112.998 2.248 7.5 7.5 0 0021.752 15z"/>
-          </svg>
-        </button>
+          <!-- Theme (mobile) -->
+          <button
+            type="button"
+            class="nav-icon-btn relative inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/14
+                   bg-white/10 p-0 focus-ring hover:bg-white/16 hover:shadow-md transition-all duration-200"
+            :aria-label="`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`"
+            role="switch"
+            :aria-checked="(theme === 'dark').toString()"
+            @click="toggleTheme()"
+            style="contain: layout paint;"
+          >
+            <span class="relative block h-6 w-6">
+              <svg
+                class="absolute inset-0 m-auto h-6 w-6 pointer-events-none transition-opacity duration-200"
+                :class="theme === 'light' ? 'opacity-100' : 'opacity-0'"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 3v2.25M18.364 5.636l-1.591 1.591M21 12h-2.25M18.364 18.364l-1.591-1.591M12 18.75V21M6.227 18.773l1.591-1.591M3 12h2.25M6.227 5.227l1.591 1.591M12 8.25a3.75 3.75 0 100 7.5 3.75 3.75 0 000-7.5z"/>
+              </svg>
+              <svg
+                class="absolute inset-0 m-auto h-6 w-6 pointer-events-none transition-opacity duration-200"
+                :class="theme === 'dark' ? 'opacity-100' : 'opacity-0'"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21.752 15.002A9 9 0 1112.998 2.248 7.5 7.5 0 0021.752 15z"/>
+              </svg>
+            </span>
+          </button>
         </div>
       </div>
     </div>

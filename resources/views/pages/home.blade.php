@@ -23,8 +23,8 @@
     </div>
 
     <!-- Features on distinct surface from brandbook -->
-    {{-- <section class="relative bg-[color:var(--features-surface)]">
+    <section class="relative bg-[color:var(--features-surface)]">
       <x-features :items="$featured"/>
-    </section> --}}
+    </section>
   </main>
 </x-layouts.base>
