@@ -12,7 +12,11 @@
     closing: false,
     get menuActive(){ return this.open }, // close is instant
     scrollbarWidth: 0,
-    suppressHideUntil: 0, // guard to prevent post-close flicker
+
+    // Guards to prevent flicker on close and on anchor jumps
+    suppressHideUntil: 0,
+    freezeNavUntil: 0,
+
     theme: (() => {
       try {
         const stored = localStorage.getItem('dg:theme');
@@ -74,25 +78,43 @@
     computeScrollbarWidth(){
       return Math.max(0, window.innerWidth - document.documentElement.clientWidth);
     },
+
+    /* >>> FIX: Only apply right gutter while menu is open <<< */
     measureScrollbarGutter(){
       const nav = this.$refs.nav;
       if (!nav) return;
 
       if (this.scroller === window) {
         const current = this.computeScrollbarWidth();
+        // Snapshot latest width
         this.scrollbarWidth = current;
-        nav.style.right = current ? current + 'px' : '0px';
+
+        // Apply gutter ONLY when mobile menu is active; otherwise keep flush to right:0
+        const width = this.menuActive ? this.scrollbarWidth : 0;
+        nav.style.right = width ? width + 'px' : '0px';
         return;
       }
 
+      // Custom scroller case (page wrapper)
       const s = this.scroller;
       const sbw = s.offsetWidth - s.clientWidth;
-      nav.style.right = sbw > 0 ? sbw + 'px' : '0px';
+      nav.style.right = this.menuActive && sbw > 0 ? (sbw + 'px') : '0px';
     },
+
     resolveHideOffset(){
       this.hideOffset = window.matchMedia('(max-width: 767.98px)').matches
         ? this.hideOffsetMobile
         : this.hideOffsetDesktop;
+    },
+
+    freezeNav(ms = 700){
+      const t = this.now() + ms;
+      this.freezeNavUntil = Math.max(this.freezeNavUntil, t);
+      // Keep visible and reset reveal baseline so large jumps don't meet farEnough
+      const y = this.getScrollY();
+      this.isHiding = false;
+      this.isVisible = true;
+      this.lastRevealY = y;
     },
 
     toggleMenu(){
@@ -109,7 +131,7 @@
       // Prevent scroll-hide logic from running immediately post-close
       this.suppressHideUntil = this.now() + 300;
 
-      // Recompute gutter right away (body unlock)
+      // Recompute gutter right away (body unlock) and remove forced right gutter
       this.scrollbarWidth = this.computeScrollbarWidth();
       this.measureScrollbarGutter();
 
@@ -124,10 +146,11 @@
       // Lock visible while menu is open
       if (this.menuActive) { this.isHiding = false; this.isVisible = true; return; }
 
-      // Guard window after close to avoid flicker
-      if (ts < this.suppressHideUntil) {
+      // Guards after close and during anchor jumps
+      if (ts < this.suppressHideUntil || ts < this.freezeNavUntil) {
         this.isHiding = false;
         this.isVisible = true;
+        this.lastRevealY = nextY; // keep baseline in sync during freeze
         return;
       }
 
@@ -221,6 +244,31 @@
         window.removeEventListener('touchmove', markUserScroll);
         window.removeEventListener('keydown', onKeyDown);
       };
+
+      // Detect same-page anchor clicks to freeze nav during jump scroll
+      const onAnchorClick = (e) => {
+        const a = e.target.closest && e.target.closest('a[href]');
+        if (!a) return;
+        const href = a.getAttribute('href');
+        if (!href) return;
+
+        // Same-document hash (#id) OR same-path with hash
+        const isHashOnly = href.startsWith('#');
+        let isSamePathHash = false;
+        if (!isHashOnly) {
+          try {
+            const url = new URL(href, location.href);
+            isSamePathHash = (url.pathname === location.pathname) && !!url.hash;
+          } catch (_) {}
+        }
+
+        if (isHashOnly || isSamePathHash) {
+          this.freezeNav(700);
+        }
+      };
+
+      document.addEventListener('click', onAnchorClick, true);
+      window.addEventListener('hashchange', () => this.freezeNav(700), { passive: true });
 
       scrollerEl.addEventListener('scroll', onScroll, { passive: true });
       if (scrollerEl !== window) scrollerEl.addEventListener('wheel', markUserScroll, { passive: true });
@@ -384,7 +432,7 @@
               class="absolute inset-0 m-auto h-5 w-5 pointer-events-none transition-opacity duration-200"
               :class="theme === 'dark' ? 'opacity-100' : 'opacity-0'"
               viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 3a 6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+              <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
             </svg>
           </span>
         </button>

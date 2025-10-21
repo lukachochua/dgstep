@@ -116,4 +116,6 @@ return [
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
+    'ops_to' => env('MAIL_OPS_TO', 'dgstep2025@gmail.com'),
+
 ];

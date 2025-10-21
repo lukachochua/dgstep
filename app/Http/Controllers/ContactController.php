@@ -74,7 +74,7 @@ class ContactController extends Controller
      * Handle contact form submit:
      *  - Validate + verify reCAPTCHA
      *  - Store ContactSubmission
-     *  - Send local email (Mailpit) synchronously
+     *  - Send ops email synchronously (mailer determined by .env/config)
      */
     public function submit(Request $request)
     {
@@ -130,14 +130,13 @@ class ContactController extends Controller
             'ip_address' => $request->ip(),
         ]);
 
-        // 4) Send the ops notification email (LOCAL: Mailpit via SMTP)
-        //    This is synchronous for Step A4 to avoid needing a queue worker locally.
+        // 4) Send the ops notification email (recipient from config/env)
         try {
-            Mail::to('ops@local.test')
-                ->send(new ContactSubmissionReceived($submission));
+            $opsTo = config('mail.ops_to'); // reads MAIL_OPS_TO with default fallback
+            Mail::to($opsTo)->send(new ContactSubmissionReceived($submission));
         } catch (\Throwable $e) {
-            // Don't block the user if local mailer is misconfigured; just log and proceed.
-            Log::warning('ContactSubmission mail failed (local): '.$e->getMessage(), [
+            // Don't block the user if mailer fails; just log and proceed.
+            Log::warning('ContactSubmission mail failed: '.$e->getMessage(), [
                 'submission_id' => $submission->id,
             ]);
         }
