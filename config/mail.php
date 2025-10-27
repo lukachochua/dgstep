@@ -117,5 +117,4 @@ return [
     ],
 
     'ops_to' => env('MAIL_OPS_TO', 'dgstep2025@gmail.com'),
-
 ];

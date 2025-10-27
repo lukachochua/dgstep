@@ -200,9 +200,14 @@ html:not([data-theme]) {
   --hero-bg-end:   color-mix(in oklab, var(--color-brand-900) 30%, #ffffff 70%);
 
   --hero-ink:       #0e0e12;
-  --hero-ink-muted: color-mix(in oklab, var(--hero-ink) 78%, transparent);
+  --hero-ink-muted: color-mix(in oklab, var(--hero-ink) 86%, transparent);
 
-  --hero-img-opacity: .10;
+  --hero-headline-from: color-mix(in oklab, var(--color-brand-500) 82%, white 18%);
+  --hero-headline-to:   color-mix(in oklab, var(--color-brand-600) 88%, white 12%);
+  --hero-media-blur:    4px;
+  --hero-img-blur:      9px;
+
+  --hero-img-opacity: .14;
   --hero-img-blend:   multiply;
   --hero-overlay:     transparent;
 
@@ -730,8 +735,10 @@ html:not([data-theme]) {
         radial-gradient(1200px 700px at 70% -20%, color-mix(in oklab, var(--hero-mesh-b) 16%, transparent), transparent 70%),
         radial-gradient(900px 520px at 25% 10%, color-mix(in oklab, var(--hero-mesh-a) 22%, transparent), transparent 70%);
 
-    --hero-headline-from: #cfd0ff;
-    --hero-headline-to:   #7a83ff;
+    --hero-headline-from: color-mix(in oklab, var(--color-brand-400) 72%, white 28%);
+    --hero-headline-to:   color-mix(in oklab, var(--color-brand-600) 82%, white 18%);
+    --hero-media-blur:    10px;
+    --hero-img-blur:      12px;
     --cta-shadow: 0 12px 28px color-mix(in oklab, var(--color-brand-500) 30%, transparent);
   }
 
@@ -749,8 +756,9 @@ html:not([data-theme]) {
   }
   .hero-media {
     border: 1px solid color-mix(in oklab, #fff 10%, transparent);
-    backdrop-filter: blur(10px);
-    background: color-mix(in oklab, #fff 6%, transparent);
+    backdrop-filter: blur(var(--hero-media-blur, 10px));
+    -webkit-backdrop-filter: blur(var(--hero-media-blur, 10px));
+    background: color-mix(in oklab, var(--bg-elevated) 88%, #fff 12%);
     box-shadow: 0 18px 40px rgba(0,0,0,.35);
     transition: transform .25s var(--ease-brand), box-shadow .25s var(--ease-brand), border-color .25s var(--ease-brand);
   }
@@ -760,7 +768,12 @@ html:not([data-theme]) {
     box-shadow: 0 26px 60px rgba(0,0,0,.45);
   }
   @keyframes kenburns { 0% { transform: scale(1) } 100% { transform: scale(1.06) } }
-  .hero-bgimg { will-change: transform, opacity; animation: kenburns 18s ease-in-out both; }
+  .hero-bgimg {
+    will-change: transform, opacity, filter;
+    animation: kenburns 18s ease-in-out both;
+    filter: blur(var(--hero-img-blur, 0px));
+    -webkit-filter: blur(var(--hero-img-blur, 0px));
+  }
 
   @keyframes fadeUp { from { opacity: 0; transform: translateY(6px) } to { opacity: 1; transform: translateY(0) } }
   .animate-fadeUp { animation: fadeUp .6s var(--ease-brand) both; }

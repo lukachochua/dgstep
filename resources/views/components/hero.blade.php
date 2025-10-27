@@ -22,13 +22,15 @@
       cycleDuration: 7500,
       prefersReduced: motionQuery.matches,
       motionQuery,
-      hoverPauseReady: false,
+      manualPause: false,
 
       // Slides (from DB)
       slides: @js($slides),
 
+      // Only autoplay when visible and allowed
       canAuto() {
-        return !this.prefersReduced && this.slides.length > 1;
+        const visible = this.$root?.offsetParent !== null; // not display:none
+        return visible && !this.prefersReduced && this.slides.length > 1;
       },
 
       clearTimers() {
@@ -42,6 +44,7 @@
         }
       },
 
+      // ✅ rAF-synchronized start so progress paints immediately on first frame
       resumeCycle({ reset = false } = {}) {
         if (!this.canAuto()) {
           this.clearTimers();
@@ -56,27 +59,29 @@
           this.progress = 0;
         }
 
+        if (this.manualPause) return;
+
         this.clearTimers();
 
-        const baseStart = performance.now() - this.elapsed;
-        this.startedAt = baseStart;
-
         const step = (timestamp) => {
+          if (this.startedAt === null) {
+            // pin to first real frame time; keep any carried elapsed (usually 0)
+            this.startedAt = timestamp - this.elapsed;
+          }
+
           this.elapsed = timestamp - this.startedAt;
           const pct = Math.min(1, this.elapsed / this.cycleDuration);
           this.progress = Number.isFinite(pct) ? pct : 0;
 
-          if (this.progress >= 1) {
-            return;
-          }
-
+          if (this.progress >= 1) return;
           this.raf = requestAnimationFrame(step);
         };
 
+        // Kick first frame; ensures progress updates right after mount
+        this.startedAt = null;
         this.raf = requestAnimationFrame(step);
 
         const remaining = Math.max(0, this.cycleDuration - this.elapsed);
-
         this.timer = setTimeout(() => {
           this.elapsed = 0;
           this.progress = 0;
@@ -85,9 +90,7 @@
       },
 
       pauseCycle() {
-        if (!this.canAuto()) {
-          return;
-        }
+        if (!this.canAuto()) return;
 
         if (this.startedAt !== null) {
           const now = performance.now();
@@ -98,7 +101,8 @@
         this.startedAt = null;
       },
 
-      start() {
+      start(origin = 'manual') {
+        if (origin === 'hover' || origin === 'focus') this.manualPause = false;
         this.resumeCycle();
       },
 
@@ -107,32 +111,24 @@
       },
 
       stop(origin = 'manual') {
-        if (origin === 'hover' && !this.hoverPauseReady) {
-          return;
-        }
-
+        if (origin === 'hover' || origin === 'focus') this.manualPause = true;
         this.pauseCycle();
       },
 
       next({ origin = 'manual' } = {}) {
         if (!this.slides.length) return;
-
         this.activeSlide = (this.activeSlide + 1) % this.slides.length;
         this.resumeCycle({ reset: true });
       },
 
       prev() {
         if (!this.slides.length) return;
-
         this.activeSlide = (this.activeSlide - 1 + this.slides.length) % this.slides.length;
         this.resumeCycle({ reset: true });
       },
 
       goTo(index) {
-        if (index === this.activeSlide) {
-          return;
-        }
-
+        if (index === this.activeSlide) return;
         if (index >= 0 && index < this.slides.length) {
           this.activeSlide = index;
           this.resumeCycle({ reset: true });
@@ -140,10 +136,7 @@
       },
 
       dotStyle(index) {
-        if (index !== this.activeSlide) {
-          return '--hero-dot-progress:0deg;';
-        }
-
+        if (index !== this.activeSlide) return '--hero-dot-progress:0deg;';
         const value = Math.min(1, Math.max(0, this.progress || 0));
         const angle = (value * 360).toFixed(1);
         return `--hero-dot-progress:${angle}deg;`;
@@ -175,7 +168,6 @@
         const visibilityHandler = () => document.hidden ? this.pauseCycle() : this.resumeCycle();
         const motionHandler = (event) => {
           this.prefersReduced = event.matches;
-
           if (event.matches) {
             this.pauseCycle();
             this.progress = 0;
@@ -186,24 +178,14 @@
         };
         let motionCleanup = null;
 
-        if (this.canAuto()) {
-          this.resumeCycle({ reset: true });
-        }
+        // Measure after DOM is ready, then start on the following frame (prevents hydration race)
+        this.$nextTick(() => {
+          this.measure();
+          requestAnimationFrame(() => this.resumeCycle({ reset: true }));
+        });
 
-        this.$nextTick(() => this.measure());
         const ro = new ResizeObserver(() => this.measure());
         ro.observe(this.$root);
-
-        let hoverReadyTimer = null;
-        const pointerEnable = () => {
-          this.hoverPauseReady = true;
-          if (hoverReadyTimer !== null) {
-            clearTimeout(hoverReadyTimer);
-            hoverReadyTimer = null;
-          }
-        };
-        window.addEventListener('pointermove', pointerEnable, { once: true });
-        hoverReadyTimer = window.setTimeout(pointerEnable, 240);
 
         document.addEventListener('visibilitychange', visibilityHandler);
         if (typeof this.motionQuery.addEventListener === 'function') {
@@ -217,10 +199,6 @@
         return () => {
           this.clearTimers();
           ro.disconnect();
-          window.removeEventListener('pointermove', pointerEnable);
-          if (hoverReadyTimer !== null) {
-            clearTimeout(hoverReadyTimer);
-          }
           document.removeEventListener('visibilitychange', visibilityHandler);
           if (motionCleanup) motionCleanup();
         };
@@ -228,8 +206,6 @@
     };
   })()"
   x-init="init()"
-  @mouseenter="stop('hover')" @mouseleave="start()"
-  @focusin="stop('focus')" @focusout="start()"
   @keydown.arrow-right.prevent="next()" @keydown.arrow-left.prevent="prev()"
   tabindex="0" role="region" aria-roledescription="carousel" aria-label="DGstep hero"
   class="hero-surface relative z-0 select-none overflow-hidden text-[color:var(--hero-ink)]"
@@ -293,6 +269,10 @@
                   <!-- Prefer new resolved href (button_href), fallback to existing keys -->
                   <x-ui.button
                     x-bind:href="slide.button_href ?? (slide.button?.href ?? slide.button?.link ?? slide.button_link ?? '#')"
+                    x-on:mouseenter="stop('hover')"
+                    x-on:mouseleave="start('hover')"
+                    x-on:focusin="stop('focus')"
+                    x-on:focusout="start('focus')"
                     variant="hero" size="lg" class="shrink-0">
                     <span x-text="slide.button?.text ?? slide.button_text ?? '{{ __('messages.learn_more') }}'"></span>
                   </x-ui.button>
@@ -328,7 +308,11 @@
         <!-- RIGHT: Media (DB-driven, styles/transitions unchanged) -->
         <div class="hidden md:block justify-self-end w-full min-w-0 relative z-0">
           <a :href="slides[activeSlide]?.button_href ?? (slides[activeSlide]?.button?.href ?? slides[activeSlide]?.button?.link ?? slides[activeSlide]?.button_link ?? '#')"
-             class="block rounded-2xl overflow-hidden hero-media">
+             class="block rounded-2xl overflow-hidden hero-media"
+             @mouseenter="stop('hover')"
+             @mouseleave="start('hover')"
+             @focusin="stop('focus')"
+             @focusout="start('focus')">
             <div class="relative aspect-[16/9] md:max-h-[82vh]">
               <template x-for="(src, i) in (slides[activeSlide]?.media || [])" :key="'media-'+i">
                 <img
