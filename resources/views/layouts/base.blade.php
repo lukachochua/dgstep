@@ -6,7 +6,7 @@
     <title>{{ $title ?? 'DGstep' }}</title>
 
     {{-- Pre-init theme to avoid flash (single source of truth: dg:theme) --}}
-    <script>
+    {{-- <script>
       (function () {
         try {
           var KEY = 'dg:theme';
@@ -17,7 +17,7 @@
           document.documentElement.setAttribute('data-theme', theme);
         } catch (_) {}
       })();
-    </script>
+    </script> --}}
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
@@ -45,6 +45,9 @@
     <meta name="twitter:image" content="{{ asset('images/og-preview.jpg') }}">
 
     <link rel="canonical" href="{{ url()->current() }}">
+    <link rel="preload" href="/resources/fonts/calibri/calibri.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="/resources/fonts/calibri/calibrib.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="/resources/fonts/calibri/calibril.ttf" as="font" type="font/ttf" crossorigin>
 </head>
 
 <body

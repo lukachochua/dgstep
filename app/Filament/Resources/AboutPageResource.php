@@ -39,12 +39,23 @@ class AboutPageResource extends Resource
                             ->description('Update the hero background imagery that appears at the top of the About page.')
                             ->collapsible()
                             ->schema([
+                                Forms\Components\FileUpload::make('hero_image_path')
+                                    ->label('Hero image upload')
+                                    ->helperText('Upload a hero image (overrides the external URL when provided). Ideal size 1200×760.')
+                                    ->image()
+                                    ->imageEditor()
+                                    ->disk('public')
+                                    ->directory('about/hero')
+                                    ->visibility('public')
+                                    ->maxSize(8192)
+                                    ->imagePreviewHeight('200')
+                                    ->columnSpanFull(),
                                 Forms\Components\TextInput::make('hero_image_url')
                                     ->label('Hero image URL')
-                                    ->helperText('Paste a fully qualified image URL. Ideal size 1200×760.')
+                                    ->helperText('Optional fallback when no upload is provided. Paste a fully qualified URL.')
                                     ->maxLength(2048)
                                     ->url()
-                                    ->required(),
+                                    ->nullable(),
                             ]),
                     ])->columnSpan(['lg' => 1]),
 

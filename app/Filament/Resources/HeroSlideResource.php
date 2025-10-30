@@ -5,10 +5,20 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\HeroSlideResource\Pages;
 use App\Models\HeroSlide;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Forms\Components\KeyValue;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Tabs;
+use Filament\Forms\Components\Tabs\Tab;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\ToggleButtons;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\BadgeColumn;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Support\Str;
 
 class HeroSlideResource extends Resource
 {
@@ -17,137 +27,192 @@ class HeroSlideResource extends Resource
     protected static ?string $navigationGroup = 'Content';
     protected static ?int $navigationSort = 10;
 
-    public static function form(Form $form): Form
+    public static function form(Forms\Form $form): Forms\Form
     {
         return $form->schema([
-            // ────────────────────────────────────────────────
-            // Title (translations)
-            // ────────────────────────────────────────────────
-            Forms\Components\TextInput::make('title.en')
-                ->label('Title (EN)')
-                ->required(),
-            Forms\Components\TextInput::make('title.ka')
-                ->label('Title (KA)')
-                ->required(),
+            Section::make(__('Hero Content'))
+                ->schema([
+                    Tabs::make('translations')
+                        ->tabs([
+                            Tab::make('English')
+                                ->schema([
+                                    TextInput::make('title.en')
+                                        ->label('Title (EN)')
+                                        ->required()
+                                        ->maxLength(255),
+                                    TextInput::make('highlight.en')
+                                        ->label('Highlight (EN)')
+                                        ->maxLength(255),
+                                    Textarea::make('subtitle.en')
+                                        ->label('Subtitle (EN)')
+                                        ->rows(3)
+                                        ->autosize(),
+                                    TextInput::make('button_text.en')
+                                        ->label('Primary Button Text (EN)')
+                                        ->maxLength(255),
+                                ])
+                                ->columns(1),
+                            Tab::make('ქართული')
+                                ->schema([
+                                    TextInput::make('title.ka')
+                                        ->label('სათაური (KA)')
+                                        ->required()
+                                        ->maxLength(255),
+                                    TextInput::make('highlight.ka')
+                                        ->label('გამოკვეთილი ტექსტი (KA)')
+                                        ->maxLength(255),
+                                    Textarea::make('subtitle.ka')
+                                        ->label('ქვე-სათაური (KA)')
+                                        ->rows(3)
+                                        ->autosize(),
+                                    TextInput::make('button_text.ka')
+                                        ->label('ძირითადი ღილაკი (KA)')
+                                        ->maxLength(255),
+                                ])
+                                ->columns(1),
+                        ])
+                        ->columnSpanFull(),
+                ])
+                ->columns(2),
 
-            // Highlight
-            Forms\Components\TextInput::make('highlight.en')->label('Highlight (EN)'),
-            Forms\Components\TextInput::make('highlight.ka')->label('Highlight (KA)'),
+            Section::make('Primary Action')
+                ->schema([
+                    ToggleButtons::make('link_type')
+                        ->label('Link Type')
+                        ->inline()
+                        ->options([
+                            'internal' => 'Internal route',
+                            'external' => 'External URL',
+                            'legacy'   => 'Direct link',
+                        ])
+                        ->colors([
+                            'internal' => 'primary',
+                            'external' => 'success',
+                            'legacy'   => 'gray',
+                        ])
+                        ->reactive()
+                        ->default('internal'),
 
-            // Subtitle
-            Forms\Components\Textarea::make('subtitle.en')->label('Subtitle (EN)'),
-            Forms\Components\Textarea::make('subtitle.ka')->label('Subtitle (KA)'),
+                    Forms\Components\Select::make('button_route')
+                        ->label('Route name')
+                        ->options(self::routeOptions())
+                        ->searchable()
+                        ->helperText('Choose a named route from the site to link this slide to.')
+                        ->visible(fn (callable $get) => $get('link_type') === 'internal')
+                        ->required(fn (callable $get) => $get('link_type') === 'internal'),
 
-            // Button Texts
-            Forms\Components\TextInput::make('button_text.en')->label('Button Text (EN)'),
-            Forms\Components\TextInput::make('button_text.ka')->label('Button Text (KA)'),
+                    KeyValue::make('button_params')
+                        ->label('Route parameters')
+                        ->keyLabel('Parameter')
+                        ->valueLabel('Value')
+                        ->visible(fn (callable $get) => $get('link_type') === 'internal')
+                        ->helperText('Optional route parameters (e.g. slug → dgstep).')
+                        ->columnSpanFull(),
 
-            // ────────────────────────────────────────────────
-            // Primary Button (internal links only)
-            // ────────────────────────────────────────────────
-            Forms\Components\Hidden::make('link_type')->default('internal'),
+                    TextInput::make('button_url')
+                        ->label('External URL')
+                        ->placeholder('https://example.com')
+                        ->url()
+                        ->visible(fn (callable $get) => $get('link_type') === 'external')
+                        ->required(fn (callable $get) => $get('link_type') === 'external')
+                        ->maxLength(512),
 
-            Forms\Components\Placeholder::make('button_route_label')
-                ->label('Primary Button Route')
-                ->content('Always points to the Contact page.'),
+                    TextInput::make('button_link')
+                        ->label('Direct link')
+                        ->placeholder('/contact')
+                        ->visible(fn (callable $get) => $get('link_type') === 'legacy')
+                        ->required(fn (callable $get) => $get('link_type') === 'legacy')
+                        ->maxLength(512),
+                ])
+                ->columns(2),
 
-            Forms\Components\Hidden::make('button_route')
-                ->default('contact')
-                ->dehydrated(),
+            Section::make('Media')
+                ->schema([
+                    Forms\Components\FileUpload::make('image_path')
+                        ->label('Background image')
+                        ->image()
+                        ->imageEditor()
+                        ->disk('public')
+                        ->directory('hero')
+                        ->visibility('public')
+                        ->acceptedFileTypes(['image/png', 'image/jpeg', 'image/webp', 'image/bmp'])
+                        ->maxSize(8192)
+                        ->helperText('Wide 16:9 image (≥2560×1440) recommended for the hero background.'),
 
-            Forms\Components\KeyValue::make('button_params')
-                ->label('Route parameters')
-                ->keyLabel('Param')
-                ->valueLabel('Value')
-                ->addButtonLabel('Add parameter')
-                ->columnSpan('full'),
-
-            // ────────────────────────────────────────────────
-            // Secondary Button (optional)
-            // ────────────────────────────────────────────────
-            Forms\Components\TextInput::make('secondary_button_text.en')->label('Secondary Button Text (EN)'),
-            Forms\Components\TextInput::make('secondary_button_text.ka')->label('Secondary Button Text (KA)'),
-
-            Forms\Components\Hidden::make('secondary_link_type')->default('internal'),
-
-            Forms\Components\Select::make('secondary_button_route')
-                ->label('Secondary Route name')
-                ->options(self::routeOptions())
-                ->searchable()
-                ->nullable(), // optional
-
-            Forms\Components\KeyValue::make('secondary_button_params')
-                ->label('Secondary Route parameters')
-                ->keyLabel('Param')
-                ->valueLabel('Value')
-                ->addButtonLabel('Add parameter')
-                ->columnSpan('full'),
-
-            // ────────────────────────────────────────────────
-            // Uploads
-            // ────────────────────────────────────────────────
-            Forms\Components\FileUpload::make('image_path')
-                ->label('Background Image')
-                ->image()
-                ->imageEditor()
-                ->disk('public')
-                ->directory('hero')
-                ->visibility('public')
-                ->acceptedFileTypes(['image/png', 'image/jpeg', 'image/webp', 'image/bmp'])
-                ->maxSize(8192) // 8 MB
-                ->helperText('Upload a wide 16:9 image (minimum 2560×1440) so it stays sharp on the full-height hero background.'),
-
-            Forms\Components\FileUpload::make('media_paths')
-                ->label('Right-side Media Images')
-                ->image()
-                ->multiple()
-                ->reorderable()
-                ->imageEditor()
-                ->disk('public')
-                ->directory('hero_media')
-                ->visibility('public')
-                ->acceptedFileTypes(['image/png', 'image/jpeg', 'image/webp', 'image/bmp'])
-                ->maxFiles(6)
-                ->maxSize(8192)
-                ->helperText('Design for a 16:9 frame (around 1920×1080) to match the right-hand preview mockup.'),
+                    Forms\Components\FileUpload::make('media_paths')
+                        ->label('Foreground media gallery')
+                        ->image()
+                        ->multiple()
+                        ->reorderable()
+                        ->imageEditor()
+                        ->disk('public')
+                        ->directory('hero_media')
+                        ->visibility('public')
+                        ->acceptedFileTypes(['image/png', 'image/jpeg', 'image/webp', 'image/bmp'])
+                        ->maxFiles(6)
+                        ->maxSize(8192)
+                        ->helperText('Images appear on the right-hand preview. Maintain 16:9 for best fit.'),
+                ])
+                ->columns(2),
         ]);
     }
 
     public static function table(Table $table): Table
     {
-        return $table->columns([
-            // Titles (resolve translations explicitly so they render in the table)
-            Tables\Columns\TextColumn::make('title_en')
-                ->label('Title (EN)')
-                ->getStateUsing(fn (HeroSlide $record) => $record->getTranslation('title', 'en'))
-                ->limit(30),
+        return $table
+            ->columns([
+                TextColumn::make('id')
+                    ->label('#')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
 
-            Tables\Columns\TextColumn::make('title_ka')
-                ->label('Title (KA)')
-                ->getStateUsing(fn (HeroSlide $record) => $record->getTranslation('title', 'ka'))
-                ->limit(30),
+                TextColumn::make('title_en')
+                    ->label('Title (EN)')
+                    ->getStateUsing(fn (HeroSlide $record) => $record->getTranslation('title', 'en') ?? '—')
+                    ->limit(40)
+                    ->searchable(),
 
-            // Background image (via accessor on model)
-            Tables\Columns\ImageColumn::make('image_url')
-                ->label('Background')
-                ->extraImgAttributes(['alt' => 'Background'])
-                ->defaultImageUrl('https://via.placeholder.com/80x48?text=—'),
+                TextColumn::make('title_ka')
+                    ->label('Title (KA)')
+                    ->getStateUsing(fn (HeroSlide $record) => $record->getTranslation('title', 'ka') ?? '—')
+                    ->limit(40)
+                    ->searchable(),
 
-            // Button links
-            Tables\Columns\TextColumn::make('button_href')
-                ->label('Button Link')
-                ->url(fn (HeroSlide $record) => $record->button_href)
-                ->openUrlInNewTab()
-                ->limit(40),
+                BadgeColumn::make('link_type')
+                    ->label('Primary link')
+                    ->formatStateUsing(fn (?string $state) => $state ? Str::headline($state) : '—')
+                    ->colors([
+                        'primary' => ['internal'],
+                        'success' => ['external'],
+                        'gray'    => ['legacy'],
+                    ]),
 
-            Tables\Columns\TextColumn::make('secondary_button_href')
-                ->label('Secondary Link')
-                ->url(fn (HeroSlide $record) => $record->secondary_button_href)
-                ->openUrlInNewTab()
-                ->limit(40),
+                TextColumn::make('button_href')
+                    ->label('Button URL')
+                    ->limit(40)
+                    ->url(fn (HeroSlide $record) => $record->button_href)
+                    ->openUrlInNewTab(),
 
-            Tables\Columns\TextColumn::make('created_at')->dateTime(),
-        ]);
+                ImageColumn::make('image_url')
+                    ->label('Background')
+                    ->circular(false)
+                    ->size(48),
+
+                TextColumn::make('updated_at')
+                    ->label('Updated')
+                    ->since()
+                    ->toggleable(),
+            ])
+            ->defaultSort('id')
+            ->actions([
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+            ])
+            ->bulkActions([
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
+                ]),
+            ]);
     }
 
     public static function getPages(): array
@@ -159,18 +224,15 @@ class HeroSlideResource extends Resource
         ];
     }
 
-    /**
-     * Curated list of internal route names for editors.
-     */
     protected static function routeOptions(): array
     {
         return [
-            'home'           => 'Home',
-            'about'          => 'About',
-            'services'       => 'Services',
-            'projects.index' => 'Projects / Index',
-            'projects.show'  => 'Projects / Show (requires param)',
-            'contact'        => 'Contact',
+            'home'     => 'home',
+            'about'    => 'about',
+            'services' => 'services',
+            'projects' => 'projects',
+            'contact'  => 'contact',
+            'terms'    => 'terms',
         ];
     }
 }

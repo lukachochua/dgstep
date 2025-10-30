@@ -31,7 +31,7 @@
     /* Visibility / animation */
     isVisible: true,
     isHiding: false,
-    transitionsEnabled: false,
+    transitionsEnabled: true,
     ready: false,
     mounted: false,
     userScrollIntent: false,
@@ -202,11 +202,8 @@
 
       this.$nextTick(() => {
         this.measureScrollbarGutter();
-        // Enable transitions after first paint
-        requestAnimationFrame(() => { requestAnimationFrame(() => {
-          this.transitionsEnabled = true;
-          this.ready = true;
-        }); });
+        this.transitionsEnabled = true;
+        this.ready = true;
       });
 
       const onScroll = () => {
@@ -333,11 +330,10 @@
       color: (theme === 'dark') ? '#f3f2ff' : '#ffffff'
     }"
   >
-    <div class="mx-auto w-full max-w-[var(--container-content)] flex items-center justify-between">
+    <div class="mx-auto w-full max-w-[var(--container-content)] flex items-center justify-between gap-3 md:grid md:grid-cols-[auto_1fr_auto] md:items-center md:gap-6">
 
-      <!-- Left group: Logo + Primary links inline -->
-      <div class="flex items-center gap-4 md:gap-6">
-        <!-- Logo (hover swap) -->
+      <!-- Logo (hover swap) -->
+      <div class="flex items-center gap-3 md:gap-4">
         <a href="{{ route('home') }}" aria-label="DGstep logo"
            class="group logo-swap flex items-center gap-2 select-none transition-transform duration-200 ease-[var(--ease-brand)] active:scale-95 focus-visible:outline-none">
           <img
@@ -351,9 +347,11 @@
             class="logo-img--dark h-6 md:h-7 w-auto select-none pointer-events-none"
             width="160" height="40" decoding="async" />
         </a>
+      </div>
 
-        <!-- Primary links (desktop) -->
-        <ul class="hidden md:flex items-center gap-2 md:gap-3 text-[13px] md:text-[15px]">
+      <!-- Centered links (desktop) -->
+      <div class="hidden md:flex justify-center">
+        <ul class="flex items-center gap-2 md:gap-3 text-[13px] md:text-[15px]">
           @foreach ($routes as $routeName)
             <li class="relative">
               <x-nav.anchor-button :route="$routeName" label="{{ __('messages.' . $routeName) }}" variant="desktop" />

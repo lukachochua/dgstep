@@ -6,14 +6,18 @@
   'heroSubtitleScale' => 'text-base md:text-lg',
 ])
 
+@php
+  $fallbackHeroCta = trans('messages.footer.cta');
+@endphp
+
 <section
   x-data="(() => {
     const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 
     return {
       activeSlide: 0,
-      textColH: 0,        // full text column height (for cross-fade container)
-      textBlockH: 0,      // title+subtitle block height (keeps CTA baseline fixed)
+      textColH: 0,
+      textBlockH: 0,
       timer: null,
       raf: null,
       progress: 0,
@@ -23,13 +27,10 @@
       prefersReduced: motionQuery.matches,
       motionQuery,
       manualPause: false,
-
-      // Slides (from DB)
       slides: @js($slides),
 
-      // Only autoplay when visible and allowed
       canAuto() {
-        const visible = this.$root?.offsetParent !== null; // not display:none
+        const visible = this.$root?.offsetParent !== null;
         return visible && !this.prefersReduced && this.slides.length > 1;
       },
 
@@ -44,7 +45,6 @@
         }
       },
 
-      // ✅ rAF-synchronized start so progress paints immediately on first frame
       resumeCycle({ reset = false } = {}) {
         if (!this.canAuto()) {
           this.clearTimers();
@@ -65,7 +65,6 @@
 
         const step = (timestamp) => {
           if (this.startedAt === null) {
-            // pin to first real frame time; keep any carried elapsed (usually 0)
             this.startedAt = timestamp - this.elapsed;
           }
 
@@ -77,7 +76,6 @@
           this.raf = requestAnimationFrame(step);
         };
 
-        // Kick first frame; ensures progress updates right after mount
         this.startedAt = null;
         this.raf = requestAnimationFrame(step);
 
@@ -142,23 +140,19 @@
         return `--hero-dot-progress:${angle}deg;`;
       },
 
-      // Robust measurement with clamping to the visible hero area
       measure() {
         const meas  = this.$refs.textMeasure;
         const inner = this.$refs.inner;
         if (!meas || !inner) return;
 
-        const avail = Math.max(380, (inner.clientHeight || window.innerHeight) - 32); // safety
+        const avail = Math.max(380, (inner.clientHeight || window.innerHeight) - 32);
 
-        // Max of all slides (title+subtitle+CTA spacer)
         let maxCol = 0;
         meas.querySelectorAll('[data-measure=slide]').forEach(n => { maxCol = Math.max(maxCol, n.offsetHeight); });
 
-        // Max of all slides (title+subtitle only)
         let maxGroup = 0;
         meas.querySelectorAll('[data-measure=hgroup]').forEach(n => { maxGroup = Math.max(maxGroup, n.offsetHeight); });
 
-        // Reserve ~72px for CTA row space; clamp to visible area
         const reservedCTA = 72;
         this.textColH   = Math.min(avail, Math.max(360, Math.ceil(maxCol + 1)));
         this.textBlockH = Math.min(this.textColH - reservedCTA, Math.max(220, Math.ceil(maxGroup + 1)));
@@ -178,7 +172,6 @@
         };
         let motionCleanup = null;
 
-        // Measure after DOM is ready, then start on the following frame (prevents hydration race)
         this.$nextTick(() => {
           this.measure();
           requestAnimationFrame(() => this.resumeCycle({ reset: true }));
@@ -236,7 +229,6 @@
 
   <!-- Foreground -->
   <div class="relative mt-24 z-10 mx-auto max-w-[var(--container-content)] px-4 sm:px-6 md:px-8">
-    <!-- Center vertically; give the inner area a ref for measurements -->
     <div x-ref="inner" class="min-h-[calc(100svh-var(--navbar-h)-1rem)] flex items-center">
       <div class="grid items-center w-full gap-8 md:gap-12 lg:gap-16 grid-cols-1 md:grid-cols-2 xl:grid-cols-[0.7fr_1.3fr]">
 
@@ -266,29 +258,21 @@
                 </div>
 
                 <div class="mt-6 md:mt-7 flex flex-wrap items-center gap-3 animate-fadeUp" style="animation-delay:.1s">
-                  <!-- Prefer new resolved href (button_href), fallback to existing keys -->
                   <x-ui.button
-                    x-bind:href="slide.button_href ?? (slide.button?.href ?? slide.button?.link ?? slide.button_link ?? '#')"
+                    x-show="slide.button_href || slide.button?.href || slide.button?.link || slide.button_link"
+                    x-bind:href="slide.button_href || slide.button?.href || slide.button?.link || slide.button_link || '#'"
                     x-on:mouseenter="stop('hover')"
                     x-on:mouseleave="start('hover')"
                     x-on:focusin="stop('focus')"
                     x-on:focusout="start('focus')"
                     variant="hero" size="lg" class="shrink-0">
-                    <span x-text="slide.button?.text ?? slide.button_text ?? '{{ __('messages.learn_more') }}'"></span>
-                  </x-ui.button>
-
-                  <x-ui.button
-                    href="{{ Route::has('services') ? route('services') : '#' }}"
-                    x-bind:href="slide.secondary_button?.href ?? (slide.secondary_button_href ?? '#')"
-                    variant="hero" size="lg" class="shrink-0">
-                    <span x-text="slide.secondary_button?.text ?? '{{ __('messages.services') }}'"></span>
+                    <span x-text="slide.button?.text ?? slide.button_text ?? @js($fallbackHeroCta)"></span>
                   </x-ui.button>
                 </div>
               </div>
             </template>
           </div>
 
-          <!-- Invisible measurer -->
           <div aria-hidden="true" class="invisible absolute -left-[9999px] top-auto" x-ref="textMeasure">
             <template x-for="(slide, index) in slides" :key="'measure-'+index">
               <div class="w-[48ch]" data-measure="slide">
@@ -305,7 +289,7 @@
           </div>
         </div>
 
-        <!-- RIGHT: Media (DB-driven, styles/transitions unchanged) -->
+        <!-- RIGHT: Media -->
         <div class="hidden md:block justify-self-end w-full min-w-0 relative z-0">
           <a :href="slides[activeSlide]?.button_href ?? (slides[activeSlide]?.button?.href ?? slides[activeSlide]?.button?.link ?? slides[activeSlide]?.button_link ?? '#')"
              class="block rounded-2xl overflow-hidden hero-media"
@@ -337,7 +321,6 @@
     </div>
   </div>
 
-  <!-- Arrows -->
   <div class="absolute top-1/2 left-5 -translate-y-1/2 z-20">
     <button type="button" @click="prev()" aria-label="Previous slide" class="hero-arrow focus-ring">
       <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -353,7 +336,6 @@
     </button>
   </div>
 
-  <!-- Dots -->
   <div class="absolute bottom-7 left-1/2 -translate-x-1/2 flex space-x-3 z-20" role="tablist" aria-label="Hero slides">
     <template x-for="(slide, index) in slides" :key="'dot-'+index">
       <button

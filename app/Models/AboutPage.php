@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Storage;
 use Spatie\Translatable\HasTranslations;
 
 class AboutPage extends Model
@@ -27,6 +28,7 @@ class AboutPage extends Model
         'management_collapse',
         'badges',
         'hero_image_url',
+        'hero_image_path',
         'hero_image_alt',
         'hero_caption',
         'hero_status_label',
@@ -56,6 +58,20 @@ class AboutPage extends Model
         'hero_caption',
         'hero_status_label',
     ];
+
+    public function getHeroImageUrlAttribute(?string $value): ?string
+    {
+        if ($this->hero_image_path) {
+            try {
+                $path = Storage::disk('public')->url($this->hero_image_path);
+                return url($path);
+            } catch (\Throwable $exception) {
+                // fall back to stored value when storage URL fails
+            }
+        }
+
+        return $value;
+    }
 
     public static function defaults(): array
     {

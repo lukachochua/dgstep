@@ -453,91 +453,79 @@ html:not([data-theme]) {
   }
 
   /* ─────────────────────────────────────────────
-    Desktop nav links — minimal + underline
+    Desktop nav links — pill outline + glow
     ───────────────────────────────────────────── */
   .nav-link-desktop {
-    /* theme-aware inks + default underline (dark) */
+    --underline: var(--color-electric-sky);
     --ink: var(--nav-fg-muted);
     --ink-hover: var(--nav-fg);
-    --underline: var(--color-electric-sky);
+    --hover-fill: color-mix(in oklab, var(--underline) 24%, rgba(15,17,35,0.30));
+    --active-fill: color-mix(in oklab, var(--underline) 18%, rgba(15,17,35,0.26));
+    --hover-glow: color-mix(in oklab, var(--underline) 30%, rgba(90,86,214,0.48));
 
     position: relative;
     display: inline-flex;
     align-items: center;
-    gap: .375rem;
+    justify-content: center;
+    gap: .55rem;
 
-    padding: .375rem .5rem;     /* generous hit area, no chip */
-    border: 0;
-    background: transparent;
+    padding: .42rem .9rem;
+    border-radius: 999px;
+    background-color: color-mix(in oklab, rgba(15,17,35,0.65) 32%, transparent 68%);
+    border: 1px solid color-mix(in oklab, var(--underline) 36%, rgba(255,255,255,0.34));
     color: var(--ink);
 
     font-size: 15px;
-    font-weight: 500;
+    font-weight: 600;
     text-decoration: none;
 
-    transition: color .18s var(--ease-brand), opacity .18s var(--ease-brand);
+    transition: color .2s var(--ease-brand), border-color .22s var(--ease-brand),
+                background-color .22s var(--ease-brand), box-shadow .28s var(--ease-brand);
   }
 
-  /* Animated underline (hidden by default) */
-  .nav-link-desktop::after {
-    content: "";
-    position: absolute;
-    left: .5rem;                 /* align with padding */
-    right: .5rem;
-    bottom: -2px;
-    height: 2px;
-    background: var(--underline);
-    opacity: 0; 
-    transform: scaleX(0);
-    transform-origin: left center;
-    transition: transform .22s cubic-bezier(.22,.61,.36,1);
-    border-radius: 2px;
-  }
-
-  /* Hover/focus */
   .nav-link-desktop:hover,
   .nav-link-desktop:focus-visible {
     color: var(--ink-hover);
-  }
-  .nav-link-desktop:hover::after,
-  .nav-link-desktop:focus-visible::after{
-    opacity: 1;                 /* NEW */
-    transform: scaleX(1);
+    background-color: var(--hover-fill);
+    border-color: color-mix(in oklab, var(--underline) 48%, rgba(255,255,255,0.45));
+    box-shadow: 0 10px 24px color-mix(in oklab, var(--underline) 20%, transparent);
   }
 
-  /* Active route: persistent underline + stronger ink */
   .nav-link-desktop.nav-link-active {
     color: var(--ink-hover);
-  }
-  .nav-link-desktop.nav-link-active::after{
-    opacity: 1;                 /* NEW */
-    transform: scaleX(1);
+    background-color: var(--active-fill);
+    border-color: color-mix(in oklab, var(--underline) 54%, rgba(255,255,255,0.48));
+    box-shadow: 0 8px 20px color-mix(in oklab, var(--underline) 18%, transparent);
   }
 
-  /* Light theme: brighter brand underline + nuke legacy chips/borders */
   :root[data-theme="light"] .nav-link-desktop {
-    --underline: #FFFF; /* brighter from brandbook */
-    background: transparent !important;
-    border: 0 !important;
-    box-shadow: none !important;
-  }
-  :root[data-theme="light"] .nav-link-desktop.nav-link-active::after {
-    transform: scaleX(1) !important; /* ensure visible on active */
+    --underline: color-mix(in oklab, var(--color-brand-500) 82%, white 18%);
+    --ink: color-mix(in oklab, #120f27 82%, white 18%);
+    --ink-hover: color-mix(in oklab, var(--color-brand-800) 68%, #0a0d21 32%);
+    --hover-fill: color-mix(in oklab, var(--nav-bottom-bg, #726EDB) 42%, rgba(255,255,255,0.96));
+    --active-fill: color-mix(in oklab, var(--nav-bottom-bg, #726EDB) 32%, rgba(255,255,255,0.92));
+    --hover-glow: color-mix(in oklab, var(--nav-bottom-bg, #726EDB) 58%, rgba(90,86,214,0.55));
+
+    background-color: color-mix(in oklab, var(--nav-bottom-bg, #726EDB) 75%, rgba(255,255,255,0.86));
+    border-color: color-mix(in oklab, var(--color-brand-400) 52%, rgba(80,76,210,0.4));
+    box-shadow: none;
   }
 
+  :root[data-theme="light"] .nav-link-desktop:hover,
+  :root[data-theme="light"] .nav-link-desktop:focus-visible {
+    background-color: var(--hover-fill);
+    border-color: color-mix(in oklab, var(--nav-bottom-bg, #726EDB) 68%, rgba(90,86,214,0.55));
+    box-shadow: 0 14px 32px color-mix(in oklab, var(--nav-bottom-bg, #726EDB) 36%, transparent);
+  }
+
+  :root[data-theme="light"] .nav-link-desktop.nav-link-active {
+    background-color: var(--active-fill);
+    border-color: color-mix(in oklab, var(--nav-bottom-bg, #726EDB) 72%, rgba(90,86,214,0.6));
+    box-shadow: 0 12px 30px color-mix(in oklab, var(--nav-bottom-bg, #726EDB) 30%, transparent);
+  }
   /* Reduced motion */
   @media (prefers-reduced-motion: reduce) {
     .nav-link-desktop::after { transition: none; }
-  }
-
-  /* Ensure light theme doesn’t resurrect chips on desktop */
-  :root[data-theme="light"] .nav-link-desktop,
-  :root[data-theme="light"] .nav-link-desktop:hover,
-  :root[data-theme="light"] .nav-link-desktop:focus-visible,
-  :root[data-theme="light"] .nav-link-desktop.nav-link-active {
-    background: transparent !important;
-    border: 0 !important;
-    box-shadow: none !important;
   }
 
   /* Two-story navbar layers */

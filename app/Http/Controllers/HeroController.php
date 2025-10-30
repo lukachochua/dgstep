@@ -18,38 +18,57 @@ class HeroController extends Controller
         $slides = HeroSlide::query()
             ->orderBy('id')
             ->get()
-            ->map(function (HeroSlide $slide) use ($locale) {
-                // Resolve final href (internal route / external URL / legacy)
-                $resolvedHref = $slide->button_href
-                    ?: (Route::has('contact') ? route('contact') : '#');
+            ->values()
+            ->map(function (HeroSlide $slide, int $index) use ($locale) {
+                $fallbacks = [
+                    0 => ['route' => 'services', 'label' => __('messages.services', [], $locale)],
+                    1 => ['route' => 'contact', 'label' => __('contact.cta_button', [], $locale)],
+                    2 => ['route' => 'about', 'label' => __('messages.footer.nav.about', [], $locale)],
+                ];
 
-                $secondaryHref = $slide->secondary_button_href
-                    ?: (Route::has('services') ? route('services') : '#');
+                $fallback = $fallbacks[$index] ?? null;
+
+                $resolvedHref = $slide->button_href;
+
+                if (!$resolvedHref && $fallback && Route::has($fallback['route'])) {
+                    $resolvedHref = route($fallback['route']);
+                }
+
+                if (!$resolvedHref) {
+                    $resolvedHref = Route::has('contact') ? route('contact') : '#';
+                }
+
+                $manualText = $slide->getTranslation('button_text', $locale);
+                $fallbackLabel = $fallback['label'] ?? trans('messages.footer.cta', [], $locale);
+                $defaultContactLabel = trans('contact.cta_button', [], $locale);
+
+                if (blank($manualText)) {
+                    $buttonText = $fallbackLabel;
+                } elseif (($fallback['label'] ?? null) && $manualText === $defaultContactLabel && $fallbackLabel !== $defaultContactLabel) {
+                    // Preserve older data that still uses the Contact label when route-specific copy is expected.
+                    $buttonText = $fallbackLabel;
+                } else {
+                    $buttonText = $manualText;
+                }
 
                 return [
-                    'title'        => $slide->getTranslation('title', $locale),
-                    'highlight'    => $slide->getTranslation('highlight', $locale),
-                    'subtitle'     => $slide->getTranslation('subtitle', $locale),
-                    'button'       => [
-                        'text' => $slide->getTranslation('button_text', $locale),
+                    'title'       => $slide->getTranslation('title', $locale),
+                    'highlight'   => $slide->getTranslation('highlight', $locale),
+                    'subtitle'    => $slide->getTranslation('subtitle', $locale),
+                    'button'      => [
+                        'text' => $buttonText,
                         'href' => $resolvedHref,
                         'link' => $resolvedHref,
                     ],
-                    'button_href'  => $resolvedHref,
-                    'secondary_button' => [
-                        'text' => $slide->getTranslation('secondary_button_text', $locale) ?: __('messages.services'),
-                        'href' => $secondaryHref,
-                        'link' => $secondaryHref,
-                    ],
-                    'secondary_button_href' => $secondaryHref,
-                    'image'        => $slide->image_url,
-                    'media'        => $slide->media_urls,
+                    'button_href' => $resolvedHref,
+                    'button_text' => $buttonText,
+                    'image'       => $slide->image_url,
+                    'media'       => $slide->media_urls,
                 ];
             })
             ->values()
             ->all();
 
-        // NEW: pull exactly three featured services (scope enforces limit/order)
         $featured = Service::featured()->get();
 
         return view('pages.home', compact(

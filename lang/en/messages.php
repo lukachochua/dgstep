@@ -84,7 +84,7 @@ return [
             'contact' => 'Contact',
             'terms'   => 'Terms and Conditions',
         ],
-        'cta'       => 'Leave a request',
+        'cta'       => 'დაგვიკავშირდით',
         'aria'      => [
             'information_links' => 'Footer information links',
             'social_media'      => 'Social media',
