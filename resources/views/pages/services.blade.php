@@ -1,7 +1,7 @@
 <x-layouts.base :title="__('services.title')">
   <div class="min-h-screen flex flex-col">
     <section
-      class="flex-grow bg-[var(--bg-default)] text-[var(--text-default)] pt-16 sm:pt-20 pb-12 sm:pb-16 select-none">
+      class="flex-grow bg-[var(--bg-default)] text-[var(--text-default)] pt-24 sm:pt-24 md:pt-28 pb-12 sm:pb-16 select-none">
 
       @php
         $locale = app()->getLocale();
