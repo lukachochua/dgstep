@@ -197,31 +197,47 @@ html:not([data-theme]) {
   /* Hero */
   --hero-bg-start: color-mix(in oklab, var(--color-brand-900) 34%, #ffffff 66%);
   --hero-bg-mid:   color-mix(in oklab, var(--color-brand-800) 38%, #ffffff 62%);
-  --hero-bg-end:   color-mix(in oklab, var(--color-brand-900) 30%, #ffffff 70%);
+  --hero-bg-end:   color-mix(in oklab, #e9ecff 70%, var(--color-brand-200) 30%);
 
-  --hero-ink:       #0e0e12;
-  --hero-ink-muted: color-mix(in oklab, var(--hero-ink) 86%, transparent);
+  --hero-ink:       color-mix(in oklab, #0b102c 92%, #ffffff 8%);
+  --hero-ink-muted: color-mix(in oklab, var(--hero-ink) 66%, transparent);
 
-  --hero-headline-from: color-mix(in oklab, var(--color-brand-500) 82%, white 18%);
-  --hero-headline-to:   color-mix(in oklab, var(--color-brand-600) 88%, white 12%);
-  --hero-media-blur:    4px;
-  --hero-img-blur:      9px;
+  --hero-headline-from: color-mix(in oklab, var(--color-brand-400) 58%, var(--color-brand-500) 42%);
+  --hero-headline-to:   color-mix(in oklab, var(--color-brand-600) 62%, var(--color-brand-500) 38%);
+  --hero-media-blur:    16px;
+  --hero-img-blur:      8px;
 
-  --hero-img-opacity: .14;
-  --hero-img-blend:   multiply;
-  --hero-overlay:     transparent;
+  --hero-img-opacity: .12;
+  --hero-img-blend:   screen;
+  --hero-overlay:     color-mix(in oklab, rgba(255,255,255,.62) 16%, transparent);
 
   /* Dots & arrows */
-  --hero-chip:        rgba(255,255,255,.60);
-  --hero-dot:         color-mix(in oklab, var(--neutral-900) 18%, transparent);
-  --hero-dot-hover:   color-mix(in oklab, var(--neutral-900) 30%, transparent);
-  --hero-dot-active:  var(--color-electric-sky);
-  --hero-dot-border:  rgba(0,0,0,.22);
+  --hero-chip:        color-mix(in oklab, rgba(94,100,210,0.16) 65%, rgba(255,255,255,0.62));
+  --hero-dot:         color-mix(in oklab, rgba(16,21,52,0.10) 60%, transparent);
+  --hero-dot-hover:   color-mix(in oklab, rgba(16,21,52,0.18) 65%, transparent);
+  --hero-dot-active:  color-mix(in oklab, var(--color-brand-500) 80%, var(--color-brand-400) 20%);
+  --hero-dot-border:  rgba(16,21,52,0.22);
 
-  --hero-arrow-bg:        rgba(255,255,255,.78);
-  --hero-arrow-bg-hover:  rgba(255,255,255,.92);
-  --hero-arrow-fg:        var(--neutral-900);
-  --hero-arrow-border:    rgba(0,0,0,.12);
+  --hero-arrow-bg:        linear-gradient(132deg,
+                             color-mix(in oklab, var(--color-brand-100) 68%, rgba(255,255,255,0.92)) 0%,
+                             rgba(255,255,255,0.82) 55%,
+                             color-mix(in oklab, var(--color-brand-100) 48%, rgba(255,255,255,0.90)) 100%);
+  --hero-arrow-bg-hover:  linear-gradient(132deg,
+                             color-mix(in oklab, var(--color-brand-200) 78%, rgba(255,255,255,0.96)) 0%,
+                             rgba(255,255,255,0.94) 60%,
+                             color-mix(in oklab, var(--color-brand-100) 58%, rgba(255,255,255,0.98)) 100%);
+  --hero-arrow-fg:        color-mix(in oklab, var(--color-brand-700) 82%, var(--neutral-900) 18%);
+  --hero-arrow-border:    color-mix(in oklab, var(--color-brand-200) 40%, rgba(255,255,255,0.65));
+  --hero-arrow-shadow:        rgba(62,49,156,0.28);
+  --hero-arrow-shadow-hover:  rgba(62,49,156,0.38);
+  --hero-arrow-sheen:         0.78;
+  --hero-arrow-radius:        18px;
+
+  --hero-media-border:        color-mix(in oklab, rgba(112,120,210,0.26) 60%, transparent);
+  --hero-media-glare:         rgba(255,255,255,0.85);
+  --hero-media-surface:       color-mix(in oklab, rgba(255,255,255,0.82) 35%, rgba(241,244,255,0.92) 65%);
+  --hero-media-shadow:        0 16px 46px rgba(22,28,72,0.18);
+  --hero-media-shadow-hover:  0 24px 60px rgba(16,22,68,0.24);
 
   /* Features */
   --features-surface:  color-mix(in oklab, var(--color-brand-50) 10%, #ffffff 90%);
@@ -293,25 +309,40 @@ html:not([data-theme]) {
   --btn-danger-fg:          #ffffff;
 
   /* Hero */
-  --hero-bg-start: color-mix(in oklab, var(--color-brand-950) 88%, #000 12%);
-  --hero-bg-mid:   color-mix(in oklab, var(--color-brand-900) 84%, #000 16%);
-  --hero-bg-end:   color-mix(in oklab, var(--color-brand-950) 92%, #000 8%);
-  --hero-ink:       #f3f2ff;
-  --hero-ink-muted: rgba(243,242,255,.82);
-  --hero-img-opacity: .18;
+  --hero-bg-start: color-mix(in oklab, var(--color-brand-950) 88%, #05060f 12%);
+  --hero-bg-mid:   color-mix(in oklab, var(--color-brand-900) 80%, #060818 20%);
+  --hero-bg-end:   color-mix(in oklab, var(--color-brand-950) 94%, #020309 6%);
+  --hero-ink:       rgba(244,246,255,.97);
+  --hero-ink-muted: rgba(218,222,255,.84);
+  --hero-img-opacity: .22;
   --hero-img-blend:   screen;
-  --hero-overlay:     color-mix(in oklab, #000000 32%, transparent);
+  --hero-overlay:     color-mix(in oklab, rgba(3,4,18,.78) 75%, transparent);
+  --hero-headline-from: color-mix(in oklab, var(--color-electric-sky) 78%, #f9f8ff 22%);
+  --hero-headline-to:   color-mix(in oklab, #c7c8ff 82%, #ffffff 18%);
 
   /* Dots & arrows */
-  --hero-chip:        rgba(255,255,255,.10);
-  --hero-dot:         color-mix(in oklab, #ffffff 24%, transparent);
-  --hero-dot-hover:   color-mix(in oklab, #ffffff 40%, transparent);
-  --hero-dot-active:  var(--color-electric-sky);
-  --hero-dot-border:  rgba(255,255,255,.35);
-  --hero-arrow-bg:        rgba(255,255,255,.12);
-  --hero-arrow-bg-hover:  rgba(255,255,255,.20);
-  --hero-arrow-fg:        #f3f2ff;
-  --hero-arrow-border:    rgba(255,255,255,.22);
+  --hero-chip:        rgba(60,64,120,.26);
+  --hero-dot:         color-mix(in oklab, rgba(112,118,210,.32) 55%, transparent);
+  --hero-dot-hover:   color-mix(in oklab, rgba(112,118,210,.42) 65%, transparent);
+  --hero-dot-active:  color-mix(in oklab, var(--color-electric-sky) 82%, #9ea3ff 18%);
+  --hero-dot-border:  rgba(78,82,150,.48);
+  --hero-arrow-bg:        color-mix(in oklab, rgba(26,30,70,0.94) 65%, rgba(12,14,32,0.98));
+  --hero-arrow-bg-hover:  color-mix(in oklab, rgba(40,46,96,0.96) 70%, rgba(14,16,36,0.98));
+  --hero-arrow-fg:        rgba(216,215,248,0.90);
+  --hero-arrow-border:    color-mix(in oklab, rgba(88,90,174,0.55) 58%, transparent);
+  --hero-arrow-shadow:        rgba(0,0,0,0.26);
+  --hero-arrow-shadow-hover:  rgba(0,0,0,0.32);
+  --hero-arrow-sheen:         0.12;
+  --hero-arrow-radius:        10px;
+  --hero-media-blur:    18px;
+  --hero-img-blur:      12px;
+  --cta-shadow: 0 24px 52px rgba(70,76,210,0.32);
+
+  --hero-media-border:        color-mix(in oklab, rgba(84,88,172,0.35) 70%, transparent);
+  --hero-media-glare:         rgba(66,70,140,0.65);
+  --hero-media-surface:       color-mix(in oklab, rgba(16,18,36,0.82) 70%, rgba(24,26,48,0.92) 30%);
+  --hero-media-shadow:        0 20px 52px rgba(5,6,24,0.60);
+  --hero-media-shadow-hover:  0 28px 68px rgba(6,8,28,0.65);
 
   /* Section wash */
   --section-wash: radial-gradient(
@@ -673,87 +704,210 @@ html:not([data-theme]) {
      HERO (unchanged except minor tidy)
      ────────────────────────────────────────────────────────────── */
   .hero-arrow {
-    display: inline-flex; align-items: center; justify-content: center;
-    width: 48px; height: 48px; border-radius: 9999px;
-    background-color: var(--hero-arrow-bg);
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    padding: 0;
+    border-radius: var(--hero-arrow-radius, 18px);
+    border: 0;
+    background: transparent;
     color: var(--hero-arrow-fg);
-    border: 1px solid var(--hero-arrow-border);
-    box-shadow: 0 8px 18px rgba(0,0,0,.18);
-    transition: background-color .18s var(--ease-brand), color .18s var(--ease-brand),
-                transform .18s var(--ease-brand), box-shadow .18s var(--ease-brand);
+    isolation: isolate;
+    cursor: pointer;
+    transition: color .25s var(--ease-brand), transform .25s var(--ease-brand);
   }
-  .hero-arrow:hover { background-color: var(--hero-arrow-bg-hover); transform: translateY(-1px); box-shadow: 0 10px 22px rgba(0,0,0,.22); }
-  .hero-arrow:active { transform: translateY(0); }
+  .hero-arrow::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: var(--hero-arrow-bg);
+    border: 1px solid var(--hero-arrow-border);
+    box-shadow: 0 10px 24px var(--hero-arrow-shadow);
+    opacity: 0.96;
+    transition: background .25s var(--ease-brand),
+                box-shadow .25s var(--ease-brand),
+                transform .25s var(--ease-brand),
+                opacity .25s var(--ease-brand);
+  }
+  .hero-arrow::after {
+    content: "";
+    position: absolute;
+    inset: 1.5px;
+    border-radius: inherit;
+    background: radial-gradient(circle at 28% 22%, rgba(255,255,255,0.68), transparent 58%);
+    opacity: var(--hero-arrow-sheen, 0.8);
+    mix-blend-mode: screen;
+    pointer-events: none;
+    transition: opacity .25s var(--ease-brand);
+  }
+  .hero-arrow .hero-arrow__icon {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+  }
+  .hero-arrow .hero-arrow__icon svg {
+    width: 100%;
+    height: 100%;
+    transition: transform .25s var(--ease-brand);
+  }
+  .hero-arrow:hover::before {
+    background: var(--hero-arrow-bg-hover);
+    box-shadow: 0 16px 30px var(--hero-arrow-shadow-hover);
+    opacity: 1;
+  }
+  .hero-arrow:hover .hero-arrow__icon svg {
+    transform: scale(1.03);
+  }
+  .hero-arrow:focus-visible::before {
+    transform: translateY(0);
+    box-shadow:
+      0 0 0 2.5px color-mix(in oklab, var(--hero-arrow-border) 58%, transparent),
+      0 20px 34px var(--hero-arrow-shadow-hover);
+  }
+  .hero-arrow:focus-visible::after {
+    opacity: 1;
+  }
+  .hero-arrow:active::before {
+    box-shadow: 0 8px 18px var(--hero-arrow-shadow);
+  }
 
   .hero-dot {
     position: relative;
-    width: 12px; height: 12px; border-radius: 9999px;
-    border: 1px solid var(--hero-dot-border);
-    background-color: var(--hero-dot);
+    width: 28px;
+    height: 10px;
+    border-radius: 9999px;
+    border: 1px solid color-mix(in oklab, var(--hero-dot-border) 80%, transparent);
+    background: color-mix(in oklab, var(--hero-dot) 88%, transparent);
     overflow: hidden;
-    transition: background-color .18s var(--ease-brand), transform .18s var(--ease-brand), box-shadow .18s var(--ease-brand);
+    transition: background-color .22s var(--ease-brand), border-color .22s var(--ease-brand);
+  }
+  .hero-dot::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--hero-dot-active), color-mix(in oklab, var(--hero-dot-active) 46%, transparent));
+    transform-origin: left center;
+    transform: scaleX(var(--hero-dot-progress, 0));
+    opacity: 0;
+    transition: transform .28s var(--ease-brand), opacity .28s var(--ease-brand);
   }
   .hero-dot::after {
     content: "";
     position: absolute;
-    inset: -1px;
+    inset: 0;
     border-radius: inherit;
-    background: conic-gradient(var(--hero-dot-active) var(--hero-dot-progress, 0deg), transparent var(--hero-dot-progress, 0deg));
-    opacity: 0;
-    transition: opacity .18s var(--ease-brand);
+    background: linear-gradient(145deg, rgba(255,255,255,0.22), transparent 55%);
+    mix-blend-mode: screen;
+    opacity: 0.35;
+    pointer-events: none;
+    transition: opacity .22s var(--ease-brand);
   }
-  .hero-dot:hover { background-color: var(--hero-dot-hover); transform: translateY(-1px); }
+  .hero-dot:hover {
+    background: color-mix(in oklab, var(--hero-dot) 94%, transparent);
+    border-color: color-mix(in oklab, var(--hero-dot-border) 74%, transparent);
+  }
+  .hero-dot:hover::after { opacity: 0.55; }
   .hero-dot.is-active {
-    transform: scale(1.15);
-    background-color: color-mix(in oklab, var(--hero-dot) 45%, transparent);
-    box-shadow: 0 0 0 3px color-mix(in oklab, var(--hero-dot-active) 28%, transparent);
-    animation: heroPulse .9s ease-out;
+    border-color: color-mix(in oklab, var(--hero-dot-border) 90%, transparent);
+    background: color-mix(in oklab, var(--hero-dot) 96%, transparent);
   }
-  .hero-dot.is-active::after { opacity: 1; }
-  @keyframes heroPulse {
-    from { box-shadow: 0 0 0 0 color-mix(in oklab, var(--hero-dot-active) 30%, transparent); }
-    to   { box-shadow: 0 0 0 10px transparent; }
+  .hero-dot.is-active::before { opacity: 1; }
+  .hero-dot:focus-visible {
+    outline: none;
+    box-shadow:
+      0 0 0 2px color-mix(in oklab, var(--hero-dot-active) 35%, transparent),
+      0 8px 18px rgba(0,0,0,0.18);
   }
 
   :root {
-    --hero-mesh-a: color-mix(in oklab, var(--color-brand-500) 40%, #0b1023);
-    --hero-mesh-b: color-mix(in oklab, var(--color-accent-2) 32%, #0b1023);
-    --hero-mesh-c: color-mix(in oklab, #8f89ea 44%, #0b1023);
+    --hero-mesh-a: color-mix(in oklab, rgba(118,126,252,0.28) 70%, transparent);
+    --hero-mesh-b: color-mix(in oklab, rgba(120,222,255,0.20) 60%, transparent);
+    --hero-mesh-c: color-mix(in oklab, rgba(146,130,255,0.22) 65%, transparent);
     --hero-noise:
-        radial-gradient(1200px 700px at 70% -20%, color-mix(in oklab, var(--hero-mesh-b) 16%, transparent), transparent 70%),
-        radial-gradient(900px 520px at 25% 10%, color-mix(in oklab, var(--hero-mesh-a) 22%, transparent), transparent 70%);
-
-    --hero-headline-from: color-mix(in oklab, var(--color-brand-400) 72%, white 28%);
-    --hero-headline-to:   color-mix(in oklab, var(--color-brand-600) 82%, white 18%);
-    --hero-media-blur:    10px;
-    --hero-img-blur:      12px;
-    --cta-shadow: 0 12px 28px color-mix(in oklab, var(--color-brand-500) 30%, transparent);
+        radial-gradient(620px 420px at 18% 6%, var(--hero-mesh-a) 0%, transparent 72%),
+        radial-gradient(680px 480px at 78% 14%, var(--hero-mesh-b) 0%, transparent 74%),
+        radial-gradient(960px 640px at 52% 88%, color-mix(in oklab, var(--hero-mesh-c) 80%, transparent) 0%, transparent 80%);
+  }
+  :root[data-theme="dark"] {
+    --hero-mesh-a: color-mix(in oklab, rgba(72,78,164,0.42) 70%, transparent);
+    --hero-mesh-b: color-mix(in oklab, rgba(64,112,192,0.36) 65%, transparent);
+    --hero-mesh-c: color-mix(in oklab, rgba(132,118,248,0.38) 60%, transparent);
+    --hero-noise:
+        radial-gradient(560px 420px at 20% 8%, var(--hero-mesh-a) 0%, transparent 74%),
+        radial-gradient(700px 500px at 78% 20%, var(--hero-mesh-b) 0%, transparent 78%),
+        radial-gradient(960px 620px at 50% 92%, color-mix(in oklab, var(--hero-mesh-c) 70%, transparent) 0%, transparent 82%);
   }
 
   .hero-surface {
     background:
-      radial-gradient(60% 50% at 50% 40%, color-mix(in oklab, #000 40%, transparent), transparent 60%),
+      radial-gradient(120% 110% at 50% -10%, color-mix(in oklab, var(--hero-overlay) 45%, transparent) 0%, transparent 70%),
       var(--hero-noise),
-      linear-gradient(90deg, var(--hero-bg-start), var(--hero-bg-mid) 55%, var(--hero-bg-end));
+      linear-gradient(128deg, var(--hero-bg-start) 0%, var(--hero-bg-mid) 52%, var(--hero-bg-end) 100%);
     isolation: isolate;
   }
   .hero-highlight {
-    background-image: linear-gradient(90deg, var(--hero-headline-from), var(--hero-headline-to));
-    -webkit-background-clip: text; background-clip: text; color: transparent;
-    text-shadow: 0 1px 0 rgba(0,0,0,.25);
+    background-image: linear-gradient(98deg, var(--hero-headline-from), var(--hero-headline-to));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 28px color-mix(in oklab, var(--hero-headline-to) 24%, transparent);
   }
+  .hero-heading {
+    color: var(--hero-ink);
+    font-weight: 750;
+    letter-spacing: -0.03em;
+    text-shadow: none;
+  }
+  .hero-subtitle {
+    color: var(--hero-ink-muted);
+    text-shadow: none;
+    max-width: 52ch;
+    letter-spacing: -0.01em;
+  }
+  .hero-actions { gap: clamp(.65rem, 1.2vw, 1rem); }
   .hero-media {
-    border: 1px solid color-mix(in oklab, #fff 10%, transparent);
-    backdrop-filter: blur(var(--hero-media-blur, 10px));
-    -webkit-backdrop-filter: blur(var(--hero-media-blur, 10px));
-    background: color-mix(in oklab, var(--bg-elevated) 88%, #fff 12%);
-    box-shadow: 0 18px 40px rgba(0,0,0,.35);
-    transition: transform .25s var(--ease-brand), box-shadow .25s var(--ease-brand), border-color .25s var(--ease-brand);
+    position: relative;
+    border: 1px solid var(--hero-media-border);
+    backdrop-filter: blur(var(--hero-media-blur, 16px)) saturate(135%);
+    -webkit-backdrop-filter: blur(var(--hero-media-blur, 16px)) saturate(135%);
+    background: var(--hero-media-surface);
+    box-shadow: var(--hero-media-shadow);
+    overflow: hidden;
+    transform: translateZ(0);
+    transition: transform .28s var(--ease-brand), box-shadow .28s var(--ease-brand), border-color .28s var(--ease-brand);
+  }
+  .hero-media::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(120deg, rgba(255,255,255,0.12), transparent 30%, transparent 65%, rgba(255,255,255,0.08));
+    mix-blend-mode: screen;
+    opacity: 0.35;
+    pointer-events: none;
+    transition: opacity .28s var(--ease-brand);
   }
   .hero-media:hover {
-    transform: translateY(-2px) scale(1.01) rotate(-.25deg);
-    border-color: color-mix(in oklab, #fff 18%, transparent);
-    box-shadow: 0 26px 60px rgba(0,0,0,.45);
+    transform: translateY(-4px);
+    border-color: color-mix(in oklab, var(--hero-media-border) 60%, rgba(255,255,255,0.24));
+    box-shadow: var(--hero-media-shadow-hover);
+  }
+  .hero-media:hover::after { opacity: 0.55; }
+  .hero-media:focus-visible {
+    outline: none;
+    border-color: color-mix(in oklab, var(--hero-media-border) 70%, rgba(255,255,255,0.32));
+    box-shadow:
+      0 0 0 2px color-mix(in oklab, var(--color-electric-sky) 38%, transparent),
+      var(--hero-media-shadow-hover);
   }
   @keyframes kenburns { 0% { transform: scale(1) } 100% { transform: scale(1.06) } }
   .hero-bgimg {

@@ -134,10 +134,9 @@
       },
 
       dotStyle(index) {
-        if (index !== this.activeSlide) return '--hero-dot-progress:0deg;';
+        if (index !== this.activeSlide) return '--hero-dot-progress:0;';
         const value = Math.min(1, Math.max(0, this.progress || 0));
-        const angle = (value * 360).toFixed(1);
-        return `--hero-dot-progress:${angle}deg;`;
+        return `--hero-dot-progress:${value.toFixed(3)};`;
       },
 
       measure() {
@@ -248,16 +247,16 @@
                 role="group" aria-roledescription="slide" :aria-label="`Slide ${index+1} of ${slides.length}`"
               >
                 <div :style="`min-height:${textBlockH||0}px`">
-                  <h1 class="{{ $heroHeadingScale }} font-extrabold leading-[1.15] tracking-tight [text-wrap:balance] animate-fadeUp drop-shadow-lg">
+                  <h1 class="{{ $heroHeadingScale }} hero-heading leading-[1.08] tracking-tight [text-wrap:balance] animate-fadeUp">
                     <span x-text="slide.title"></span><br>
                     <span class="hero-highlight" x-text="slide.highlight"></span>
                   </h1>
 
-                  <p class="mt-3 md:mt-4 {{ $heroSubtitleScale }} leading-relaxed drop-shadow-sm text-[color:var(--hero-ink-muted)] animate-fadeUp"
+                  <p class="mt-3 md:mt-4 {{ $heroSubtitleScale }} hero-subtitle leading-relaxed animate-fadeUp"
                      style="animation-delay:.05s" x-text="slide.subtitle"></p>
                 </div>
 
-                <div class="mt-6 md:mt-7 flex flex-wrap items-center gap-3 animate-fadeUp" style="animation-delay:.1s">
+                <div class="mt-6 md:mt-7 flex flex-wrap items-center gap-3 hero-actions animate-fadeUp" style="animation-delay:.1s">
                   <x-ui.button
                     x-show="slide.button_href || slide.button?.href || slide.button?.link || slide.button_link"
                     x-bind:href="slide.button_href || slide.button?.href || slide.button?.link || slide.button_link || '#'"
@@ -277,11 +276,11 @@
             <template x-for="(slide, index) in slides" :key="'measure-'+index">
               <div class="w-[48ch]" data-measure="slide">
                 <div data-measure="hgroup">
-                  <h1 class="{{ $heroHeadingScale }} font-extrabold leading-[1.15] tracking-tight">
+                  <h1 class="{{ $heroHeadingScale }} hero-heading leading-[1.08] tracking-tight">
                     <span x-text="slide.title"></span><br>
                     <span x-text="slide.highlight"></span>
                   </h1>
-                  <p class="mt-3 md:mt-4 {{ $heroSubtitleScale }} leading-relaxed" x-text="slide.subtitle"></p>
+                  <p class="mt-3 md:mt-4 {{ $heroSubtitleScale }} hero-subtitle leading-relaxed" x-text="slide.subtitle"></p>
                 </div>
                 <div class="mt-6 md:mt-7 h-11"></div>
               </div>
@@ -322,17 +321,21 @@
   </div>
 
   <div class="absolute top-1/2 left-5 -translate-y-1/2 z-20">
-    <button type="button" @click="prev()" aria-label="Previous slide" class="hero-arrow focus-ring">
-      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M15 18l-6-6 6-6" />
-      </svg>
+    <button type="button" @click="prev()" aria-label="Previous slide" class="hero-arrow focus-ring" data-direction="prev">
+      <span class="hero-arrow__icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14.25 6.75L8.5 12l5.75 5.25" />
+        </svg>
+      </span>
     </button>
   </div>
   <div class="absolute top-1/2 right-5 -translate-y-1/2 z-20">
-    <button type="button" @click="next()" aria-label="Next slide" class="hero-arrow focus-ring">
-      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M9 18l6-6-6-6" />
-      </svg>
+    <button type="button" @click="next()" aria-label="Next slide" class="hero-arrow focus-ring" data-direction="next">
+      <span class="hero-arrow__icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9.75 6.75L15.5 12l-5.75 5.25" />
+        </svg>
+      </span>
     </button>
   </div>
 
