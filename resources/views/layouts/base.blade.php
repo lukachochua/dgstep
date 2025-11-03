@@ -6,7 +6,7 @@
     <title>{{ $title ?? 'DGstep' }}</title>
 
     {{-- Pre-init theme to avoid flash (single source of truth: dg:theme) --}}
-    {{-- <script>
+    <script>
       (function () {
         try {
           var KEY = 'dg:theme';
@@ -17,7 +17,7 @@
           document.documentElement.setAttribute('data-theme', theme);
         } catch (_) {}
       })();
-    </script> --}}
+    </script>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 

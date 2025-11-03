@@ -20,15 +20,21 @@
     $fullCopy = is_string($fullDescription) ? trim($fullDescription) : '';
     $hasFull = $fullCopy !== '';
     $contentId = 'svc-full-' . uniqid();
+    $gridTemplate = $reversed
+        ? 'md:grid-cols-[minmax(0,440px)_minmax(0,1fr)]'
+        : 'md:grid-cols-[minmax(0,1fr)_minmax(0,440px)]';
 @endphp
 
 <div
   x-data="{ expanded: false }"
-  class="grid md:grid-cols-[1fr_440px] items-start gap-6 md:gap-10
-            rounded-xl border border-[color-mix(in_oklab,var(--text-default)_10%,transparent)]
-            bg-[var(--bg-elevated)]/60 backdrop-blur
-            px-4 py-5 sm:px-6 sm:py-6
-            shadow-[0_6px_14px_rgba(0,0,0,.18)]">
+  @class([
+      'grid items-start gap-6 md:gap-10',
+      $gridTemplate,
+      'rounded-xl border border-[color-mix(in_oklab,var(--text-default)_10%,transparent)]',
+      'bg-[var(--bg-elevated)]/60 backdrop-blur',
+      'px-4 py-5 sm:px-6 sm:py-6',
+      'shadow-[0_6px_14px_rgba(0,0,0,.18)]',
+  ])>
 
   {{-- Text --}}
   <div @class([
@@ -69,7 +75,8 @@
 
   {{-- Media / Cue --}}
   <div @class([
-      'md:ml-2',
+      'md:ml-2' => ! $reversed,
+      'md:mr-2' => $reversed,
       'md:order-1' => $reversed,
   ])>
     @if($image)
