@@ -1,110 +1,171 @@
 # DGstep – Company Website
 
-A modern, multilingual Laravel 12.x website for **DGstep** — a technology company providing software solutions for pawnshops and small-to-medium enterprises.
+A modern, multilingual Laravel 12.x marketing site for **DGstep**—powering responsive landing pages, a Filament-powered CMS, and an automated contact pipeline for regulated service providers.
 
-This site features a clean, responsive UI built with **Tailwind CSS** and **Alpine.js**, emphasizing clarity, performance, and a professional brand presence.
-
-> **Updated:** 2025-10-09
+> **Updated:** 2025-11-03
 
 ---
 
-## 📜 Changelog (last 7 days)
+## 🔄 Changelog (last 7 days)
 
-* **2025-10-09**
-
-  * Unified the Services CMS so the homepage cards and Services page now render from the same `Service` entries.
-  * Added `display_order`, cue style/label/value controls, and a merge migration to keep legacy Services Page data intact.
-  * Reordered Filament navigation (Contact vs Content) and fixed localized titles showing in Hero Slide / Service tables.
-
-* **2025-10-08**
-
-  * Added Google reCAPTCHA to the Contact form with graceful fallbacks when keys are missing.
-  * Captured submissions in a new `contact_submissions` table with a Filament List/View resource.
-  * About page hero, mission, vision, and badges now pull translated content from the CMS singleton.
-  * Management team slider adds bio modals, focus traps, and height-locked transitions.
-  * Hero carousel dots render the auto-play progress ring and respect reduced motion.
-
-* **2025-09-24**
-
-  * Integrated Spatie for translations (English + Georgian).
-  * Completed About page translations with mission cards.
-  * Services page refactored with problem-solving circle layout.
-  * Projects page redesigned (lazy images, translated headings).
-  * Contact form: Alpine.js client-side + server-side validation.
-  * Auth views (login, register, reset, forgot) localized.
-  * Footer: added clickable contact info + terms link.
-  * Fixed Vite asset handling for logos (import.meta.glob).
+* **2025-11-03**
+  * Upgraded the Services CMS with expanded copy, problem statements, image previews, and unified data between the homepage cards and services detail rows.
+  * Re-skinned the hero carousel with the new arrow aesthetic while keeping the progress ring and reduced-motion safeguards in sync.
+* **2025-10-30**
+  * Rebuilt the footer into a two-tier layout, aligned desktop navigation hover states, and tightened CTA fallback logic across hero slides.
+* **2025-10-27**
+  * Fixed hero slider auto-play so the first render now starts the cycle reliably.
 
 ---
 
-## 🔧 What’s new
+## ✨ Highlights
 
-* **Services CMS unified** so homepage highlights and the Services page share ordering, cue styles, and copy from Filament.
-* **Contact form hardened** with Google reCAPTCHA, localized error states, and Filament inbox for submissions.
-* **About page now CMS-driven** (hero copy, mission, vision, badges) with translation fallbacks to defaults.
-* **Management team gallery** unlocks bios via modal, keeps slider/grid inline, and improves accessible focus flow.
-* **Hero carousel** ships auto-play progress rings, reduced-motion awareness, and smarter pause/resume logic.
-* **Brand assets integrated** (PNG logos from the brand book), with **light/dark auto-swap** via `[data-theme]` and CSS variables.
-* **Filament navigation** groups Contact & Content into collapsible sections and surfaces localized hero/service titles in tables.
-* **Vite asset handling fixed** for images: `import.meta.glob()` eagerly includes brand images so they appear in the manifest.
-* **Mobile menu polished** (Alpine.js), unified desktop/mobile behavior, improved escape/focus handling.
-* **Projects page** redesigned with translated headings/subheadings, lazy-loaded images, and consistent typography.
-* **Services page** refactored with problem-solving circle layout and translations for problem lists.
-* **Footer** improved with clickable email/phone, social links, and terms link.
-* **Auth views** (login, register, reset, forgot) added with localized strings.
+* **Services workflow unified** — localised titles, short + expanded descriptions, problem lists, cue styles, and featured ordering all come from Filament tabs and flow to both the homepage highlights and the `/services` detail rows.
+* **Contact operations** — public form validates with Google reCAPTCHA v2, stores submissions (locale + IP) and emails the HTML summary to the configurable `MAIL_OPS_TO`. Filament badges unread items and marks them read when opened. Feature tests cover success/failure paths.
+* **Hero & navigation polish** — carousel respects `prefers-reduced-motion`, shows progress rings on dots, and uses CTA fallbacks per slide. Navigation ships a two-story desktop layout, theme toggle, locale switcher, and the refreshed footer shares CTA/contact details.
+* **Multilingual content** — English (`en`) and Georgian (`ka`) copy is managed through Spatie Translatable across hero slides, services, about, and contact modules. `SetLocale` middleware keeps the session language in sync via the `/locale` POST toggle.
+* **Brand-first design system** — Tailwind CSS (via `@tailwindcss/vite`) runs with Calibri typography, CSS custom properties for the DGstep palette, light/dark themes, and Vite-managed brand assets preloaded for predictable caching.
 
 ---
 
-## 🚀 Tech Stack
+## 🧩 Content & CMS
 
-* **Framework:** Laravel 12.x (2025 LTS)
-* **Runtime:** PHP 8.2+ (CLI & FPM)
-* **CSS Framework:** Tailwind CSS (JIT)
-* **JS Layer:** Alpine.js (lightweight interactivity)
-* **Bundler:** Vite 6 + Laravel Vite Plugin
-* **Testing:** PestPHP 3
+### Filament admin quick start
 
----
+* URL: `/admin`
+* Default admin seeded in `DatabaseSeeder`: `dgstep@admin.com` / `password123`
+* Navigation groups split into **Contact** and **Content** for clarity, reusing marketing logos in light & dark mode.
 
-## 🎨 Branding & Theming
+### Managed resources
 
-* **Primary brand color:** `#5B56D6` ("Electric Sky")
-* **Palette tokens:** implemented as CSS custom properties; dark/light themes applied via `:root[data-theme]`.
-* **Logo switching:** dark/light logo variants swap automatically based on theme.
-* **Non-selectable UI text:** navigation/decorative text uses `select-none`.
+* **HeroSlideResource** — localised title, highlight, subtitle, and button copy with optional manual href overrides; images/videos feed the hero carousel.
+* **ServiceResource** — tabbed locale fields for name, short description, and new `description_expanded`; manage `problems`, cue style/label/values, featured + display ordering, and public storage images with live previews.
+* **AboutPageResource** — edits hero imagery, captions, badges, and management roster (modal bios, ordering) with sensible defaults per locale.
+* **ContactPageResource** — updates contact hero copy, feature badges, CTA label/phone, and supports DB defaults + language fallbacks.
+* **ContactSubmissionResource** — read-only list with unread badge counts; viewing a record auto-calls `markAsRead()` so the nav badge stays accurate.
 
----
+### Seed data
 
-## 🌐 Localization (Spatie)
+Running `php artisan migrate --seed` creates:
 
-* **Locales:** English (`en`) and Georgian (`ka`)
-* **Package:** [Spatie Laravel Translatable](https://spatie.be/docs/laravel-translatable)
-* **Middleware:** `SetLocale` applied globally
-* **Switcher:** POST to `/locale` with `{ locale: 'en'|'ka' }`
-* **Translations:** structured in `lang/en/`, `lang/ka/` (about, services, projects, terms, contact, auth, etc.)
+* Three hero slides with both locales populated.
+* Pawnshop, SMB, and Compliance services complete with expanded copy, problems, cue metadata, and placeholder images (`storage/app/public/services/{slug}.jpg`).
+* About and Contact defaults so the site renders out of the box.
 
-> Routes are **not** prefixed with locale. Language is session-based.
-
----
-
-## 🧭 Navigation & UX
-
-* **Active states:** `request()->routeIs()`
-* **Keyboard:** `Esc` closes mobile menu
-* **Responsive:** mobile menu closes automatically at desktop breakpoint
-* **Buttons/links:** unified variants (desktop & mobile) with hover borders and subtle Electric Sky glow
+> Remember to run `php artisan storage:link` so public asset URLs resolve for hero/services images.
 
 ---
 
 ## 📄 Pages
 
-* **Home** — hero slider (3 slides), separators, features grid
-* **About** — CMS-driven Who we are, Mission (cards), Vision, CTA
-* **Services** — problem-solving circle layout (pawnshop, SMB, compliance)
-* **Projects** — responsive cards, translated headings, lazy images
-* **Contact** — validated form with Alpine.js, reCAPTCHA, and server-side logging
-* **Terms** — legal copy with CTA
-* **Auth** — login, register, forgot, reset (UI only)
+* **Home** — hero slider with progress rings, arrow controls, CTA fallback logic, and featured services grid sourced from the `Service` model.
+* **About** — fully CMS-driven hero, mission/vision copy, badges, and management slider with modal bios, focus traps, and scroll-lock handling.
+* **Services** — DB-driven rows with Alpine.js “Show more” toggles for the newly added expanded copy and image/cue fallbacks.
+* **Projects** — translated headings with responsive cards and lazy-loaded Unsplash imagery.
+* **Contact** — Alpine-powered validation, Google reCAPTCHA widget, success flash messaging, and graceful fallback when keys are missing.
+* **Terms** — static legal content (translatable).
+* **Auth** — login/register/reset templates for future auth wiring (UI only).
+
+---
+
+## 🌐 Localization & UX
+
+* Locales: English (`en`) and Georgian (`ka`) via Spatie Translatable; session language is enforced by `SetLocale` (configured in `bootstrap/app.php`).
+* Locale switcher posts to `/locale` and is exposed in both desktop (icon button) and mobile menus.
+* Routes stay language-neutral; translations live under `lang/en` and `lang/ka` with structured arrays for services, projects, contact, etc.
+* Theme toggle stores the preference under `localStorage['dg:theme']` and applies CSS tokens before paint to avoid flashes.
+* The hero carousel listens to `prefers-reduced-motion`, pausing timers accordingly.
+
+---
+
+## 📬 Contact pipeline
+
+1. **Validation** — `ContactController@submit` enforces required fields, phone regex, max lengths, and ensures a reCAPTCHA token is present.
+2. **reCAPTCHA** — verifies the token server-side (5s timeout). Missing secrets surface a friendly validation message so users know to retry later.
+3. **Persistence** — submissions store name, surname, phone, optional comments, locale, and IP in `contact_submissions` with timestamps.
+4. **Email** — sends `ContactSubmissionReceived` to `config('mail.ops_to')` (default `dgstep2025@gmail.com`). Failures are logged but never block the user.
+5. **CMS visibility** — Filament badge counts unread entries and marks them read as soon as the view page loads.
+6. **Testing** — `tests/Feature/ContactFormTest.php` exercises the success path (with mocked reCAPTCHA + Mail) and the failure path to guarantee we skip DB writes and outbound mail when tokens fail.
+
+For real mail delivery set:
+
+```
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_ENCRYPTION=tls
+MAIL_USERNAME=your.address@gmail.com
+MAIL_PASSWORD=your-app-password
+MAIL_OPS_TO=ops@example.com
+```
+
+During development you can keep `MAIL_MAILER=log` (default in `.env.example`) to inspect messages in the log output.
+
+---
+
+## 🛠️ Getting Started
+
+### Requirements
+
+* PHP 8.2+
+* Composer 2.6+
+* Node.js 20+ and npm
+* SQLite (default) or another Laravel-supported database
+
+### Initial setup
+
+```bash
+cp .env.example .env
+composer install
+npm install
+php artisan key:generate
+php artisan storage:link
+php artisan migrate --seed
+```
+
+Then update `.env` with:
+
+* `APP_URL` (e.g. `http://localhost:8000`)
+* `RECAPTCHA_SITE_KEY` and `RECAPTCHA_SECRET_KEY`
+* `MAIL_OPS_TO` and mailer credentials (see above)
+
+### Local development
+
+* One command: `composer run dev` (runs `php artisan serve`, queue listener, Pail log tail, and `npm run dev` concurrently).
+* Manual alternative:
+  * `php artisan serve`
+  * `npm run dev`
+
+Visit `http://localhost:8000`.
+
+### Build for production
+
+```bash
+npm run build
+php artisan optimize
+```
+
+Run `php artisan config:cache` / `route:cache` as needed for your deployment target.
+
+---
+
+## ✅ Testing
+
+* Run the full test suite: `composer test`
+* Direct Pest execution: `./vendor/bin/pest --filter=contact` to focus on the contact-form specs
+* Tests rely on the in-memory SQLite database thanks to Pest’s `RefreshDatabase` trait.
+
+---
+
+## 🧰 Tech Stack
+
+* **Framework:** Laravel 12.x (2025 LTS)
+* **CMS:** Filament 3.2 with Spatie Laravel Translatable
+* **Runtime:** PHP 8.2+ (CLI & FPM)
+* **CSS:** Tailwind CSS (via `@tailwindcss/vite`) with Calibri brand typography
+* **JS:** Alpine.js 3 + bespoke components (hero, navbar, contact form)
+* **Bundler:** Vite 6 with eager brand asset imports
+* **Testing:** PestPHP 3 + HTTP fakes + Mail fakes
 
 ---
 
@@ -113,101 +174,54 @@ This site features a clean, responsive UI built with **Tailwind CSS** and **Alpi
 ```
 resources/
   views/
-    components/       # Navbar, footer, features, etc.
-    layouts/          # base.blade.php
-    pages/            # home, about, services, projects, terms, contact
-    auth/             # login, register, forgot, reset
+    layouts/base.blade.php
+    components/
+      hero.blade.php
+      navbar.blade.php
+      footer.blade.php
+      features.blade.php
+      service/row.blade.php
+    pages/
+      home.blade.php
+      about.blade.php
+      services.blade.php
+      projects.blade.php
+      contact.blade.php
+      terms.blade.php
+    auth/
+      login.blade.php
+      register.blade.php
+      forgot-password.blade.php
+      reset-password.blade.php
 lang/
-  en/, ka/           # Spatie translations (auth, about, services, projects...)
-routes/
-  web.php            # routes + locale switch POST
+  en/…  ka/…   # Localised strings pulled by Spatie Translatable + blades
 app/
   Http/
+    Controllers/HeroController.php
     Controllers/ContactController.php
     Middleware/SetLocale.php
   Filament/
-    Resources/ContactSubmissionResource.php
-  Models/
-    ContactSubmission.php
+    Resources/{HeroSlide,Service,AboutPage,ContactPage,ContactSubmission}Resource.php
+    Widgets/FeaturedServicesWidget.php
+    Pages/Dashboard.php
+  Models/{HeroSlide,Service,AboutPage,ContactPage,ContactSubmission}.php
 database/
-  migrations/
-    2025_10_08_140632_create_contact_submissions_table.php
+  migrations/*.php  # includes services merge + expanded copy migrations
+  seeders/{DatabaseSeeder,ServiceSeeder,AboutPageSeeder,ContactPageSeeder}.php
+tests/
+  Feature/ContactFormTest.php
 ```
 
----
-
-## ✉️ Contact Form Validation
-
-* `name`: required, ≤ 255
-* `surname`: required, ≤ 255
-* `phone`: regex `^\+?\d{7,15}$`
-* `comments`: optional, ≤ 1000
-* `g-recaptcha-response`: required token when reCAPTCHA is enabled; friendly fallbacks if the widget is offline
-
-Live client-side validation (Alpine.js) + server validation. Success triggers flash message.
-
-Submissions persist to `contact_submissions` with locale/IP context and surface in Filament.
-
----
-
-## 🧩 Vite & Assets
-
-* **Entries:** `resources/js/app.js`, `resources/css/app.css`
-* **Logos/Images:** must be imported so they appear in the manifest:
-
-```js
-// resources/js/app.js
-const brandImages = import.meta.glob('../images/brand/*', { eager: true });
-```
-
----
-
-## 🧪 Tests
-
-* Feature test for homepage 200 response
-* PestPHP 3 configured
-
----
-
-## 🛠️ Development
-
-### Requirements
-
-* PHP 8.2+
-* Composer, Node.js 20+
-
-### Setup
-
-```bash
-cp .env.example .env
-composer install
-npm install
-php artisan key:generate
-php artisan migrate
-```
-
-Add your `RECAPTCHA_SITE_KEY` and `RECAPTCHA_SECRET_KEY` to `.env` so the contact form stays live.
-
-### Run (concurrent dev)
-
-```bash
-composer run dev
-```
-
-### Build
-
-```bash
-npm run build
-```
+Public images for services/heroes live in `storage/app/public`; ensure the storage symlink exists for them to resolve under `/storage`.
 
 ---
 
 ## 🗺️ Roadmap
 
-* Theme switcher (persist localStorage)
-* Swap placeholder management avatars with real photography
-* Wire Contact form to outbound notifications (mail/Slack)
-* Add real project case studies with images
+* Persist the theme toggle automatically (the bootstrap snippet is scaffolded, ready to enable).
+* Swap placeholder management portraits with approved photography.
+* Push contact notifications to Slack or SMS alongside email delivery.
+* Publish real project case studies with CMS-managed media.
 
 ---
 
