@@ -1,0 +1,138 @@
+@import "../../../../vendor/filament/filament/dist/theme.css";
+@import "../../theme/tokens.css";
+
+@layer base {
+  html.fi {
+    background-color: var(--bg-default);
+    color: var(--text-default);
+    font-family: "Calibri", var(--font-sans);
+  }
+
+  .fi-body {
+    background-color: var(--bg-default);
+    color: var(--text-default);
+    font-family: "Calibri", var(--font-sans);
+  }
+}
+
+@layer components {
+  html.fi .fi-layout {
+    background: var(--section-wash, transparent), var(--bg-default);
+  }
+
+  html.fi .fi-main {
+    background-color: var(--bg-elevated);
+    color: var(--text-default);
+    border-radius: var(--radius-3xl);
+    box-shadow: var(--shadow-soft);
+    border: 1px solid color-mix(in oklab, var(--text-default) 6%, transparent);
+  }
+
+  html.fi .fi-main a {
+    color: var(--color-electric-sky);
+  }
+
+  html.fi .fi-topbar nav {
+    background-color: color-mix(in oklab, var(--nav-bg) 86%, transparent);
+    color: var(--nav-fg);
+    backdrop-filter: blur(var(--nav-blur));
+    border-bottom: 1px solid color-mix(in oklab, var(--nav-border) 68%, transparent);
+    box-shadow: 0 8px 24px color-mix(in oklab, var(--nav-bg) 18%, transparent);
+  }
+
+  html.fi:not(.dark) .fi-topbar nav {
+    background-color: var(--nav-bottom-bg);
+    box-shadow: 0 12px 28px color-mix(in oklab, var(--nav-bottom-bg) 26%, transparent);
+  }
+
+  html.fi .fi-topbar .fi-topbar-item {
+    color: var(--nav-fg-muted);
+  }
+
+  html.fi .fi-topbar .fi-topbar-item.fi-active {
+    color: var(--nav-fg);
+    background-color: color-mix(in oklab, var(--color-electric-sky) 18%, transparent);
+  }
+
+  html.fi .fi-sidebar {
+    background: linear-gradient(180deg,
+        color-mix(in oklab, var(--bg-elevated) 92%, transparent) 0%,
+        color-mix(in oklab, var(--bg-elevated) 86%, transparent) 100%);
+    color: var(--nav-fg);
+    border-right: 1px solid color-mix(in oklab, var(--nav-border) 70%, transparent);
+  }
+
+  html.fi .fi-sidebar-header {
+    background-color: color-mix(in oklab, var(--nav-bg) 82%, transparent);
+    border-bottom: 1px solid color-mix(in oklab, var(--nav-border) 86%, transparent);
+  }
+
+  html.fi .fi-sidebar-item-button,
+  html.fi .fi-sidebar-group-label {
+    color: var(--nav-fg-muted);
+  }
+
+  html.fi .fi-sidebar-item.fi-active .fi-sidebar-item-button,
+  html.fi .fi-sidebar-item-button:hover {
+    color: #ffffff;
+    background-color: var(--color-electric-sky);
+    box-shadow: 0 10px 22px color-mix(in oklab, var(--color-electric-sky) 32%, transparent);
+  }
+
+  html.fi .fi-sidebar-item.fi-active .fi-sidebar-item-icon,
+  html.fi .fi-sidebar-item-button:hover .fi-sidebar-item-icon {
+    color: #ffffff;
+  }
+
+  html.fi .fi-sidebar-group-icon {
+    color: color-mix(in oklab, var(--nav-fg-muted) 68%, transparent);
+  }
+
+  html.fi .fi-sidebar-group.fi-active .fi-sidebar-group-label {
+    color: var(--nav-fg);
+  }
+
+  html.fi .fi-body .fi-simple-card {
+    background-color: color-mix(in oklab, var(--bg-elevated) 96%, transparent);
+    border-radius: var(--radius-2xl);
+    border: 1px solid color-mix(in oklab, var(--text-default) 8%, transparent);
+  }
+
+  html.fi .fi-btn,
+  html.fi .fi-simple-action {
+    border-radius: var(--radius-xl);
+    transition: background-color 120ms var(--ease-brand), transform 120ms var(--ease-brand);
+  }
+
+  html.fi .fi-btn-primary,
+  html.fi .fi-simple-action.fi-color-primary {
+    background-color: var(--color-electric-sky);
+    color: #ffffff;
+    box-shadow: var(--shadow-brand);
+  }
+
+  html.fi .fi-btn-primary:hover,
+  html.fi .fi-simple-action.fi-color-primary:hover {
+    transform: translateY(-1px);
+    background-color: var(--color-electric-sky-hover);
+  }
+
+  html.fi .fi-btn-outline,
+  html.fi .fi-simple-action.fi-color-gray {
+    border-color: color-mix(in oklab, var(--nav-fg-muted) 40%, transparent);
+    color: var(--nav-fg);
+  }
+
+  html.fi .fi-table thead th {
+    color: color-mix(in oklab, var(--text-default) 78%, transparent);
+  }
+
+  html.fi .fi-table tbody tr {
+    background-color: color-mix(in oklab, var(--bg-elevated) 94%, transparent);
+    border-bottom: 1px solid color-mix(in oklab, var(--text-default) 6%, transparent);
+  }
+
+  html.fi .fi-table tbody tr:hover {
+    background-color: color-mix(in oklab, var(--bg-elevated) 88%, var(--color-electric-sky) 12%);
+  }
+}

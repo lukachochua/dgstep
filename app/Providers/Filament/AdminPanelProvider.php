@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use Filament\Enums\ThemeMode;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -45,8 +46,16 @@ class AdminPanelProvider extends PanelProvider
                 Vite::asset('resources/images/brand/logo-white-01.png')
             )
             ->favicon(asset('favicon.ico'))
-
-            ->colors(['primary' => Color::Amber])
+            ->defaultThemeMode(ThemeMode::Dark)
+            ->viteTheme('resources/css/filament/admin/theme.css')
+            ->colors([
+                'primary' => Color::hex('#5b56d6'),
+                'secondary' => Color::hex('#6c63ff'),
+                'info' => Color::hex('#7aa2ff'),
+                'success' => Color::hex('#16a34a'),
+                'warning' => Color::hex('#f59e0b'),
+                'danger' => Color::hex('#ef4444'),
+            ])
 
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
