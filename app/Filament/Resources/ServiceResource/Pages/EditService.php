@@ -9,22 +9,8 @@ class EditService extends EditRecord
 {
     protected static string $resource = ServiceResource::class;
 
-    protected function mutateFormDataBeforeFill(array $data): array
-    {
-        $locales = ['en' => 'English', 'ka' => 'ქართული'];
-
-        $data = ServiceResource::expandProblemsForForm($data, $locales);
-        $data = ServiceResource::expandCueValues($data);
-
-        return $data;
-    }
-
     protected function mutateFormDataBeforeSave(array $data): array
     {
-        $locales = ['en' => 'English', 'ka' => 'ქართული'];
-
-        $data = ServiceResource::normalizeProblems($data, $locales);
-        $data = ServiceResource::normalizeCueValues($data);
         $data['image_alt'] = $data['image_alt'] ?? ($data['name']['en'] ?? ($data['slug'] ?? 'Service'));
 
         return $data;

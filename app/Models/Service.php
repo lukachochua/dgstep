@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Storage;
 
 
 class Service extends Model
@@ -37,5 +38,18 @@ class Service extends Model
     public function scopeOrdered($q)
     {
         return $q->orderBy('display_order')->orderBy('id');
+    }
+
+    public function getImageUrlAttribute(): ?string
+    {
+        if (!$this->image_path) {
+            return null;
+        }
+
+        if (str_starts_with($this->image_path, 'http://') || str_starts_with($this->image_path, 'https://')) {
+            return $this->image_path;
+        }
+
+        return url(Storage::disk('public')->url($this->image_path));
     }
 }
