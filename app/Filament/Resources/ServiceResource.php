@@ -73,14 +73,23 @@ class ServiceResource extends Resource
                             ->maxLength(120),
 
                         Forms\Components\FileUpload::make('image_path')
-                            ->label('Service Image')
+                            ->label('Service Page Image')
                             ->directory('services')
                             ->image()
                             ->imageEditor()
                             ->visibility('public')
                             ->downloadable()
                             ->required()
-                            ->helperText('Use ~16:10 image ratio (e.g. 1280×800) for best quality.'),
+                            ->helperText('Displayed on the services page. Aim for a balanced crop (square or 4:5) so the layout stays even.'),
+
+                        Forms\Components\FileUpload::make('featured_image_path')
+                            ->label('Homepage Featured Image')
+                            ->directory('services/featured')
+                            ->image()
+                            ->imageEditor()
+                            ->visibility('public')
+                            ->downloadable()
+                            ->helperText('Optional override for the homepage card. Use a wide 16:10 crop (e.g. 1280×800) for best results.'),
 
                         Forms\Components\TextInput::make('image_alt')
                             ->label('Image alt text')

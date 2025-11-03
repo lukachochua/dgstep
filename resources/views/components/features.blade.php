@@ -33,14 +33,21 @@
           aria-label="{{ $svc->display_name }}">
 
           {{-- Image --}}
+          @php
+            $featuredImage = $svc->featured_image_url ?? $svc->image_url;
+            $imageAlt = $svc->image_alt ?: $svc->display_name;
+          @endphp
+
           <div class="relative aspect-[16/10] overflow-hidden">
-            <img
-              src="{{ asset('storage/'.$svc->image_path) }}"
-              alt="{{ $svc->image_alt ?: $svc->display_name }}"
-              class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
-              loading="lazy"
-              decoding="async"
-            />
+            @if($featuredImage)
+              <img
+                src="{{ $featuredImage }}"
+                alt="{{ $imageAlt }}"
+                class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+                loading="lazy"
+                decoding="async"
+              />
+            @endif
             <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
             <div class="absolute inset-x-0 bottom-0 p-4 md:p-5">
               <div class="inline-flex items-center gap-2 rounded-full

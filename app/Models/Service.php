@@ -11,7 +11,7 @@ class Service extends Model
 {
     protected $fillable = [
         'name', 'description', 'description_expanded', 'problems', 'slug',
-        'image_path', 'image_alt', 'is_featured', 'featured_order',
+        'image_path', 'featured_image_path', 'image_alt', 'is_featured', 'featured_order',
         'display_order', 'cue_style', 'cue_label', 'cue_values',
     ];
 
@@ -52,5 +52,18 @@ class Service extends Model
         }
 
         return url(Storage::disk('public')->url($this->image_path));
+    }
+
+    public function getFeaturedImageUrlAttribute(): ?string
+    {
+        if (! $this->featured_image_path) {
+            return $this->image_url;
+        }
+
+        if (str_starts_with($this->featured_image_path, 'http://') || str_starts_with($this->featured_image_path, 'https://')) {
+            return $this->featured_image_path;
+        }
+
+        return url(Storage::disk('public')->url($this->featured_image_path));
     }
 }

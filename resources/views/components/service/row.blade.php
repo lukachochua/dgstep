@@ -76,7 +76,7 @@
       'md:order-1' => $reversed,
   ])>
     @if($image)
-      <div class="service-card__visual h-[260px] sm:h-[300px] md:h-[400px]">
+      <div class="service-card__visual relative overflow-hidden h-[260px] sm:h-[300px] md:h-[400px]">
         <img
           src="{{ $image }}"
           alt="{{ $imageAlt }}"
