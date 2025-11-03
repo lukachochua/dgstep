@@ -260,7 +260,13 @@
                                 requestAnimationFrame(() => this.updateArrows());
                             });
                         },
-                        nudge(px){ this.$refs.strip?.scrollBy({ left:px, behavior:'smooth' }); },
+                        nudge(px){
+                            const el = this.$refs.strip;
+                            if (!el) return;
+                            const max = Math.max(0, el.scrollWidth - el.clientWidth);
+                            const target = Math.max(0, Math.min(max, el.scrollLeft + px));
+                            el.scrollTo({ left: target, behavior:'smooth' });
+                        },
                         openMember(member){
                             this.previouslyFocused = document.activeElement;
                             const fallback = 'https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=300&h=300&fit=crop';
@@ -285,60 +291,125 @@
                             });
                         }
                     }"
-                    class="relative"
+                    class="relative py-8 sm:py-10 md:py-12"
                     @keydown.window.escape="closeMember()"
                 >
-                    <h3 class="text-3xl md:text-4xl font-bold mb-4 text-[var(--text-default)]">
+                    <h3 class="text-3xl md:text-4xl font-bold text-[var(--text-default)] text-center">
                         {!! $managementHeading ?? __('about.management.heading') !!}
                     </h3>
+                    <div class="mx-auto mt-4 mb-6 w-[95%] max-w-[59.5rem]">
+                        <div class="h-px bg-gradient-to-r from-transparent via-[color-mix(in_oklab,var(--color-electric-sky)_55%,transparent)] to-transparent opacity-75"></div>
+                    </div>
 
                     <!-- Strip/Grid switcher (height-locked to avoid layout jump) -->
-                    <div class="relative overflow-hidden rounded-lg transition-[height] duration-300 ease-out"
-                         :style="switcherHeight ? { height: switcherHeight } : null">
-                        <!-- Slider viewport -->
-                        <div x-ref="stripWrap" x-cloak
-                             x-show="!openAll"
-                             x-transition.opacity.duration.200ms
-                             x-transition:leave.opacity.duration.0ms
-                             class="transition duration-300 ease-out"
-                             :class="openAll ? 'pointer-events-none' : 'pointer-events-auto'">
-                            {{-- Limit the slider viewport to roughly three cards on wide screens --}}
-                            <div class="relative h-full mx-auto w-full max-w-[59.5rem]">
-                                <!-- Left fade + arrow -->
-                                <div x-show="canLeft && !openAll" x-cloak x-transition.opacity
-                                     class="pointer-events-none absolute inset-y-0 left-0 w-14 bg-gradient-to-r from-[color-mix(in_oklab,var(--bg-default)_85%,transparent)] to-transparent"
-                                     aria-hidden="true"></div>
-                                <button type="button" x-show="canLeft && !openAll" x-cloak x-transition.opacity
-                                        @click="nudge(-320)"
-                                        class="absolute left-2 top-1/2 -translate-y-1/2 z-10 inline-flex h-10 w-10 items-center justify-center rounded-full border
-                                               backdrop-blur bg-white/10 dark:bg-black/20
-                                               border-[color-mix(in_oklab,var(--text-default)_14%,transparent)]
-                                               shadow-[0_8px_24px_rgba(0,0,0,.2)] hover:scale-[1.03] transition"
-                                        aria-label="Scroll left">
-                                    <svg viewBox="0 0 24 24" class="h-5 w-5" style="color:#5B56D6"><path fill="currentColor" d="M14.71 6.71a1 1 0 0 0-1.41 0L8.71 11.3a1 1 0 0 0 0 1.41l4.59 4.59a1 1 0 1 0 1.41-1.41L10.83 12l3.88-3.88a1 1 0 0 0 0-1.41Z"/></svg>
-                                </button>
+                    <div class="relative transition-[height] duration-300 ease-out"
+                             :style="switcherHeight ? { height: switcherHeight } : null">
+                            <!-- Slider viewport -->
+                            <div x-ref="stripWrap" x-cloak
+                                 x-show="!openAll"
+                                 x-transition.opacity.duration.200ms
+                                 x-transition:leave.opacity.duration.0ms
+                                 class="transition duration-300 ease-out"
+                                 :class="openAll ? 'pointer-events-none' : 'pointer-events-auto'">
+                                {{-- Limit the slider viewport to roughly three cards on wide screens --}}
+                                <div class="relative mx-auto w-[95%] max-w-[59.5rem]">
+                                    <div class="flex items-center justify-between gap-3 sm:gap-4 md:gap-6">
+                                        <button type="button"
+                                                x-cloak
+                                                @click="nudge(-320)"
+                                                :disabled="!canLeft || openAll"
+                                                :aria-disabled="(!canLeft || openAll).toString()"
+                                                :tabindex="(!canLeft || openAll) ? -1 : 0"
+                                                :class="['shrink-0 hero-arrow hero-arrow--compact focus-ring', (!canLeft || openAll) ? 'hero-arrow--inactive' : '']"
+                                                data-direction="prev"
+                                                aria-label="Scroll left">
+                                            <span class="hero-arrow__icon" aria-hidden="true">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path d="M14.25 6.75L8.5 12l5.75 5.25" />
+                                                </svg>
+                                            </span>
+                                        </button>
 
-                                <!-- Right fade + arrow -->
-                                <div x-show="canRight && !openAll" x-cloak x-transition.opacity
-                                     class="pointer-events-none absolute inset-y-0 right-0 w-14 bg-gradient-to-l from-[color-mix(in_oklab,var(--bg-default)_85%,transparent)] to-transparent"
-                                     aria-hidden="true"></div>
-                                <button type="button" x-show="canRight && !openAll" x-cloak x-transition.opacity
-                                        @click="nudge(320)"
-                                        class="absolute right-2 top-1/2 -translate-y-1/2 z-10 inline-flex h-10 w-10 items-center justify-center rounded-full border
-                                               backdrop-blur bg-white/10 dark:bg-black/20
-                                               border-[color-mix(in_oklab,var(--text-default)_14%,transparent)]
-                                               shadow-[0_8px_24px_rgba(0,0,0,.2)] hover:scale-[1.03] transition"
-                                        aria-label="Scroll right">
-                                    <svg viewBox="0 0 24 24" class="h-5 w-5" style="color:#5B56D6"><path fill="currentColor" d="M9.29 6.71a1 1 0 0 1 1.41 0l4.59 4.59a1 1 0 0 1 0 1.41l-4.59 4.59a1 1 0 1 1-1.41-1.41L13.17 12 9.29 8.12a1 1 0 0 1 0-1.41Z"/></svg>
-                                </button>
+                                        <div class="relative flex-1 min-w-0">
+                                            <!-- Strip (horizontal only; vertical hidden) -->
+                                            <div x-ref="strip"
+                                                 class="team-scroll overflow-x-auto overflow-y-visible overscroll-x-contain touch-pan-x w-full
+                                                         [scrollbar-color:transparent_transparent] [scrollbar-gutter:stable] pr-6
+                                                         transition duration-300 ease-out"
+                                                 tabindex="0">
+                                                <ul class="flex gap-6 snap-x snap-mandatory scroll-pl-2 md:scroll-pl-3 px-2 py-3 -mb-2">
+                                                    @forelse ($managementMembers as $index => $member)
+                                                        @php
+                                                            $memberName = $member['name'] ?? __('Team member');
+                                                            $memberRole = $member['role'] ?? '';
+                                                            $memberBio = $member['bio'] ?? '';
+                                                            $memberImage = $member['image_url'] ?? 'https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=300&h=300&fit=crop';
+                                                            $memberPayload = [
+                                                                'name' => $memberName,
+                                                                'role' => $memberRole,
+                                                                'bio' => $memberBio,
+                                                                'image_url' => $memberImage,
+                                                            ];
+                                                        @endphp
+                                                        <li class="snap-start shrink-0 w-[min(85vw,18rem)]">
+                                                            <div class="team-card p-5 h-full cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[color-mix(in_oklab,var(--color-electric-sky)_64%,transparent)]"
+                                                                 role="button"
+                                                                 tabindex="0"
+                                                                 @click="openMember(@js($memberPayload))"
+                                                                 @keydown.enter.prevent="openMember(@js($memberPayload))"
+                                                                 @keydown.space.prevent="openMember(@js($memberPayload))">
+                                                                <img src="{{ $memberImage }}"
+                                                                     alt="{{ $memberName }}"
+                                                                     class="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover mb-3 mx-auto
+                                                                            border border-[color-mix(in_oklab,var(--text-default)_18%,transparent)]">
+                                                                <div class="text-center space-y-0.5">
+                                                                    <h4 class="text-[15px] md:text-[16px] font-semibold text-[var(--text-default)]">
+                                                                        {{ $memberName }}
+                                                                    </h4>
+                                                                    <p class="text-[13px] md:text-[14px] text-[color-mix(in_oklab,var(--text-default)_62%,transparent)]">
+                                                                        {{ $memberRole }}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    @empty
+                                                        <li class="snap-start shrink-0 w-[min(85vw,18rem)]">
+                                                            <div class="team-card p-5 h-full text-center text-sm text-[color-mix(in_oklab,var(--text-default)_62%,transparent)]">
+                                                                {{ __('No team members found.') }}
+                                                            </div>
+                                                        </li>
+                                                    @endforelse
+                                                </ul>
+                                            </div>
+                                        </div>
 
-                                <!-- Strip (horizontal only; vertical hidden) -->
-                                <div x-ref="strip"
-                                     class="team-scroll overflow-x-auto overflow-y-hidden overscroll-x-contain touch-pan-x w-full
-                                             [scrollbar-color:transparent_transparent] [scrollbar-gutter:stable] pr-6
-                                             transition duration-300 ease-out"
-                                     tabindex="0">
-                                    <ul class="flex gap-6 snap-x snap-mandatory scroll-pl-1 px-2 py-1 -mb-2">
+                                        <button type="button"
+                                                x-cloak
+                                                @click="nudge(320)"
+                                                :disabled="!canRight || openAll"
+                                                :aria-disabled="(!canRight || openAll).toString()"
+                                                :tabindex="(!canRight || openAll) ? -1 : 0"
+                                                :class="['shrink-0 hero-arrow hero-arrow--compact focus-ring', (!canRight || openAll) ? 'hero-arrow--inactive' : '']"
+                                                data-direction="next"
+                                                aria-label="Scroll right">
+                                            <span class="hero-arrow__icon" aria-hidden="true">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path d="M9.75 6.75L15.5 12l-5.75 5.25" />
+                                                </svg>
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Expanded grid -->
+                            <div x-ref="gridWrap" x-cloak
+                                 x-show="openAll"
+                                 x-transition.opacity.duration.250ms
+                                 class="transition duration-300 ease-out"
+                                 :class="openAll ? 'pointer-events-auto' : 'pointer-events-none'">
+                                <div class="mx-auto mt-2 w-[95%] max-w-[59.5rem]">
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 text-left" data-team-grid>
                                         @forelse ($managementMembers as $index => $member)
                                             @php
                                                 $memberName = $member['name'] ?? __('Team member');
@@ -352,93 +423,39 @@
                                                     'image_url' => $memberImage,
                                                 ];
                                             @endphp
-                                            <li class="snap-start shrink-0 w-[min(85vw,18rem)]">
-                                                <div class="card p-5 h-full cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[color-mix(in_oklab,var(--color-electric-sky)_64%,transparent)]"
-                                                     role="button"
-                                                     tabindex="0"
-                                                     @click="openMember(@js($memberPayload))"
-                                                     @keydown.enter.prevent="openMember(@js($memberPayload))"
-                                                     @keydown.space.prevent="openMember(@js($memberPayload))">
-                                                    <img src="{{ $memberImage }}"
-                                                         alt="{{ $memberName }}"
-                                                         class="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover mb-3 mx-auto
-                                                                border border-[color-mix(in_oklab,var(--text-default)_18%,transparent)]">
-                                                    <div class="text-center space-y-0.5">
-                                                        <h4 class="text-[15px] md:text-[16px] font-semibold text-[var(--text-default)]">
-                                                            {{ $memberName }}
-                                                        </h4>
-                                                        <p class="text-[13px] md:text-[14px] text-[color-mix(in_oklab,var(--text-default)_62%,transparent)]">
-                                                            {{ $memberRole }}
-                                                        </p>
-                                                    </div>
+                                            <div class="team-card p-5 h-full transition duration-300 ease-out transform cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[color-mix(in_oklab,var(--color-electric-sky)_64%,transparent)]"
+                                                 :class="openAll ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'"
+                                                 style="transition-delay: {{ $loop->index * 45 }}ms"
+                                                 role="button"
+                                                 tabindex="0"
+                                                 @click="openMember(@js($memberPayload))"
+                                                 @keydown.enter.prevent="openMember(@js($memberPayload))"
+                                                 @keydown.space.prevent="openMember(@js($memberPayload))">
+                                                <img src="{{ $memberImage }}"
+                                                     alt="{{ $memberName }}"
+                                                     class="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover mb-3 mx-auto
+                                                            border border-[color-mix(in_oklab,var(--text-default)_18%,transparent)]">
+                                                <div class="text-center space-y-0.5">
+                                                    <h4 class="text-[15px] md:text-[16px] font-semibold text-[var(--text-default)]">
+                                                        {{ $memberName }}
+                                                    </h4>
+                                                    <p class="text-[13px] md:text-[14px] text-[color-mix(in_oklab,var(--text-default)_62%,transparent)]">
+                                                        {{ $memberRole }}
+                                                    </p>
                                                 </div>
-                                            </li>
-                                        @empty
-                                            <li class="snap-start shrink-0 w-[min(85vw,18rem)]">
-                                                <div class="card p-5 h-full text-center text-sm text-[color-mix(in_oklab,var(--text-default)_62%,transparent)]">
-                                                    {{ __('No team members found.') }}
-                                                </div>
-                                            </li>
-                                        @endforelse
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Expanded grid -->
-                        <div x-ref="gridWrap" x-cloak
-                             x-show="openAll"
-                             x-transition.opacity.duration.250ms
-                             class="transition duration-300 ease-out"
-                             :class="openAll ? 'pointer-events-auto' : 'pointer-events-none'">
-                            <div class="mt-2">
-                                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 text-left" data-team-grid>
-                                    @forelse ($managementMembers as $index => $member)
-                                        @php
-                                            $memberName = $member['name'] ?? __('Team member');
-                                            $memberRole = $member['role'] ?? '';
-                                            $memberBio = $member['bio'] ?? '';
-                                            $memberImage = $member['image_url'] ?? 'https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=300&h=300&fit=crop';
-                                            $memberPayload = [
-                                                'name' => $memberName,
-                                                'role' => $memberRole,
-                                                'bio' => $memberBio,
-                                                'image_url' => $memberImage,
-                                            ];
-                                        @endphp
-                                        <div class="card p-5 h-full transition duration-300 ease-out transform cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[color-mix(in_oklab,var(--color-electric-sky)_64%,transparent)]"
-                                             :class="openAll ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'"
-                                             style="transition-delay: {{ $loop->index * 45 }}ms"
-                                             role="button"
-                                             tabindex="0"
-                                             @click="openMember(@js($memberPayload))"
-                                             @keydown.enter.prevent="openMember(@js($memberPayload))"
-                                             @keydown.space.prevent="openMember(@js($memberPayload))">
-                                            <img src="{{ $memberImage }}"
-                                                 alt="{{ $memberName }}"
-                                                 class="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover mb-3 mx-auto
-                                                        border border-[color-mix(in_oklab,var(--text-default)_18%,transparent)]">
-                                            <div class="text-center space-y-0.5">
-                                                <h4 class="text-[15px] md:text-[16px] font-semibold text-[var(--text-default)]">
-                                                    {{ $memberName }}
-                                                </h4>
-                                                <p class="text-[13px] md:text-[14px] text-[color-mix(in_oklab,var(--text-default)_62%,transparent)]">
-                                                    {{ $memberRole }}
-                                                </p>
                                             </div>
-                                        </div>
-                                    @empty
-                                        <div class="card p-5 text-center text-sm text-[color-mix(in_oklab,var(--text-default)_62%,transparent)]">
-                                            {{ __('No team members found.') }}
-                                        </div>
-                                    @endforelse
+                                        @empty
+                                            <div class="team-card p-5 text-center text-sm text-[color-mix(in_oklab,var(--text-default)_62%,transparent)]">
+                                                {{ __('No team members found.') }}
+                                            </div>
+                                        @endforelse
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
                     <!-- Actions -->
-                    <div class="mt-3 flex items-center justify-center gap-4">
+                    <div class="mt-6 flex items-center justify-center gap-4">
                         <x-ui.button
                             as="button"
                             type="button"
@@ -456,7 +473,7 @@
                             type="button"
                             size="sm"
                             variant="secondary"
-                            class="font-medium shadow-sm hover:shadow-md"
+                            class="font-medium"
                             x-show="openAll"
                             x-cloak
                             @click="toggleAll(false)"
@@ -508,7 +525,6 @@
                             </x-ui.button>
                         </div>
                     </div>
-
                     <!-- Expanded grid handled inside switcher -->
                 </section>
 

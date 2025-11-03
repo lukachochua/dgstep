@@ -349,7 +349,7 @@ html:not([data-theme]) {
     color: var(--hero-arrow-fg);
     isolation: isolate;
     cursor: pointer;
-    transition: color .25s var(--ease-brand), transform .25s var(--ease-brand);
+    transition: color .25s var(--ease-brand), transform .25s var(--ease-brand), opacity .25s var(--ease-brand);
   }
   .hero-arrow::before {
     content: "";
@@ -358,7 +358,7 @@ html:not([data-theme]) {
     border-radius: inherit;
     background: var(--hero-arrow-bg);
     border: 1px solid var(--hero-arrow-border);
-    box-shadow: 0 10px 24px var(--hero-arrow-shadow);
+    box-shadow: none;
     opacity: 0.96;
     transition: background .25s var(--ease-brand),
                 box-shadow .25s var(--ease-brand),
@@ -390,6 +390,11 @@ html:not([data-theme]) {
     height: 100%;
     transition: transform .25s var(--ease-brand);
   }
+  :root[data-theme="dark"] .hero-arrow::before,
+  [data-theme="dark"] .hero-arrow::before,
+  .dark .hero-arrow::before {
+    box-shadow: 0 10px 24px var(--hero-arrow-shadow);
+  }
   .hero-arrow:hover::before {
     background: var(--hero-arrow-bg-hover);
     box-shadow: 0 16px 30px var(--hero-arrow-shadow-hover);
@@ -407,8 +412,91 @@ html:not([data-theme]) {
   .hero-arrow:focus-visible::after {
     opacity: 1;
   }
+  .hero-arrow.hero-arrow--compact {
+    width: 44px;
+    height: 44px;
+  }
+  .hero-arrow.hero-arrow--compact::after {
+    inset: 1px;
+  }
+  .hero-arrow.hero-arrow--compact .hero-arrow__icon {
+    width: 18px;
+    height: 18px;
+  }
+  .hero-arrow.hero-arrow--inactive {
+    opacity: 0;
+    pointer-events: none;
+    transform: translate3d(var(--hero-arrow-hide-offset, -10px), 0, 0);
+  }
+  .hero-arrow.hero-arrow--inactive[data-direction="next"] {
+    --hero-arrow-hide-offset: 10px;
+  }
   .hero-arrow:active::before {
     box-shadow: 0 8px 18px var(--hero-arrow-shadow);
+  }
+
+  .team-card {
+    position: relative;
+    border-radius: 20px;
+    border: 1px solid color-mix(in oklab, var(--color-brand-200) 30%, transparent);
+    background: linear-gradient(170deg,
+      color-mix(in oklab, var(--color-brand-50) 76%, rgba(255,255,255,0.14)) 0%,
+      color-mix(in oklab, var(--color-brand-100) 68%, rgba(91,86,214,0.1)) 52%,
+      color-mix(in oklab, var(--color-brand-200) 60%, rgba(91,86,214,0.06)) 100%);
+    box-shadow: none;
+    transform: translate3d(0,0,0);
+    transition:
+      transform .28s var(--ease-brand),
+      border-color .28s var(--ease-brand),
+      box-shadow .28s var(--ease-brand),
+      background .28s var(--ease-brand);
+  }
+  .team-card::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    background: linear-gradient(165deg, rgba(255,255,255,0.32), transparent 60%);
+    opacity: 0;
+    transition: opacity .28s var(--ease-brand);
+    pointer-events: none;
+  }
+  .team-card:hover,
+  .team-card:focus-visible {
+    transform: translate3d(0,-6px,0);
+    border-color: color-mix(in oklab, var(--color-electric-sky) 32%, transparent);
+    box-shadow: 0 20px 46px rgba(28,34,90,0.18);
+    background: linear-gradient(170deg,
+      color-mix(in oklab, var(--color-brand-100) 74%, rgba(255,255,255,0.15)) 0%,
+      color-mix(in oklab, var(--color-brand-200) 66%, rgba(91,86,214,0.12)) 100%);
+  }
+  .team-card:hover::after,
+  .team-card:focus-visible::after {
+    opacity: 0.4;
+  }
+  :root[data-theme="dark"] .team-card,
+  [data-theme="dark"] .team-card,
+  .dark .team-card {
+    border-color: color-mix(in oklab, rgba(130,138,226,0.38) 52%, transparent);
+    background: linear-gradient(170deg,
+      color-mix(in oklab, rgba(16,18,44,0.94) 92%, transparent) 0%,
+      color-mix(in oklab, rgba(10,12,30,0.96) 100%, transparent) 100%);
+    box-shadow: none;
+  }
+  :root[data-theme="dark"] .team-card::after,
+  [data-theme="dark"] .team-card::after,
+  .dark .team-card::after {
+    background: linear-gradient(165deg, rgba(120,130,220,0.24), transparent 60%);
+  }
+  :root[data-theme="dark"] .team-card:hover,
+  [data-theme="dark"] .team-card:hover,
+  .dark .team-card:hover,
+  :root[data-theme="dark"] .team-card:focus-visible,
+  [data-theme="dark"] .team-card:focus-visible,
+  .dark .team-card:focus-visible {
+    border-color: color-mix(in oklab, rgba(132,142,230,0.62) 60%, transparent);
+    box-shadow: 0 20px 46px rgba(0,0,0,0.45);
+    background: color-mix(in oklab, rgba(26,30,60,0.94) 95%, transparent);
   }
 
   .hero-dot {
