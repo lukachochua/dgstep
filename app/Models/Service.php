@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Storage;
 class Service extends Model
 {
     protected $fillable = [
-        'name', 'description', 'problems', 'slug',
+        'name', 'description', 'description_expanded', 'problems', 'slug',
         'image_path', 'image_alt', 'is_featured', 'featured_order',
         'display_order', 'cue_style', 'cue_label', 'cue_values',
     ];
@@ -18,6 +18,7 @@ class Service extends Model
     protected $casts = [
         'name' => 'array',
         'description' => 'array',
+        'description_expanded' => 'array',
         'problems' => 'array',
         'is_featured' => 'bool',
         'cue_label' => 'array',

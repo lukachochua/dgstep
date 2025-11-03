@@ -40,17 +40,23 @@ class ServiceSeeder extends Seeder
         foreach ($sections as $slug => $config) {
             $name = [];
             $description = [];
+            $descriptionExpanded = [];
             $problems = [];
 
             foreach ($locales as $locale) {
                 // Read from language files using the provided structure
                 $titleKey       = "services.sections.$slug.title";
                 $descriptionKey = "services.sections.$slug.description";
+                $descriptionExpandedKey = "services.sections.$slug.description_expanded";
                 $problemsKey    = "services.sections.$slug.problems";
 
                 $name[$locale]        = Lang::get($titleKey, [], $locale);
                 $description[$locale] = Lang::get($descriptionKey, [], $locale);
-                $problems[$locale]    = Lang::get($problemsKey, [], $locale);
+
+                $expandedCopy = Lang::get($descriptionExpandedKey, [], $locale);
+                $descriptionExpanded[$locale] = $expandedCopy === $descriptionExpandedKey ? '' : $expandedCopy;
+
+                $problems[$locale] = Lang::get($problemsKey, [], $locale);
 
                 // Ensure arrays come back as arrays even if not defined
                 if (!is_array($problems[$locale])) {
@@ -66,6 +72,7 @@ class ServiceSeeder extends Seeder
                 [
                     'name'            => $name,
                     'description'     => $description,
+                    'description_expanded' => $descriptionExpanded,
                     'problems'        => $problems,
                     'image_path'      => $existing->image_path ?? "services/{$slug}.jpg",
                     'image_alt'       => $existing->image_alt ?? ($name['en'] ?? ucfirst($slug)),

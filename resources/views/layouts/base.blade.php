@@ -21,7 +21,8 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    <script src="https://unpkg.com/@alpinejs/focus@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://unpkg.com/@alpinejs/collapse@3.x.x/dist/cdn.min.js" defer></script>
+    <script src="https://unpkg.com/@alpinejs/focus@3.x.x/dist/cdn.min.js" defer></script>
     <script src="https://unpkg.com/alpinejs@3.x.x" defer></script>
 
     <!-- SEO Meta -->

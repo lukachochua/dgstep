@@ -6,34 +6,74 @@
     'cueValues' => $cueValues ?? [],
     'image' => null,
     'imageAlt' => '',
+    'fullDescription' => '',
+    'reversed' => false,
 ])
 
 {{-- 
   Compact service row:
-  - Left: text (tight spacing)
-  - Right: service image or fallback cue box (fixed size)
+  - Left: text with expandable long-form copy
+  - Right: service image (large) or fallback cue box
 --}}
 
-<div class="grid md:grid-cols-[1fr_220px] items-center gap-6 md:gap-8
+@php
+    $fullCopy = is_string($fullDescription) ? trim($fullDescription) : '';
+    $hasFull = $fullCopy !== '';
+    $contentId = 'svc-full-' . uniqid();
+@endphp
+
+<div
+  x-data="{ expanded: false }"
+  class="grid md:grid-cols-[1fr_440px] items-start gap-6 md:gap-10
             rounded-xl border border-[color-mix(in_oklab,var(--text-default)_10%,transparent)]
             bg-[var(--bg-elevated)]/60 backdrop-blur
             px-4 py-5 sm:px-6 sm:py-6
             shadow-[0_6px_14px_rgba(0,0,0,.18)]">
 
   {{-- Text --}}
-  <div class="text-left">
+  <div @class([
+      'text-left space-y-4',
+      'md:order-2' => $reversed,
+  ])>
     <h3 class="text-2xl md:text-3xl font-extrabold mb-2 text-[var(--color-electric-sky)]">
       {!! e($title) !!}
     </h3>
-    <p class="text-[15.5px] leading-relaxed text-[color-mix(in_oklab,var(--text-default)_78%,transparent)]">
-      {!! e($description) !!}
-    </p>
+    <div
+      class="text-[15.5px] leading-relaxed text-[color-mix(in_oklab,var(--text-default)_78%,transparent)] space-y-4">
+      <p>{!! e($description) !!}</p>
+
+      @if($hasFull)
+        <div
+          x-show="expanded"
+          x-cloak
+          x-collapse.duration.250ms
+          x-transition.opacity.duration.250ms
+          id="{{ $contentId }}"
+          class="space-y-4 prose prose-invert max-w-none prose-p:leading-relaxed prose-ul:pl-5">
+          {!! $fullCopy !!}
+        </div>
+
+        <button
+          type="button"
+          @click="expanded = !expanded"
+          class="inline-flex items-center gap-2 text-sm font-semibold text-[var(--color-electric-sky)] hover:text-[color-mix(in_oklab,var(--color-electric-sky)_80%,white_20%)] transition-colors"
+          :aria-expanded="expanded.toString()"
+          aria-controls="{{ $contentId }}"
+        >
+          <span x-show="!expanded" x-cloak>{{ __('services.read_more') }}</span>
+          <span x-show="expanded" x-cloak>{{ __('services.show_less') }}</span>
+        </button>
+      @endif
+    </div>
   </div>
 
   {{-- Media / Cue --}}
-  <div class="md:ml-2">
+  <div @class([
+      'md:ml-2',
+      'md:order-1' => $reversed,
+  ])>
     @if($image)
-      <div class="relative w-[220px] h-[200px] overflow-hidden
+      <div class="relative w-full h-[260px] sm:h-[300px] md:h-[400px] overflow-hidden
                   rounded-lg border border-[color-mix(in_oklab,var(--text-default)_12%,transparent)]
                   bg-[color-mix(in_oklab,var(--color-brand-950)_16%,transparent)]
                   transition-transform duration-200
@@ -47,10 +87,10 @@
         />
       </div>
     @else
-      <div class="w-[220px] h-[200px]
+      <div class="w-full h-[260px] sm:h-[300px] md:h-[400px]
                   rounded-lg border border-[color-mix(in_oklab,var(--text-default)_12%,transparent)]
                   bg-[color-mix(in_oklab,var(--color-brand-950)_16%,transparent)]
-                  p-3 flex flex-col items-center justify-center select-none
+                  p-4 flex flex-col items-center justify-center select-none
                   transition-transform duration-200
                   hover:brightness-110 hover:-translate-y-[1px]">
 
