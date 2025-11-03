@@ -315,12 +315,11 @@
             </div>
           </a>
         </div>
-
       </div>
     </div>
   </div>
 
-  <div class="absolute top-1/2 left-5 -translate-y-1/2 z-20">
+  <div class="absolute bottom-24 left-4 translate-y-0 z-20 md:bottom-auto md:top-1/2 md:left-5 md:-translate-y-1/2">
     <button type="button" @click="prev()" aria-label="Previous slide" class="hero-arrow focus-ring" data-direction="prev">
       <span class="hero-arrow__icon" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round">
@@ -329,7 +328,7 @@
       </span>
     </button>
   </div>
-  <div class="absolute top-1/2 right-5 -translate-y-1/2 z-20">
+  <div class="absolute bottom-24 right-4 translate-y-0 z-20 md:bottom-auto md:top-1/2 md:right-5 md:-translate-y-1/2">
     <button type="button" @click="next()" aria-label="Next slide" class="hero-arrow focus-ring" data-direction="next">
       <span class="hero-arrow__icon" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round">
