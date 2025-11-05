@@ -79,9 +79,6 @@ class AboutPageResource extends Resource
                                                     Forms\Components\TextInput::make("hero_caption.$code")
                                                         ->label('Hero caption')
                                                         ->maxLength(180),
-                                                    Forms\Components\TextInput::make("hero_status_label.$code")
-                                                        ->label('Hero status label')
-                                                        ->maxLength(120),
                                                     Forms\Components\TextInput::make("hero_image_alt.$code")
                                                         ->label('Hero image alt text')
                                                         ->maxLength(180),

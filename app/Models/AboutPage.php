@@ -31,7 +31,6 @@ class AboutPage extends Model
         'hero_image_path',
         'hero_image_alt',
         'hero_caption',
-        'hero_status_label',
         'management_members',
     ];
 
@@ -56,7 +55,6 @@ class AboutPage extends Model
         'management_collapse',
         'hero_image_alt',
         'hero_caption',
-        'hero_status_label',
     ];
 
     public function getHeroImageUrlAttribute(?string $value): ?string
@@ -148,10 +146,6 @@ class AboutPage extends Model
             'hero_caption' => [
                 'en' => 'DGstep • SaaS for regulated services',
                 'ka' => 'DGstep • SaaS რეგულირებადი სერვისებისთვის',
-            ],
-            'hero_status_label' => [
-                'en' => 'Live',
-                'ka' => 'აქტიური',
             ],
             'management_members' => [
                 [

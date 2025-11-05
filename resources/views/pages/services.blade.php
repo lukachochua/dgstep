@@ -30,7 +30,7 @@
             :fullDescription="$descriptionFull"
             :image="$imageUrl"
             :imageAlt="$imageAlt"
-            :reversed="$i < 2" />
+            :reversed="($i % 2) === 0" />
         @endforeach
 
         <div class="text-center pt-10">

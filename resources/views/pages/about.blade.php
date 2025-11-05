@@ -32,7 +32,6 @@
     $heroImageUrl = $aboutPage->hero_image_url ?? ($aboutDefaults['hero_image_url'] ?? null);
     $heroImageAlt = $aboutPage->translated('hero_image_alt', $locale, $aboutDefaults);
     $heroCaption = $aboutPage->translated('hero_caption', $locale, $aboutDefaults);
-    $heroStatusLabel = $aboutPage->translated('hero_status_label', $locale, $aboutDefaults);
 
     $whoHeading = $aboutPage->translated('who_heading', $locale, $aboutDefaults);
     $whoParagraph1 = $aboutPage->translated('who_paragraph_1', $locale, $aboutDefaults);
@@ -133,11 +132,6 @@
                                                 border-t border-[color-mix(in_oklab,var(--text-default)_10%,transparent)]">
                                         <div class="text-[11px] text-[color-mix(in_oklab,var(--text-default)_70%,transparent)]">
                                             {{ $heroCaption ?? 'DGstep • SaaS for regulated services' }}
-                                        </div>
-                                        <div class="inline-flex items-center gap-1.5 text-[11px] font-semibold
-                                                    text-[color-mix(in_oklab,var(--text-default)_90%,transparent)]">
-                                            <span class="h-1.5 w-1.5 rounded-full" style="background: color-mix(in oklab, var(--color-electric-sky) 80%, transparent)"></span>
-                                            {{ $heroStatusLabel ?? 'Live' }}
                                         </div>
                                     </div>
                                 </div>
