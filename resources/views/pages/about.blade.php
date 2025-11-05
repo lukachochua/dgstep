@@ -1,5 +1,6 @@
 {{-- resources/views/pages/about.blade.php --}}
 @php
+    use Illuminate\Support\Facades\Storage;
     use Illuminate\Support\Str;
 
     $locale = app()->getLocale();
@@ -55,6 +56,23 @@
     $managementViewAll = $aboutPage->translated('management_view_all', $locale, $aboutDefaults);
     $managementCollapse = $aboutPage->translated('management_collapse', $locale, $aboutDefaults);
     $managementMembers = $aboutPage->membersForLocale($locale, $aboutDefaults);
+
+    $defaultMemberImage = 'https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=300&h=300&fit=crop';
+    $resolveMemberImage = function (array $member) use ($defaultMemberImage) {
+        $uploadPath = $member['image_path'] ?? null;
+
+        if ($uploadPath) {
+            try {
+                return Storage::disk('public')->url($uploadPath);
+            } catch (\Throwable $exception) {
+                // fall back to provided URL/default below if storage URL fails
+            }
+        }
+
+        $externalUrl = $member['image_url'] ?? null;
+
+        return $externalUrl ?: $defaultMemberImage;
+    };
 @endphp
 
 <x-layouts.base :title="$pageTitle ?? __('about.title')">
@@ -291,7 +309,7 @@
                     <h3 class="text-3xl md:text-4xl font-bold text-[var(--text-default)] text-center">
                         {!! $managementHeading ?? __('about.management.heading') !!}
                     </h3>
-                    <div class="mx-auto mt-4 mb-6 w-[95%] max-w-[59.5rem]">
+                    <div class="mx-auto mt-4 mb-6 w-full max-w-[67rem]">
                         <div class="h-px bg-gradient-to-r from-transparent via-[color-mix(in_oklab,var(--color-electric-sky)_55%,transparent)] to-transparent opacity-75"></div>
                     </div>
 
@@ -306,7 +324,7 @@
                                  class="transition duration-300 ease-out"
                                  :class="openAll ? 'pointer-events-none' : 'pointer-events-auto'">
                                 {{-- Limit the slider viewport to roughly three cards on wide screens --}}
-                                <div class="relative mx-auto w-[95%] max-w-[59.5rem]">
+                                <div class="relative mx-auto w-full max-w-[67rem]">
                                     <div class="flex items-center justify-between gap-3 sm:gap-4 md:gap-6">
                                         <button type="button"
                                                 x-cloak
@@ -328,16 +346,17 @@
                                             <!-- Strip (horizontal only; vertical hidden) -->
                                             <div x-ref="strip"
                                                  class="team-scroll overflow-x-auto overflow-y-visible overscroll-x-contain touch-pan-x w-full
-                                                         [scrollbar-color:transparent_transparent] [scrollbar-gutter:stable] pr-6
+                                                         [scrollbar-color:transparent_transparent] [scrollbar-gutter:stable] pr-5
                                                          transition duration-300 ease-out"
                                                  tabindex="0">
                                                 <ul class="flex gap-6 snap-x snap-mandatory scroll-pl-2 md:scroll-pl-3 px-2 py-3 -mb-2">
                                                     @forelse ($managementMembers as $index => $member)
                                                         @php
-                                                            $memberName = $member['name'] ?? __('Team member');
-                                                            $memberRole = $member['role'] ?? '';
-                                                            $memberBio = $member['bio'] ?? '';
-                                                            $memberImage = $member['image_url'] ?? 'https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=300&h=300&fit=crop';
+                                                            $memberData = is_array($member) ? $member : (array) $member;
+                                                            $memberName = $memberData['name'] ?? __('Team member');
+                                                            $memberRole = $memberData['role'] ?? '';
+                                                            $memberBio = $memberData['bio'] ?? '';
+                                                            $memberImage = $resolveMemberImage($memberData);
                                                             $memberPayload = [
                                                                 'name' => $memberName,
                                                                 'role' => $memberRole,
@@ -402,14 +421,15 @@
                                  x-transition.opacity.duration.250ms
                                  class="transition duration-300 ease-out"
                                  :class="openAll ? 'pointer-events-auto' : 'pointer-events-none'">
-                                <div class="mx-auto mt-2 w-[95%] max-w-[59.5rem]">
+                                <div class="mx-auto mt-2 w-full max-w-[67rem]">
                                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 text-left" data-team-grid>
                                         @forelse ($managementMembers as $index => $member)
                                             @php
-                                                $memberName = $member['name'] ?? __('Team member');
-                                                $memberRole = $member['role'] ?? '';
-                                                $memberBio = $member['bio'] ?? '';
-                                                $memberImage = $member['image_url'] ?? 'https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=300&h=300&fit=crop';
+                                                $memberData = is_array($member) ? $member : (array) $member;
+                                                $memberName = $memberData['name'] ?? __('Team member');
+                                                $memberRole = $memberData['role'] ?? '';
+                                                $memberBio = $memberData['bio'] ?? '';
+                                                $memberImage = $resolveMemberImage($memberData);
                                                 $memberPayload = [
                                                     'name' => $memberName,
                                                     'role' => $memberRole,

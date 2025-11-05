@@ -300,6 +300,8 @@ class AboutPage extends Model
         $name = $this->resolveLocalizedValue($member['name'] ?? null, $locale);
         $role = $this->resolveLocalizedValue($member['role'] ?? null, $locale);
         $bio = $this->resolveLocalizedValue($member['bio'] ?? null, $locale);
+        $imagePath = $member['image_path'] ?? null;
+        $imageUrl = $member['image_url'] ?? null;
 
         if (! $name && ! $role && ! $bio) {
             return null;
@@ -309,7 +311,8 @@ class AboutPage extends Model
             'name' => $name ?? '',
             'role' => $role ?? '',
             'bio' => $bio ?? '',
-            'image_url' => $member['image_url'] ?? null,
+            'image_path' => $imagePath,
+            'image_url' => $imageUrl,
         ];
     }
 

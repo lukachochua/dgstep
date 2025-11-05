@@ -201,8 +201,24 @@ class AboutPageResource extends Resource
                         ])
                         ->grid(1)
                         ->schema([
+                            Forms\Components\FileUpload::make('image_path')
+                                ->label('Image upload')
+                                ->helperText('Upload a square headshot; overrides the external URL when provided.')
+                                ->directory('about/team')
+                                ->disk('public')
+                                ->visibility('public')
+                                ->image()
+                                ->imageEditor()
+                                ->maxFiles(1)
+                                ->maxSize(4096)
+                                ->columnSpan([
+                                    'default' => 1,
+                                    'lg' => 4,
+                                ]),
+
                             Forms\Components\TextInput::make('image_url')
                                 ->label('Image URL')
+                                ->helperText('Optional fallback when no upload is present.')
                                 ->maxLength(2048)
                                 ->url()
                                 ->columnSpan([
