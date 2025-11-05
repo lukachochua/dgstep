@@ -56,6 +56,20 @@ class ServiceResource extends Resource
                                                 ->toolbarButtons(['bold', 'italic', 'bulletList', 'orderedList', 'link'])
                                                 ->helperText('Displayed when user clicks "Show More".')
                                                 ->columnSpanFull(),
+
+                                            Forms\Components\Repeater::make("problems.$code")
+                                                ->label('Problems (bullet points)')
+                                                ->addActionLabel('Add bullet')
+                                                ->simple(
+                                                    Forms\Components\TextInput::make('value')
+                                                        ->label('Problem')
+                                                        ->required()
+                                                        ->maxLength(200)
+                                                        ->placeholder('Manual inventory mistakes')
+                                                )
+                                                ->defaultItems(0)
+                                                ->columnSpanFull()
+                                                ->helperText('Shown as bullet points on the homepage cards and services page.'),
                                         ]);
                                 })->toArray()
                             ),
@@ -118,6 +132,32 @@ class ServiceResource extends Resource
                     ]),
             ]),
         ])->columns(12);
+    }
+
+    public static function sanitizeFormData(array $data): array
+    {
+        $locales = ['en', 'ka'];
+
+        $data['problems'] = collect($locales)
+            ->mapWithKeys(function (string $locale) use ($data) {
+                $items = $data['problems'][$locale] ?? [];
+
+                if (! is_array($items)) {
+                    $items = [];
+                }
+
+                $items = collect($items)
+                    ->filter(fn ($value) => filled($value))
+                    ->map(fn ($value) => is_array($value) ? ($value['value'] ?? null) : $value)
+                    ->filter(fn ($value) => filled($value))
+                    ->values()
+                    ->all();
+
+                return [$locale => $items];
+            })
+            ->all();
+
+        return $data;
     }
 
     // ───────────────────────────────────────────────

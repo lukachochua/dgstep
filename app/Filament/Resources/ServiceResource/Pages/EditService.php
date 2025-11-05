@@ -11,6 +11,7 @@ class EditService extends EditRecord
 
     protected function mutateFormDataBeforeSave(array $data): array
     {
+        $data = ServiceResource::sanitizeFormData($data);
         $data['image_alt'] = $data['image_alt'] ?? ($data['name']['en'] ?? ($data['slug'] ?? 'Service'));
 
         return $data;
