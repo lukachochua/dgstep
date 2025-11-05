@@ -202,6 +202,7 @@ class ServiceResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->defaultSort('display_order');
     }
