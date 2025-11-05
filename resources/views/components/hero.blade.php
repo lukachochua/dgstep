@@ -28,6 +28,10 @@
       motionQuery,
       manualPause: false,
       slides: @js($slides),
+      gesture: { pointerId: null, startX: 0, startY: 0, startTime: 0, deltaX: 0, deltaY: 0, active: false },
+      swipeThreshold: 56,
+      swipeVerticalLimit: 80,
+      pointerHandlers: null,
 
       canAuto() {
         const visible = this.$root?.offsetParent !== null;
@@ -139,6 +143,64 @@
         return `--hero-dot-progress:${value.toFixed(3)};`;
       },
 
+      resetGesture() {
+        this.gesture.pointerId = null;
+        this.gesture.startX = 0;
+        this.gesture.startY = 0;
+        this.gesture.startTime = 0;
+        this.gesture.deltaX = 0;
+        this.gesture.deltaY = 0;
+        this.gesture.active = false;
+      },
+
+      onPointerDown(event) {
+        if (event.pointerType !== 'touch') return;
+
+        if (event.target?.closest('button, a, input, textarea, select, [role=button], [data-hero-gesture-ignore]')) {
+          this.resetGesture();
+          return;
+        }
+
+        this.gesture.pointerId = event.pointerId;
+        this.gesture.startX = event.clientX;
+        this.gesture.startY = event.clientY;
+        this.gesture.startTime = performance.now();
+        this.gesture.deltaX = 0;
+        this.gesture.deltaY = 0;
+        this.gesture.active = true;
+      },
+
+      onPointerMove(event) {
+        if (!this.gesture.active || event.pointerId !== this.gesture.pointerId) return;
+
+        this.gesture.deltaX = event.clientX - this.gesture.startX;
+        this.gesture.deltaY = event.clientY - this.gesture.startY;
+      },
+
+      onPointerUp(event) {
+        if (!this.gesture.active || event.pointerId !== this.gesture.pointerId) return;
+
+        const deltaX = event.clientX - this.gesture.startX;
+        const deltaY = event.clientY - this.gesture.startY;
+        const horizontal = Math.abs(deltaX);
+        const vertical = Math.abs(deltaY);
+
+        if (horizontal >= this.swipeThreshold && horizontal > vertical * 1.25 && vertical < this.swipeVerticalLimit) {
+          if (deltaX < 0) {
+            this.next({ origin: 'swipe' });
+          } else {
+            this.prev();
+          }
+        }
+
+        this.resetGesture();
+      },
+
+      onPointerCancel(event) {
+        if (event.pointerId !== this.gesture.pointerId) return;
+        this.resetGesture();
+      },
+
       measure() {
         const meas  = this.$refs.textMeasure;
         const inner = this.$refs.inner;
@@ -170,6 +232,7 @@
           }
         };
         let motionCleanup = null;
+        const root = this.$root;
 
         this.$nextTick(() => {
           this.measure();
@@ -178,6 +241,22 @@
 
         const ro = new ResizeObserver(() => this.measure());
         ro.observe(this.$root);
+
+        if (root) {
+          const handlers = {
+            down: (event) => this.onPointerDown(event),
+            move: (event) => this.onPointerMove(event),
+            up:   (event) => this.onPointerUp(event),
+            cancel: (event) => this.onPointerCancel(event),
+          };
+
+          root.addEventListener('pointerdown', handlers.down, { passive: true });
+          root.addEventListener('pointermove', handlers.move, { passive: true });
+          root.addEventListener('pointerup', handlers.up, { passive: true });
+          root.addEventListener('pointercancel', handlers.cancel, { passive: true });
+
+          this.pointerHandlers = { root, handlers };
+        }
 
         document.addEventListener('visibilitychange', visibilityHandler);
         if (typeof this.motionQuery.addEventListener === 'function') {
@@ -193,6 +272,14 @@
           ro.disconnect();
           document.removeEventListener('visibilitychange', visibilityHandler);
           if (motionCleanup) motionCleanup();
+          if (this.pointerHandlers?.root) {
+            const { root, handlers } = this.pointerHandlers;
+            root.removeEventListener('pointerdown', handlers.down);
+            root.removeEventListener('pointermove', handlers.move);
+            root.removeEventListener('pointerup', handlers.up);
+            root.removeEventListener('pointercancel', handlers.cancel);
+            this.pointerHandlers = null;
+          }
         };
       }
     };
@@ -200,7 +287,7 @@
   x-init="init()"
   @keydown.arrow-right.prevent="next()" @keydown.arrow-left.prevent="prev()"
   tabindex="0" role="region" aria-roledescription="carousel" aria-label="DGstep hero"
-  class="hero-surface relative z-0 select-none overflow-hidden text-[color:var(--hero-ink)] min-h-[60dvh] md:min-h-[100svh]">
+  class="hero-surface relative z-0 select-none overflow-hidden text-[color:var(--hero-ink)] min-h-[60dvh] md:min-h-[100svh] pb-24 md:pb-0">
 
   <!-- Backgrounds -->
   <template x-for="(slide, index) in slides" :key="'bg-'+index">
@@ -318,7 +405,7 @@
     </div>
   </div>
 
-  <div class="absolute bottom-24 left-4 translate-y-0 z-20 md:bottom-auto md:top-1/2 md:left-5 md:-translate-y-1/2">
+  <div class="hidden md:block absolute bottom-24 left-4 translate-y-0 z-20 md:bottom-auto md:top-1/2 md:left-5 md:-translate-y-1/2">
     <button type="button" @click="prev()" aria-label="Previous slide" class="hero-arrow focus-ring" data-direction="prev">
       <span class="hero-arrow__icon" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round">
@@ -327,7 +414,7 @@
       </span>
     </button>
   </div>
-  <div class="absolute bottom-24 right-4 translate-y-0 z-20 md:bottom-auto md:top-1/2 md:right-5 md:-translate-y-1/2">
+  <div class="hidden md:block absolute bottom-24 right-4 translate-y-0 z-20 md:bottom-auto md:top-1/2 md:right-5 md:-translate-y-1/2">
     <button type="button" @click="next()" aria-label="Next slide" class="hero-arrow focus-ring" data-direction="next">
       <span class="hero-arrow__icon" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round">
@@ -337,7 +424,7 @@
     </button>
   </div>
 
-  <div class="absolute bottom-7 left-1/2 -translate-x-1/2 flex space-x-3 z-20" role="tablist" aria-label="Hero slides">
+  <div class="hidden md:flex absolute bottom-7 left-1/2 -translate-x-1/2 space-x-3 z-20" role="tablist" aria-label="Hero slides">
     <template x-for="(slide, index) in slides" :key="'dot-'+index">
       <button
         type="button" role="tab"
@@ -350,5 +437,40 @@
         :class="{ 'is-active': activeSlide === index }">
       </button>
     </template>
+  </div>
+
+  <div class="md:hidden px-4 sm:px-6 mt-10">
+    <div class="flex items-center justify-between gap-6">
+      <button type="button" @click="prev()" aria-label="Previous slide" class="hero-arrow hero-arrow--compact focus-ring" data-direction="prev">
+        <span class="hero-arrow__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14.25 6.75L8.5 12l5.75 5.25" />
+          </svg>
+        </span>
+      </button>
+
+      <div class="flex flex-1 justify-center gap-3" role="tablist" aria-label="Hero slides">
+        <template x-for="(slide, index) in slides" :key="'dot-mobile-'+index">
+          <button
+            type="button" role="tab"
+            :aria-selected="activeSlide === index"
+            :tabindex="activeSlide === index ? 0 : -1"
+            @click="goTo(index)"
+            :aria-label="`Go to slide ${index+1}`"
+            class="hero-dot transition"
+            :style="dotStyle(index)"
+            :class="{ 'is-active': activeSlide === index }">
+          </button>
+        </template>
+      </div>
+
+      <button type="button" @click="next()" aria-label="Next slide" class="hero-arrow hero-arrow--compact focus-ring" data-direction="next">
+        <span class="hero-arrow__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9.75 6.75L15.5 12l-5.75 5.25" />
+          </svg>
+        </span>
+      </button>
+    </div>
   </div>
 </section>
