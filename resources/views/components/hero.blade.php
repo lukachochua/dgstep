@@ -2,8 +2,8 @@
   'slides' => [],
   'isKaLocale' => false,
   'isEnLocale' => false,
-  'heroHeadingScale' => 'text-2xl md:text-4xl lg:text-5xl',
-  'heroSubtitleScale' => 'text-base md:text-lg',
+  'heroHeadingScale' => 'text-5xl md:text-5xl lg:text-6xl',
+  'heroSubtitleScale' => 'text-2xl md:text-xl lg:text-xl',
 ])
 
 @php
@@ -200,8 +200,7 @@
   x-init="init()"
   @keydown.arrow-right.prevent="next()" @keydown.arrow-left.prevent="prev()"
   tabindex="0" role="region" aria-roledescription="carousel" aria-label="DGstep hero"
-  class="hero-surface relative z-0 select-none overflow-hidden text-[color:var(--hero-ink)]"
-  style="min-height: calc(100svh)">
+  class="hero-surface relative z-0 select-none overflow-hidden text-[color:var(--hero-ink)] min-h-[60dvh] md:min-h-[100svh]">
 
   <!-- Backgrounds -->
   <template x-for="(slide, index) in slides" :key="'bg-'+index">
@@ -227,13 +226,13 @@
   </template>
 
   <!-- Foreground -->
-  <div class="relative mt-24 z-10 mx-auto max-w-[var(--container-content)] px-4 sm:px-6 md:px-8">
-    <div x-ref="inner" class="min-h-[calc(100svh-var(--navbar-h)-1rem)] flex items-center">
-      <div class="grid items-center w-full gap-8 md:gap-12 lg:gap-16 grid-cols-1 md:grid-cols-2 xl:grid-cols-[0.7fr_1.3fr]">
+  <div class="relative mt-36 md:mt-24 z-10 mx-auto max-w-[var(--container-content)] px-4 sm:px-6 md:px-8">
+    <div x-ref="inner" class="min-h-[calc(60dvh-var(--navbar-h)-1rem)] md:min-h-[calc(100svh-var(--navbar-h)-1rem)] flex items-start md:items-center">
+      <div class="grid items-start md:items-center w-full gap-8 md:gap-12 lg:gap-16 grid-cols-1 md:grid-cols-2 xl:grid-cols-[0.7fr_1.3fr]">
 
         <!-- LEFT: Text -->
-        <div class="w-full max-w-[48ch] justify-self-start relative z-10">
-          <div class="relative" :style="`height:${textColH||0}px`">
+        <div class="w-full md:max-w-[48ch] justify-self-stretch md:justify-self-start relative z-10">
+          <div class="relative" :style="window.innerWidth >= 768 ? `height:${textColH||0}px` : ''">
             <template x-for="(slide, index) in slides" :key="'txt-'+index">
               <div
                 x-show="activeSlide === index" x-cloak
@@ -246,17 +245,17 @@
                 x-transition:leave-end="opacity-0 -translate-y-2"
                 role="group" aria-roledescription="slide" :aria-label="`Slide ${index+1} of ${slides.length}`"
               >
-                <div :style="`min-height:${textBlockH||0}px`">
-                  <h1 class="{{ $heroHeadingScale }} hero-heading leading-[1.08] tracking-tight [text-wrap:balance] animate-fadeUp">
+                <div :style="window.innerWidth >= 768 ? `min-height:${textBlockH||0}px` : ''">
+                  <h1 class="{{ $heroHeadingScale }} hero-heading leading-[1.08] tracking-tight [text-wrap:balance] text-left animate-fadeUp">
                     <span x-text="slide.title"></span><br>
                     <span class="hero-highlight" x-text="slide.highlight"></span>
                   </h1>
 
-                  <p class="mt-3 md:mt-4 {{ $heroSubtitleScale }} hero-subtitle leading-relaxed animate-fadeUp"
+                  <p class="mt-5 md:mt-4 {{ $heroSubtitleScale }} hero-subtitle leading-relaxed text-left animate-fadeUp"
                      style="animation-delay:.05s" x-text="slide.subtitle"></p>
                 </div>
 
-                <div class="mt-6 md:mt-7 flex flex-wrap items-center gap-3 hero-actions animate-fadeUp" style="animation-delay:.1s">
+                <div class="mt-9 md:mt-7 flex flex-wrap items-center gap-3 justify-start hero-actions animate-fadeUp" style="animation-delay:.1s">
                   <x-ui.button
                     x-show="slide.button_href || slide.button?.href || slide.button?.link || slide.button_link"
                     x-bind:href="slide.button_href || slide.button?.href || slide.button?.link || slide.button_link || '#'"
@@ -276,13 +275,13 @@
             <template x-for="(slide, index) in slides" :key="'measure-'+index">
               <div class="w-[48ch]" data-measure="slide">
                 <div data-measure="hgroup">
-                  <h1 class="{{ $heroHeadingScale }} hero-heading leading-[1.08] tracking-tight">
+                  <h1 class="{{ $heroHeadingScale }} hero-heading leading-[1.08] tracking-tight text-left">
                     <span x-text="slide.title"></span><br>
                     <span x-text="slide.highlight"></span>
                   </h1>
-                  <p class="mt-3 md:mt-4 {{ $heroSubtitleScale }} hero-subtitle leading-relaxed" x-text="slide.subtitle"></p>
+                  <p class="mt-5 md:mt-4 {{ $heroSubtitleScale }} hero-subtitle leading-relaxed" x-text="slide.subtitle"></p>
                 </div>
-                <div class="mt-6 md:mt-7 h-11"></div>
+                <div class="mt-9 md:mt-7 h-11"></div>
               </div>
             </template>
           </div>
