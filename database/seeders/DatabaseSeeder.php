@@ -84,7 +84,7 @@ class DatabaseSeeder extends Seeder
                 ],
                 'button_text' => [
                     'en' => 'About Us',
-                    'ka' => 'ჩვენს შესახებ',
+                    'ka' => 'ჩვენ შესახებ',
                 ],
                 'button_link' => '#contact',
                 'link_type' => 'internal',

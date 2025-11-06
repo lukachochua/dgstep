@@ -29,7 +29,7 @@
       manualPause: false,
       slides: @js($slides),
       gesture: { pointerId: null, startX: 0, startY: 0, startTime: 0, deltaX: 0, deltaY: 0, active: false },
-      swipeThreshold: 56,
+      swipeThreshold: 48,
       swipeVerticalLimit: 80,
       pointerHandlers: null,
 
@@ -287,7 +287,7 @@
   x-init="init()"
   @keydown.arrow-right.prevent="next()" @keydown.arrow-left.prevent="prev()"
   tabindex="0" role="region" aria-roledescription="carousel" aria-label="DGstep hero"
-  class="hero-surface relative z-0 select-none overflow-hidden text-[color:var(--hero-ink)] min-h-[60dvh] md:min-h-[100svh] pb-24 md:pb-0">
+  class="hero-surface relative z-0 select-none overflow-hidden text-[color:var(--hero-ink)] min-h-[60svh] md:min-h-[100svh] touch-pan-y pb-16 md:pb-0">
 
   <!-- Backgrounds -->
   <template x-for="(slide, index) in slides" :key="'bg-'+index">
@@ -314,16 +314,16 @@
 
   <!-- Foreground -->
   <div class="relative mt-36 md:mt-24 z-10 mx-auto max-w-[var(--container-content)] px-4 sm:px-6 md:px-8">
-    <div x-ref="inner" class="min-h-[calc(60dvh-var(--navbar-h)-1rem)] md:min-h-[calc(100svh-var(--navbar-h)-1rem)] flex items-start md:items-center">
+    <div x-ref="inner" class="min-h-[calc(60svh-var(--navbar-h)-1rem)] md:min-h-[calc(100svh-var(--navbar-h)-1rem)] flex items-start md:items-center">
       <div class="grid items-start md:items-center w-full gap-8 md:gap-12 lg:gap-16 grid-cols-1 md:grid-cols-2 xl:grid-cols-[0.7fr_1.3fr]">
 
         <!-- LEFT: Text -->
         <div class="w-full md:max-w-[48ch] justify-self-stretch md:justify-self-start relative z-10">
-          <div class="relative" :style="window.innerWidth >= 768 ? `height:${textColH||0}px` : ''">
+          <div class="relative md:min-h-[calc(100svh-var(--navbar-h)-6rem)] md:[&>*]:md:static" :style="window.innerWidth >= 768 ? `height:${textColH||0}px` : ''">
             <template x-for="(slide, index) in slides" :key="'txt-'+index">
               <div
                 x-show="activeSlide === index" x-cloak
-                class="absolute inset-0"
+                class="absolute inset-0 md:static md:opacity-100 md:translate-y-0"
                 x-transition:enter="transition ease-out duration-600"
                 x-transition:enter-start="opacity-0 translate-y-2"
                 x-transition:enter-end="opacity-100 translate-y-0"

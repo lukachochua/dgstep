@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'title' => 'ჩვენს შესახებ — DGstep',
+    'title' => 'ჩვენ შესახებ — DGstep',
 
     'who_we_are' => [
         'heading' => 'ვინ <span class="text-[var(--color-electric-sky)]">ვართ</span> ჩვენ',
