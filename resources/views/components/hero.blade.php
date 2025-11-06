@@ -319,11 +319,11 @@
 
         <!-- LEFT: Text -->
         <div class="w-full md:max-w-[48ch] justify-self-stretch md:justify-self-start relative z-10">
-          <div class="relative md:min-h-[calc(100svh-var(--navbar-h)-6rem)] md:[&>*]:md:static" :style="window.innerWidth >= 768 ? `height:${textColH||0}px` : ''">
+          <div class="relative" :style="window.innerWidth >= 768 ? `height:${textColH||0}px` : ''">
             <template x-for="(slide, index) in slides" :key="'txt-'+index">
               <div
                 x-show="activeSlide === index" x-cloak
-                class="absolute inset-0 md:static md:opacity-100 md:translate-y-0"
+                class="absolute inset-0"
                 x-transition:enter="transition ease-out duration-600"
                 x-transition:enter-start="opacity-0 translate-y-2"
                 x-transition:enter-end="opacity-100 translate-y-0"
