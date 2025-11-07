@@ -313,8 +313,54 @@
                         <div class="h-px bg-gradient-to-r from-transparent via-[color-mix(in_oklab,var(--color-electric-sky)_55%,transparent)] to-transparent opacity-75"></div>
                     </div>
 
+                    <!-- Mobile grid (always expanded) -->
+                    <div class="md:hidden">
+                        <div class="mx-auto mt-2 w-full max-w-[67rem]">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 text-left" data-team-grid-mobile>
+                                @forelse ($managementMembers as $index => $member)
+                                    @php
+                                        $memberData = is_array($member) ? $member : (array) $member;
+                                        $memberName = $memberData['name'] ?? __('Team member');
+                                        $memberRole = $memberData['role'] ?? '';
+                                        $memberBio = $memberData['bio'] ?? '';
+                                        $memberImage = $resolveMemberImage($memberData);
+                                        $memberPayload = [
+                                            'name' => $memberName,
+                                            'role' => $memberRole,
+                                            'bio' => $memberBio,
+                                            'image_url' => $memberImage,
+                                        ];
+                                    @endphp
+                                    <div class="team-card p-5 h-full transition duration-300 ease-out transform cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[color-mix(in_oklab,var(--color-electric-sky)_64%,transparent)] opacity-100 translate-y-0"
+                                         style="transition-delay: {{ $loop->index * 45 }}ms"
+                                         role="button"
+                                         tabindex="0"
+                                         @click="openMember(@js($memberPayload))"
+                                         @keydown.enter.prevent="openMember(@js($memberPayload))"
+                                         @keydown.space.prevent="openMember(@js($memberPayload))">
+                                        <img src="{{ $memberImage }}"
+                                             alt="{{ $memberName }}"
+                                             class="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover mb-3 mx-auto border border-[color-mix(in_oklab,var(--text-default)_18%,transparent)]">
+                                        <div class="text-center space-y-0.5">
+                                            <h4 class="text-[15px] md:text-[16px] font-semibold text-[var(--text-default)]">
+                                                {{ $memberName }}
+                                            </h4>
+                                            <p class="text-[13px] md:text-[14px] text-[color-mix(in_oklab,var(--text-default)_62%,transparent)]">
+                                                {{ $memberRole }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                @empty
+                                    <div class="team-card p-5 text-center text-sm text-[color-mix(in_oklab,var(--text-default)_62%,transparent)]">
+                                        {{ __('No team members found.') }}
+                                    </div>
+                                @endforelse
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Strip/Grid switcher (height-locked to avoid layout jump) -->
-                    <div class="relative transition-[height] duration-300 ease-out"
+                    <div class="relative transition-[height] duration-300 ease-out hidden md:block"
                              :style="switcherHeight ? { height: switcherHeight } : null">
                             <!-- Slider viewport -->
                             <div x-ref="stripWrap" x-cloak
@@ -469,7 +515,7 @@
                         </div>
 
                     <!-- Actions -->
-                    <div class="mt-6 flex items-center justify-center gap-4">
+                    <div class="mt-6 hidden md:flex items-center justify-center gap-4">
                         <x-ui.button
                             as="button"
                             type="button"
