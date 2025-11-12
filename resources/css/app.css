@@ -123,7 +123,7 @@ html:not([data-theme]) {
     --ink: var(--nav-fg-muted);
     --ink-hover: var(--nav-fg);
     --hover-fill: color-mix(in oklab, var(--underline) 24%, rgba(15,17,35,0.30));
-    --active-fill: color-mix(in oklab, var(--underline) 18%, rgba(15,17,35,0.26));
+    --active-fill: color-mix(in oklab, var(--underline) 42%, rgba(12,14,32,0.36));
     --hover-glow: color-mix(in oklab, var(--underline) 30%, rgba(90,86,214,0.48));
 
     position: relative;
@@ -132,18 +132,21 @@ html:not([data-theme]) {
     justify-content: center;
     gap: .55rem;
 
-    padding: .42rem .9rem;
-    border-radius: 999px;
+    padding: .6rem var(--nav-pill-pad-x, .62rem);
+    border-radius: 0;
     background-color: color-mix(in oklab, rgba(15,17,35,0.65) 32%, transparent 68%);
-    border: 1px solid color-mix(in oklab, var(--underline) 36%, rgba(255,255,255,0.34));
+    border: 1.5px solid color-mix(in oklab, var(--underline) 55%, rgba(255,255,255,0.5));
     color: var(--ink);
 
     font-size: 15px;
     font-weight: 600;
     text-decoration: none;
+    width: 100%;
+    height: 100%;
 
     transition: color .2s var(--ease-brand), border-color .22s var(--ease-brand),
-                background-color .22s var(--ease-brand), box-shadow .28s var(--ease-brand);
+                background-color .22s var(--ease-brand), box-shadow .28s var(--ease-brand),
+                padding .4s var(--ease-brand);
   }
 
   .nav-link-desktop:hover,
@@ -157,8 +160,61 @@ html:not([data-theme]) {
   .nav-link-desktop.nav-link-active {
     color: var(--ink-hover);
     background-color: var(--active-fill);
-    border-color: color-mix(in oklab, var(--underline) 54%, rgba(255,255,255,0.48));
-    box-shadow: 0 8px 20px color-mix(in oklab, var(--underline) 18%, transparent);
+    border-color: color-mix(in oklab, var(--underline) 70%, rgba(255,255,255,0.6));
+    box-shadow: 0 8px 22px color-mix(in oklab, var(--underline) 20%, rgba(0,0,0,0.12));
+    --nav-pill-pad-x: .85rem;
+  }
+
+  .nav-link-group {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    gap: 0;
+    list-style: none;
+    width: 100%;
+    height: 100%;
+  }
+
+  .nav-link-group li {
+    display: flex;
+    min-width: 0;
+    height: 100%;
+  }
+
+  .nav-link-item {
+    flex: 1 1 0;
+    min-width: 0;
+    transition: flex-grow 360ms var(--ease-brand);
+    position: relative;
+  }
+
+  .nav-link-item + .nav-link-item .nav-link-desktop {
+    border-left-width: 0;
+  }
+
+  .nav-link-item-active {
+    flex-grow: 1.22;
+    z-index: 2;
+    animation: nav-link-grow 420ms var(--ease-brand) both;
+  }
+
+  .nav-link-item:first-child .nav-link-desktop {
+    border-top-left-radius: 1rem;
+    border-bottom-left-radius: 1rem;
+  }
+
+  .nav-link-item:last-child .nav-link-desktop {
+    border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+  }
+
+  .nav-link-item:not(:first-child):not(:last-child) .nav-link-desktop {
+    border-radius: 0;
+  }
+
+  @keyframes nav-link-grow {
+    0%   { flex-grow: 1; }
+    100% { flex-grow: 1.22; }
   }
 
   :root[data-theme="light"] .nav-link-desktop {
@@ -166,7 +222,7 @@ html:not([data-theme]) {
     --ink: color-mix(in oklab, #120f27 82%, white 18%);
     --ink-hover: color-mix(in oklab, var(--color-brand-800) 68%, #0a0d21 32%);
     --hover-fill: color-mix(in oklab, var(--nav-bottom-bg, #726EDB) 42%, rgba(255,255,255,0.96));
-    --active-fill: color-mix(in oklab, var(--nav-bottom-bg, #726EDB) 32%, rgba(255,255,255,0.92));
+    --active-fill: color-mix(in oklab, var(--nav-bottom-bg, #726EDB) 62%, rgba(255,255,255,0.88));
     --hover-glow: color-mix(in oklab, var(--nav-bottom-bg, #726EDB) 58%, rgba(90,86,214,0.55));
 
     background-color: color-mix(in oklab, var(--nav-bottom-bg, #726EDB) 75%, rgba(255,255,255,0.86));

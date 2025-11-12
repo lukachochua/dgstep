@@ -79,23 +79,19 @@
       return Math.max(0, window.innerWidth - document.documentElement.clientWidth);
     },
 
-    /* >>> FIX: Only apply right gutter while menu is open <<< */
+    /* >>> Only apply right gutter while menu is open <<< */
     measureScrollbarGutter(){
       const nav = this.$refs.nav;
       if (!nav) return;
 
       if (this.scroller === window) {
         const current = this.computeScrollbarWidth();
-        // Snapshot latest width
         this.scrollbarWidth = current;
-
-        // Apply gutter ONLY when mobile menu is active; otherwise keep flush to right:0
         const width = this.menuActive ? this.scrollbarWidth : 0;
         nav.style.right = width ? width + 'px' : '0px';
         return;
       }
 
-      // Custom scroller case (page wrapper)
       const s = this.scroller;
       const sbw = s.offsetWidth - s.clientWidth;
       nav.style.right = this.menuActive && sbw > 0 ? (sbw + 'px') : '0px';
@@ -110,7 +106,6 @@
     freezeNav(ms = 700){
       const t = this.now() + ms;
       this.freezeNavUntil = Math.max(this.freezeNavUntil, t);
-      // Keep visible and reset reveal baseline so large jumps don't meet farEnough
       const y = this.getScrollY();
       this.isHiding = false;
       this.isVisible = true;
@@ -119,23 +114,19 @@
 
     toggleMenu(){
       if (this.open) { this.closeMenu(); return; }
-      this.scrollbarWidth = this.computeScrollbarWidth(); // snapshot before body locking
+      this.scrollbarWidth = this.computeScrollbarWidth();
       this.open = true;
       this.$nextTick(() => this.measureScrollbarGutter());
     },
     closeMenu(){
-      // Instant close: no closing state, no leave transitions, no waiting
       this.open = false;
       this.closing = false;
 
-      // Prevent scroll-hide logic from running immediately post-close
       this.suppressHideUntil = this.now() + 300;
 
-      // Recompute gutter right away (body unlock) and remove forced right gutter
       this.scrollbarWidth = this.computeScrollbarWidth();
       this.measureScrollbarGutter();
 
-      // Keep navbar visible immediately after close
       this.isHiding = false;
       this.isVisible = true;
     },
@@ -143,14 +134,12 @@
 
     /* ---------- Visibility rules ---------- */
     applyVisibility(nextY, ts){
-      // Lock visible while menu is open
       if (this.menuActive) { this.isHiding = false; this.isVisible = true; return; }
 
-      // Guards after close and during anchor jumps
       if (ts < this.suppressHideUntil || ts < this.freezeNavUntil) {
         this.isHiding = false;
         this.isVisible = true;
-        this.lastRevealY = nextY; // keep baseline in sync during freeze
+        this.lastRevealY = nextY;
         return;
       }
 
@@ -180,13 +169,12 @@
         this.isHiding = true;
         this.isVisible = false;
       } else if (goingUp) {
-        // remain hidden while going up; only snap back at very top
+        // remain hidden while going up; only snap back at the very top
       }
     },
 
     /* ---------- Init ---------- */
     setup(){
-      // Set theme immediately to prevent paint flash
       document.documentElement.setAttribute('data-theme', this.theme);
 
       this.scroller = this.getScroller();
@@ -242,14 +230,13 @@
         window.removeEventListener('keydown', onKeyDown);
       };
 
-      // Detect same-page anchor clicks to freeze nav during jump scroll
+      // Freeze nav during same-page anchor jumps
       const onAnchorClick = (e) => {
         const a = e.target.closest && e.target.closest('a[href]');
         if (!a) return;
         const href = a.getAttribute('href');
         if (!href) return;
 
-        // Same-document hash (#id) OR same-path with hash
         const isHashOnly = href.startsWith('#');
         let isSamePathHash = false;
         if (!isHashOnly) {
@@ -350,27 +337,27 @@
       </div>
 
       <!-- Centered links (desktop) -->
-      <div class="hidden md:flex justify-center">
-        <ul class="flex items-center gap-2 md:gap-3 text-[13px] md:text-[15px]">
+      <div class="hidden md:flex justify-center w-full">
+        <ul class="nav-link-group flex items-stretch gap-0 text-[13px] md:text-[15px] px-0 py-1 whitespace-nowrap w-full max-w-[min(448px,100%)]">
           @foreach ($routes as $routeName)
-            <li class="relative">
+            @php $itemActive = request()->routeIs($routeName); @endphp
+            <li class="relative flex-1 min-w-0 nav-link-item {{ $itemActive ? 'nav-link-item-active' : '' }}">
               <x-nav.anchor-button :route="$routeName" label="{{ __('messages.' . $routeName) }}" variant="desktop" />
             </li>
           @endforeach
         </ul>
       </div>
 
-      <!-- Right: actions -->
+      <!-- Right: actions (unchanged: NO extra anchors) -->
       <div class="flex items-center gap-1.5 md:gap-2">
         <!-- Mobile hamburger -->
         <button
           class="md:hidden inline-flex items-center justify-center h-9 w-9 rounded-full focus-ring hover:shadow-sm transition"
           :aria-expanded="open.toString()" aria-controls="mobile-menu" aria-label="Toggle navigation menu"
           @click="toggleMenu()"
-          style="contain: layout paint; /* isolate icon crossfade */"
+          style="contain: layout paint;"
         >
           <span class="relative block h-6 w-6">
-            <!-- Hamburger -->
             <svg
               class="absolute inset-0 m-auto h-6 w-6 pointer-events-none transition-opacity duration-150 ease-out"
               :class="open ? 'opacity-0' : 'opacity-100'"
@@ -378,7 +365,6 @@
               fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
               <path d="M4 6h16M4 12h16M4 18h16"/>
             </svg>
-            <!-- Close -->
             <svg
               class="absolute inset-0 m-auto h-6 w-6 pointer-events-none transition-opacity duration-150 ease-out"
               :class="open ? 'opacity-100' : 'opacity-0'"
