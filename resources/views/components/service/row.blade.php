@@ -17,7 +17,14 @@
 --}}
 
 @php
-    $fullCopy = is_string($fullDescription) ? trim($fullDescription) : '';
+    $fullCopy = '';
+
+    if ($fullDescription instanceof \Illuminate\Contracts\Support\Htmlable) {
+        $fullCopy = trim($fullDescription->toHtml());
+    } elseif (is_string($fullDescription)) {
+        $fullCopy = trim($fullDescription);
+    }
+
     $hasFull = $fullCopy !== '';
     $contentId = 'svc-full-' . uniqid();
     $gridTemplate = $reversed

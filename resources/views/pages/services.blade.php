@@ -1,3 +1,7 @@
+@php
+  use Illuminate\Support\HtmlString;
+@endphp
+
 <x-layouts.base :title="__('services.title')">
   <div class="min-h-screen flex flex-col">
     <section
@@ -27,7 +31,7 @@
           <x-service.row
             :title="$title"
             :description="$description"
-            :fullDescription="$descriptionFull"
+            :fullDescription="new HtmlString($descriptionFull)"
             :image="$imageUrl"
             :imageAlt="$imageAlt"
             :reversed="($i % 2) === 0" />

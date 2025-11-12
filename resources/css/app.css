@@ -553,6 +553,21 @@ html:not([data-theme]) {
   .service-card__long {
     color: color-mix(in oklab, var(--text-default) 74%, transparent);
   }
+  .service-card__long ul,
+  .service-card__long ol {
+    margin: 0;
+    padding-left: 1.25rem;
+    list-style-position: outside;
+  }
+  .service-card__long ul {
+    list-style-type: disc;
+  }
+  .service-card__long ol {
+    list-style-type: decimal;
+  }
+  .service-card__long li {
+    margin-block: 0.35rem;
+  }
   .service-card__toggle {
     color: color-mix(in oklab, var(--color-brand-500) 88%, var(--color-brand-300) 12%);
   }
