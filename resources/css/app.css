@@ -64,6 +64,15 @@ html:not([data-theme]) {
   .page-wrapper {
     background-color: var(--bg-default);
   }
+  .hero-surface {
+    padding-top: var(--nav-top-h, 4rem);
+    min-height: min(80svh, 100vh);
+  }
+  @media (min-width: 768px) {
+    .hero-surface {
+      min-height: 100svh;
+    }
+  }
 
   /* Cards / Glass */
   .card {
@@ -488,7 +497,12 @@ html:not([data-theme]) {
     --hero-arrow-hide-offset: 10px;
   }
   .hero-arrow:active::before {
-    box-shadow: 0 8px 18px var(--hero-arrow-shadow);
+    background: var(--hero-arrow-bg-active, var(--hero-arrow-bg-hover));
+    box-shadow: 0 8px 18px var(--hero-arrow-shadow-hover, var(--hero-arrow-shadow));
+    transform: translateY(1px) scale(0.985);
+  }
+  .hero-arrow:active .hero-arrow__icon svg {
+    transform: translateX(0) scale(0.95);
   }
 
   .service-card {

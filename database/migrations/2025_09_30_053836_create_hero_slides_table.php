@@ -28,7 +28,6 @@ return new class extends Migration
 
             // Media
             $table->string('image_path')->nullable();       // background image path
-            $table->json('media_paths')->nullable();        // right-side media (array of paths)
 
             $table->timestamps();
         });

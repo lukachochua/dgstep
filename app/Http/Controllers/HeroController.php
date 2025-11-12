@@ -63,7 +63,6 @@ class HeroController extends Controller
                     'button_href' => $resolvedHref,
                     'button_text' => $buttonText,
                     'image'       => $slide->image_url,
-                    'media'       => $slide->media_urls,
                 ];
             })
             ->values()

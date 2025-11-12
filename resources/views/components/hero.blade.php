@@ -287,7 +287,8 @@
   x-init="init()"
   @keydown.arrow-right.prevent="next()" @keydown.arrow-left.prevent="prev()"
   tabindex="0" role="region" aria-roledescription="carousel" aria-label="DGstep hero"
-  class="hero-surface relative z-0 select-none overflow-hidden text-[color:var(--hero-ink)] min-h-[60svh] md:min-h-[100svh] touch-pan-y pb-16 md:pb-0">
+  class="hero-surface relative z-0 select-none overflow-hidden text-[color:var(--hero-ink)] touch-pan-y pb-16"
+  style="padding-top: 0;">
 
   <!-- Backgrounds -->
   <template x-for="(slide, index) in slides" :key="'bg-'+index">
@@ -313,12 +314,16 @@
   </template>
 
   <!-- Foreground -->
-  <div class="relative mt-36 md:mt-24 z-10 mx-auto max-w-[var(--container-content)] px-4 sm:px-6 md:px-8">
-    <div x-ref="inner" class="min-h-[calc(60svh-var(--navbar-h)-1rem)] md:min-h-[calc(100svh-var(--navbar-h)-1rem)] flex items-start md:items-center">
-      <div class="grid items-start md:items-center w-full gap-8 md:gap-12 lg:gap-16 grid-cols-1 md:grid-cols-2 xl:grid-cols-[0.7fr_1.3fr]">
-
-        <!-- LEFT: Text -->
-        <div class="w-full md:max-w-[48ch] justify-self-stretch md:justify-self-start relative z-10">
+  <div class="relative mt-24 md:mt-32 z-10 mx-auto max-w-[var(--container-content)] px-4 sm:px-6 md:px-8">
+    <div
+      x-ref="inner"
+      class="min-h-[calc(62svh-var(--navbar-h))]
+             md:min-h-[calc(92svh-var(--navbar-h)-2rem)]
+             flex flex-col items-center justify-start md:justify-center
+             gap-4 md:gap-7 text-center pt-0 pb-4 md:pt-20 md:pb-12"
+    >
+      <!-- Text -->
+        <div class="w-full max-w-[94ch] md:max-w-[106ch] relative z-10 px-2 mx-auto">
           <div class="relative" :style="window.innerWidth >= 768 ? `height:${textColH||0}px` : ''">
             <template x-for="(slide, index) in slides" :key="'txt-'+index">
               <div
@@ -332,17 +337,17 @@
                 x-transition:leave-end="opacity-0 -translate-y-2"
                 role="group" aria-roledescription="slide" :aria-label="`Slide ${index+1} of ${slides.length}`"
               >
-                <div :style="window.innerWidth >= 768 ? `min-height:${textBlockH||0}px` : ''">
-                  <h1 class="{{ $heroHeadingScale }} hero-heading leading-[1.08] tracking-tight [text-wrap:balance] text-left animate-fadeUp">
-                    <span x-text="slide.title"></span><br>
-                    <span class="hero-highlight" x-text="slide.highlight"></span>
+                <div :style="window.innerWidth >= 768 ? `min-height:${Math.max(220,(textBlockH||0)*0.8)}px` : `min-height:${Math.max(200,(textBlockH||0)*0.75)}px`" class="space-y-7 md:space-y-8">
+                  <h1 class="{{ $heroHeadingScale }} hero-heading leading-[1.18] tracking-tight [text-wrap:balance] text-center animate-fadeUp mx-auto space-y-5">
+                    <span class="block" x-text="slide.title"></span>
+                    <span class="hero-highlight block mx-auto" x-text="slide.highlight"></span>
                   </h1>
 
-                  <p class="mt-5 md:mt-4 {{ $heroSubtitleScale }} hero-subtitle leading-relaxed text-left animate-fadeUp"
+                  <p class="{{ $heroSubtitleScale }} hero-subtitle leading-relaxed text-center animate-fadeUp mx-auto max-w-[78ch] space-y-3"
                      style="animation-delay:.05s" x-text="slide.subtitle"></p>
                 </div>
 
-                <div class="mt-9 md:mt-7 flex flex-wrap items-center gap-3 justify-start hero-actions animate-fadeUp" style="animation-delay:.1s">
+                <div class="mt-12 md:mt-10 mb-14 md:mb-8 flex flex-wrap items-center gap-4 justify-center hero-actions animate-fadeUp" style="animation-delay:.1s">
                   <x-ui.button
                     x-show="slide.button_href || slide.button?.href || slide.button?.link || slide.button_link"
                     x-bind:href="slide.button_href || slide.button?.href || slide.button?.link || slide.button_link || '#'"
@@ -358,50 +363,23 @@
             </template>
           </div>
 
-          <div aria-hidden="true" class="invisible absolute -left-[9999px] top-auto" x-ref="textMeasure">
-            <template x-for="(slide, index) in slides" :key="'measure-'+index">
-              <div class="w-[48ch]" data-measure="slide">
-                <div data-measure="hgroup">
-                  <h1 class="{{ $heroHeadingScale }} hero-heading leading-[1.08] tracking-tight text-left">
-                    <span x-text="slide.title"></span><br>
-                    <span x-text="slide.highlight"></span>
-                  </h1>
-                  <p class="mt-5 md:mt-4 {{ $heroSubtitleScale }} hero-subtitle leading-relaxed" x-text="slide.subtitle"></p>
-                </div>
-                <div class="mt-9 md:mt-7 h-11"></div>
+        <div aria-hidden="true" class="invisible absolute -left-[9999px] top-auto text-center" x-ref="textMeasure">
+          <template x-for="(slide, index) in slides" :key="'measure-'+index">
+              <div class="w-[100ch]" data-measure="slide">
+              <div data-measure="hgroup" class="space-y-7 md:space-y-8">
+                <h1 class="{{ $heroHeadingScale }} hero-heading leading-[1.18] tracking-tight text-center space-y-5">
+                  <span class="block" x-text="slide.title"></span>
+                  <span class="hero-highlight block mx-auto" x-text="slide.highlight"></span>
+                </h1>
+                <p class="{{ $heroSubtitleScale }} hero-subtitle leading-relaxed text-center mx-auto max-w-[78ch] space-y-3" x-text="slide.subtitle"></p>
               </div>
-            </template>
-          </div>
-        </div>
-
-        <!-- RIGHT: Media -->
-        <div class="hidden md:block justify-self-end w-full min-w-0 relative z-0">
-          <a :href="slides[activeSlide]?.button_href ?? (slides[activeSlide]?.button?.href ?? slides[activeSlide]?.button?.link ?? slides[activeSlide]?.button_link ?? '#')"
-             class="block rounded-2xl overflow-hidden hero-media"
-             @mouseenter="stop('hover')"
-             @mouseleave="start('hover')"
-             @focusin="stop('focus')"
-             @focusout="start('focus')">
-            <div class="relative aspect-[16/9] md:max-h-[82vh]">
-              <template x-for="(src, i) in (slides[activeSlide]?.media || [])" :key="'media-'+i">
-                <img
-                  :src="src"
-                  :alt="slides[activeSlide]?.title || 'App preview'"
-                  x-show="true"
-                  x-transition:enter="transition ease-out duration-500"
-                  x-transition:enter-start="opacity-0 scale-[.995]"
-                  x-transition:enter-end="opacity-100 scale-100"
-                  x-transition:leave="transition ease-in duration-400"
-                  x-transition:leave-start="opacity-100 scale-100"
-                  x-transition:leave-end="opacity-0 scale-[.995]"
-                  class="absolute inset-0 w-full h-full object-cover object-center"
-                  loading="eager" decoding="async" fetchpriority="high"
-                />
-              </template>
+              <div class="mt-12 md:mt-10 h-11"></div>
             </div>
-          </a>
+          </template>
         </div>
       </div>
+
+      <!-- Media removed per request -->
     </div>
   </div>
 

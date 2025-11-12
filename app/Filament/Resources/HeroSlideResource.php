@@ -138,20 +138,6 @@ class HeroSlideResource extends Resource
                         ->acceptedFileTypes(['image/png', 'image/jpeg', 'image/webp', 'image/bmp'])
                         ->maxSize(8192)
                         ->helperText('Wide 16:9 image (≥2560×1440) recommended for the hero background.'),
-
-                    Forms\Components\FileUpload::make('media_paths')
-                        ->label('Foreground media gallery')
-                        ->image()
-                        ->multiple()
-                        ->reorderable()
-                        ->imageEditor()
-                        ->disk('public')
-                        ->directory('hero_media')
-                        ->visibility('public')
-                        ->acceptedFileTypes(['image/png', 'image/jpeg', 'image/webp', 'image/bmp'])
-                        ->maxFiles(6)
-                        ->maxSize(8192)
-                        ->helperText('Images appear on the right-hand preview. Maintain 16:9 for best fit.'),
                 ])
                 ->columns(2),
         ]);

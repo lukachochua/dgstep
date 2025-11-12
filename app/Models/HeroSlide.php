@@ -21,7 +21,6 @@ class HeroSlide extends Model
         'button_params',
         'button_url',
         'image_path',
-        'media_paths',
     ];
 
     /**
@@ -35,14 +34,12 @@ class HeroSlide extends Model
     ];
 
     protected $casts = [
-        'media_paths'             => 'array',
         'button_params'           => 'array',
     ];
 
     protected $appends = [
         'button_href',
         'image_url',
-        'media_urls',
     ];
 
     protected static function booted(): void
@@ -76,30 +73,6 @@ class HeroSlide extends Model
         }
 
         return url(Storage::disk('public')->url($this->image_path));
-    }
-
-    /**
-     * Right-side media image URLs (array) as absolute URLs.
-     */
-    public function getMediaUrlsAttribute(): array
-    {
-        $paths = $this->media_paths ?? [];
-
-        return collect($paths)
-            ->map(function (?string $path) {
-                if (!$path) {
-                    return null;
-                }
-
-                if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
-                    return $path;
-                }
-
-                return url(Storage::disk('public')->url($path));
-            })
-            ->filter()
-            ->values()
-            ->all();
     }
 
     public function getButtonHrefAttribute(): ?string
