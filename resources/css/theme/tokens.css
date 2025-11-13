@@ -166,11 +166,11 @@ html.fi:not(.dark) {
   --hero-headline-from: color-mix(in oklab, var(--color-brand-400) 58%, var(--color-brand-500) 42%);
   --hero-headline-to:   color-mix(in oklab, var(--color-brand-600) 62%, var(--color-brand-500) 38%);
   --hero-media-blur:    16px;
-  --hero-img-blur:      8px;
+  --hero-img-blur:      2px;
 
-  --hero-img-opacity: .12;
+  --hero-img-opacity: .25;
   --hero-img-blend:   screen;
-  --hero-overlay:     color-mix(in oklab, rgba(255,255,255,.62) 16%, transparent);
+  --hero-overlay:     color-mix(in oklab, rgba(255,255,255,.62) 2%, transparent);
 
   /* Dots & arrows */
   --hero-chip:        color-mix(in oklab, rgba(94,100,210,0.16) 65%, rgba(255,255,255,0.62));
