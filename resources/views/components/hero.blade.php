@@ -8,6 +8,24 @@
 
 @php
   $fallbackHeroCta = trans('messages.footer.cta');
+  $firstSlide = $slides[0] ?? null;
+  $slidesCount = count($slides);
+  $slidesCountDisplay = str_pad((string) max(1, $slidesCount), 2, '0', STR_PAD_LEFT);
+  $heroLocaleLabel = match (true) {
+    $isKaLocale && !$isEnLocale => 'KA',
+    $isEnLocale && !$isKaLocale => 'EN',
+    default => 'KA · EN',
+  };
+  $defaultHeroSubtitle = 'DGstep orchestrates every workflow in one secure platform.';
+  $heroCycleSeconds = number_format(7500 / 1000, 1);
+  $slideImages = [];
+  foreach ($slides as $slide) {
+    $image = $slide['image'] ?? null;
+    if (!empty($image)) {
+      $slideImages[] = $image;
+    }
+  }
+  $preloadImages = array_slice($slideImages, 1);
 @endphp
 
 <section
@@ -27,7 +45,8 @@
       prefersReduced: motionQuery.matches,
       motionQuery,
       manualPause: false,
-      slides: @js($slides),
+      slideCount: {{ $slidesCount }},
+      preloadImages: @js($preloadImages),
       gesture: { pointerId: null, startX: 0, startY: 0, startTime: 0, deltaX: 0, deltaY: 0, active: false },
       swipeThreshold: 48,
       swipeVerticalLimit: 80,
@@ -35,7 +54,7 @@
 
       canAuto() {
         const visible = this.$root?.offsetParent !== null;
-        return visible && !this.prefersReduced && this.slides.length > 1;
+        return visible && !this.prefersReduced && this.slideCount > 1;
       },
 
       clearTimers() {
@@ -118,20 +137,20 @@
       },
 
       next({ origin = 'manual' } = {}) {
-        if (!this.slides.length) return;
-        this.activeSlide = (this.activeSlide + 1) % this.slides.length;
+        if (!this.slideCount) return;
+        this.activeSlide = (this.activeSlide + 1) % this.slideCount;
         this.resumeCycle({ reset: true });
       },
 
       prev() {
-        if (!this.slides.length) return;
-        this.activeSlide = (this.activeSlide - 1 + this.slides.length) % this.slides.length;
+        if (!this.slideCount) return;
+        this.activeSlide = (this.activeSlide - 1 + this.slideCount) % this.slideCount;
         this.resumeCycle({ reset: true });
       },
 
       goTo(index) {
         if (index === this.activeSlide) return;
-        if (index >= 0 && index < this.slides.length) {
+        if (index >= 0 && index < this.slideCount) {
           this.activeSlide = index;
           this.resumeCycle({ reset: true });
         }
@@ -201,6 +220,10 @@
         this.resetGesture();
       },
 
+      isMobileLayout() {
+        return typeof window !== 'undefined' && window.matchMedia('(max-width: 1023px)').matches;
+      },
+
       measure() {
         const meas  = this.$refs.textMeasure;
         const inner = this.$refs.inner;
@@ -214,12 +237,40 @@
         let maxGroup = 0;
         meas.querySelectorAll('[data-measure=hgroup]').forEach(n => { maxGroup = Math.max(maxGroup, n.offsetHeight); });
 
-        const reservedCTA = 72;
-        this.textColH   = Math.min(avail, Math.max(360, Math.ceil(maxCol + 1)));
-        this.textBlockH = Math.min(this.textColH - reservedCTA, Math.max(220, Math.ceil(maxGroup + 1)));
+        const reservedCTA = 180;
+        const minBlock = 320;
+        const blockHeight = Math.max(minBlock, Math.ceil(maxGroup + 1));
+        this.textColH = Math.max(blockHeight + reservedCTA, 520);
+        this.textBlockH = this.textColH - reservedCTA;
+      },
+
+      stackHeightStyle() {
+        if (this.isMobileLayout()) return '';
+        const fallback = 520;
+        const min = 360;
+        const value = Math.max(min, this.textColH || fallback);
+        return `min-height:${value}px;`;
+      },
+
+      textBlockStyle() {
+        if (this.isMobileLayout()) return '';
+        const fallback = 320;
+        const min = 240;
+        const value = Math.max(min, this.textBlockH || fallback);
+        return `min-height:${value}px;height:${value}px`;
       },
 
       init() {
+        const preloadRest = () => {
+          if (!Array.isArray(this.preloadImages) || this.preloadImages.length === 0) return;
+          this.preloadImages.forEach((src) => {
+            if (!src) return;
+            const img = new Image();
+            img.src = src;
+          });
+        };
+
+        preloadRest();
         const visibilityHandler = () => document.hidden ? this.pauseCycle() : this.resumeCycle();
         const motionHandler = (event) => {
           this.prefersReduced = event.matches;
@@ -236,7 +287,9 @@
 
         this.$nextTick(() => {
           this.measure();
-          requestAnimationFrame(() => this.resumeCycle({ reset: true }));
+          requestAnimationFrame(() => {
+            this.resumeCycle({ reset: true });
+          });
         });
 
         const ro = new ResizeObserver(() => this.measure());
@@ -289,100 +342,301 @@
   tabindex="0" role="region" aria-roledescription="carousel" aria-label="DGstep hero"
   class="hero-surface relative z-0 select-none overflow-hidden text-[color:var(--hero-ink)] touch-pan-y pb-16"
   style="padding-top: 0;">
-
   <!-- Backgrounds -->
-  <template x-for="(slide, index) in slides" :key="'bg-'+index">
+  {{-- @foreach ($slides as $index => $slide)
     <div
-      x-show="activeSlide === index"
-      x-transition:enter="transition ease-out duration-700"
-      x-transition:enter-start="opacity-0"
-      x-transition:enter-end="opacity-100"
-      x-transition:leave="transition ease-in duration-500"
-      x-transition:leave-start="opacity-100"
-      x-transition:leave-end="opacity-0"
+      x-show="activeSlide === {{ $index }}"
+      style="{{ $index === 0 ? '' : 'display:none;' }}"
       class="pointer-events-none absolute inset-0" aria-hidden="true"
     >
-      <img
-        :src="slide.image"
-        alt=""
-        :loading="index === 0 ? 'eager' : 'lazy'"
-        :fetchpriority="index === 0 ? 'high' : 'low'"
-        decoding="async"
-        class="hero-bgimg w-full h-full object-cover opacity-[var(--hero-img-opacity)] mix-blend-[var(--hero-img-blend)]"
-      />
+      @if(!empty($slide['image']))
+        <img
+          src="{{ $slide['image'] }}"
+          alt=""
+          loading="{{ $index === 0 ? 'eager' : 'lazy' }}"
+          fetchpriority="{{ $index === 0 ? 'high' : 'auto' }}"
+          decoding="async"
+          class="hero-bgimg w-full h-full object-cover opacity-[var(--hero-img-opacity)] mix-blend-[var(--hero-img-blend)]"
+        />
+      @endif
     </div>
-  </template>
+  @endforeach --}}
+
+  <div aria-hidden="true" class="hero-cyber-layers absolute inset-0 z-[1] pointer-events-none">
+    <div class="hero-cyber-grid"></div>
+    <div class="hero-cyber-gradient hero-cyber-gradient--one"></div>
+    <div class="hero-cyber-gradient hero-cyber-gradient--two"></div>
+    <div class="hero-cyber-scanline"></div>
+  </div>
 
   <!-- Foreground -->
-  <div class="relative mt-24 md:mt-32 z-10 mx-auto max-w-[var(--container-content)] px-4 sm:px-6 md:px-8">
-    <div
-      x-ref="inner"
-      class="min-h-[calc(62svh-var(--navbar-h))]
-             md:min-h-[calc(92svh-var(--navbar-h)-2rem)]
-             flex flex-col items-center justify-start md:justify-center
-             gap-4 md:gap-7 text-center pt-0 pb-4 md:pt-20 md:pb-12"
-    >
-      <!-- Text -->
-        <div class="w-full max-w-[94ch] md:max-w-[106ch] relative z-10 px-2 mx-auto">
-          <div class="relative" :style="window.innerWidth >= 768 ? `height:${textColH||0}px` : ''">
-            <template x-for="(slide, index) in slides" :key="'txt-'+index">
-              <div
-                x-show="activeSlide === index" x-cloak
-                class="absolute inset-0"
-                x-transition:enter="transition ease-out duration-600"
-                x-transition:enter-start="opacity-0 translate-y-2"
-                x-transition:enter-end="opacity-100 translate-y-0"
-                x-transition:leave="transition ease-in duration-450"
-                x-transition:leave-start="opacity-100 translate-y-0"
-                x-transition:leave-end="opacity-0 -translate-y-2"
-                role="group" aria-roledescription="slide" :aria-label="`Slide ${index+1} of ${slides.length}`"
+  <div class="relative mt-20 sm:mt-24 lg:mt-28 z-10 mx-auto max-w-[var(--container-content)] px-4 sm:px-6 md:px-8">
+    <!-- Mobile: render hero copy inside the same card styling -->
+    <div class="md:hidden">
+      <div class="w-full max-w-2xl mx-auto">
+        <div class="hero-mobile-systems" style="min-height: 65vh; height: 65vh; max-height: 65vh;">
+          <div class="hero-mobile-systems__stack relative h-full overflow-hidden">
+            @foreach ($slides as $index => $slide)
+              @php
+                $slideNumber = str_pad($index + 1, 2, '0', STR_PAD_LEFT);
+                $slideTitle = data_get($slide, 'title');
+                $slideHighlight = data_get($slide, 'highlight');
+                $buttonHref = data_get($slide, 'button.href')
+                  ?? data_get($slide, 'button.link')
+                  ?? data_get($slide, 'button_href')
+                  ?? data_get($slide, 'button_link');
+                $buttonText = data_get($slide, 'button.text')
+                  ?? data_get($slide, 'button_text')
+                  ?? $fallbackHeroCta;
+                $slideSubtitleRaw = data_get($slide, 'subtitle');
+                $slideSubtitle = is_string($slideSubtitleRaw) ? trim($slideSubtitleRaw) : '';
+                $systemsSubtitle = $slideSubtitle !== '' ? $slideSubtitle : $defaultHeroSubtitle;
+              @endphp
+              <article
+                x-show="activeSlide === {{ $index }}"
+                style="{{ $index === 0 ? '' : 'display:none;' }}"
+                class="hero-systems-card flex flex-col h-full"
               >
-                <div :style="window.innerWidth >= 768 ? `min-height:${Math.max(220,(textBlockH||0)*0.8)}px` : `min-height:${Math.max(200,(textBlockH||0)*0.75)}px`" class="space-y-7 md:space-y-8">
-                  <h1 class="{{ $heroHeadingScale }} hero-heading leading-[1.18] tracking-tight [text-wrap:balance] text-center animate-fadeUp mx-auto space-y-5">
-                    <span class="block" x-text="slide.title"></span>
-                    <span class="hero-highlight block mx-auto" x-text="slide.highlight"></span>
-                  </h1>
-
-                  <p class="{{ $heroSubtitleScale }} hero-subtitle leading-relaxed text-center animate-fadeUp mx-auto max-w-[78ch] space-y-3"
-                     style="animation-delay:.05s" x-text="slide.subtitle"></p>
+                <div class="hero-systems-panel hero-systems-panel--mobile hero-systems-panel--copy">
+                  <div class="hero-systems-panel__header">
+                    <span class="hero-systems-chip">{{ $heroLocaleLabel }}</span>
+                    <span class="hero-systems-cycle">Cycle {{ $heroCycleSeconds }}s</span>
+                    <span class="hero-systems-id">Slide {{ $slideNumber }}/{{ $slidesCountDisplay }}</span>
+                  </div>
+                  <div class="hero-systems-panel__body hero-systems-panel__body--copy text-left">
+                    <div class="hero-systems-body hero-systems-body--copy">
+                      <h1 class="{{ $heroHeadingScale }} hero-heading hero-cyber-title leading-[1.08] tracking-tight [text-wrap:balance] space-y-3">
+                        <span class="block">{{ $slideTitle }}</span>
+                        <span class="hero-highlight block">{{ $slideHighlight }}</span>
+                      </h1>
+                      <p class="{{ $heroSubtitleScale }} hero-subtitle leading-relaxed">{{ $systemsSubtitle }}</p>
+                    </div>
+                    <div class="hero-actions hero-actions--mobile justify-start">
+                      @if ($buttonHref)
+                        <x-ui.button
+                          href="{{ $buttonHref }}"
+                          x-on:mouseenter="stop('hover')"
+                          x-on:mouseleave="start('hover')"
+                          x-on:focusin="stop('focus')"
+                          x-on:focusout="start('focus')"
+                          variant="hero" size="lg" class="shrink-0">
+                          <span>{{ $buttonText }}</span>
+                        </x-ui.button>
+                      @endif
+                    </div>
+                  </div>
                 </div>
-
-                <div class="mt-12 md:mt-10 mb-14 md:mb-8 flex flex-wrap items-center gap-4 justify-center hero-actions animate-fadeUp" style="animation-delay:.1s">
-                  <x-ui.button
-                    x-show="slide.button_href || slide.button?.href || slide.button?.link || slide.button_link"
-                    x-bind:href="slide.button_href || slide.button?.href || slide.button?.link || slide.button_link || '#'"
-                    x-on:mouseenter="stop('hover')"
-                    x-on:mouseleave="start('hover')"
-                    x-on:focusin="stop('focus')"
-                    x-on:focusout="start('focus')"
-                    variant="hero" size="lg" class="shrink-0">
-                    <span x-text="slide.button?.text ?? slide.button_text ?? @js($fallbackHeroCta)"></span>
-                  </x-ui.button>
-                </div>
-              </div>
-            </template>
+              </article>
+            @endforeach
           </div>
-
-        <div aria-hidden="true" class="invisible absolute -left-[9999px] top-auto text-center" x-ref="textMeasure">
-          <template x-for="(slide, index) in slides" :key="'measure-'+index">
-              <div class="w-[100ch]" data-measure="slide">
-              <div data-measure="hgroup" class="space-y-7 md:space-y-8">
-                <h1 class="{{ $heroHeadingScale }} hero-heading leading-[1.18] tracking-tight text-center space-y-5">
-                  <span class="block" x-text="slide.title"></span>
-                  <span class="hero-highlight block mx-auto" x-text="slide.highlight"></span>
-                </h1>
-                <p class="{{ $heroSubtitleScale }} hero-subtitle leading-relaxed text-center mx-auto max-w-[78ch] space-y-3" x-text="slide.subtitle"></p>
-              </div>
-              <div class="mt-12 md:mt-10 h-11"></div>
-            </div>
-          </template>
         </div>
       </div>
+    </div>
 
-      <!-- Media removed per request -->
+    <!-- Desktop: Both sides visible -->
+    <div class="hidden md:block">
+      <div
+        x-ref="inner"
+        class="hero-cyber-layout hero-split-card min-h-[80svh]
+               md:min-h-[calc(94svh-var(--navbar-h)-1.5rem)]
+               grid grid-cols-1 lg:grid-cols-2
+               items-stretch gap-10 md:gap-14"
+      >
+        <!-- Left: Text Column -->
+        <div class="w-full max-w-4xl relative z-10 mx-auto flex flex-col justify-center">
+          <div class="hero-info-card text-center md:text-left" :style="stackHeightStyle()">
+            <div class="relative hero-slide-stack" :style="stackHeightStyle()">
+              @foreach ($slides as $index => $slide)
+                @php
+                  $slideNumber = str_pad($index + 1, 2, '0', STR_PAD_LEFT);
+                  $slideTitle = data_get($slide, 'title');
+                  $slideHighlight = data_get($slide, 'highlight');
+                  $buttonHref = data_get($slide, 'button.href')
+                    ?? data_get($slide, 'button.link')
+                    ?? data_get($slide, 'button_href')
+                    ?? data_get($slide, 'button_link');
+                  $buttonText = data_get($slide, 'button.text')
+                    ?? data_get($slide, 'button_text')
+                    ?? $fallbackHeroCta;
+                  $slideSubtitleRaw = data_get($slide, 'subtitle');
+                  $slideSubtitle = is_string($slideSubtitleRaw) ? trim($slideSubtitleRaw) : '';
+                  $slideMetrics = data_get($slide, 'metrics');
+                  $slideMetrics = is_array($slideMetrics) ? $slideMetrics : [];
+                  $automationDefault = min(99.9, 88 + ($index * 3.25));
+                  $slideTelemetry = [
+                    'automation' => $slideMetrics['automation'] ?? number_format($automationDefault, 1) . '%',
+                    'latency' => $slideMetrics['latency'] ?? number_format(0.24 + $index * 0.05, 2) . 's',
+                    'throughput' => $slideMetrics['throughput'] ?? number_format(22 + $index * 4) . 'k ops',
+                    'uptime' => $slideMetrics['uptime'] ?? '99.982%',
+                  ];
+                  $systemsSubtitle = $slideSubtitle !== '' ? $slideSubtitle : $defaultHeroSubtitle;
+                @endphp
+                <article
+                  x-show="activeSlide === {{ $index }}"
+                  style="{{ $index === 0 ? '' : 'display:none;' }}"
+                  class="hero-slide-panel absolute inset-0 flex flex-col"
+                  role="group"
+                  aria-roledescription="slide"
+                  aria-label="Slide {{ $index + 1 }} of {{ $slidesCount }}"
+                  x-bind:aria-hidden="activeSlide !== {{ $index }}"
+                  :class="{ 'pointer-events-none': activeSlide !== {{ $index }}, 'pointer-events-auto': activeSlide === {{ $index }} }"
+                >
+                  <div
+                    class="hero-slide-body"
+                    :style="textBlockStyle()"
+                    x-show="activeSlide === {{ $index }}"
+                    x-transition:enter="transition-opacity ease-out duration-300"
+                    x-transition:enter-start="opacity-0"
+                    x-transition:enter-end="opacity-100"
+                    x-transition:leave="transition-opacity ease-in duration-200"
+                    x-transition:leave-start="opacity-100"
+                    x-transition:leave-end="opacity-0"
+                  >
+                    <div class="space-y-6 md:space-y-8">
+                      <h1 class="{{ $heroHeadingScale }} hero-heading hero-cyber-title leading-[1.05] tracking-tight [text-wrap:balance] mx-auto md:mx-0 space-y-4">
+                        <span class="block">{{ $slideTitle }}</span>
+                        <span class="hero-highlight block">{{ $slideHighlight }}</span>
+                      </h1>
+                    </div>
+                  </div>
+                  <div
+                    class="hero-slide-footer"
+                    x-show="activeSlide === {{ $index }}"
+                  >
+                    <div class="hero-actions">
+                      @if ($buttonHref)
+                        <x-ui.button
+                          href="{{ $buttonHref }}"
+                          x-on:mouseenter="stop('hover')"
+                          x-on:mouseleave="start('hover')"
+                          x-on:focusin="stop('focus')"
+                          x-on:focusout="start('focus')"
+                          variant="hero" size="lg" class="shrink-0">
+                          <span>{{ $buttonText }}</span>
+                        </x-ui.button>
+                      @endif
+                    </div>
+                  </div>
+                </article>
+              @endforeach
+            </div>
+          </div>
+
+          <div aria-hidden="true" class="invisible absolute -left-[9999px] top-auto text-left md:text-left" x-ref="textMeasure">
+            @foreach ($slides as $index => $slide)
+              @php
+                $slideNumber = str_pad($index + 1, 2, '0', STR_PAD_LEFT);
+                $slideTitle = data_get($slide, 'title');
+                $slideHighlight = data_get($slide, 'highlight');
+                $slideSubtitleRaw = data_get($slide, 'subtitle');
+                $slideSubtitle = is_string($slideSubtitleRaw) ? trim($slideSubtitleRaw) : '';
+              @endphp
+              <div class="w-[100ch]" data-measure="slide">
+                <div data-measure="hgroup" class="space-y-7 md:space-y-8">
+                  <h1 class="{{ $heroHeadingScale }} hero-heading hero-cyber-title leading-[1.1] tracking-tight space-y-4">
+                    <span class="block">{{ $slideTitle }}</span>
+                    <span class="hero-highlight block">{{ $slideHighlight }}</span>
+                  </h1>
+                </div>
+                <div class="hero-actions hero-actions--measure">
+                  <span class="inline-flex h-12 w-48 rounded-full border border-white/20"></span>
+                </div>
+              </div>
+            @endforeach
+          </div>
+        </div>
+
+        <!-- Right: Systems Panel -->
+        <div class="hero-cyber-visual w-full max-w-xl lg:max-w-2xl mx-auto relative flex flex-col justify-center">
+          <div class="hero-orb hero-orb--primary" aria-hidden="true"></div>
+          <div class="hero-orb hero-orb--secondary" aria-hidden="true"></div>
+          <div class="hero-cyber-frame relative w-full">
+            <div class="hero-systems-stack relative w-full">
+              @foreach ($slides as $index => $slide)
+                @php
+                  $slideNumber = str_pad($index + 1, 2, '0', STR_PAD_LEFT);
+                  $slideTitle = data_get($slide, 'title');
+                  $slideSubtitleRaw = data_get($slide, 'subtitle');
+                  $slideSubtitle = is_string($slideSubtitleRaw) ? trim($slideSubtitleRaw) : '';
+                  $systemsSubtitle = $slideSubtitle !== '' ? $slideSubtitle : $defaultHeroSubtitle;
+                  $slideMetrics = data_get($slide, 'metrics');
+                  $slideMetrics = is_array($slideMetrics) ? $slideMetrics : [];
+                  $automationDefault = min(99.9, 88 + ($index * 3.25));
+                  $slideTelemetry = [
+                    'automation' => $slideMetrics['automation'] ?? number_format($automationDefault, 1) . '%',
+                    'latency' => $slideMetrics['latency'] ?? number_format(0.24 + $index * 0.05, 2) . 's',
+                    'throughput' => $slideMetrics['throughput'] ?? number_format(22 + $index * 4) . 'k ops',
+                    'uptime' => $slideMetrics['uptime'] ?? '99.982%',
+                  ];
+                  $heroImage = data_get($slide, 'image');
+                  $heroImageAlt = is_string($slideTitle) && trim($slideTitle) !== '' ? $slideTitle : 'DGstep hero visual';
+                @endphp
+                <article
+                  x-show="activeSlide === {{ $index }}"
+                  style="{{ $index === 0 ? '' : 'display:none;' }}"
+                  class="hero-systems-card hero-systems-layer absolute inset-0 flex flex-col"
+                  role="group"
+                  aria-roledescription="slide"
+                  aria-label="Slide {{ $index + 1 }} of {{ $slidesCount }}"
+                  x-bind:aria-hidden="activeSlide !== {{ $index }}"
+                  :class="{ 'pointer-events-none': activeSlide !== {{ $index }}, 'pointer-events-auto': activeSlide === {{ $index }} }"
+                >
+                  <div class="hero-systems-panel flex flex-col flex-1">
+                    <div class="hero-systems-panel__header">
+                      <span class="hero-systems-chip">{{ $heroLocaleLabel }}</span>
+                      <span class="hero-systems-cycle">Cycle {{ $heroCycleSeconds }}s</span>
+                      <span class="hero-systems-id">Slide {{ $slideNumber }}/{{ $slidesCountDisplay }}</span>
+                    </div>
+                    <div class="hero-systems-panel__body">
+                      <div
+                        class="hero-systems-body"
+                        x-show="activeSlide === {{ $index }}"
+                        x-transition:enter="transition-opacity ease-out duration-300"
+                        x-transition:enter-start="opacity-0"
+                        x-transition:enter-end="opacity-100"
+                        x-transition:leave="transition-opacity ease-in duration-200"
+                        x-transition:leave-start="opacity-100"
+                        x-transition:leave-end="opacity-0"
+                      >
+                        <p class="hero-systems-panel__subtitle">{{ $systemsSubtitle }}</p>
+
+                        @if ($heroImage)
+                          <div class="hero-visual-card-wrapper">
+                            <figure class="hero-media hero-visual-card rounded-[28px] overflow-hidden">
+                              <img
+                                src="{{ $heroImage }}"
+                                alt="{{ $heroImageAlt }}"
+                                loading="{{ $index === 0 ? 'eager' : 'lazy' }}"
+                                fetchpriority="{{ $index === 0 ? 'high' : 'auto' }}"
+                                decoding="async"
+                                class="hero-visual-card__img"
+                              />
+                            </figure>
+                          </div>
+                        @endif
+                      </div>
+
+                      <div class="hero-systems-footer hero-systems-footer--status">
+                        <div class="hero-telemetry__signal hero-telemetry__signal--solo" aria-label="Uptime status">
+                          <span>Uptime</span>
+                          <span>{{ $slideTelemetry['uptime'] }}</span>
+                          <span class="hero-telemetry__bars" aria-hidden="true">
+                            <span></span><span></span><span></span><span></span>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              @endforeach
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
+  <!-- Navigation Arrows (Desktop) -->
   <div class="hidden md:block absolute bottom-24 left-4 translate-y-0 z-20 md:bottom-auto md:top-1/2 md:left-5 md:-translate-y-1/2">
     <button type="button" @click="prev()" aria-label="Previous slide" class="hero-arrow focus-ring" data-direction="prev">
       <span class="hero-arrow__icon" aria-hidden="true">
@@ -402,21 +656,23 @@
     </button>
   </div>
 
+  <!-- Dots Navigation (Desktop) -->
   <div class="hidden md:flex absolute bottom-7 left-1/2 -translate-x-1/2 space-x-3 z-20" role="tablist" aria-label="Hero slides">
-    <template x-for="(slide, index) in slides" :key="'dot-'+index">
+    @foreach ($slides as $index => $slide)
       <button
         type="button" role="tab"
-        :aria-selected="activeSlide === index"
-        :tabindex="activeSlide === index ? 0 : -1"
-        @click="goTo(index)"
-        :aria-label="`Go to slide ${index+1}`"
+        :aria-selected="activeSlide === {{ $index }}"
+        :tabindex="activeSlide === {{ $index }} ? 0 : -1"
+        @click="goTo({{ $index }})"
+        aria-label="Go to slide {{ $index + 1 }}"
         class="hero-dot transition"
-        :style="dotStyle(index)"
-        :class="{ 'is-active': activeSlide === index }">
+        :style="dotStyle({{ $index }})"
+        :class="{ 'is-active': activeSlide === {{ $index }} }">
       </button>
-    </template>
+    @endforeach
   </div>
 
+  <!-- Mobile Controls -->
   <div class="md:hidden px-4 sm:px-6 mt-10">
     <div class="flex items-center justify-between gap-6">
       <button type="button" @click="prev()" aria-label="Previous slide" class="hero-arrow hero-arrow--compact focus-ring" data-direction="prev">
@@ -428,18 +684,18 @@
       </button>
 
       <div class="flex flex-1 justify-center gap-3" role="tablist" aria-label="Hero slides">
-        <template x-for="(slide, index) in slides" :key="'dot-mobile-'+index">
+        @foreach ($slides as $index => $slide)
           <button
             type="button" role="tab"
-            :aria-selected="activeSlide === index"
-            :tabindex="activeSlide === index ? 0 : -1"
-            @click="goTo(index)"
-            :aria-label="`Go to slide ${index+1}`"
+            :aria-selected="activeSlide === {{ $index }}"
+            :tabindex="activeSlide === {{ $index }} ? 0 : -1"
+            @click="goTo({{ $index }})"
+            aria-label="Go to slide {{ $index + 1 }}"
             class="hero-dot transition"
-            :style="dotStyle(index)"
-            :class="{ 'is-active': activeSlide === index }">
+            :style="dotStyle({{ $index }})"
+            :class="{ 'is-active': activeSlide === {{ $index }} }">
           </button>
-        </template>
+        @endforeach
       </div>
 
       <button type="button" @click="next()" aria-label="Next slide" class="hero-arrow hero-arrow--compact focus-ring" data-direction="next">
