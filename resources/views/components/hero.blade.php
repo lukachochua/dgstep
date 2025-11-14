@@ -370,7 +370,7 @@
   </div>
 
   <!-- Foreground -->
-  <div class="relative mt-20 sm:mt-24 lg:mt-28 z-10 mx-auto max-w-[var(--container-content)] px-4 sm:px-6 md:px-8">
+  <div class="relative hero-stack-offset z-10 mx-auto max-w-[var(--container-content)] px-4 sm:px-6 md:px-8">
     <!-- Mobile: render hero copy inside the same card styling -->
     <div class="md:hidden">
       <div class="w-full max-w-2xl mx-auto">
