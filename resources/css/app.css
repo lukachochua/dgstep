@@ -915,6 +915,13 @@ html:not([data-theme]) {
     letter-spacing: -0.03em;
     text-shadow: none;
   }
+  .hero-slide-body {
+    min-height: 560px;
+  }
+
+  .hero-slide-stack {
+    min-height: 720px;
+  }
   .hero-subtitle {
     color: var(--hero-ink-muted);
     text-shadow: none;
