@@ -307,23 +307,35 @@
 
                   <!-- ABSOLUTE TEXT FRAME: no layout shift -->
                   <div class="hero-systems-panel__body hero-systems-panel__body--copy text-left relative min-h-[260px]">
-                    <div class="absolute inset-0 grid place-items-center"
-                         x-transition:enter="transition ease-out duration-450"
-                         x-transition:enter-start="opacity-0"
-                         x-transition:enter-end="opacity-100"
-                         x-transition:leave="transition ease-in duration-300"
-                         x-transition:leave-start="opacity-100"
-                         x-transition:leave-end="opacity-0">
+                    <div class="absolute inset-0 grid place-items-center">
                       <div class="hero-systems-body hero-systems-body--copy">
                         <div class="flex items-center gap-3 text-xs uppercase tracking-[0.28em] text-[color:var(--hero-ink-muted)]">
                           <span class="inline-flex h-2 w-2 rounded-full bg-[color:var(--color-electric-sky)] shadow-[0_0_0_8px_rgba(111,120,255,0.14)]"></span>
                           <span>Tbilisi noise · Global focus</span>
                         </div>
-                        <h1 class="{{ $heroHeadingScale }} hero-heading hero-cyber-title leading-[1.08] tracking-tight [text-wrap:balance] space-y-3 text-center">
+                        <h1
+                          class="{{ $heroHeadingScale }} hero-heading hero-cyber-title leading-[1.08] tracking-tight [text-wrap:balance] space-y-3 text-center"
+                          x-transition:enter="transition transform opacity ease-out duration-500"
+                          x-transition:enter-start="opacity-0 translate-y-4"
+                          x-transition:enter-end="opacity-100 translate-y-0"
+                          x-transition:leave="transition transform opacity ease-in duration-300"
+                          x-transition:leave-start="opacity-100 translate-y-0"
+                          x-transition:leave-end="opacity-0 translate-y-2"
+                        >
                           <span class="block">{{ $slideTitle }}</span>
                           <span class="hero-highlight block">{{ $slideHighlight }}</span>
                         </h1>
-                        <p class="{{ $heroSubtitleScale }} hero-subtitle leading-relaxed text-center">{{ $systemsSubtitle }}</p>
+                        <p
+                          class="{{ $heroSubtitleScale }} hero-subtitle leading-relaxed text-center"
+                          x-transition:enter="transition transform opacity ease-out duration-500 delay-100"
+                          x-transition:enter-start="opacity-0 translate-y-3"
+                          x-transition:enter-end="opacity-100 translate-y-0"
+                          x-transition:leave="transition transform opacity ease-in duration-300"
+                          x-transition:leave-start="opacity-100 translate-y-0"
+                          x-transition:leave-end="opacity-0 translate-y-1"
+                        >
+                          {{ $systemsSubtitle }}
+                        </p>
                       </div>
                     </div>
 
@@ -368,7 +380,7 @@
       >
         <div class="w-full max-w-5xl relative z-10 mx-auto flex flex-col justify-center">
           <div class="hero-info-card text-center" :style="stackHeightStyle()">
-            <div class="relative hero-slide-stack min-h-[520px] md:min-h-[560px]" :style="stackHeightStyle()">
+            <div class="hero-slide-stack min-h-[520px] md:min-h-[560px]" :style="stackHeightStyle()">
               @foreach ($slides as $index => $slide)
                 @php
                   $slideNumber = str_pad($index + 1, 2, '0', STR_PAD_LEFT);
@@ -404,33 +416,43 @@
                     :style="textBlockStyle()"
                     x-show="activeSlide === {{ $index }}"
                   >
-                    <div class="absolute inset-0 grid place-items-center"
-                         x-transition:enter="transition ease-out duration-500 delay-75"
-                         x-transition:enter-start="opacity-0"
-                         x-transition:enter-end="opacity-100"
-                         x-transition:leave="transition ease-in duration-300"
-                         x-transition:leave-start="opacity-100"
-                         x-transition:leave-end="opacity-0">
+                    <div class="absolute inset-0 grid place-items-center">
                       <div class="flex flex-col items-center justify-center gap-6 md:gap-8 text-center">
                         <div class="flex items-center justify-center gap-3 text-xs uppercase tracking-[0.28em] text-[color:var(--hero-ink-muted)]">
                           <span class="inline-flex h-2 w-2 rounded-full bg-[color:var(--color-electric-sky)] shadow-[0_0_0_8px_rgba(111,120,255,0.14)]"></span>
                           <span>Tbilisi noise · Global focus</span>
                         </div>
-                        <h1 class="{{ $heroHeadingScale }} hero-heading hero-cyber-title leading-[1.05] tracking-tight [text-wrap:balance] mx-auto space-y-4 text-center mt-6 md:mt-8">
+                        <h1
+                          class="{{ $heroHeadingScale }} hero-heading hero-cyber-title leading-[1.05] tracking-tight [text-wrap:balance] mx-auto space-y-4 text-center mt-6 md:mt-8"
+                          x-transition:enter="transition transform opacity ease-out duration-500"
+                          x-transition:enter-start="opacity-0 translate-y-4"
+                          x-transition:enter-end="opacity-100 translate-y-0"
+                          x-transition:leave="transition transform opacity ease-in duration-300"
+                          x-transition:leave-start="opacity-100 translate-y-0"
+                          x-transition:leave-end="opacity-0 translate-y-2"
+                        >
                           <span class="block">{{ $slideTitle }}</span>
                           <span class="hero-highlight block">{{ $slideHighlight }}</span>
                         </h1>
                         <div class="flex flex-wrap items-center justify-center gap-3 text-xs uppercase tracking-[0.24em] text-[color:var(--hero-ink-muted)]">
                           <span class="inline-flex h-px w-10 bg-gradient-to-r from-white/10 via-white/60 to-white/10"></span>
                         </div>
-                        <p class="{{ $heroSubtitleScale }} hero-subtitle leading-relaxed text-[color:var(--hero-ink-muted)] max-w-3xl mx-auto text-center mt-4 md:mt-5">
+                        <p
+                          class="{{ $heroSubtitleScale }} hero-subtitle leading-relaxed text-[color:var(--hero-ink-muted)] max-w-3xl mx-auto text-center mt-4 md:mt-5"
+                          x-transition:enter="transition transform opacity ease-out duration-500 delay-100"
+                          x-transition:enter-start="opacity-0 translate-y-3"
+                          x-transition:enter-end="opacity-100 translate-y-0"
+                          x-transition:leave="transition transform opacity ease-in duration-300"
+                          x-transition:leave-start="opacity-100 translate-y-0"
+                          x-transition:leave-end="opacity-0 translate-y-1"
+                        >
                           {{ $systemsSubtitle }}
                         </p>
                       </div>
                     </div>
                   </div>
 
-                  @if ($heroImage)
+                  {{-- @if ($heroImage)
                     <div class="relative max-w-4xl mx-auto w-full overflow-hidden rounded-[28px] border border-white/10 min-h-[320px] md:min-h-[360px]">
                       <img
                         src="{{ $heroImage }}"
@@ -442,7 +464,7 @@
                       />
                       <div class="absolute inset-0 bg-[color:var(--hero-overlay)]/35 backdrop-blur-xl" aria-hidden="true"></div>
                     </div>
-                  @endif
+                  @endif --}}
 
                   <div class="hero-slide-footer pt-4 md:pt-6" x-show="activeSlide === {{ $index }}">
                     <div class="flex flex-col items-center gap-4">

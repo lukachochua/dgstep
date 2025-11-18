@@ -901,6 +901,7 @@ html:not([data-theme]) {
   }
   .hero-cyber-layout {
     align-items: stretch;
+    max-height: 76vh;
   }
   .hero-highlight {
     background-image: linear-gradient(98deg, var(--hero-headline-from), var(--hero-headline-to));
