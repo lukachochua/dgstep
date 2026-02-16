@@ -40,6 +40,37 @@ return [
                 ],
             ],
         ],
+        'ui' => [
+            'insights_aria' => 'ოპერაციული ინდიკატორები',
+            'slide_label' => 'სლაიდი',
+            'coverage_label' => 'ხელმისაწვდომობა',
+            'coverage_value' => '24/7',
+            'delivery_label' => 'დანერგვა',
+            'delivery_value' => '4-8 კვირა',
+            'tag_workflow' => 'პროცესების ორკესტრაცია',
+            'tag_compliance' => 'კომპლაიანსისთვის მზად',
+            'tag_smb' => 'SMB ფოკუსი',
+            'prev_slide' => 'წინა სლაიდი',
+            'next_slide' => 'შემდეგი სლაიდი',
+        ],
+    ],
+
+    'home_metrics' => [
+        'focus' => [
+            'label' => 'ფოკუსი',
+            'value' => 'SMB + ოპერაციები',
+            'description' => 'ოპერაციული პროგრამული უზრუნველყოფა რეალური ყოველდღიური პროცესებისთვის.',
+        ],
+        'technology' => [
+            'label' => 'ტექნოლოგია',
+            'value' => 'Laravel',
+            'description' => 'სანდო ბექენდი და მოქნილი ინტეგრაციები.',
+        ],
+        'approach' => [
+            'label' => 'მიდგომა',
+            'value' => 'მორგებული',
+            'description' => 'ყველა პროდუქტი თქვენს პროცესებსა და გუნდზეა მორგებული.',
+        ],
     ],
 
     'features' => [

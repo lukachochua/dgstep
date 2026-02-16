@@ -12,8 +12,8 @@ return [
             'description' => 'Multi-branch pawn management system with loan tracking, redemptions, accounting export, and SMS integrations — compliant with Georgian law.',
         ],
         [
-            'title' => 'Locksmith Booking App',
-            'description' => 'Real-time dispatch platform for locksmith teams. Customers book, track, and rate visits. Admins manage availability.',
+            'title' => 'Warehouse Management App',
+            'description' => 'End-to-end warehouse and distribution platform: orders and supply receipts, live stock ledger with movements/reservations/transfers, dispatch workflows, and RS.GE waybill integration.',
         ],
         [
             'title' => 'DGstep Core Toolkit',
@@ -22,4 +22,6 @@ return [
     ],
 
     'cta' => 'Start a Project with Us',
+    'cta_heading' => 'Need a custom platform?',
+    'cta_description' => 'Share your workflow and we will map an implementation path.',
 ];

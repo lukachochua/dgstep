@@ -1,16 +1,15 @@
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}" class="scroll-smooth" data-theme="light">
+<html lang="{{ app()->getLocale() }}" data-theme="light" class="scroll-smooth">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{{ $title ?? 'DGstep' }}</title>
 
-    {{-- Pre-init theme to avoid flash (single source of truth: dg:theme) --}}
     <script>
       (function () {
         try {
-          var KEY = 'dg:theme';
-          var saved = localStorage.getItem(KEY);
+          var key = 'dg:theme';
+          var saved = localStorage.getItem(key);
           var theme = (saved === 'light' || saved === 'dark')
             ? saved
             : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
@@ -22,46 +21,25 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <script src="https://unpkg.com/@alpinejs/collapse@3.x.x/dist/cdn.min.js" defer></script>
-    <script src="https://unpkg.com/@alpinejs/focus@3.x.x/dist/cdn.min.js" defer></script>
     <script src="https://unpkg.com/alpinejs@3.x.x" defer></script>
 
-    <!-- SEO Meta -->
-    <meta name="description" content="DGstep builds modern platforms for Georgian SMBs and pawnshops." />
-    <meta name="keywords" content="DGstep, software Georgia, Laravel, Alpine.js, Tailwind, pawnshop app" />
-    <meta name="author" content="DGstep">
-    <meta name="robots" content="index, follow">
-
-    <!-- Open Graph -->
-    <meta property="og:title" content="{{ $title ?? 'DGstep – Software for Georgian Businesses' }}">
-    <meta property="og:description" content="Custom Laravel + Alpine.js platforms for SMBs in Georgia.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:image" content="{{ asset('images/og-preview.jpg') }}">
-    <meta property="og:locale" content="{{ str_replace('_', '-', app()->getLocale()) ?: 'en-US' }}">
-
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{{ $title ?? 'DGstep – Software for Georgian Businesses' }}">
-    <meta name="twitter:description" content="Tailored software solutions for Georgian SMBs.">
-    <meta name="twitter:image" content="{{ asset('images/og-preview.jpg') }}">
-
-    <link rel="canonical" href="{{ url()->current() }}">
-    <link rel="preload" href="/resources/fonts/calibri/calibri.ttf" as="font" type="font/ttf" crossorigin>
-    <link rel="preload" href="/resources/fonts/calibri/calibrib.ttf" as="font" type="font/ttf" crossorigin>
-    <link rel="preload" href="/resources/fonts/calibri/calibril.ttf" as="font" type="font/ttf" crossorigin>
+    <meta name="description" content="DGstep builds practical software platforms for growing businesses." />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:title" content="{{ $title ?? 'DGstep' }}" />
+    <meta property="og:description" content="Operational SaaS solutions for modern businesses." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{{ url()->current() }}" />
+    <link rel="canonical" href="{{ url()->current() }}" />
 </head>
+<body>
+  <div class="page-grid" aria-hidden="true"></div>
 
-<body
-  class="font-sans text-[17px] leading-relaxed antialiased
-         bg-[var(--bg-default)] text-[var(--text-default)]
-         transition-colors duration-300 ease-in-out"
->
-  <div class="page-wrapper min-h-screen flex flex-col">
-    <main class="flex-grow">
-      <x-navbar />
-      {{ $slot }}
-    </main>
-    <x-footer />
-  </div>
+  <x-navbar />
+
+  <main class="site-main min-h-[70vh]">
+    {{ $slot }}
+  </main>
+
+  <x-footer />
 </body>
 </html>

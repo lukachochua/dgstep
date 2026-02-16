@@ -3,17 +3,20 @@
 @endphp
 
 <x-layouts.base :title="__('services.title')">
-  <div class="min-h-screen flex flex-col">
-    <section
-      class="flex-grow bg-[var(--bg-default)] text-[var(--text-default)] pt-24 sm:pt-24 md:pt-28 pb-12 sm:pb-16 select-none">
+  <section class="section-block">
+    <div class="section-inner space-y-8">
+      <header class="space-y-3 reveal">
+        <span class="section-kicker">{{ __('messages.services') }}</span>
+        <h1 class="section-title">{{ __('services.our_key_services') }}</h1>
+        <p class="section-lead">{{ __('services.how_we_can_help') }}</p>
+      </header>
 
       @php
         $locale = app()->getLocale();
         $services = \App\Models\Service::ordered()->get();
       @endphp
 
-      <div class="container mx-auto max-w-6xl px-4 sm:px-6 md:px-8 space-y-10">
-
+      <div class="space-y-6">
         @foreach($services as $i => $service)
           @php
             $names = $service->name ?? [];
@@ -34,15 +37,27 @@
             :fullDescription="new HtmlString($descriptionFull)"
             :image="$imageUrl"
             :imageAlt="$imageAlt"
-            :reversed="($i % 2) === 0" />
+            :reversed="($i % 2) === 1"
+          />
         @endforeach
+      </div>
 
-        <div class="text-center pt-10">
-          <a href="{{ route('contact') }}" class="btn btn-md btn-primary">
+      <div class="panel p-6 md:p-8 reveal">
+        <h2 class="text-2xl font-semibold">{{ __('services.sections.problems_heading') }}</h2>
+        <ul class="mt-4 grid gap-3 md:grid-cols-2">
+          @foreach (__('services.sections.problems') as $problem)
+            <li class="panel-soft px-4 py-3 text-sm text-[color:var(--text-muted)]">
+              {{ $problem }}
+            </li>
+          @endforeach
+        </ul>
+
+        <div class="mt-6">
+          <x-ui.button route="contact" variant="primary" size="lg">
             {{ __('about.cta') }}
-          </a>
+          </x-ui.button>
         </div>
       </div>
-    </section>
-  </div>
+    </div>
+  </section>
 </x-layouts.base>

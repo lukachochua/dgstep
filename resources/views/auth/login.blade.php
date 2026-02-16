@@ -1,49 +1,51 @@
 <x-layouts.base :title="__('auth.login.title')">
-    <div class="min-h-screen flex flex-col">
-        <section class="flex-grow bg-gradient-to-r from-[#0b0f1a] via-[#141d2f] to-[#0b0f1a] py-24 px-6 text-white">
-            <div class="max-w-md mx-auto space-y-8 text-center">
-                <h1 class="text-4xl font-extrabold tracking-tight">{{ __('auth.login.heading') }}</h1>
-                <p class="text-white/70">{{ __('auth.login.subtitle') }}</p>
+  <section class="auth-shell">
+    <article class="auth-card reveal">
+      <span class="section-kicker">Account</span>
+      <h1 class="section-title mt-3 text-[clamp(1.7rem,2.6vw,2.2rem)]">{{ __('auth.login.heading') }}</h1>
+      <p class="mt-2 text-sm text-[color:var(--text-muted)]">{{ __('auth.login.subtitle') }}</p>
 
-                <form method="POST" action="{{ route('login') }}" class="space-y-6 text-left">
-                    @csrf
+      @if ($errors->any())
+        <div class="mt-4 rounded-lg border border-[color:var(--danger)]/40 bg-[color:var(--danger)]/10 px-3 py-2 text-sm text-[color:var(--danger)]">
+          {{ $errors->first() }}
+        </div>
+      @endif
 
-                    <div>
-                        <label class="block mb-1 font-medium">{{ __('auth.login.email') }}</label>
-                        <input type="email" name="email" required autofocus
-                            class="w-full px-4 py-2 rounded-md bg-white/5 border border-white/10 text-white placeholder-white/50 focus:ring-2 focus:ring-[var(--color-electric-sky)] outline-none">
-                    </div>
+      <form method="POST" action="{{ route('login') }}" class="mt-6 space-y-4">
+        @csrf
 
-                    <div>
-                        <label class="block mb-1 font-medium">{{ __('auth.login.password') }}</label>
-                        <input type="password" name="password" required
-                            class="w-full px-4 py-2 rounded-md bg-white/5 border border-white/10 text-white placeholder-white/50 focus:ring-2 focus:ring-[var(--color-electric-sky)] outline-none">
-                    </div>
+        <div>
+          <label class="field-label">{{ __('auth.login.email') }}</label>
+          <input type="email" name="email" required autofocus class="field-input" value="{{ old('email') }}">
+        </div>
 
-                    <div class="flex items-center justify-between">
-                        <label class="flex items-center space-x-2 text-sm text-white/70">
-                            <input type="checkbox" name="remember" class="form-checkbox">
-                            <span>{{ __('auth.login.remember') }}</span>
-                        </label>
-                        <a href="{{ route('password.request') }}"
-                            class="text-sm text-[var(--color-electric-sky)] hover:underline">
-                            {{ __('auth.login.forgot') }}
-                        </a>
-                    </div>
+        <div>
+          <label class="field-label">{{ __('auth.login.password') }}</label>
+          <input type="password" name="password" required class="field-input">
+        </div>
 
-                    <button type="submit"
-                        class="w-full py-2 bg-[var(--color-electric-sky)] text-black font-bold rounded-md hover:bg-[var(--color-electric-sky-hover)] transition">
-                        {{ __('auth.login.submit') }}
-                    </button>
-                </form>
+        <div class="flex items-center justify-between text-sm">
+          <label class="inline-flex items-center gap-2 text-[color:var(--text-muted)]">
+            <input type="checkbox" name="remember" class="rounded border-[color:var(--border)] text-[color:var(--brand)] focus:ring-[color:var(--ring)]">
+            <span>{{ __('auth.login.remember') }}</span>
+          </label>
 
-                <p class="text-white/60 text-sm">
-                    {{ __('auth.login.register_link') }}
-                    <a href="{{ route('register') }}" class="text-[var(--color-electric-sky)] hover:underline">
-                        {{ __('auth.login.register_cta') }}
-                    </a>
-                </p>
-            </div>
-        </section>
-    </div>
+          <a href="{{ route('password.request') }}" class="text-[color:var(--brand-strong)] hover:underline">
+            {{ __('auth.login.forgot') }}
+          </a>
+        </div>
+
+        <button type="submit" class="btn btn-lg btn-primary w-full justify-center">
+          {{ __('auth.login.submit') }}
+        </button>
+      </form>
+
+      <p class="mt-6 text-sm text-[color:var(--text-muted)]">
+        {{ __('auth.login.register_link') }}
+        <a href="{{ route('register') }}" class="font-semibold text-[color:var(--brand-strong)] hover:underline">
+          {{ __('auth.login.register_cta') }}
+        </a>
+      </p>
+    </article>
+  </section>
 </x-layouts.base>

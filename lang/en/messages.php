@@ -40,6 +40,37 @@ return [
                 ],
             ],
         ],
+        'ui' => [
+            'insights_aria' => 'Operational insights',
+            'slide_label' => 'Slide',
+            'coverage_label' => 'Coverage',
+            'coverage_value' => '24/7',
+            'delivery_label' => 'Delivery',
+            'delivery_value' => '4-8 weeks',
+            'tag_workflow' => 'Workflow Orchestration',
+            'tag_compliance' => 'Compliance Ready',
+            'tag_smb' => 'SMB Focused',
+            'prev_slide' => 'Previous slide',
+            'next_slide' => 'Next slide',
+        ],
+    ],
+
+    'home_metrics' => [
+        'focus' => [
+            'label' => 'Focus',
+            'value' => 'SMB + Ops',
+            'description' => 'Operational software for real daily workloads.',
+        ],
+        'technology' => [
+            'label' => 'Technology',
+            'value' => 'Laravel',
+            'description' => 'Reliable backend and flexible integrations.',
+        ],
+        'approach' => [
+            'label' => 'Approach',
+            'value' => 'Tailored',
+            'description' => 'Each product shaped around your process and team.',
+        ],
     ],
 
     'features' => [

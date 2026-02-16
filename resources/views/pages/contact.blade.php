@@ -1,168 +1,75 @@
 <x-layouts.base :title="__('contact.title')">
-  <section
-    class="py-16 sm:py-20 md:py-24 select-none
-           text-[var(--text-default)]
-           bg-[var(--bg-default)]
-           [background-image:linear-gradient(180deg,transparent_0%,transparent_40%,color-mix(in_oklab,var(--color-brand-950)_6%,transparent)_100%)]
-           dark:[background-image:linear-gradient(180deg,color-mix(in_oklab,var(--color-brand-950)_16%,transparent)_0%,transparent_60%,transparent_100%)]">
+  @php
+    $headline = $headline ?? __('contact.headline');
+    $desc = $desc ?? __('contact.description');
+    $featPro = $featPro ?? __('contact.features.professional');
+    $featGua = $featGua ?? __('contact.features.guarantees');
+    $ctaLabel = $ctaLabel ?? __('contact.cta_button');
+    $ctaPhone = $ctaPhone ?? __('contact.cta_phone_href');
+    $recaptchaSiteKey = $recaptchaSiteKey ?? config('services.recaptcha.site_key');
+  @endphp
 
-    <div class="container mx-auto px-4 sm:px-6 md:px-8 grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+  <section class="section-block">
+    <div class="section-inner grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+      <div class="space-y-5 reveal">
+        <span class="section-kicker">{{ __('contact.tagline') }}</span>
+        <h1 class="section-title">{{ $headline }}</h1>
+        <p class="section-lead">{{ $desc }}</p>
 
-      {{-- Left Content (DB-driven) --}}
-      <div class="space-y-6">
-        <h2 class="text-3xl sm:text-4xl font-extrabold leading-snug text-[color-mix(in_oklab,var(--text-default)_94%,transparent)]">
-          {{ $headline }}
-        </h2>
-
-        <p class="text-[16px] leading-relaxed text-[color-mix(in_oklab,var(--text-default)_78%,transparent)]">
-          {{ $desc }}
-        </p>
-
-        {{-- Feature Badges --}}
-        <div class="flex flex-wrap gap-6 pt-4">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full grid place-items-center
-                        bg-[var(--bg-elevated)]
-                        ring-1 ring-[color-mix(in_oklab,var(--text-default)_12%,transparent)]">
-              <svg class="w-5 h-5 text-[var(--color-electric-sky)]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path d="M12 6v6l4 2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </div>
-            <span class="text-sm font-medium text-[color-mix(in_oklab,var(--text-default)_90%,transparent)]">
-              {{ $featPro }}
-            </span>
-          </div>
-
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full grid place-items-center
-                        bg-[var(--bg-elevated)]
-                        ring-1 ring-[color-mix(in_oklab,var(--text-default)_12%,transparent)]">
-              <svg class="w-5 h-5 text-[var(--color-electric-sky)]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </div>
-            <span class="text-sm font-medium text-[color-mix(in_oklab,var(--text-default)_90%,transparent)]">
-              {{ $featGua }}
-            </span>
-          </div>
+        <div class="grid gap-3 sm:grid-cols-2">
+          <article class="metric-card">
+            <p class="text-xs uppercase tracking-[0.12em] text-[color:var(--text-muted)]">Support</p>
+            <p class="text-sm font-semibold">{{ $featPro }}</p>
+          </article>
+          <article class="metric-card">
+            <p class="text-xs uppercase tracking-[0.12em] text-[color:var(--text-muted)]">Team</p>
+            <p class="text-sm font-semibold">{{ $featGua }}</p>
+          </article>
         </div>
 
-        {{-- Primary CTA --}}
-        <div class="pt-6">
-          <a href="tel:{{ $ctaPhone }}" class="btn btn-md btn-secondary">
-            {{ $ctaLabel }}
-          </a>
-        </div>
+        <x-ui.button href="tel:{{ $ctaPhone }}" variant="secondary" size="lg">
+          {{ $ctaLabel }}
+        </x-ui.button>
       </div>
 
-      {{-- Contact Form (unchanged; uses i18n strings) --}}
-      <div class="card p-6 sm:p-8 rounded-2xl" id="contact-form">
+      <div class="panel p-6 md:p-8 reveal reveal-delay-1" id="contact-form">
         <form
           x-data="contactForm()"
           x-on:submit.prevent="submitForm"
           method="POST"
           action="{{ route('contact.submit') }}"
-          class="space-y-6"
+          class="space-y-4"
           id="contact-form-el"
         >
           @csrf
 
           @if (session('success'))
-            <div class="text-[14px] font-medium
-                        text-[color-mix(in_oklab,#22c55e_86%,var(--text-default))]">
+            <div class="rounded-lg border border-[color:var(--ok)]/40 bg-[color:var(--ok)]/12 px-3 py-2 text-sm font-medium text-[color:var(--ok)]">
               {{ session('success') }}
             </div>
           @endif
 
-          {{-- Name --}}
           <div>
-            <label for="name" class="text-[14px] font-medium
-                                     text-[color-mix(in_oklab,var(--text-default)_86%,transparent)] mb-1 block">
-              {{ __('contact.form.name') }} *
-            </label>
-            <input
-              id="name"
-              type="text"
-              name="name"
-              x-model="form.name"
-              class="w-full p-3 rounded focus-ring
-                     bg-[var(--bg-elevated)]
-                     text-[var(--text-default)]
-                     border border-[color-mix(in_oklab,var(--text-default)_16%,transparent)]
-                     placeholder:text-[color-mix(in_oklab,var(--text-default)_55%,transparent)]"
-              :class="{ 'border-[color-mix(in_oklab,#ef4444_90%,transparent)]': errors.name }"
-              autocomplete="name"
-            />
-            <template x-if="errors.name">
-              <p class="text-[13px] mt-1 text-[color-mix(in_oklab,#ef4444_86%,transparent)]" x-text="errors.name"></p>
-            </template>
+            <label for="name" class="field-label">{{ __('contact.form.name') }} *</label>
+            <input id="name" type="text" name="name" x-model="form.name" class="field-input" :class="errors.name ? 'border-[color:var(--danger)]' : ''" autocomplete="name" />
+            <template x-if="errors.name"><p class="field-error" x-text="errors.name"></p></template>
           </div>
 
-          {{-- Surname --}}
           <div>
-            <label for="surname" class="text-[14px] font-medium
-                                        text-[color-mix(in_oklab,var(--text-default)_86%,transparent)] mb-1 block">
-              {{ __('contact.form.surname') }} *
-            </label>
-            <input
-              id="surname"
-              type="text"
-              name="surname"
-              x-model="form.surname"
-              class="w-full p-3 rounded focus-ring
-                     bg-[var(--bg-elevated)]
-                     text-[var(--text-default)]
-                     border border-[color-mix(in_oklab,var(--text-default)_16%,transparent)]
-                     placeholder:text-[color-mix(in_oklab,var(--text-default)_55%,transparent)]"
-              :class="{ 'border-[color-mix(in_oklab,#ef4444_90%,transparent)]': errors.surname }"
-              autocomplete="family-name"
-            />
-            <template x-if="errors.surname">
-              <p class="text-[13px] mt-1 text-[color-mix(in_oklab,#ef4444_86%,transparent)]" x-text="errors.surname"></p>
-            </template>
+            <label for="surname" class="field-label">{{ __('contact.form.surname') }} *</label>
+            <input id="surname" type="text" name="surname" x-model="form.surname" class="field-input" :class="errors.surname ? 'border-[color:var(--danger)]' : ''" autocomplete="family-name" />
+            <template x-if="errors.surname"><p class="field-error" x-text="errors.surname"></p></template>
           </div>
 
-          {{-- Phone --}}
           <div>
-            <label for="phone" class="text-[14px] font-medium
-                                      text-[color-mix(in_oklab,var(--text-default)_86%,transparent)] mb-1 block">
-              {{ __('contact.form.phone') }} *
-            </label>
-            <input
-              id="phone"
-              type="tel"
-              name="phone"
-              x-model="form.phone"
-              class="w-full p-3 rounded focus-ring
-                     bg-[var(--bg-elevated)]
-                     text-[var(--text-default)]
-                     border border-[color-mix(in_oklab,var(--text-default)_16%,transparent)]
-                     placeholder:text-[color-mix(in_oklab,var(--text-default)_55%,transparent)]"
-              :class="{ 'border-[color-mix(in_oklab,#ef4444_90%,transparent)]': errors.phone }"
-              inputmode="tel"
-              autocomplete="tel"
-            />
-            <template x-if="errors.phone">
-              <p class="text-[13px] mt-1 text-[color-mix(in_oklab,#ef4444_86%,transparent)]" x-text="errors.phone"></p>
-            </template>
+            <label for="phone" class="field-label">{{ __('contact.form.phone') }} *</label>
+            <input id="phone" type="tel" name="phone" x-model="form.phone" class="field-input" :class="errors.phone ? 'border-[color:var(--danger)]' : ''" autocomplete="tel" />
+            <template x-if="errors.phone"><p class="field-error" x-text="errors.phone"></p></template>
           </div>
 
-          {{-- Comments --}}
           <div>
-            <label for="comments" class="text-[14px] font-medium
-                                         text-[color-mix(in_oklab,var(--text-default)_86%,transparent)] mb-1 block">
-              {{ __('contact.form.comments') }}
-            </label>
-            <textarea
-              id="comments"
-              name="comments"
-              x-model="form.comments"
-              rows="4"
-              class="w-full p-3 rounded focus-ring resize-y
-                     bg-[var(--bg-elevated)]
-                     text-[var(--text-default)]
-                     border border-[color-mix(in_oklab,var(--text-default)_16%,transparent)]
-                     placeholder:text-[color-mix(in_oklab,var(--text-default)_55%,transparent)]"></textarea>
+            <label for="comments" class="field-label">{{ __('contact.form.comments') }}</label>
+            <textarea id="comments" name="comments" x-model="form.comments" rows="4" class="field-textarea"></textarea>
           </div>
 
           @if ($recaptchaSiteKey)
@@ -170,16 +77,16 @@
               <div class="g-recaptcha" data-sitekey="{{ $recaptchaSiteKey }}"></div>
             </div>
           @else
-            <p class="text-[13px] text-[color-mix(in_oklab,#f97316_82%,transparent)] bg-[color-mix(in_oklab,#f97316_16%,transparent)]/40 border border-[color-mix(in_oklab,#f97316_46%,transparent)] rounded-md px-3 py-2">
+            <p class="rounded-lg border border-[color:var(--accent)]/50 bg-[color:var(--accent-soft)] px-3 py-2 text-sm text-[color:var(--text)]">
               {{ __('contact.validation.captcha_unavailable') }}
             </p>
           @endif
 
           @error('g-recaptcha-response')
-            <p class="text-[13px] mt-2 text-[color-mix(in_oklab,#ef4444_86%,transparent)]">{{ $message }}</p>
+            <p class="field-error">{{ $message }}</p>
           @enderror
 
-          <button type="submit" class="btn btn-lg btn-primary w-full">
+          <button type="submit" class="btn btn-lg btn-primary w-full justify-center">
             {{ __('contact.form.cta') }}
           </button>
         </form>
@@ -200,8 +107,8 @@
         submitForm() {
           this.errors = {};
 
-          if (!this.form.name)     this.errors.name    = '{{ __('contact.validation.name') }}';
-          if (!this.form.surname)  this.errors.surname = '{{ __('contact.validation.surname') }}';
+          if (!this.form.name) this.errors.name = '{{ __('contact.validation.name') }}';
+          if (!this.form.surname) this.errors.surname = '{{ __('contact.validation.surname') }}';
 
           if (!this.form.phone) {
             this.errors.phone = '{{ __('contact.validation.phone_required') }}';
@@ -213,7 +120,7 @@
             this.$el.submit();
           }
         }
-      }
+      };
     }
   </script>
 

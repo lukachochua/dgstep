@@ -1,23 +1,16 @@
 @props([
-    'title' => $title ?? '',
-    'description' => $description ?? '',
-    'cueStyle' => $cueStyle ?? 'bubbles',  // bubbles | bars | dots
-    'cueLabel' => $cueLabel ?? '',
-    'cueValues' => $cueValues ?? [],
+    'title' => '',
+    'description' => '',
     'image' => null,
     'imageAlt' => '',
     'fullDescription' => '',
     'reversed' => false,
 ])
 
-{{-- 
-  Compact service row:
-  - Left: text with expandable long-form copy
-  - Right: service image (large) or fallback cue box
---}}
-
 @php
     $fullCopy = '';
+    $defaultServiceImage = 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=1200&auto=format&fit=crop';
+    $resolvedImage = $image ?: $defaultServiceImage;
 
     if ($fullDescription instanceof \Illuminate\Contracts\Support\Htmlable) {
         $fullCopy = trim($fullDescription->toHtml());
@@ -26,111 +19,62 @@
     }
 
     $hasFull = $fullCopy !== '';
-    $contentId = 'svc-full-' . uniqid();
-    $gridTemplate = $reversed
-        ? 'md:grid-cols-[minmax(0,440px)_minmax(0,1fr)]'
-        : 'md:grid-cols-[minmax(0,1fr)_minmax(0,440px)]';
 @endphp
 
-<div
-  x-data="{ expanded: false }"
-  @class([
-      'service-card grid items-start gap-6 md:gap-10',
-      $gridTemplate,
-  ])>
-
-  {{-- Text --}}
+<article class="service-card p-5 md:p-8 reveal">
   <div @class([
-      'service-card__body text-left space-y-4',
-      'md:order-2' => $reversed,
+      'grid gap-6 md:gap-8 lg:grid-cols-2 lg:items-start',
+      'lg:[&>div:first-child]:order-2 lg:[&>div:last-child]:order-1' => $reversed,
   ])>
-    <h3 class="service-card__title text-2xl md:text-3xl">
-      {!! e($title) !!}
-    </h3>
-    <div class="service-card__excerpt text-[15.5px] leading-relaxed space-y-4">
-      <p>{!! e($description) !!}</p>
+    <div class="space-y-4">
+      <h3 class="text-2xl font-semibold leading-tight md:text-3xl">{{ $title }}</h3>
+      <p class="text-[color:var(--text-muted)]">{{ $description }}</p>
 
-      @if($hasFull)
-        <div
-          x-show="expanded"
-          x-cloak
-          x-collapse.duration.250ms
-          x-transition.opacity.duration.250ms
-          id="{{ $contentId }}"
-          class="service-card__long space-y-4 prose prose-invert max-w-none prose-p:leading-relaxed prose-ul:pl-5">
-          {!! $fullCopy !!}
+      @if ($hasFull)
+        <div x-data="{ open: false }" class="space-y-3">
+          <div
+            x-show="open"
+            x-collapse
+            x-cloak
+            class="rounded-xl border border-[color:var(--border)] bg-[color:var(--bg-muted)]/45 p-4 text-sm text-[color:var(--text-muted)]"
+          >
+            {!! $fullCopy !!}
+          </div>
+
+          <x-ui.button
+            as="button"
+            type="button"
+            variant="ghost"
+            size="sm"
+            class="service-expand-btn"
+            @click="open = !open"
+          >
+            <span x-text="open ? @js(__('services.show_less')) : @js(__('services.read_more'))"></span>
+            <svg
+              class="service-expand-btn__chevron"
+              :class="{ 'is-open': open }"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </x-ui.button>
         </div>
-
-        <button
-          type="button"
-          @click="expanded = !expanded"
-          class="service-card__toggle inline-flex items-center gap-2 text-sm font-semibold transition-colors"
-          :aria-expanded="expanded.toString()"
-          aria-controls="{{ $contentId }}"
-        >
-          <span x-show="!expanded" x-cloak>{{ __('services.read_more') }}</span>
-          <span x-show="expanded" x-cloak>{{ __('services.show_less') }}</span>
-        </button>
       @endif
     </div>
+
+    <div>
+      <img
+        src="{{ $resolvedImage }}"
+        alt="{{ $imageAlt ?: $title }}"
+        class="service-image h-64 w-full md:h-72 lg:h-80"
+        loading="lazy"
+        decoding="async"
+      />
+    </div>
   </div>
-
-  {{-- Media / Cue --}}
-  <div @class([
-      'service-card__media',
-      'md:ml-2' => ! $reversed,
-      'md:mr-2' => $reversed,
-      'md:order-1' => $reversed,
-  ])>
-    @if($image)
-      <div class="service-card__visual relative overflow-hidden h-[260px] sm:h-[300px] md:h-[400px]">
-        <img
-          src="{{ $image }}"
-          alt="{{ $imageAlt }}"
-          class="service-card__visual-img absolute inset-0 h-full w-full object-cover"
-          loading="lazy"
-          decoding="async"
-        />
-      </div>
-    @else
-      <div class="service-card__visual service-card__visual--fallback h-[260px] sm:h-[300px] md:h-[400px]">
-
-        @if($cueLabel)
-          <div class="service-card__cue-label">
-            {{ $cueLabel }}
-          </div>
-        @endif
-
-        @switch($cueStyle)
-          @case('bars')
-            <div class="service-card__bars">
-              @foreach(array_values($cueValues) as $v)
-                @php $h = max(6, min(100, (int) $v)); @endphp
-                <div class="service-card__bar" style="height: {{ intval($h * 0.9) }}%"></div>
-              @endforeach
-            </div>
-            @break
-
-          @case('dots')
-            <div class="service-card__dots">
-              @foreach(array_values($cueValues) as $v)
-                <div @class([
-                    'service-card__dot',
-                    'is-active' => (int) $v === 1,
-                ])></div>
-              @endforeach
-            </div>
-            @break
-
-          @default
-            <div class="service-card__bubbles">
-              @foreach(array_values($cueValues) as $v)
-                @php $s = 26 + round(max(0, min(100, (int) $v)) * 0.25); @endphp
-                <div class="service-card__bubble" style="width: {{ $s }}px; height: {{ $s }}px"></div>
-              @endforeach
-            </div>
-        @endswitch
-      </div>
-    @endif
-  </div>
-</div>
+</article>

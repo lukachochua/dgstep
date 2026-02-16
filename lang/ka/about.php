@@ -53,6 +53,9 @@ return [
         'heading' => '<span class="text-[var(--color-electric-sky)]">მმართველი გუნდი</span>',
         'view_all' => 'ყველას ნახვა',
         'collapse' => 'შეკუმშვა',
+        'open_profile' => 'პროფილის ნახვა',
+        'close_modal' => 'დახურვა',
+        'no_members' => 'გუნდის წევრები ვერ მოიძებნა.',
         'members' => [
             1 => [
                 'name' => 'სერგო მათიაშვილი',

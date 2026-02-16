@@ -36,6 +36,9 @@ return [
         'heading' => '<span class="text-[var(--color-electric-sky)]">Management Team</span>',
         'view_all' => 'View all',
         'collapse' => 'Collapse',
+        'open_profile' => 'View profile',
+        'close_modal' => 'Close',
+        'no_members' => 'No team members found.',
         'members' => [
             1 => [
                 'name' => 'Sergo Matiashvili',

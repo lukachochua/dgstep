@@ -1,32 +1,9 @@
-{{-- resources/views/pages/about.blade.php --}}
 @php
     use Illuminate\Support\Facades\Storage;
-    use Illuminate\Support\Str;
 
     $locale = app()->getLocale();
     $aboutDefaults = $aboutDefaults ?? \App\Models\AboutPage::defaults();
     $aboutPage = $aboutPage ?? \App\Models\AboutPage::singleton();
-
-    $stripPossessiveHeading = function (?string $value) use ($locale) {
-        if (! $value) {
-            return $value;
-        }
-
-        $prefixes = [
-            'en' => ['Our'],
-            'ka' => ['ჩვენი'],
-        ];
-
-        foreach ($prefixes[$locale] ?? [] as $prefix) {
-            $plain = trim(strip_tags($value));
-
-            if (Str::startsWith($plain, $prefix . ' ')) {
-                return preg_replace('/^\s*' . preg_quote($prefix, '/') . '\s+/u', '', $value);
-            }
-        }
-
-        return $value;
-    };
 
     $pageTitle = $aboutPage->translated('title', $locale, $aboutDefaults);
 
@@ -38,26 +15,19 @@
     $whoParagraph1 = $aboutPage->translated('who_paragraph_1', $locale, $aboutDefaults);
     $whoParagraph2 = $aboutPage->translated('who_paragraph_2', $locale, $aboutDefaults);
 
-    $missionHeading = $stripPossessiveHeading(
-        $aboutPage->translated('mission_heading', $locale, $aboutDefaults)
-    );
+    $missionHeading = $aboutPage->translated('mission_heading', $locale, $aboutDefaults);
     $missionDescription = $aboutPage->translated('mission_description', $locale, $aboutDefaults);
 
-    $visionHeading = $stripPossessiveHeading(
-        $aboutPage->translated('vision_heading', $locale, $aboutDefaults)
-    );
+    $visionHeading = $aboutPage->translated('vision_heading', $locale, $aboutDefaults);
     $visionDescription = $aboutPage->translated('vision_description', $locale, $aboutDefaults);
 
     $badges = $aboutPage->badgesForLocale($locale, $aboutDefaults);
 
-    $managementHeading = $stripPossessiveHeading(
-        $aboutPage->translated('management_heading', $locale, $aboutDefaults)
-    );
-    $managementViewAll = $aboutPage->translated('management_view_all', $locale, $aboutDefaults);
-    $managementCollapse = $aboutPage->translated('management_collapse', $locale, $aboutDefaults);
+    $managementHeading = $aboutPage->translated('management_heading', $locale, $aboutDefaults);
     $managementMembers = $aboutPage->membersForLocale($locale, $aboutDefaults);
 
     $defaultMemberImage = 'https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=300&h=300&fit=crop';
+
     $resolveMemberImage = function (array $member) use ($defaultMemberImage) {
         $uploadPath = $member['image_path'] ?? null;
 
@@ -65,531 +35,189 @@
             try {
                 return Storage::disk('public')->url($uploadPath);
             } catch (\Throwable $exception) {
-                // fall back to provided URL/default below if storage URL fails
             }
         }
 
-        $externalUrl = $member['image_url'] ?? null;
-
-        return $externalUrl ?: $defaultMemberImage;
+        return ($member['image_url'] ?? null) ?: $defaultMemberImage;
     };
 @endphp
 
 <x-layouts.base :title="$pageTitle ?? __('about.title')">
-    <div class="min-h-screen flex flex-col">
-        <style>
-            /* Alpine: prevent initial flash */
-            [x-cloak] { display: none !important; }
+  <section class="section-block">
+    <div class="section-inner space-y-8">
+      <div class="panel p-6 md:p-8 lg:p-10 reveal">
+        <div class="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+          <div class="space-y-4">
+            <span class="section-kicker">{{ __('messages.about') }}</span>
+            <h1 class="section-title">{!! $whoHeading ?? __('about.who_we_are.heading') !!}</h1>
+            <p class="section-lead">{!! $whoParagraph1 ?? __('about.who_we_are.paragraph_1') !!}</p>
+            <p class="text-sm text-[color:var(--text-muted)]">{!! $whoParagraph2 ?? __('about.who_we_are.paragraph_2') !!}</p>
 
-            /* Hide horizontal scrollbar/underbar just for the team strip */
-            .team-scroll::-webkit-scrollbar { display: none; }
-            .team-scroll { -ms-overflow-style: none; scrollbar-width: none; }
-        </style>
-
-        <!-- Page Surface -->
-        <section
-            class="flex-grow select-none
-                   text-[var(--text-default)]
-                   bg-[var(--bg-default)]
-                   [background-image:linear-gradient(180deg,transparent_0%,transparent_40%,color-mix(in_oklab,var(--color-brand-950)_5%,transparent)_100%)]
-                   dark:[background-image:linear-gradient(180deg,color-mix(in_oklab,var(--color-brand-950)_12%,transparent)_0%,transparent_60%,transparent_100%)]
-                   py-22 sm:py-22 md:py-28">
-
-            <div class="mx-auto w-full max-w-[var(--container-content)] px-4 sm:px-6 md:px-8 text-center space-y-10 md:space-y-14">
-
-                <!-- WHO WE ARE (reduced glow, cleaner look) -->
-                <div class="relative isolate">
-                    <div class="pointer-events-none absolute -top-6 right-6 md:right-20 h-24 w-24 md:h-32 md:w-32 rounded-full blur-2xl opacity-20"
-                         style="background: color-mix(in oklab, var(--color-electric-sky) 38%, transparent)"></div>
-
-                    <div class="flex flex-col-reverse md:flex-row items-center md:items-start justify-between gap-8 md:gap-10 text-left md:text-start">
-                        <!-- Text -->
-                        <div class="md:w-[55%] space-y-5">
-                            <div class="space-y-2.5">
-                                <h2 class="text-4xl md:text-5xl font-bold tracking-tight leading-tight text-[var(--text-default)]">
-                                    {!! $whoHeading ?? __('about.who_we_are.heading') !!}
-                                </h2>
-                                <p class="text-[17px] leading-relaxed text-[color-mix(in_oklab,var(--text-default)_78%,transparent)] max-w-prose">
-                                    {!! $whoParagraph1 ?? __('about.who_we_are.paragraph_1') !!}
-                                </p>
-                                <p class="text-[15px] leading-relaxed text-[color-mix(in_oklab,var(--text-default)_64%,transparent)] max-w-prose">
-                                    {!! $whoParagraph2 ?? __('about.who_we_are.paragraph_2') !!}
-                                </p>
-                            </div>
-
-                            <div class="flex flex-wrap gap-2 pt-1.5">
-                                @foreach ($badges as $badge)
-                                    <span class="inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-xs font-medium
-                                                 bg-[color-mix(in_oklab,var(--text-default)_10%,transparent)]/25
-                                                 border border-[color-mix(in_oklab,var(--text-default)_14%,transparent)]">
-                                        <span class="h-1.5 w-1.5 rounded-full" style="background: color-mix(in oklab, var(--color-electric-sky) 80%, transparent)"></span>
-                                        {{ $badge }}
-                                    </span>
-                                @endforeach
-                            </div>
-                        </div>
-
-                        <!-- Visual -->
-                        <div class="md:w-[45%] flex items-center justify-center md:justify-end">
-                            <div class="relative">
-                                <div class="absolute inset-0 -m-1.5 rounded-[1.6rem] p-[1.5px]
-                                            [background:conic-gradient(from_140deg_at_50%_50%,_transparent_0deg,_color-mix(in_oklab,var(--color-electric-sky)_70%,transparent)_150deg,_transparent_320deg)]">
-                                    <div class="h-full w-full rounded-[1.6rem] bg-[var(--bg-elevated)]"></div>
-                                </div>
-
-                                <div class="relative rounded-[1.4rem] overflow-hidden shadow-[0_16px_44px_rgba(0,0,0,.28)]
-                                            bg-[var(--bg-elevated)]
-                                            border border-[color-mix(in_oklab,var(--text-default)_10%,transparent)]
-                                            w-[min(100%,460px)]">
-                                    <img src="{{ $heroImageUrl }}"
-                                         alt="{{ $heroImageAlt ?? 'Team working' }}"
-                                         loading="eager" fetchpriority="high"
-                                         class="h-64 md:h-[19rem] w-full object-cover object-center" />
-                                    <div class="flex items-center justify-between px-4 py-2.5
-                                                bg-[color-mix(in_oklab,var(--text-default)_6%,transparent)]/35
-                                                border-t border-[color-mix(in_oklab,var(--text-default)_10%,transparent)]">
-                                        <div class="text-[11px] text-[color-mix(in_oklab,var(--text-default)_70%,transparent)]">
-                                            {{ $heroCaption ?? 'DGstep • SaaS for regulated services' }}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="mt-10 md:mt-14">
-                        <div class="h-px w-full bg-gradient-to-r from-transparent via-[color-mix(in_oklab,var(--color-electric-sky)_28%,transparent)] to-transparent opacity-60"></div>
-                    </div>
-                </div>
-
-                <!-- Mission & Vision -->
-                <section class="card px-6 sm:px-8 py-10 sm:py-12 bg-[var(--bg-elevated)]">
-                    <div class="mx-auto max-w-4xl text-left space-y-8">
-                        <div class="space-y-2.5">
-                            @if ($missionHeading)
-                                <h2 class="text-3xl md:text-4xl font-semibold tracking-tight leading-tight text-[var(--text-default)]">
-                                    {!! $missionHeading !!}
-                                </h2>
-                            @endif
-                            @if ($missionDescription)
-                                <p class="text-[17px] md:text-[18px] leading-relaxed text-[color-mix(in_oklab,var(--text-default)_82%,transparent)]">
-                                    {!! $missionDescription !!}
-                                </p>
-                            @endif
-                        </div>
-
-                        <div class="pt-5 md:pt-6 border-t border-[color-mix(in_oklab,var(--text-default)_12%,transparent)] space-y-2.5">
-                            @if ($visionHeading)
-                                <h2 class="text-3xl md:text-4xl font-semibold tracking-tight leading-tight text-[var(--text-default)]">
-                                    {!! $visionHeading !!}
-                                </h2>
-                            @endif
-                            @if ($visionDescription)
-                                <p class="text-[17px] md:text-[18px] leading-relaxed text-[color-mix(in_oklab,var(--text-default)_82%,transparent)]">
-                                    {!! $visionDescription !!}
-                                </p>
-                            @endif
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Management Team — horizontal only + animated View all -->
-                <section
-                    x-data="{
-                        canLeft:false,
-                        canRight:false,
-                        openAll:false,
-                        modalOpen:false,
-                        modalMember:{ name:'', role:'', bio:'', image_url:'' },
-                        previouslyFocused:null,
-                        switcherHeight:'auto',
-                        heightTimer:null,
-                        toggleAll(state){
-                            if (this.openAll === state) return;
-                            this.lockHeight();
-                            this.openAll = state;
-                            this.syncHeight();
-                            if (!state && this.$refs.strip) {
-                                this.$refs.strip.scrollLeft = 0;
-                            }
-                            requestAnimationFrame(() => this.updateArrows());
-                        },
-                        lockHeight(){
-                            const current = this.openAll ? this.$refs.gridWrap : this.$refs.stripWrap;
-                            if (!current) return;
-                            const height = current.offsetHeight;
-                            if (height) {
-                                this.switcherHeight = `${height}px`;
-                            }
-                        },
-                        syncHeight(){
-                            this.$nextTick(() => {
-                                const target = this.openAll ? this.$refs.gridWrap : this.$refs.stripWrap;
-                                if (!target) return;
-                                const height = target.offsetHeight;
-                                if (!height) return;
-                                this.switcherHeight = `${height}px`;
-                                clearTimeout(this.heightTimer);
-                                this.heightTimer = setTimeout(() => {
-                                    this.switcherHeight = 'auto';
-                                    this.heightTimer = null;
-                                }, 360);
-                                if (!this.openAll) {
-                                    requestAnimationFrame(() => this.updateArrows());
-                                }
-                            });
-                        },
-                        updateArrows(){
-                            const el = this.$refs.strip;
-                            if (!el || this.openAll) {
-                                this.canLeft = false;
-                                this.canRight = false;
-                                return;
-                            }
-                            const max = Math.max(0, el.scrollWidth - el.clientWidth);
-                            this.canLeft  = el.scrollLeft > 2;
-                            this.canRight = el.scrollLeft < (max - 2);
-                        },
-                        init(){
-                            const el = this.$refs.strip;
-                            if (el) {
-                                el.addEventListener('scroll', () => this.updateArrows(), { passive:true });
-                            }
-                            addEventListener('resize', () => {
-                                this.syncHeight();
-                                this.updateArrows();
-                            });
-                            this.$nextTick(() => {
-                                this.syncHeight();
-                                this.updateArrows();
-                                setTimeout(() => {
-                                    this.syncHeight();
-                                    this.updateArrows();
-                                }, 260);
-                            });
-                            this.$watch('openAll', () => {
-                                this.syncHeight();
-                                requestAnimationFrame(() => this.updateArrows());
-                            });
-                        },
-                        nudge(px){
-                            const el = this.$refs.strip;
-                            if (!el) return;
-                            const max = Math.max(0, el.scrollWidth - el.clientWidth);
-                            const target = Math.max(0, Math.min(max, el.scrollLeft + px));
-                            el.scrollTo({ left: target, behavior:'smooth' });
-                        },
-                        openMember(member){
-                            this.previouslyFocused = document.activeElement;
-                            const fallback = 'https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=300&h=300&fit=crop';
-                            this.modalMember = {
-                                name: member?.name ?? '',
-                                role: member?.role ?? '',
-                                bio: member?.bio ?? '',
-                                image_url: member?.image_url ?? fallback,
-                            };
-                            this.modalOpen = true;
-                            this.$nextTick(() => this.$refs.memberModalDialog?.focus());
-                        },
-                        closeMember(){
-                            if (!this.modalOpen) return;
-                            this.modalOpen = false;
-                            this.$nextTick(() => {
-                                this.modalMember = { name:'', role:'', bio:'', image_url:'' };
-                                if (this.previouslyFocused && typeof this.previouslyFocused.focus === 'function') {
-                                    this.previouslyFocused.focus();
-                                }
-                                this.previouslyFocused = null;
-                            });
-                        }
-                    }"
-                    class="relative py-8 sm:py-10 md:py-12"
-                    @keydown.window.escape="closeMember()"
-                >
-                    <h3 class="text-3xl md:text-4xl font-bold text-[var(--text-default)] text-center">
-                        {!! $managementHeading ?? __('about.management.heading') !!}
-                    </h3>
-                    <div class="mx-auto mt-4 mb-6 w-full max-w-[67rem]">
-                        <div class="h-px bg-gradient-to-r from-transparent via-[color-mix(in_oklab,var(--color-electric-sky)_55%,transparent)] to-transparent opacity-75"></div>
-                    </div>
-
-                    <!-- Mobile grid (always expanded) -->
-                    <div class="md:hidden">
-                        <div class="mx-auto mt-2 w-full max-w-[67rem]">
-                            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 text-left" data-team-grid-mobile>
-                                @forelse ($managementMembers as $index => $member)
-                                    @php
-                                        $memberData = is_array($member) ? $member : (array) $member;
-                                        $memberName = $memberData['name'] ?? __('Team member');
-                                        $memberRole = $memberData['role'] ?? '';
-                                        $memberBio = $memberData['bio'] ?? '';
-                                        $memberImage = $resolveMemberImage($memberData);
-                                        $memberPayload = [
-                                            'name' => $memberName,
-                                            'role' => $memberRole,
-                                            'bio' => $memberBio,
-                                            'image_url' => $memberImage,
-                                        ];
-                                    @endphp
-                                    <div class="team-card p-5 h-full transition duration-300 ease-out transform cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[color-mix(in_oklab,var(--color-electric-sky)_64%,transparent)] opacity-100 translate-y-0"
-                                         style="transition-delay: {{ $loop->index * 45 }}ms"
-                                         role="button"
-                                         tabindex="0"
-                                         @click="openMember(@js($memberPayload))"
-                                         @keydown.enter.prevent="openMember(@js($memberPayload))"
-                                         @keydown.space.prevent="openMember(@js($memberPayload))">
-                                        <img src="{{ $memberImage }}"
-                                             alt="{{ $memberName }}"
-                                             class="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover mb-3 mx-auto border border-[color-mix(in_oklab,var(--text-default)_18%,transparent)]">
-                                        <div class="text-center space-y-0.5">
-                                            <h4 class="text-[15px] md:text-[16px] font-semibold text-[var(--text-default)]">
-                                                {{ $memberName }}
-                                            </h4>
-                                            <p class="text-[13px] md:text-[14px] text-[color-mix(in_oklab,var(--text-default)_62%,transparent)]">
-                                                {{ $memberRole }}
-                                            </p>
-                                        </div>
-                                    </div>
-                                @empty
-                                    <div class="team-card p-5 text-center text-sm text-[color-mix(in_oklab,var(--text-default)_62%,transparent)]">
-                                        {{ __('No team members found.') }}
-                                    </div>
-                                @endforelse
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Strip/Grid switcher (height-locked to avoid layout jump) -->
-                    <div class="relative transition-[height] duration-300 ease-out hidden md:block"
-                             :style="switcherHeight ? { height: switcherHeight } : null">
-                            <!-- Slider viewport -->
-                            <div x-ref="stripWrap" x-cloak
-                                 x-show="!openAll"
-                                 x-transition.opacity.duration.200ms
-                                 x-transition:leave.opacity.duration.0ms
-                                 class="transition duration-300 ease-out"
-                                 :class="openAll ? 'pointer-events-none' : 'pointer-events-auto'">
-                                {{-- Limit the slider viewport to roughly three cards on wide screens --}}
-                                <div class="relative mx-auto w-full max-w-[67rem]">
-                                    <div class="flex items-center justify-between gap-3 sm:gap-4 md:gap-6">
-                                        <button type="button"
-                                                x-cloak
-                                                @click="nudge(-320)"
-                                                :disabled="!canLeft || openAll"
-                                                :aria-disabled="(!canLeft || openAll).toString()"
-                                                :tabindex="(!canLeft || openAll) ? -1 : 0"
-                                                :class="['shrink-0 hero-arrow hero-arrow--compact focus-ring', (!canLeft || openAll) ? 'hero-arrow--inactive' : '']"
-                                                data-direction="prev"
-                                                aria-label="Scroll left">
-                                            <span class="hero-arrow__icon" aria-hidden="true">
-                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round">
-                                                    <path d="M14.25 6.75L8.5 12l5.75 5.25" />
-                                                </svg>
-                                            </span>
-                                        </button>
-
-                                        <div class="relative flex-1 min-w-0">
-                                            <!-- Strip (horizontal only; vertical hidden) -->
-                                            <div x-ref="strip"
-                                                 class="team-scroll overflow-x-auto overflow-y-visible overscroll-x-contain touch-pan-x w-full
-                                                         [scrollbar-color:transparent_transparent] [scrollbar-gutter:stable] pr-5
-                                                         transition duration-300 ease-out"
-                                                 tabindex="0">
-                                                <ul class="flex gap-6 snap-x snap-mandatory scroll-pl-2 md:scroll-pl-3 px-2 py-3 -mb-2">
-                                                    @forelse ($managementMembers as $index => $member)
-                                                        @php
-                                                            $memberData = is_array($member) ? $member : (array) $member;
-                                                            $memberName = $memberData['name'] ?? __('Team member');
-                                                            $memberRole = $memberData['role'] ?? '';
-                                                            $memberBio = $memberData['bio'] ?? '';
-                                                            $memberImage = $resolveMemberImage($memberData);
-                                                            $memberPayload = [
-                                                                'name' => $memberName,
-                                                                'role' => $memberRole,
-                                                                'bio' => $memberBio,
-                                                                'image_url' => $memberImage,
-                                                            ];
-                                                        @endphp
-                                                        <li class="snap-start shrink-0 w-[min(85vw,18rem)]">
-                                                            <div class="team-card p-5 h-full cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[color-mix(in_oklab,var(--color-electric-sky)_64%,transparent)]"
-                                                                 role="button"
-                                                                 tabindex="0"
-                                                                 @click="openMember(@js($memberPayload))"
-                                                                 @keydown.enter.prevent="openMember(@js($memberPayload))"
-                                                                 @keydown.space.prevent="openMember(@js($memberPayload))">
-                                                                <img src="{{ $memberImage }}"
-                                                                     alt="{{ $memberName }}"
-                                                                     class="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover mb-3 mx-auto
-                                                                            border border-[color-mix(in_oklab,var(--text-default)_18%,transparent)]">
-                                                                <div class="text-center space-y-0.5">
-                                                                    <h4 class="text-[15px] md:text-[16px] font-semibold text-[var(--text-default)]">
-                                                                        {{ $memberName }}
-                                                                    </h4>
-                                                                    <p class="text-[13px] md:text-[14px] text-[color-mix(in_oklab,var(--text-default)_62%,transparent)]">
-                                                                        {{ $memberRole }}
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                        </li>
-                                                    @empty
-                                                        <li class="snap-start shrink-0 w-[min(85vw,18rem)]">
-                                                            <div class="team-card p-5 h-full text-center text-sm text-[color-mix(in_oklab,var(--text-default)_62%,transparent)]">
-                                                                {{ __('No team members found.') }}
-                                                            </div>
-                                                        </li>
-                                                    @endforelse
-                                                </ul>
-                                            </div>
-                                        </div>
-
-                                        <button type="button"
-                                                x-cloak
-                                                @click="nudge(320)"
-                                                :disabled="!canRight || openAll"
-                                                :aria-disabled="(!canRight || openAll).toString()"
-                                                :tabindex="(!canRight || openAll) ? -1 : 0"
-                                                :class="['shrink-0 hero-arrow hero-arrow--compact focus-ring', (!canRight || openAll) ? 'hero-arrow--inactive' : '']"
-                                                data-direction="next"
-                                                aria-label="Scroll right">
-                                            <span class="hero-arrow__icon" aria-hidden="true">
-                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round">
-                                                    <path d="M9.75 6.75L15.5 12l-5.75 5.25" />
-                                                </svg>
-                                            </span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Expanded grid -->
-                            <div x-ref="gridWrap" x-cloak
-                                 x-show="openAll"
-                                 x-transition.opacity.duration.250ms
-                                 class="transition duration-300 ease-out"
-                                 :class="openAll ? 'pointer-events-auto' : 'pointer-events-none'">
-                                <div class="mx-auto mt-2 w-full max-w-[67rem]">
-                                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 text-left" data-team-grid>
-                                        @forelse ($managementMembers as $index => $member)
-                                            @php
-                                                $memberData = is_array($member) ? $member : (array) $member;
-                                                $memberName = $memberData['name'] ?? __('Team member');
-                                                $memberRole = $memberData['role'] ?? '';
-                                                $memberBio = $memberData['bio'] ?? '';
-                                                $memberImage = $resolveMemberImage($memberData);
-                                                $memberPayload = [
-                                                    'name' => $memberName,
-                                                    'role' => $memberRole,
-                                                    'bio' => $memberBio,
-                                                    'image_url' => $memberImage,
-                                                ];
-                                            @endphp
-                                            <div class="team-card p-5 h-full transition duration-300 ease-out transform cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[color-mix(in_oklab,var(--color-electric-sky)_64%,transparent)]"
-                                                 :class="openAll ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'"
-                                                 style="transition-delay: {{ $loop->index * 45 }}ms"
-                                                 role="button"
-                                                 tabindex="0"
-                                                 @click="openMember(@js($memberPayload))"
-                                                 @keydown.enter.prevent="openMember(@js($memberPayload))"
-                                                 @keydown.space.prevent="openMember(@js($memberPayload))">
-                                                <img src="{{ $memberImage }}"
-                                                     alt="{{ $memberName }}"
-                                                     class="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover mb-3 mx-auto
-                                                            border border-[color-mix(in_oklab,var(--text-default)_18%,transparent)]">
-                                                <div class="text-center space-y-0.5">
-                                                    <h4 class="text-[15px] md:text-[16px] font-semibold text-[var(--text-default)]">
-                                                        {{ $memberName }}
-                                                    </h4>
-                                                    <p class="text-[13px] md:text-[14px] text-[color-mix(in_oklab,var(--text-default)_62%,transparent)]">
-                                                        {{ $memberRole }}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        @empty
-                                            <div class="team-card p-5 text-center text-sm text-[color-mix(in_oklab,var(--text-default)_62%,transparent)]">
-                                                {{ __('No team members found.') }}
-                                            </div>
-                                        @endforelse
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    <!-- Actions -->
-                    <div class="mt-6 hidden md:flex items-center justify-center gap-4">
-                        <x-ui.button
-                            as="button"
-                            type="button"
-                            size="sm"
-                            variant="secondary"
-                            class="font-semibold"
-                            x-show="!openAll"
-                            x-cloak
-                            @click="toggleAll(true)"
-                        >
-                            {{ $managementViewAll ?? __('about.management.view_all') }}
-                        </x-ui.button>
-                        <x-ui.button
-                            as="button"
-                            type="button"
-                            size="sm"
-                            variant="secondary"
-                            class="font-medium"
-                            x-show="openAll"
-                            x-cloak
-                            @click="toggleAll(false)"
-                        >
-                            {{ $managementCollapse ?? __('about.management.collapse') }}
-                        </x-ui.button>
-                    </div>
-
-                    <!-- Member modal -->
-                    <div x-cloak
-                         x-show="modalOpen"
-                         x-transition.opacity.duration.200ms
-                         class="fixed inset-0 z-[60] flex items-center justify-center px-4 py-8 bg-[color-mix(in_oklab,var(--bg-default)_82%,transparent)]/90 backdrop-blur-sm"
-                         @click.self="closeMember()">
-                        <div x-show="modalOpen"
-                             x-transition.scale.duration.200ms
-                             class="relative w-full max-w-xl card p-6 md:p-8 text-center"
-                             role="dialog"
-                             aria-modal="true"
-                             aria-labelledby="team-member-modal-title"
-                             x-ref="memberModalDialog"
-                             tabindex="-1">
-                            <button type="button"
-                                    class="absolute right-4 top-4 inline-flex h-9 w-9 items-center justify-center rounded-full border border-[color-mix(in_oklab,var(--text-default)_16%,transparent)] bg-[color-mix(in_oklab,var(--bg-default)_74%,transparent)] hover:bg-[color-mix(in_oklab,var(--bg-default)_88%,transparent)] transition"
-                                    @click="closeMember()"
-                                    aria-label="Close team member details">
-                                <svg viewBox="0 0 24 24" class="h-4 w-4" style="color: color-mix(in oklab, var(--text-default) 80%, transparent)"><path fill="currentColor" d="M13.41 12l4.3-4.29a1 1 0 0 0-1.42-1.42L12 10.59l-4.29-4.3a1 1 0 0 0-1.42 1.42L10.59 12l-4.3 4.29a1 1 0 1 0 1.42 1.42L12 13.41l4.29 4.3a1 1 0 0 0 1.42-1.42Z"/></svg>
-                            </button>
-
-                            <img :src="modalMember.image_url"
-                                 :alt="modalMember.name || @js(__('Team member'))"
-                                 class="mx-auto mb-4 h-24 w-24 md:h-28 md:w-28 rounded-full object-cover border border-[color-mix(in_oklab,var(--text-default)_18%,transparent)]">
-
-                            <div class="space-y-2">
-                                <h4 id="team-member-modal-title" class="text-xl md:text-2xl font-semibold text-[var(--text-default)]" x-text="modalMember.name || @js(__('Team member'))"></h4>
-                                <p class="text-sm md:text-base text-[color-mix(in_oklab,var(--text-default)_68%,transparent)]" x-text="modalMember.role"></p>
-                                <p class="text-sm md:text-[15px] leading-relaxed text-[color-mix(in_oklab,var(--text-default)_72%,transparent)]" x-show="modalMember.bio" x-text="modalMember.bio"></p>
-                            </div>
-
-                            <x-ui.button
-                                as="button"
-                                type="button"
-                                size="sm"
-                                class="mt-6"
-                                variant="secondary"
-                                @click="closeMember()"
-                            >
-                                {{ __('Close') }}
-                            </x-ui.button>
-                        </div>
-                    </div>
-                    <!-- Expanded grid handled inside switcher -->
-                </section>
-
-                <!-- CTA intentionally removed -->
+            <div class="flex flex-wrap gap-2 pt-2">
+              @foreach ($badges as $badge)
+                <span class="section-kicker">{{ $badge }}</span>
+              @endforeach
             </div>
-        </section>
+          </div>
+
+          <div>
+            <img
+              src="{{ $heroImageUrl }}"
+              alt="{{ $heroImageAlt ?? 'Team working' }}"
+              class="service-image h-72 w-full md:h-80"
+              loading="eager"
+              fetchpriority="high"
+              decoding="async"
+            />
+            <p class="mt-2 text-xs text-[color:var(--text-muted)]">{{ $heroCaption }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid gap-6 md:grid-cols-2 stagger">
+        <article class="panel p-6 md:p-7">
+          <h2 class="text-2xl font-semibold leading-tight">{!! $missionHeading ?? __('about.mission.heading') !!}</h2>
+          <p class="mt-3 text-sm text-[color:var(--text-muted)]">{!! $missionDescription ?? __('about.mission.description') !!}</p>
+        </article>
+
+        <article class="panel p-6 md:p-7">
+          <h2 class="text-2xl font-semibold leading-tight">{!! $visionHeading ?? __('about.vision.heading') !!}</h2>
+          <p class="mt-3 text-sm text-[color:var(--text-muted)]">{!! $visionDescription ?? __('about.vision.description') !!}</p>
+        </article>
+      </div>
+
+      <section
+        class="space-y-5 reveal reveal-delay-1"
+        x-data="{
+          openMember: null,
+          isMemberModalOpen: false,
+          memberModalCleanupTimer: null,
+          openMemberModal(member) {
+            if (this.memberModalCleanupTimer) {
+              clearTimeout(this.memberModalCleanupTimer);
+              this.memberModalCleanupTimer = null;
+            }
+            this.openMember = member;
+            this.isMemberModalOpen = true;
+          },
+          closeMemberModal() {
+            this.isMemberModalOpen = false;
+            if (this.memberModalCleanupTimer) {
+              clearTimeout(this.memberModalCleanupTimer);
+            }
+            this.memberModalCleanupTimer = setTimeout(() => {
+              if (!this.isMemberModalOpen) {
+                this.openMember = null;
+              }
+              this.memberModalCleanupTimer = null;
+            }, 220);
+          }
+        }"
+        @keydown.escape.window="if (isMemberModalOpen) closeMemberModal()"
+        x-effect="document.body.classList.toggle('overflow-hidden', isMemberModalOpen)"
+      >
+        <h2 class="section-title text-[clamp(1.4rem,2.2vw,2.1rem)]">{!! $managementHeading ?? __('about.management.heading') !!}</h2>
+
+        <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          @forelse ($managementMembers as $member)
+            @php
+              $memberData = is_array($member) ? $member : (array) $member;
+              $memberName = $memberData['name'] ?? __('Team member');
+              $memberRole = $memberData['role'] ?? '';
+              $memberBio = $memberData['bio'] ?? '';
+              $memberImage = $resolveMemberImage($memberData);
+            @endphp
+
+            <button
+              type="button"
+              class="team-card w-full cursor-pointer p-5 text-left"
+              data-member-name="{{ $memberName }}"
+              data-member-role="{{ $memberRole }}"
+              data-member-bio="{{ $memberBio }}"
+              data-member-image="{{ $memberImage }}"
+              @click="openMemberModal({
+                name: $el.dataset.memberName || '',
+                role: $el.dataset.memberRole || '',
+                bio: $el.dataset.memberBio || '',
+                image: $el.dataset.memberImage || ''
+              })"
+              aria-label="{{ __('about.management.open_profile') }} {{ $memberName }}"
+            >
+              <div class="flex items-center gap-4">
+                <img
+                  src="{{ $memberImage }}"
+                  alt="{{ $memberName }}"
+                  class="h-14 w-14 rounded-full object-cover"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div>
+                  <h3 class="text-base font-semibold">{{ $memberName }}</h3>
+                  <p class="text-xs text-[color:var(--text-muted)]">{{ $memberRole }}</p>
+                </div>
+              </div>
+
+              @if (!empty($memberBio))
+                <p class="mt-4 line-clamp-3 text-sm text-[color:var(--text-muted)]">{{ $memberBio }}</p>
+              @endif
+            </button>
+          @empty
+            <article class="panel p-5 text-sm text-[color:var(--text-muted)]">{{ __('about.management.no_members') }}</article>
+          @endforelse
+        </div>
+
+        <template x-teleport="body">
+          <div
+            x-cloak
+            x-show="isMemberModalOpen"
+            class="fixed inset-0 z-[120] grid place-items-center p-4 sm:p-6"
+            role="dialog"
+            aria-modal="true"
+            @click.self="closeMemberModal()"
+          >
+            <div class="absolute inset-0 bg-black/52 backdrop-blur-md" aria-hidden="true"></div>
+
+            <div
+              x-show="isMemberModalOpen"
+              x-transition:enter="transition ease-out duration-250"
+              x-transition:enter-start="opacity-0 translate-y-3 scale-[0.98]"
+              x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+              x-transition:leave="transition ease-in duration-180"
+              x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+              x-transition:leave-end="opacity-0 translate-y-2 scale-[0.98]"
+              class="panel relative z-[1] w-full max-w-2xl p-5 md:p-7"
+            >
+              <button
+                type="button"
+                class="btn btn-sm btn-ghost absolute right-4 top-4"
+                @click="closeMemberModal()"
+              >
+                {{ __('about.management.close_modal') }}
+              </button>
+
+              <div class="grid gap-5 pt-10 md:grid-cols-[220px_1fr] md:items-start md:pt-0">
+                <img
+                  :src="openMember ? openMember.image : ''"
+                  :alt="openMember ? openMember.name : ''"
+                  class="service-image h-52 w-full md:h-64"
+                  loading="lazy"
+                  decoding="async"
+                />
+
+                <div class="space-y-3">
+                  <h3 class="text-2xl font-semibold leading-tight" x-text="openMember ? openMember.name : ''"></h3>
+                  <p class="text-sm text-[color:var(--brand-strong)]" x-text="openMember ? openMember.role : ''"></p>
+                  <p
+                    x-show="openMember && openMember.bio"
+                    class="text-sm leading-6 text-[color:var(--text-muted)]"
+                    x-text="openMember ? openMember.bio : ''"
+                  ></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </template>
+      </section>
     </div>
+  </section>
 </x-layouts.base>
