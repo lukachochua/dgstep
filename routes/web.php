@@ -5,7 +5,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\HeroController;
 use App\Models\AboutPage;
 use App\Models\Service;
-use App\Http\Controllers\ContactPageController;
 
 
 // Standard Routes
@@ -27,10 +26,6 @@ Route::get('/services', function () {
 Route::get('/projects', function () {
     return view('pages.projects');
 })->name('projects');
-
-
-Route::get('/contact', [ContactPageController::class, 'show'])->name('contact');
-Route::post('/contact', [ContactPageController::class, 'submit'])->name('contact.submit');
 
 
 Route::get('/login', function () {

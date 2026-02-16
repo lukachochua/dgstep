@@ -2,6 +2,7 @@
 
 return [
     'title' => 'Terms and Conditions',
+    'kicker' => 'Legal',
     'sections' => [
         'intro' => 'These Terms and Conditions ("Terms") govern your use of the DGstep website and services. By accessing our site or using our services, you agree to comply with these Terms.',
 

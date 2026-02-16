@@ -2,6 +2,7 @@
 
 return [
     'title' => 'ჩვენ შესახებ — DGstep',
+    'hero_image_fallback_alt' => 'გუნდი მუშაობის პროცესში',
 
     'who_we_are' => [
         'heading' => 'ვინ <span class="text-[var(--color-electric-sky)]">ვართ</span> ჩვენ',
@@ -53,6 +54,7 @@ return [
         'heading' => '<span class="text-[var(--color-electric-sky)]">მმართველი გუნდი</span>',
         'view_all' => 'ყველას ნახვა',
         'collapse' => 'შეკუმშვა',
+        'member_fallback' => 'გუნდის წევრი',
         'open_profile' => 'პროფილის ნახვა',
         'close_modal' => 'დახურვა',
         'no_members' => 'გუნდის წევრები ვერ მოიძებნა.',

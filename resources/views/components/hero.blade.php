@@ -8,19 +8,23 @@
 
 @php
   $fallbackSlides = trans('messages.hero.slides');
-  $rawSlides = !empty($slides) ? $slides : (is_array($fallbackSlides) ? $fallbackSlides : []);
+  $usingFallbackSlides = empty($slides);
+  $rawSlides = !$usingFallbackSlides ? $slides : (is_array($fallbackSlides) ? $fallbackSlides : []);
 
-  $normalizedSlides = collect($rawSlides)->map(function ($slide) {
+  $normalizedSlides = collect($rawSlides)->map(function ($slide) use ($usingFallbackSlides) {
       $title = (string) data_get($slide, 'title', '');
+      $buttonHref = data_get($slide, 'button.href') ?? data_get($slide, 'button.link');
+
+      if (blank($buttonHref) || ($usingFallbackSlides && is_string($buttonHref) && str_starts_with($buttonHref, '#'))) {
+          $buttonHref = route('contact');
+      }
 
       return [
           'title' => $title,
           'highlight' => (string) data_get($slide, 'highlight', ''),
           'subtitle' => (string) data_get($slide, 'subtitle', ''),
           'button_text' => (string) data_get($slide, 'button.text', __('contact.cta_button')),
-          'button_href' => data_get($slide, 'button.href')
-              ?? data_get($slide, 'button.link')
-              ?? route('contact'),
+          'button_href' => $buttonHref,
           'image' => data_get($slide, 'image'),
       ];
   })->filter(fn ($slide) => filled($slide['title']) || filled($slide['subtitle']))->values()->all();

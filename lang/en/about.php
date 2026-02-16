@@ -2,6 +2,7 @@
 
 return [
     'title' => 'About Us — DGstep',
+    'hero_image_fallback_alt' => 'Team working',
 
     'who_we_are' => [
         'heading' => 'Who <span class="text-[var(--color-electric-sky)]">We Are</span>',
@@ -36,6 +37,7 @@ return [
         'heading' => '<span class="text-[var(--color-electric-sky)]">Management Team</span>',
         'view_all' => 'View all',
         'collapse' => 'Collapse',
+        'member_fallback' => 'Team member',
         'open_profile' => 'View profile',
         'close_modal' => 'Close',
         'no_members' => 'No team members found.',

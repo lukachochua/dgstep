@@ -63,7 +63,7 @@
           <div>
             <img
               src="{{ $heroImageUrl }}"
-              alt="{{ $heroImageAlt ?? 'Team working' }}"
+              alt="{{ $heroImageAlt ?? __('about.hero_image_fallback_alt') }}"
               class="service-image h-72 w-full md:h-80"
               loading="eager"
               fetchpriority="high"
@@ -122,7 +122,7 @@
           @forelse ($managementMembers as $member)
             @php
               $memberData = is_array($member) ? $member : (array) $member;
-              $memberName = $memberData['name'] ?? __('Team member');
+              $memberName = $memberData['name'] ?? __('about.management.member_fallback');
               $memberRole = $memberData['role'] ?? '';
               $memberBio = $memberData['bio'] ?? '';
               $memberImage = $resolveMemberImage($memberData);

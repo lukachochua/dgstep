@@ -18,11 +18,11 @@
 
         <div class="grid gap-3 sm:grid-cols-2">
           <article class="metric-card">
-            <p class="text-xs uppercase tracking-[0.12em] text-[color:var(--text-muted)]">Support</p>
+            <p class="text-xs uppercase tracking-[0.12em] text-[color:var(--text-muted)]">{{ __('contact.metrics.support') }}</p>
             <p class="text-sm font-semibold">{{ $featPro }}</p>
           </article>
           <article class="metric-card">
-            <p class="text-xs uppercase tracking-[0.12em] text-[color:var(--text-muted)]">Team</p>
+            <p class="text-xs uppercase tracking-[0.12em] text-[color:var(--text-muted)]">{{ __('contact.metrics.team') }}</p>
             <p class="text-sm font-semibold">{{ $featGua }}</p>
           </article>
         </div>

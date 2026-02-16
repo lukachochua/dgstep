@@ -2,7 +2,7 @@
   <section class="section-block">
     <div class="section-inner max-w-4xl space-y-6">
       <header class="space-y-3 reveal">
-        <span class="section-kicker">Legal</span>
+        <span class="section-kicker">{{ __('terms.kicker') }}</span>
         <h1 class="section-title">{{ __('terms.title') }}</h1>
         <p class="section-lead">{{ __('terms.sections.intro') }}</p>
       </header>

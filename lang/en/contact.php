@@ -9,6 +9,10 @@ return [
     'metric' => [
         'label' => 'Client Satisfaction',
     ],
+    'metrics' => [
+        'support' => 'Support',
+        'team' => 'Team',
+    ],
     'features' => [
         'professional' => 'Creative & Professional Team',
         'guarantees' => 'Qualified Team',
