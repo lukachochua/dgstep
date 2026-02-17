@@ -45,7 +45,7 @@
 
             <h3 class="text-xl font-semibold leading-tight">{{ $name }}</h3>
             <p class="mt-2 text-sm text-[color:var(--text-muted)] line-clamp-4">{{ $desc }}</p>
-            <a href="{{ route('services') }}" class="mt-4 inline-flex text-sm font-semibold text-[color:var(--brand-strong)]">
+            <a href="{{ route('services') }}" class="feature-more-link mt-4 inline-flex text-sm font-semibold">
               {{ __('services.read_more') }}
             </a>
           </article>

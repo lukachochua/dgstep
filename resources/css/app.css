@@ -985,6 +985,35 @@ html[lang="ka"] .home-proof .metric-card > p:last-child {
   box-shadow: var(--shadow);
 }
 
+.feature-more-link {
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--brand-strong);
+  text-decoration: none;
+  transition: color 160ms ease;
+}
+
+.feature-more-link::after {
+  content: ">";
+  font-size: 0.85em;
+  transition: transform 160ms ease;
+}
+
+.feature-more-link:hover {
+  color: color-mix(in oklab, var(--brand-strong) 82%, var(--accent) 18%);
+}
+
+.feature-more-link:hover::after {
+  transform: translateX(2px);
+}
+
+.feature-more-link:focus-visible {
+  color: color-mix(in oklab, var(--brand-strong) 82%, var(--accent) 18%);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 24%, transparent);
+  border-radius: 0.45rem;
+  outline: none;
+}
+
 .feature-image,
 .project-image,
 .service-image {
