@@ -27,8 +27,8 @@ function initLtrRevealOnScroll() {
             obs.unobserve(entry.target);
         });
     }, {
-        threshold: 0.28,
-        rootMargin: '0px 0px -14% 0px',
+        threshold: 0.2,
+        rootMargin: '0px 0px -10% 0px',
     });
 
     const grouped = new Set();
@@ -45,7 +45,7 @@ function initLtrRevealOnScroll() {
             grouped.add(node);
             if (!node.style.getPropertyValue('--ltr-delay')) {
                 const stepIndex = gridColumns > 1 ? (index % gridColumns) : index;
-                node.style.setProperty('--ltr-delay', `${stepIndex * 280}ms`);
+                node.style.setProperty('--ltr-delay', `${stepIndex * 160}ms`);
             }
             observer.observe(node);
         });
@@ -66,4 +66,4 @@ import.meta.glob([
     '../fonts/**',
 ]);
 
-import.meta.glob('../images/brand/*', { eager: true });
+import.meta.glob('../images/**/*', { eager: true });

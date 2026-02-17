@@ -1,29 +1,37 @@
 <x-layouts.base title="DGstep Landing Page">
   <x-hero
     :slides="$slides"
-    :is-ka-locale="$isKaLocale"
-    :is-en-locale="$isEnLocale"
     :hero-heading-scale="$heroHeadingScale"
     :hero-subtitle-scale="$heroSubtitleScale"
   />
 
-  <section class="py-3 md:py-5">
-    <div class="section-inner grid gap-5 md:grid-cols-3" data-reveal-ltr-group>
-      <article class="metric-card ltr-reveal" data-reveal-ltr>
-        <p class="text-xs uppercase tracking-[0.12em] text-[color:var(--text-muted)]">{{ __('messages.home_metrics.focus.label') }}</p>
-        <p class="metric-value">{{ __('messages.home_metrics.focus.value') }}</p>
-        <p class="text-sm text-[color:var(--text-muted)]">{{ __('messages.home_metrics.focus.description') }}</p>
-      </article>
-      <article class="metric-card ltr-reveal" data-reveal-ltr>
-        <p class="text-xs uppercase tracking-[0.12em] text-[color:var(--text-muted)]">{{ __('messages.home_metrics.technology.label') }}</p>
-        <p class="metric-value">{{ __('messages.home_metrics.technology.value') }}</p>
-        <p class="text-sm text-[color:var(--text-muted)]">{{ __('messages.home_metrics.technology.description') }}</p>
-      </article>
-      <article class="metric-card ltr-reveal" data-reveal-ltr>
-        <p class="text-xs uppercase tracking-[0.12em] text-[color:var(--text-muted)]">{{ __('messages.home_metrics.approach.label') }}</p>
-        <p class="metric-value">{{ __('messages.home_metrics.approach.value') }}</p>
-        <p class="text-sm text-[color:var(--text-muted)]">{{ __('messages.home_metrics.approach.description') }}</p>
-      </article>
+  <section class="py-3 md:py-6">
+    <div class="section-inner">
+      <div class="panel-soft home-proof p-5 md:p-7 space-y-5">
+        <div class="ltr-reveal" data-reveal-ltr>
+          <span class="section-kicker">{{ __('messages.home_proof.kicker') }}</span>
+          <h2 class="section-title mt-3">{{ __('messages.home_proof.title') }}</h2>
+          <p class="section-lead mt-2">{{ __('messages.home_proof.subtitle') }}</p>
+        </div>
+
+        <div class="grid gap-5 md:grid-cols-3" data-reveal-ltr-group>
+          <article class="metric-card ltr-reveal" data-reveal-ltr>
+            <p class="text-xs uppercase tracking-[0.12em] text-[color:var(--text-muted)]">{{ __('messages.home_metrics.focus.label') }}</p>
+            <p class="metric-value">{{ __('messages.home_metrics.focus.value') }}</p>
+            <p class="text-sm text-[color:var(--text-muted)]">{{ __('messages.home_metrics.focus.description') }}</p>
+          </article>
+          <article class="metric-card ltr-reveal" data-reveal-ltr>
+            <p class="text-xs uppercase tracking-[0.12em] text-[color:var(--text-muted)]">{{ __('messages.home_metrics.technology.label') }}</p>
+            <p class="metric-value">{{ __('messages.home_metrics.technology.value') }}</p>
+            <p class="text-sm text-[color:var(--text-muted)]">{{ __('messages.home_metrics.technology.description') }}</p>
+          </article>
+          <article class="metric-card ltr-reveal" data-reveal-ltr>
+            <p class="text-xs uppercase tracking-[0.12em] text-[color:var(--text-muted)]">{{ __('messages.home_metrics.approach.label') }}</p>
+            <p class="metric-value">{{ __('messages.home_metrics.approach.value') }}</p>
+            <p class="text-sm text-[color:var(--text-muted)]">{{ __('messages.home_metrics.approach.description') }}</p>
+          </article>
+        </div>
+      </div>
     </div>
   </section>
 

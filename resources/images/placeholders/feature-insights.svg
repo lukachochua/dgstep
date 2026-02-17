@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 704" role="img" aria-labelledby="t d">
+  <title id="t">Analytics dashboard placeholder</title>
+  <desc id="d">Abstract chart shapes representing reporting and insights.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1b2340"/>
+      <stop offset="100%" stop-color="#3450b4"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="704" fill="url(#bg)"/>
+  <rect x="120" y="110" width="960" height="484" rx="22" fill="#f8f9ff" opacity="0.95"/>
+  <rect x="180" y="180" width="430" height="120" rx="14" fill="#e8ecff"/>
+  <rect x="650" y="180" width="370" height="120" rx="14" fill="#e3e8ff"/>
+  <rect x="180" y="330" width="840" height="210" rx="14" fill="#edf1ff"/>
+  <path d="M250 500L390 420L520 455L650 360L780 400L920 310" fill="none" stroke="#5269dd" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="250" cy="500" r="11" fill="#5269dd"/>
+  <circle cx="390" cy="420" r="11" fill="#5269dd"/>
+  <circle cx="520" cy="455" r="11" fill="#5269dd"/>
+  <circle cx="650" cy="360" r="11" fill="#5269dd"/>
+  <circle cx="780" cy="400" r="11" fill="#5269dd"/>
+  <circle cx="920" cy="310" r="11" fill="#5269dd"/>
+</svg>

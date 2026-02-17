@@ -13,27 +13,27 @@ return [
     'hero' => [
         'slides' => [
             [
-                'title'     => 'Digitize your business’s daily operations',
-                'highlight' => 'Save time and resources with DG Step.',
-                'subtitle'  => 'Automate manual workflows and connect every touchpoint into one platform.',
+                'title'     => 'Run daily operations from one workflow platform',
+                'highlight' => 'Less manual work, more time for growth.',
+                'subtitle'  => 'DGstep unifies tasks, approvals, and records so your team moves faster with fewer handoffs.',
                 'button'    => [
                     'text' => 'Contact Us',
                     'link' => '#contact',
                 ],
             ],
             [
-                'title'     => 'Simplify and increase the efficiency of your business',
-                'highlight' => 'We help businesses simplify their daily operations.',
-                'subtitle'  => 'Gain visibility across teams, track KPIs in real time, and remove bottlenecks.',
+                'title'     => 'See operations across teams in real time',
+                'highlight' => 'Make decisions with clear visibility.',
+                'subtitle'  => 'Track progress, catch bottlenecks early, and keep departments aligned in one dashboard.',
                 'button'    => [
                     'text' => 'Contact Us',
                     'link' => '#contact',
                 ],
             ],
             [
-                'title'     => 'Time to digitize your business.',
-                'highlight' => 'We provide customized services and solutions for your business.',
-                'subtitle'  => 'Launch tailored software faster with a partner who understands local regulations.',
+                'title'     => 'Launch a system tailored to your business in weeks',
+                'highlight' => 'Practical software built around your process.',
+                'subtitle'  => 'From discovery to rollout, we deliver tools shaped for your workflow and local requirements.',
                 'button'    => [
                     'text' => 'Contact Us',
                     'link' => '#contact',
@@ -41,6 +41,7 @@ return [
             ],
         ],
         'ui' => [
+            'kicker' => 'Operational software for Georgian SMB teams',
             'insights_aria' => 'Operational insights',
             'slide_label' => 'Slide',
             'coverage_label' => 'Coverage',
@@ -49,6 +50,9 @@ return [
             'delivery_value' => '4-8 weeks',
             'tag_workflow' => 'Workflow Orchestration',
             'tag_smb' => 'SMB Focused',
+            'pause_autoplay' => 'Pause',
+            'play_autoplay' => 'Play',
+            'slide_announcement' => 'Slide :current of :total',
             'prev_slide' => 'Previous slide',
             'next_slide' => 'Next slide',
         ],
@@ -56,25 +60,32 @@ return [
 
     'home_metrics' => [
         'focus' => [
-            'label' => 'Focus',
-            'value' => 'SMB + Ops',
-            'description' => 'Operational software for real daily workloads.',
+            'label' => 'Go-live time',
+            'value' => '4-8 weeks',
+            'description' => 'From scoped discovery to production rollout with a practical plan.',
         ],
         'technology' => [
-            'label' => 'Technology',
-            'value' => 'Laravel',
-            'description' => 'Reliable backend and flexible integrations.',
+            'label' => 'Daily visibility',
+            'value' => '24/7 control',
+            'description' => 'See tasks, statuses, and blockers across teams in one operational view.',
         ],
         'approach' => [
-            'label' => 'Approach',
-            'value' => 'Tailored',
-            'description' => 'Each product shaped around your process and team.',
+            'label' => 'Local fit',
+            'value' => 'Georgia-ready',
+            'description' => 'Workflows configured for local business reality and regulatory context.',
         ],
+    ],
+
+    'home_proof' => [
+        'kicker' => 'Proof of execution',
+        'title' => 'Built for teams that run operations every day',
+        'subtitle' => 'Clear scope, practical rollout, and ongoing support from one partner.',
     ],
 
     'features' => [
         'heading'    => 'Built for Pawnshops & Growing Businesses',
         'subheading' => 'Every feature crafted for speed, compliance, and scale.',
+        'image_alt'  => ':name service preview',
         'cards'      => [
             [
                 'title'       => 'Quick Onboarding',
@@ -114,7 +125,7 @@ return [
             'contact' => 'Contact',
             'terms'   => 'Terms and Conditions',
         ],
-        'cta'       => 'დაგვიკავშირდით',
+        'cta'       => 'Contact Us',
         'aria'      => [
             'information_links' => 'Footer information links',
             'social_media'      => 'Social media',
