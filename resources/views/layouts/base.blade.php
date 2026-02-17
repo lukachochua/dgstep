@@ -32,10 +32,6 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-    <script src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.14.9/dist/cdn.min.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.9/dist/cdn.min.js" defer></script>
-
     <meta name="description" content="{{ $metaDescription }}" />
     <meta name="robots" content="index, follow" />
     <meta property="og:title" content="{{ $title ?? 'DGstep' }}" />

@@ -11,8 +11,6 @@ class HeroController extends Controller
     public function index()
     {
         $locale = app()->getLocale();
-        $isKaLocale = $locale === 'ka';
-        $isEnLocale = $locale === 'en';
         [$heroHeadingScale, $heroSubtitleScale] = $this->heroTypographyScale($locale);
 
         $slides = HeroSlide::query()
@@ -73,8 +71,6 @@ class HeroController extends Controller
         return view('pages.home', compact(
             'slides',
             'featured',
-            'isKaLocale',
-            'isEnLocale',
             'heroHeadingScale',
             'heroSubtitleScale'
         ));
@@ -84,14 +80,14 @@ class HeroController extends Controller
     {
         if ($locale === 'ka') {
             return [
-                'text-[21px] md:text-[28px] lg:text-[36px]',
-                'text-[14px] md:text-[16px]',
+                'clamp(1rem, 2.35vw, 2.35rem)',
+                'clamp(0.84rem, 1.02vw, 0.95rem)',
             ];
         }
 
         return [
-            'text-[22px] md:text-[32px] lg:text-[42px]',
-            'text-[15px] md:text-[17px]',
+            'clamp(1.02rem, 2.7vw, 2.75rem)',
+            'clamp(0.86rem, 1.1vw, 1rem)',
         ];
     }
 }

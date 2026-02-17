@@ -1,7 +1,7 @@
 @props([
   'slides' => [],
-  'heroHeadingScale' => 'text-4xl md:text-5xl',
-  'heroSubtitleScale' => 'text-base md:text-lg',
+  'heroHeadingScale' => 'clamp(1.48rem, 2.7vw, 2.75rem)',
+  'heroSubtitleScale' => 'clamp(0.9rem, 1.1vw, 1rem)',
 ])
 
 @php
@@ -43,6 +43,7 @@
 
 <section
   class="hero-v2 reveal"
+  style="--hero-title-size: {{ $heroHeadingScale }}; --hero-subtitle-size: {{ $heroSubtitleScale }};"
   x-data="{
     swiper: null,
     visibilityHandler: null,
@@ -196,12 +197,13 @@
                     {{ __('messages.hero.ui.kicker') }}
                   </p>
 
-                  <h1 class="hero-v2__title">
+                  @php $headingTag = $loop->first ? 'h1' : 'h2'; @endphp
+                  <{{ $headingTag }} class="hero-v2__title">
                     {{ $slide['title'] }}
                     @if (filled($slide['highlight']))
                       <span class="hero-highlight">{{ $slide['highlight'] }}</span>
                     @endif
-                  </h1>
+                  </{{ $headingTag }}>
 
                   @if (filled($slide['subtitle']))
                     <p class="hero-v2__subtitle">{{ $slide['subtitle'] }}</p>
