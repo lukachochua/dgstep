@@ -195,7 +195,6 @@
 
                   <div class="hero-v2__insight-tags">
                     <span>{{ __('messages.hero.ui.tag_workflow') }}</span>
-                    <span>{{ __('messages.hero.ui.tag_compliance') }}</span>
                     <span>{{ __('messages.hero.ui.tag_smb') }}</span>
                   </div>
                 </aside>

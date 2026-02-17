@@ -48,7 +48,6 @@ return [
             'delivery_label' => 'Delivery',
             'delivery_value' => '4-8 weeks',
             'tag_workflow' => 'Workflow Orchestration',
-            'tag_compliance' => 'Compliance Ready',
             'tag_smb' => 'SMB Focused',
             'prev_slide' => 'Previous slide',
             'next_slide' => 'Next slide',

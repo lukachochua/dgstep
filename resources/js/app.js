@@ -27,8 +27,8 @@ function initLtrRevealOnScroll() {
             obs.unobserve(entry.target);
         });
     }, {
-        threshold: 0.2,
-        rootMargin: '0px 0px -8% 0px',
+        threshold: 0.28,
+        rootMargin: '0px 0px -14% 0px',
     });
 
     const grouped = new Set();

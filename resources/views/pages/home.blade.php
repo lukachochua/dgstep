@@ -31,7 +31,7 @@
 
   <section class="section-block pt-0">
     <div class="section-inner">
-      <div class="panel p-6 md:p-9 lg:flex lg:items-center lg:justify-between lg:gap-8" data-reveal-ltr-group>
+      <div class="panel p-6 md:p-9 lg:flex lg:items-center lg:justify-between lg:gap-8 ltr-reveal" data-reveal-ltr data-reveal-ltr-group>
         <div class="ltr-reveal" data-reveal-ltr>
           <span class="section-kicker">{{ __('messages.see_how_it_works') }}</span>
           <h2 class="section-title mt-3">{{ __('contact.headline') }}</h2>

@@ -887,6 +887,35 @@ a {
   outline: none;
 }
 
+.footer-social {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.footer-social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.15rem;
+  height: 2.15rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in oklab, var(--border) 78%, transparent 22%);
+  background: color-mix(in oklab, var(--bg-muted) 74%, var(--bg-elevated) 26%);
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 160ms ease, border-color 160ms ease, transform 160ms ease, background-color 160ms ease;
+}
+
+.footer-social-link:hover,
+.footer-social-link:focus-visible {
+  color: var(--brand-strong);
+  border-color: color-mix(in oklab, var(--brand) 44%, var(--border) 56%);
+  background: color-mix(in oklab, var(--brand) 10%, var(--bg-elevated) 90%);
+  transform: translateY(-1px);
+  outline: none;
+}
+
 .auth-shell {
   min-height: calc(100vh - var(--nav-h));
   display: grid;
