@@ -862,16 +862,22 @@ a {
     padding-bottom: 7.1rem;
   }
 
+  .hero-v2__kicker {
+    font-size: 0.58rem;
+  }
+
   .hero-v2__title {
-    font-size: clamp(1.18rem, 6.2vw, 1.6rem);
-    -webkit-line-clamp: 4;
+    font-size: clamp(1.02rem, 5.4vw, 1.38rem);
+    -webkit-line-clamp: 5;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
 
   .hero-v2__subtitle {
-    -webkit-line-clamp: 4;
+    font-size: 0.84rem;
+    line-height: 1.42;
+    -webkit-line-clamp: 5;
   }
 
   .hero-v2__actions {
@@ -1125,12 +1131,12 @@ html[lang="ka"] .home-proof .metric-card > p:last-child {
 
 .ltr-reveal {
   opacity: 0;
-  transform: translate3d(-20px, 0, 0);
-  filter: blur(1.8px);
+  transform: translate3d(-34px, 0, 0);
+  filter: blur(3px);
   transition:
-    transform 700ms cubic-bezier(0.22, 1, 0.36, 1),
-    opacity 700ms cubic-bezier(0.22, 1, 0.36, 1),
-    filter 700ms cubic-bezier(0.22, 1, 0.36, 1);
+    transform 860ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 860ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 860ms cubic-bezier(0.22, 1, 0.36, 1);
   transition-delay: var(--ltr-delay, 0ms);
   will-change: transform, opacity, filter;
 }
