@@ -5,12 +5,16 @@ namespace Database\Seeders;
 use App\Models\User;
 use App\Models\HeroSlide;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
+        $this->syncSeederAssetsToPublicDisk();
+
         // Create admin user
         User::updateOrCreate(
             ['email' => 'dgstep@admin.com'],
@@ -44,7 +48,7 @@ class DatabaseSeeder extends Seeder
                 'link_type' => 'internal',
                 'button_route' => 'services',
                 'button_params' => null,
-                'image_path' => null,
+                'image_path' => $this->resolveHeroSlideImagePath(1),
             ],
             [
                 'title' => [
@@ -67,7 +71,7 @@ class DatabaseSeeder extends Seeder
                 'link_type' => 'internal',
                 'button_route' => 'contact',
                 'button_params' => null,
-                'image_path' => null,
+                'image_path' => $this->resolveHeroSlideImagePath(2),
             ],
             [
                 'title' => [
@@ -90,7 +94,7 @@ class DatabaseSeeder extends Seeder
                 'link_type' => 'internal',
                 'button_route' => 'about',
                 'button_params' => null,
-                'image_path' => null,
+                'image_path' => $this->resolveHeroSlideImagePath(3),
             ],
         ];
 
@@ -107,5 +111,53 @@ class DatabaseSeeder extends Seeder
             ContactPageSeeder::class,
 
         ]);
+    }
+
+    private function syncSeederAssetsToPublicDisk(): void
+    {
+        $this->copySeederAssetGroup(
+            base_path('database/seeders/assets/hero'),
+            storage_path('app/public/hero'),
+        );
+
+        $this->copySeederAssetGroup(
+            base_path('database/seeders/assets/services'),
+            storage_path('app/public/services'),
+        );
+    }
+
+    private function copySeederAssetGroup(string $sourceDir, string $destinationDir): void
+    {
+        if (! File::isDirectory($sourceDir)) {
+            return;
+        }
+
+        File::ensureDirectoryExists($destinationDir);
+
+        foreach (File::files($sourceDir) as $file) {
+            if (! $this->isSupportedImageExtension($file->getExtension())) {
+                continue;
+            }
+
+            File::copy($file->getPathname(), $destinationDir.DIRECTORY_SEPARATOR.$file->getFilename());
+        }
+    }
+
+    private function resolveHeroSlideImagePath(int $index): ?string
+    {
+        foreach (['jpg', 'jpeg', 'png', 'webp', 'bmp'] as $extension) {
+            $relativePath = "hero/slide-{$index}.{$extension}";
+
+            if (Storage::disk('public')->exists($relativePath)) {
+                return $relativePath;
+            }
+        }
+
+        return null;
+    }
+
+    private function isSupportedImageExtension(string $extension): bool
+    {
+        return in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'webp', 'bmp'], true);
     }
 }

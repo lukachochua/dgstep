@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Service;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Storage;
 
 class ServiceSeeder extends Seeder
 {
@@ -42,6 +43,7 @@ class ServiceSeeder extends Seeder
             $description = [];
             $descriptionExpanded = [];
             $problems = [];
+            $seededImagePath = $this->resolveSeededServiceImagePath($slug);
 
             foreach ($locales as $locale) {
                 // Read from language files using the provided structure
@@ -64,7 +66,7 @@ class ServiceSeeder extends Seeder
                 }
             }
 
-            // Preserve existing record’s image fields if already set
+            // Preserve existing non-image fields when already set.
             $existing = Service::where('slug', $slug)->first();
 
             Service::updateOrCreate(
@@ -74,7 +76,7 @@ class ServiceSeeder extends Seeder
                     'description'     => $description,
                     'description_expanded' => $descriptionExpanded,
                     'problems'        => $problems,
-                    'image_path'      => $existing->image_path ?? "services/{$slug}.jpg",
+                    'image_path'      => $seededImagePath ?? "services/{$slug}.jpg",
                     'image_alt'       => $existing->image_alt ?? ($name['en'] ?? ucfirst($slug)),
                     'is_featured'     => true,      // feature all three for the homepage trio
                     'featured_order'  => $config['featured_order'],
@@ -92,5 +94,18 @@ class ServiceSeeder extends Seeder
                 'is_featured'    => false,
                 'featured_order' => 0,
             ]);
+    }
+
+    private function resolveSeededServiceImagePath(string $slug): ?string
+    {
+        foreach (['jpg', 'jpeg', 'png', 'webp', 'bmp'] as $extension) {
+            $relativePath = "services/{$slug}.{$extension}";
+
+            if (Storage::disk('public')->exists($relativePath)) {
+                return $relativePath;
+            }
+        }
+
+        return null;
     }
 }
