@@ -42,7 +42,7 @@
 @endphp
 
 <section
-  class="hero-v2 reveal"
+  class="hero-v2"
   style="--hero-title-size: {{ $heroHeadingScale }}; --hero-subtitle-size: {{ $heroSubtitleScale }};"
   x-data="{
     swiper: null,
