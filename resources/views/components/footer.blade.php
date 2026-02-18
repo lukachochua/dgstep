@@ -9,7 +9,7 @@
       </div>
 
       <nav class="footer-social flex flex-row items-center gap-3" aria-label="{{ trans('messages.footer.aria.social_media') }}">
-        <a href="#" class="footer-social-link" aria-label="Facebook">
+        <a href="https://www.facebook.com/profile.php?id=61579778014106" class="footer-social-link" aria-label="Facebook">
           <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
             <path d="M13.5 22v-8h2.7l.4-3.2h-3.1V8.9c0-.9.2-1.5 1.6-1.5h1.7V4.6c-.3 0-1.3-.1-2.5-.1-2.5 0-4.1 1.5-4.1 4.3v2h-2.8V14h2.8v8h2.7Z"/>
           </svg>

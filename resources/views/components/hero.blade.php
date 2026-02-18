@@ -47,6 +47,11 @@
   x-data="{
     swiper: null,
     visibilityHandler: null,
+    autoplayEligibilityHandler: null,
+    paginationClickHandler: null,
+    reducedMotionQuery: null,
+    mobileQuery: null,
+    mobileViewport: false,
     progress: {{ $totalSlides > 1 ? 0 : 100 }},
     autoplayEnabled: {{ $totalSlides > 1 ? 'true' : 'false' }},
     userPaused: false,
@@ -91,30 +96,109 @@
       }
       this.pauseAutoplay(true);
     },
+    shouldEnableAutoplay(hasMany) {
+      return hasMany
+        && !this.mobileViewport
+        && !(this.reducedMotionQuery && this.reducedMotionQuery.matches);
+    },
+    syncAutoplayEligibility(hasMany) {
+      const shouldAutoplay = this.shouldEnableAutoplay(hasMany);
+
+      if (shouldAutoplay === this.autoplayEnabled) return;
+
+      if (!this.swiper || !this.swiper.autoplay) {
+        this.autoplayEnabled = shouldAutoplay;
+        this.progress = shouldAutoplay ? 0 : 100;
+        return;
+      }
+
+      if (shouldAutoplay) {
+        this.autoplayEnabled = true;
+        this.progress = 0;
+        this.resumeAutoplay(true);
+        return;
+      }
+
+      if (typeof this.swiper.autoplay.pause === 'function') {
+        this.swiper.autoplay.pause();
+      } else if (typeof this.swiper.autoplay.stop === 'function') {
+        this.swiper.autoplay.stop();
+      }
+
+      this.autoplayEnabled = false;
+      this.userPaused = false;
+      this.progress = 100;
+    },
+    destroy() {
+      if (this.visibilityHandler) {
+        document.removeEventListener('visibilitychange', this.visibilityHandler);
+      }
+
+      if (this.$refs.pagination && this.paginationClickHandler) {
+        this.$refs.pagination.removeEventListener('click', this.paginationClickHandler);
+      }
+
+      if (this.mobileQuery && this.autoplayEligibilityHandler) {
+        if (typeof this.mobileQuery.removeEventListener === 'function') {
+          this.mobileQuery.removeEventListener('change', this.autoplayEligibilityHandler);
+        } else if (typeof this.mobileQuery.removeListener === 'function') {
+          this.mobileQuery.removeListener(this.autoplayEligibilityHandler);
+        }
+      }
+
+      if (this.reducedMotionQuery && this.autoplayEligibilityHandler) {
+        if (typeof this.reducedMotionQuery.removeEventListener === 'function') {
+          this.reducedMotionQuery.removeEventListener('change', this.autoplayEligibilityHandler);
+        } else if (typeof this.reducedMotionQuery.removeListener === 'function') {
+          this.reducedMotionQuery.removeListener(this.autoplayEligibilityHandler);
+        }
+      }
+
+      if (this.swiper && typeof this.swiper.destroy === 'function') {
+        this.swiper.destroy(true, true);
+      }
+
+      this.swiper = null;
+      this.visibilityHandler = null;
+      this.autoplayEligibilityHandler = null;
+      this.paginationClickHandler = null;
+    },
     init() {
       this.$nextTick(() => {
         if (!window.Swiper) return;
 
         const hasMany = {{ $totalSlides }} > 1;
-        const reducedMotionQuery = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
+        const transitionSpeed = 760;
+        const autoplayDelay = 10500;
 
-        this.autoplayEnabled = hasMany && !(reducedMotionQuery && reducedMotionQuery.matches);
+        const modules = window.SwiperModules
+          ? [
+              window.SwiperModules.Navigation,
+              window.SwiperModules.Pagination,
+              window.SwiperModules.Autoplay,
+            ].filter(Boolean)
+          : [];
+
+        this.reducedMotionQuery = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
+        this.mobileQuery = window.matchMedia ? window.matchMedia('(max-width: 899px)') : null;
+        this.mobileViewport = !!(this.mobileQuery && this.mobileQuery.matches);
+
+        this.autoplayEnabled = this.shouldEnableAutoplay(hasMany);
 
         if (!this.autoplayEnabled) {
           this.progress = 100;
         }
 
         this.swiper = new window.Swiper(this.$refs.swiper, {
-          modules: window.SwiperModules
-            ? [window.SwiperModules.Navigation, window.SwiperModules.Pagination, window.SwiperModules.Autoplay]
-            : [],
+          modules,
           slidesPerView: 1,
           loop: hasMany,
-          speed: 680,
+          effect: 'slide',
+          speed: transitionSpeed,
           allowTouchMove: hasMany,
-          autoplay: this.autoplayEnabled
+          autoplay: hasMany
             ? {
-                delay: 6500,
+                delay: autoplayDelay,
                 disableOnInteraction: false,
                 pauseOnMouseEnter: false,
               }
@@ -150,7 +234,36 @@
           },
         });
 
+        if (hasMany && !this.autoplayEnabled && this.swiper.autoplay) {
+          if (typeof this.swiper.autoplay.pause === 'function') {
+            this.swiper.autoplay.pause();
+          } else if (typeof this.swiper.autoplay.stop === 'function') {
+            this.swiper.autoplay.stop();
+          }
+        }
+
         if (hasMany) {
+          this.autoplayEligibilityHandler = () => {
+            this.mobileViewport = !!(this.mobileQuery && this.mobileQuery.matches);
+            this.syncAutoplayEligibility(hasMany);
+          };
+
+          if (this.mobileQuery) {
+            if (typeof this.mobileQuery.addEventListener === 'function') {
+              this.mobileQuery.addEventListener('change', this.autoplayEligibilityHandler);
+            } else if (typeof this.mobileQuery.addListener === 'function') {
+              this.mobileQuery.addListener(this.autoplayEligibilityHandler);
+            }
+          }
+
+          if (this.reducedMotionQuery) {
+            if (typeof this.reducedMotionQuery.addEventListener === 'function') {
+              this.reducedMotionQuery.addEventListener('change', this.autoplayEligibilityHandler);
+            } else if (typeof this.reducedMotionQuery.addListener === 'function') {
+              this.reducedMotionQuery.addListener(this.autoplayEligibilityHandler);
+            }
+          }
+
           this.visibilityHandler = () => {
             if (document.hidden) {
               this.pauseAutoplay();
@@ -161,7 +274,8 @@
           };
 
           document.addEventListener('visibilitychange', this.visibilityHandler);
-          this.$refs.pagination?.addEventListener('click', () => this.markManualNavigation());
+          this.paginationClickHandler = () => this.markManualNavigation();
+          this.$refs.pagination?.addEventListener('click', this.paginationClickHandler);
         }
       });
     },
@@ -179,6 +293,7 @@
                   alt=""
                   width="1920"
                   height="1080"
+                  sizes="100vw"
                   @if($loop->first) loading="eager" fetchpriority="high" @else loading="lazy" @endif
                   decoding="async"
                 />
@@ -209,56 +324,41 @@
                     <p class="hero-v2__subtitle">{{ $slide['subtitle'] }}</p>
                   @endif
 
-                  <div class="hero-v2__actions">
-                    <x-ui.button
-                      href="{{ $slide['button_href'] }}"
-                      variant="hero"
-                      size="lg"
-                      x-on:mouseenter="pauseAutoplay()"
-                      x-on:mouseleave="resumeAutoplay()"
-                      x-on:focusin="pauseAutoplay()"
-                      x-on:focusout="resumeAutoplay()"
-                    >
-                      {{ $slide['button_text'] }}
-                    </x-ui.button>
-                    <x-ui.button
-                      route="services"
-                      variant="ghost"
-                      size="lg"
-                      x-on:mouseenter="pauseAutoplay()"
-                      x-on:mouseleave="resumeAutoplay()"
-                      x-on:focusin="pauseAutoplay()"
-                      x-on:focusout="resumeAutoplay()"
-                    >
-                      {{ __('messages.services') }}
-                    </x-ui.button>
+                  <div class="hero-v2__bottom">
+                    <div class="hero-v2__actions">
+                      <x-ui.button
+                        href="{{ $slide['button_href'] }}"
+                        variant="hero"
+                        size="lg"
+                        class="hero-v2__cta-primary"
+                        x-on:mouseenter="pauseAutoplay()"
+                        x-on:mouseleave="resumeAutoplay()"
+                        x-on:focusin="pauseAutoplay()"
+                        x-on:focusout="resumeAutoplay()"
+                      >
+                        {{ $slide['button_text'] }}
+                      </x-ui.button>
+                      <x-ui.button
+                        route="services"
+                        variant="ghost"
+                        size="lg"
+                        class="hero-v2__cta-secondary"
+                        x-on:mouseenter="pauseAutoplay()"
+                        x-on:mouseleave="resumeAutoplay()"
+                        x-on:focusin="pauseAutoplay()"
+                        x-on:focusout="resumeAutoplay()"
+                      >
+                        {{ __('messages.services') }}
+                      </x-ui.button>
+                    </div>
+
+                    <ul class="hero-v2__trust" aria-label="{{ __('messages.hero.ui.insights_aria') }}">
+                      <li>{{ __('messages.hero.ui.delivery_label') }}: {{ __('messages.hero.ui.delivery_value') }}</li>
+                      <li>{{ __('messages.hero.ui.coverage_label') }}: {{ __('messages.hero.ui.coverage_value') }}</li>
+                      <li>{{ __('messages.hero.ui.tag_smb') }}</li>
+                    </ul>
                   </div>
                 </div>
-
-                <aside class="hero-v2__insights" aria-label="{{ __('messages.hero.ui.insights_aria') }}">
-                  <article class="hero-v2__insight hero-v2__insight--lead">
-                    <p class="hero-v2__insight-label">{{ __('messages.hero.ui.slide_label') }}</p>
-                    <p class="hero-v2__insight-value">
-                      {{ str_pad((string) $loop->iteration, 2, '0', STR_PAD_LEFT) }}/{{ str_pad((string) $totalSlides, 2, '0', STR_PAD_LEFT) }}
-                    </p>
-                  </article>
-
-                  <div class="hero-v2__insight-grid">
-                    <article class="hero-v2__insight">
-                      <p class="hero-v2__insight-label">{{ __('messages.hero.ui.coverage_label') }}</p>
-                      <p class="hero-v2__insight-value">{{ __('messages.hero.ui.coverage_value') }}</p>
-                    </article>
-                    <article class="hero-v2__insight">
-                      <p class="hero-v2__insight-label">{{ __('messages.hero.ui.delivery_label') }}</p>
-                      <p class="hero-v2__insight-value">{{ __('messages.hero.ui.delivery_value') }}</p>
-                    </article>
-                  </div>
-
-                  <div class="hero-v2__insight-tags">
-                    <span>{{ __('messages.hero.ui.tag_workflow') }}</span>
-                    <span>{{ __('messages.hero.ui.tag_smb') }}</span>
-                  </div>
-                </aside>
               </div>
             </div>
           </article>
@@ -318,7 +418,7 @@
       </button>
 
       <div class="hero-v2__hud">
-        <div class="hero-v2__progress" aria-hidden="true">
+        <div class="hero-v2__progress" aria-hidden="true" x-show="autoplayEnabled" x-cloak>
           <span class="hero-v2__progress-fill" :style="{ width: `${Math.min(100, Math.max(0, progress))}%` }"></span>
         </div>
         <div
