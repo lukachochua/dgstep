@@ -14,6 +14,7 @@
 @endphp
 
 <div
+  class="site-nav"
   x-data="{
     open: false,
     theme: 'light',
@@ -105,29 +106,58 @@
     <input type="hidden" name="locale" value="{{ $targetLocale }}">
   </form>
 
-  <div x-show="open" x-cloak class="mobile-nav" id="mobile-nav" @click.outside="closeMenu()">
-    <div class="mobile-nav-panel space-y-2">
-      @foreach ($navLinks as $link)
-        @php $isActive = request()->routeIs($link['route']); @endphp
-        <a href="{{ route($link['route']) }}" @if($isActive) aria-current="page" @endif @click="closeMenu()">
-          {{ $link['label'] }}
-        </a>
-      @endforeach
+  <div
+    x-show="open"
+    x-cloak
+    class="mobile-nav"
+    id="mobile-nav"
+    @click.outside="closeMenu()"
+    x-transition:enter="transition ease-out duration-180"
+    x-transition:enter-start="opacity-0"
+    x-transition:enter-end="opacity-100"
+    x-transition:leave="transition ease-in duration-140"
+    x-transition:leave-start="opacity-100"
+    x-transition:leave-end="opacity-0"
+  >
+    <div
+      class="mobile-nav-panel"
+      x-transition:enter="transition ease-out duration-220"
+      x-transition:enter-start="opacity-0 -translate-y-2"
+      x-transition:enter-end="opacity-100 translate-y-0"
+      x-transition:leave="transition ease-in duration-160"
+      x-transition:leave-start="opacity-100 translate-y-0"
+      x-transition:leave-end="opacity-0 -translate-y-1"
+    >
+      <div class="mobile-nav-panel-inner">
+        <div class="mobile-nav-list">
+          @foreach ($navLinks as $link)
+            @php $isActive = request()->routeIs($link['route']); @endphp
+            <a
+              href="{{ route($link['route']) }}"
+              class="mobile-nav-link {{ $isActive ? 'is-active' : '' }}"
+              @if($isActive) aria-current="page" @endif
+              @click="closeMenu()"
+            >
+              {{ $link['label'] }}
+            </a>
+          @endforeach
+        </div>
 
-      <div class="pt-2 flex items-center gap-2">
-        <button
-          type="button"
-          class="btn btn-sm btn-ghost"
-          onclick="document.getElementById('locale-switch-form').submit(); return false;"
-          aria-label="{{ $targetLocaleSr }}"
-        >
-          <span class="text-base leading-none" aria-hidden="true">{{ $targetLocaleFlag }}</span>
-          <span class="sr-only">{{ $targetLocaleSr }}</span>
-        </button>
+        <div class="mobile-nav-actions">
+          <button
+            type="button"
+            class="btn btn-sm btn-ghost"
+            onclick="document.getElementById('locale-switch-form').submit(); return false;"
+            aria-label="{{ $targetLocaleSr }}"
+          >
+            <span class="text-base leading-none" aria-hidden="true">{{ $targetLocaleFlag }}</span>
+            <span class="sr-only">{{ $targetLocaleSr }}</span>
+          </button>
 
-        <a href="{{ route('contact') }}" class="btn btn-sm btn-primary flex-1 text-center" @click="closeMenu()">
-          {{ __('contact.cta_button') }}
-        </a>
+          <a href="{{ route('contact') }}" class="btn btn-sm btn-primary flex-1 text-center" @click="closeMenu()">
+            {{ __('contact.cta_button') }}
+          </a>
+        </div>
       </div>
     </div>
   </div>
