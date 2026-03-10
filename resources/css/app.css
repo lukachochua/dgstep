@@ -1068,14 +1068,13 @@ a {
   padding: calc(var(--nav-h) + 0.8rem) 0 0.55rem;
 }
 
-.hero-v2[data-ready="false"] .hero-v2__visual,
-.hero-v2[data-ready="false"] .hero-v2__hud {
+.hero-v2[data-ready="false"] .hero-v2__frame {
   opacity: 0;
   visibility: hidden;
+  pointer-events: none;
 }
 
-.hero-v2__visual,
-.hero-v2__hud {
+.hero-v2__frame {
   transition: opacity 180ms ease;
 }
 

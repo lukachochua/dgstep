@@ -54,14 +54,32 @@
   x-data="{
     swiper: null,
     ready: false,
+    fontsReady: false,
+    swiperReady: false,
     slideLabel: @js((string) data_get($content, 'slide_label', __('messages.hero.slide_label'))),
     announcementTemplate: @js((string) data_get($content, 'slide_announcement', __('messages.hero.slide_announcement', ['current' => ':current', 'total' => ':total']))),
     announcement: '',
-    markReady() {
+    maybeMarkReady() {
+      if (this.ready || !this.fontsReady || !this.swiperReady) {
+        return;
+      }
+
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           this.ready = true;
         });
+      });
+    },
+    initFonts() {
+      if (!document.fonts || !document.fonts.ready) {
+        this.fontsReady = true;
+        this.maybeMarkReady();
+        return;
+      }
+
+      document.fonts.ready.then(() => {
+        this.fontsReady = true;
+        this.maybeMarkReady();
       });
     },
     init() {
@@ -69,8 +87,11 @@
         .replace(':current', '1')
         .replace(':total', String({{ $totalSlides }}));
 
+      this.initFonts();
+
       if (!window.Swiper || {{ $totalSlides }} < 2) {
-        this.markReady();
+        this.swiperReady = true;
+        this.maybeMarkReady();
         return;
       }
 
@@ -100,7 +121,8 @@
         },
         on: {
           init: () => {
-            this.markReady();
+            this.swiperReady = true;
+            this.maybeMarkReady();
           },
           slideChange: (swiper) => {
             const currentIndex = (swiper.realIndex ?? 0) + 1;
