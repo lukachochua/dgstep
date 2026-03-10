@@ -16,6 +16,20 @@ window.SwiperModules = {
     Autoplay,
 };
 
+function waitForFonts(fontDescriptors, text, waitMs = 650) {
+    if (!document.fonts || !document.fonts.load) {
+        return Promise.resolve();
+    }
+
+    const fontLoads = fontDescriptors.map((descriptor) => document.fonts.load(descriptor, text));
+    const timeout = new Promise((resolve) => window.setTimeout(resolve, waitMs));
+
+    return Promise.race([
+        Promise.all(fontLoads),
+        timeout,
+    ]).catch(() => undefined);
+}
+
 window.heroSlider = (config = {}) => ({
     swiper: null,
     ready: false,
@@ -38,23 +52,12 @@ window.heroSlider = (config = {}) => ({
         });
     },
     initFonts() {
-        if (!document.fonts || !document.fonts.load) {
-            this.fontsReady = true;
-            this.maybeMarkReady();
-            return;
-        }
-
         const heroText = 'DGstep ოპერაციული პროგრამული პლატფორმები';
-        const fontLoads = [
-            document.fonts.load('400 1em "FiraGO"', heroText),
-            document.fonts.load('700 1em "FiraGO"', heroText),
-        ];
-        const timeout = new Promise((resolve) => window.setTimeout(resolve, this.fontWaitMs));
 
-        Promise.race([
-            Promise.all(fontLoads),
-            timeout,
-        ]).then(() => {
+        waitForFonts([
+            '400 1em "FiraGO"',
+            '700 1em "FiraGO"',
+        ], heroText, this.fontWaitMs).then(() => {
             this.fontsReady = true;
             this.maybeMarkReady();
         });

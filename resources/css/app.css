@@ -20,7 +20,7 @@
   src: url("../fonts/firago/FiraGO-Medium.woff2") format("woff2");
   font-weight: 500;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -81,6 +81,10 @@
   --ring: color-mix(in oklab, var(--brand) 65%, #ffffff 35%);
   --shadow: 0 24px 52px rgba(8, 8, 26, 0.46);
   --shadow-soft: 0 12px 30px rgba(8, 8, 26, 0.32);
+}
+
+html {
+  scrollbar-gutter: stable;
 }
 
 html,
@@ -206,7 +210,7 @@ a {
 }
 
 .section-inner {
-  width: min(1120px, 92vw);
+  width: min(1120px, calc(100% - 2rem));
   margin-inline: auto;
 }
 
@@ -494,7 +498,7 @@ a {
 }
 
 .nav-inner {
-  width: min(1120px, 92vw);
+  width: min(1120px, calc(100% - 2rem));
   height: 100%;
   margin-inline: auto;
   display: flex;
@@ -648,7 +652,7 @@ a {
 }
 
 .mobile-nav-panel-inner {
-  width: min(1120px, 92vw);
+  width: min(1120px, calc(100% - 2rem));
   margin-inline: auto;
   display: grid;
   gap: 0.65rem;
@@ -1992,7 +1996,7 @@ html[lang="ka"] .home-proof .metric-card > p:last-child {
 }
 
 .footer-inner {
-  width: min(1120px, 92vw);
+  width: min(1120px, calc(100% - 2rem));
   margin-inline: auto;
   padding: 1.8rem 0 2.1rem;
 }
@@ -2155,6 +2159,13 @@ html[lang="ka"] .home-proof .metric-card > p:last-child {
 }
 
 @media (min-width: 900px) {
+  .section-inner,
+  .nav-inner,
+  .mobile-nav-panel-inner,
+  .footer-inner {
+    width: min(1120px, calc(100% - 3rem));
+  }
+
   .services-hero {
     grid-template-columns: minmax(0, 1.16fr) minmax(320px, 0.84fr);
   }
