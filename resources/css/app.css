@@ -36,6 +36,9 @@
 
   --bg: #e5e8ea;
   --bg-elevated: #ffffff;
+  --mobile-nav-bg: #ffffff;
+  --mobile-nav-surface: color-mix(in oklab, #ffffff 96%, var(--brand) 4%);
+  --mobile-nav-surface-hover: color-mix(in oklab, #ffffff 92%, var(--brand) 8%);
   --bg-muted: color-mix(in oklab, #e5e8ea 74%, #ffffff 26%);
   --text: #222228;
   --text-muted: color-mix(in oklab, #222228 68%, #ffffff 32%);
@@ -61,6 +64,9 @@
 :root[data-theme="dark"] {
   --bg: #222228;
   --bg-elevated: #000000;
+  --mobile-nav-bg: color-mix(in oklab, #000000 96%, #222228 4%);
+  --mobile-nav-surface: color-mix(in oklab, #000000 90%, var(--brand) 10%);
+  --mobile-nav-surface-hover: color-mix(in oklab, #000000 84%, var(--brand) 16%);
   --bg-muted: color-mix(in oklab, #e5e8ea 10%, #222228 90%);
   --text: #ffffff;
   --text-muted: color-mix(in oklab, #ffffff 74%, #222228 26%);
@@ -415,17 +421,12 @@ a {
   margin-inline: auto;
   padding: 0.35rem 0 0.9rem;
   border-bottom: 1px solid color-mix(in oklab, var(--border) 70%, transparent 30%);
-  background:
-    linear-gradient(
-      180deg,
-      color-mix(in oklab, var(--bg-elevated) 28%, transparent) 0%,
-      color-mix(in oklab, var(--bg-elevated) 18%, transparent) 100%
-    );
+  border-bottom-left-radius: 1.5rem;
+  border-bottom-right-radius: 1.5rem;
+  background: var(--mobile-nav-bg);
   box-shadow:
     0 12px 30px color-mix(in oklab, var(--brand) 10%, transparent),
     inset 0 1px 0 color-mix(in oklab, white 12%, transparent);
-  backdrop-filter: blur(14px) saturate(1.04);
-  -webkit-backdrop-filter: blur(14px) saturate(1.04);
   overflow: hidden;
 }
 
@@ -438,10 +439,10 @@ a {
     radial-gradient(circle at 82% 20%, color-mix(in oklab, var(--accent) 14%, transparent) 0%, transparent 56%),
     linear-gradient(
       180deg,
-      color-mix(in oklab, var(--bg-elevated) 18%, transparent) 0%,
-      color-mix(in oklab, var(--bg-elevated) 6%, transparent) 100%
+      color-mix(in oklab, var(--mobile-nav-bg) 94%, transparent) 0%,
+      color-mix(in oklab, var(--mobile-nav-bg) 82%, transparent) 100%
     );
-  opacity: 0.82;
+  opacity: 0.96;
   pointer-events: none;
 }
 
@@ -488,15 +489,8 @@ a {
   color: color-mix(in oklab, var(--text) 86%, var(--text-muted) 14%);
   text-decoration: none;
   border: 1px solid color-mix(in oklab, var(--border) 58%, transparent 42%);
-  background:
-    linear-gradient(
-      180deg,
-      color-mix(in oklab, var(--bg-elevated) 52%, transparent) 0%,
-      color-mix(in oklab, var(--bg-elevated) 34%, transparent) 100%
-    );
+  background: var(--mobile-nav-surface);
   box-shadow: inset 0 1px 0 color-mix(in oklab, white 10%, transparent);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
   transition: border-color 160ms ease, color 160ms ease, background-color 160ms ease, transform 160ms ease;
 }
 
@@ -504,12 +498,7 @@ a {
 .mobile-nav-link:focus-visible {
   color: var(--text);
   border-color: color-mix(in oklab, var(--brand) 34%, var(--border) 66%);
-  background:
-    linear-gradient(
-      180deg,
-      color-mix(in oklab, var(--bg-elevated) 62%, transparent) 0%,
-      color-mix(in oklab, var(--bg-elevated) 42%, transparent) 100%
-    );
+  background: var(--mobile-nav-surface-hover);
   transform: translateY(-1px);
   outline: none;
 }
@@ -537,9 +526,7 @@ a {
 
 .mobile-nav-actions .btn-ghost {
   border-color: color-mix(in oklab, var(--border) 62%, transparent 38%);
-  background: color-mix(in oklab, var(--bg-elevated) 52%, transparent 48%);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: var(--mobile-nav-surface);
 }
 
 .mobile-nav-actions .btn-primary {
