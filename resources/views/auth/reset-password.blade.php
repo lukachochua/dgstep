@@ -1,6 +1,6 @@
 <x-layouts.base :title="__('auth.reset_password.title')">
   <section class="auth-shell">
-    <article class="auth-card reveal">
+    <x-ui.entity-card variant="auth" class="reveal">
       <span class="section-kicker">Account Recovery</span>
       <h1 class="section-title mt-3 text-[clamp(1.7rem,2.6vw,2.2rem)]">{{ __('auth.reset_password.heading') }}</h1>
       <p class="mt-2 text-sm text-[color:var(--text-muted)]">{{ __('auth.reset_password.subtitle') }}</p>
@@ -31,6 +31,6 @@
           {{ __('auth.reset_password.submit') }}
         </button>
       </form>
-    </article>
+    </x-ui.entity-card>
   </section>
 </x-layouts.base>

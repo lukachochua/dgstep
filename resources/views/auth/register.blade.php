@@ -1,6 +1,6 @@
 <x-layouts.base :title="__('auth.register.title')">
   <section class="auth-shell">
-    <article class="auth-card reveal">
+    <x-ui.entity-card variant="auth" class="reveal">
       <span class="section-kicker">Account</span>
       <h1 class="section-title mt-3 text-[clamp(1.7rem,2.6vw,2.2rem)]">{{ __('auth.register.heading') }}</h1>
       <p class="mt-2 text-sm text-[color:var(--text-muted)]">{{ __('auth.register.subtitle') }}</p>
@@ -45,6 +45,6 @@
           {{ __('auth.register.login_cta') }}
         </a>
       </p>
-    </article>
+    </x-ui.entity-card>
   </section>
 </x-layouts.base>

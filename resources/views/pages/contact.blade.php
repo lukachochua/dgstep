@@ -17,14 +17,12 @@
         <p class="section-lead">{{ $desc }}</p>
 
         <div class="grid gap-3 sm:grid-cols-2">
-          <article class="metric-card">
-            <p class="text-xs uppercase tracking-[0.12em] text-[color:var(--text-muted)]">{{ __('contact.metrics.support') }}</p>
+          <x-ui.stat-card :label="__('contact.metrics.support')">
             <p class="text-sm font-semibold">{{ $featPro }}</p>
-          </article>
-          <article class="metric-card">
-            <p class="text-xs uppercase tracking-[0.12em] text-[color:var(--text-muted)]">{{ __('contact.metrics.team') }}</p>
+          </x-ui.stat-card>
+          <x-ui.stat-card :label="__('contact.metrics.team')">
             <p class="text-sm font-semibold">{{ $featGua }}</p>
-          </article>
+          </x-ui.stat-card>
         </div>
 
         <x-ui.button href="tel:{{ $ctaPhone }}" variant="secondary" size="lg">
@@ -32,7 +30,7 @@
         </x-ui.button>
       </div>
 
-      <div class="panel p-6 md:p-8 reveal reveal-delay-1" id="contact-form">
+      <x-ui.surface-card class="p-6 md:p-8 reveal reveal-delay-1" id="contact-form">
         <form
           x-data="contactForm()"
           x-on:submit.prevent="submitForm"
@@ -90,7 +88,7 @@
             {{ __('contact.form.cta') }}
           </button>
         </form>
-      </div>
+      </x-ui.surface-card>
     </div>
   </section>
 

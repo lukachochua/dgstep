@@ -95,44 +95,50 @@
   }"
 >
   <div class="section-inner">
-    <div class="hero-v2__frame">
+    <x-ui.surface-card as="div" variant="hero" class="hero-v2__frame">
       <div class="swiper hero-v2__swiper" x-ref="swiper">
         <div class="swiper-wrapper">
           @foreach ($normalizedSlides as $slide)
             <article class="swiper-slide hero-v2__slide">
               <div class="hero-v2__grid" data-reveal-ltr-group>
                 <div class="hero-v2__content ltr-reveal" data-reveal-ltr>
-                  <p class="hero-v2__kicker">{{ data_get($content, 'kicker', __('messages.hero.kicker')) }}</p>
+                  <div class="hero-v2__content-main">
+                    <p class="hero-v2__kicker">{{ data_get($content, 'kicker', __('messages.hero.kicker')) }}</p>
 
-                  @php $headingTag = $loop->first ? 'h1' : 'h2'; @endphp
-                  <{{ $headingTag }} class="hero-v2__title">
-                    {{ $slide['title'] }}
-                    @if (filled($slide['highlight']))
-                      <span class="hero-highlight">{{ $slide['highlight'] }}</span>
-                    @endif
-                  </{{ $headingTag }}>
+                    <div class="hero-v2__copy">
+                      @php $headingTag = $loop->first ? 'h1' : 'h2'; @endphp
+                      <{{ $headingTag }} class="hero-v2__title">
+                        {{ $slide['title'] }}
+                        @if (filled($slide['highlight']))
+                          <span class="hero-highlight">{{ $slide['highlight'] }}</span>
+                        @endif
+                      </{{ $headingTag }}>
 
-                  @if (filled($slide['subtitle']))
-                    <p class="hero-v2__subtitle">{{ $slide['subtitle'] }}</p>
-                  @endif
-
-                  <div class="hero-v2__actions">
-                    <x-ui.button href="{{ $slide['button_href'] }}" variant="hero" size="lg">{{ $slide['button_text'] }}</x-ui.button>
-                    <span class="hero-v2__secondary-action">
-                      <x-ui.button route="services" variant="ghost" size="lg">{{ data_get($content, 'secondary_cta', __('messages.hero.secondary_cta')) }}</x-ui.button>
-                    </span>
+                      @if (filled($slide['subtitle']))
+                        <p class="hero-v2__subtitle">{{ $slide['subtitle'] }}</p>
+                      @endif
+                    </div>
                   </div>
 
-                  @if (is_array($audiences) && count($audiences) > 0)
-                    <div class="hero-v2__audience-block">
-                      <p class="hero-v2__eyebrow">{{ data_get($content, 'audiences_label', __('messages.hero.audiences_label')) }}</p>
-                      <ul class="hero-v2__audiences" aria-label="{{ data_get($content, 'audiences_label', __('messages.hero.audiences_label')) }}">
-                        @foreach ($audiences as $audience)
-                          <li>{{ $audience }}</li>
-                        @endforeach
-                      </ul>
+                  <div class="hero-v2__content-footer">
+                    <div class="hero-v2__actions">
+                      <x-ui.button href="{{ $slide['button_href'] }}" variant="hero" size="lg">{{ $slide['button_text'] }}</x-ui.button>
+                      <span class="hero-v2__secondary-action">
+                        <x-ui.button route="services" variant="ghost" size="lg">{{ data_get($content, 'secondary_cta', __('messages.hero.secondary_cta')) }}</x-ui.button>
+                      </span>
                     </div>
-                  @endif
+
+                    @if (is_array($audiences) && count($audiences) > 0)
+                      <div class="hero-v2__audience-block">
+                        <p class="hero-v2__eyebrow">{{ data_get($content, 'audiences_label', __('messages.hero.audiences_label')) }}</p>
+                        <ul class="hero-v2__audiences" aria-label="{{ data_get($content, 'audiences_label', __('messages.hero.audiences_label')) }}">
+                          @foreach ($audiences as $audience)
+                            <li>{{ $audience }}</li>
+                          @endforeach
+                        </ul>
+                      </div>
+                    @endif
+                  </div>
                 </div>
 
                 <div class="hero-v2__visual ltr-reveal" data-reveal-ltr>
@@ -159,7 +165,7 @@
                     </div>
 
                     @if (is_array($slide['overlay_points'] ?? null) && count($slide['overlay_points']) > 0)
-                      <div class="hero-v2__overlay-card">
+                      <x-ui.surface-card as="div" variant="hero-detail" class="hero-v2__overlay-card">
                         <p class="hero-v2__overlay-kicker">{{ $slide['overlay_kicker'] }}</p>
                         <ul class="hero-v2__overlay-list">
                           @foreach ($slide['overlay_points'] as $point)
@@ -169,7 +175,7 @@
                             </li>
                           @endforeach
                         </ul>
-                      </div>
+                      </x-ui.surface-card>
                     @endif
                   </div>
                 </div>
@@ -186,6 +192,6 @@
 
         <p class="sr-only" aria-live="polite" aria-atomic="true" x-text="announcement"></p>
       @endif
-    </div>
+    </x-ui.surface-card>
   </div>
 </section>

@@ -17,8 +17,6 @@ return new class extends Migration
             $table->json('hero_slide_announcement');
             $table->json('hero_audiences_label');
             $table->json('hero_audiences')->nullable();
-            $table->json('hero_visual_card_kicker');
-            $table->json('hero_visual_points')->nullable();
             $table->json('hero_image_alt');
             $table->json('proof_kicker');
             $table->json('proof_title');

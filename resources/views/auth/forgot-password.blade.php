@@ -1,6 +1,6 @@
 <x-layouts.base :title="__('auth.forgot_password.title')">
   <section class="auth-shell">
-    <article class="auth-card reveal">
+    <x-ui.entity-card variant="auth" class="reveal">
       <span class="section-kicker">Account Recovery</span>
       <h1 class="section-title mt-3 text-[clamp(1.7rem,2.6vw,2.2rem)]">{{ __('auth.forgot_password.heading') }}</h1>
       <p class="mt-2 text-sm text-[color:var(--text-muted)]">{{ __('auth.forgot_password.subtitle') }}</p>
@@ -35,6 +35,6 @@
           {{ __('auth.forgot_password.back_to_login') }}
         </a>
       </p>
-    </article>
+    </x-ui.entity-card>
   </section>
 </x-layouts.base>

@@ -1,7 +1,7 @@
 <x-layouts.base :title="$page['title'] ?? __('about.title')">
   <section class="section-block">
     <div class="section-inner space-y-8">
-      <section class="panel about-hero-card p-6 md:p-8 lg:p-10 reveal">
+      <x-ui.surface-card as="section" variant="hero" class="about-hero-card p-6 md:p-8 lg:p-10 reveal">
         <div class="about-hero-grid">
           <div class="space-y-5">
             <span class="section-kicker">{{ $page['hero']['kicker'] }}</span>
@@ -43,17 +43,17 @@
             @endif
           </figure>
         </div>
-      </section>
+      </x-ui.surface-card>
 
-        <section class="about-principles stagger">
+      <section class="about-principles stagger">
         @foreach ($page['principles'] as $principle)
-          <article class="panel about-principle-card about-principle-card--{{ $principle['tone'] }} p-6 md:p-7">
-            @if ($principle['show_label'])
-              <span class="about-principle-label">{{ $principle['label'] }}</span>
-            @endif
-            <h2 class="{{ $principle['show_label'] ? 'mt-4' : '' }} text-2xl font-semibold leading-tight">{!! $principle['heading'] !!}</h2>
-            <p class="mt-3 text-sm leading-6 text-[color:var(--text-muted)] md:text-base">{!! $principle['description'] !!}</p>
-          </article>
+          <x-ui.editorial-card
+            class="about-principle-card about-principle-card--{{ $principle['tone'] }} p-6 md:p-7"
+            :label="$principle['show_label'] ? $principle['label'] : null"
+            :title="strip_tags($principle['heading'])"
+            :body="strip_tags($principle['description'])"
+            :tone="$principle['tone']"
+          />
         @endforeach
       </section>
 
@@ -100,13 +100,14 @@
         </div>
 
         @if ($team['count'] === 0)
-          <article class="panel p-5 text-sm text-[color:var(--text-muted)]">{{ $team['no_members'] }}</article>
+          <x-ui.surface-card as="article" class="p-5 text-sm text-[color:var(--text-muted)]">{{ $team['no_members'] }}</x-ui.surface-card>
         @else
           <div class="about-team-showcase">
             @if (!empty($team['lead']))
-              <button
-                type="button"
-                class="team-card about-team-lead w-full cursor-pointer p-6 text-left"
+              <x-ui.profile-card
+                as="button"
+                layout="lead"
+                class="about-team-lead w-full cursor-pointer p-6 text-left"
                 data-member-name="{{ $team['lead']['name'] ?? $team['member_fallback'] }}"
                 data-member-role="{{ $team['lead']['role'] ?? '' }}"
                 data-member-bio="{{ $team['lead']['bio'] ?? '' }}"
@@ -118,33 +119,20 @@
                   image: $el.dataset.memberImage || ''
                 })"
                 aria-label="{{ $team['open_profile'] }} {{ $team['lead']['name'] ?? $team['member_fallback'] }}"
-              >
-                <div class="about-team-lead-media">
-                  <img
-                    src="{{ $team['lead']['image'] }}"
-                    alt="{{ $team['lead']['name'] ?? $team['member_fallback'] }}"
-                    class="about-team-lead-image"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </div>
-
-                <div class="about-team-lead-copy">
-                  <span class="section-kicker">{{ $team['lead']['role'] ?? '' }}</span>
-                  <h3 class="text-[clamp(1.5rem,2.4vw,2.1rem)] font-semibold leading-tight">{{ $team['lead']['name'] ?? $team['member_fallback'] }}</h3>
-                  @if (!empty($team['lead']['bio']))
-                    <p class="text-sm leading-6 text-[color:var(--text-muted)] md:text-base">{{ $team['lead']['bio'] }}</p>
-                  @endif
-                </div>
-              </button>
+                :image="$team['lead']['image']"
+                :imageAlt="$team['lead']['name'] ?? $team['member_fallback']"
+                :title="$team['lead']['name'] ?? $team['member_fallback']"
+                :subtitle="$team['lead']['role'] ?? ''"
+                :description="$team['lead']['bio'] ?? ''"
+              />
             @endif
 
             @if (!empty($team['core']))
               <div class="about-team-aside">
                 @foreach ($team['core'] as $member)
-                  <button
-                    type="button"
-                    class="team-card about-member-button w-full cursor-pointer p-5 text-left"
+                  <x-ui.profile-card
+                    as="button"
+                    class="about-member-button w-full cursor-pointer p-5 text-left"
                     data-member-name="{{ $member['name'] ?? $team['member_fallback'] }}"
                     data-member-role="{{ $member['role'] ?? '' }}"
                     data-member-bio="{{ $member['bio'] ?? '' }}"
@@ -156,25 +144,12 @@
                       image: $el.dataset.memberImage || ''
                     })"
                     aria-label="{{ $team['open_profile'] }} {{ $member['name'] ?? $team['member_fallback'] }}"
-                  >
-                    <div class="about-member-preview">
-                      <img
-                        src="{{ $member['image'] }}"
-                        alt="{{ $member['name'] ?? $team['member_fallback'] }}"
-                        class="h-16 w-16 rounded-full object-cover"
-                        loading="lazy"
-                        decoding="async"
-                      />
-                      <div>
-                        <h3 class="text-base font-semibold">{{ $member['name'] ?? $team['member_fallback'] }}</h3>
-                        <p class="text-xs text-[color:var(--text-muted)]">{{ $member['role'] ?? '' }}</p>
-                      </div>
-                    </div>
-
-                    @if (!empty($member['bio']))
-                      <p class="mt-4 line-clamp-3 text-sm text-[color:var(--text-muted)]">{{ $member['bio'] }}</p>
-                    @endif
-                  </button>
+                    :image="$member['image']"
+                    :imageAlt="$member['name'] ?? $team['member_fallback']"
+                    :title="$member['name'] ?? $team['member_fallback']"
+                    :subtitle="$member['role'] ?? ''"
+                    :description="$member['bio'] ?? ''"
+                  />
                 @endforeach
               </div>
             @endif
@@ -193,9 +168,9 @@
               class="about-team-grid"
             >
               @foreach ($team['extended'] as $member)
-                <button
-                  type="button"
-                  class="team-card about-member-button w-full cursor-pointer p-5 text-left"
+                <x-ui.profile-card
+                  as="button"
+                  class="about-member-button w-full cursor-pointer p-5 text-left"
                   data-member-name="{{ $member['name'] ?? $team['member_fallback'] }}"
                   data-member-role="{{ $member['role'] ?? '' }}"
                   data-member-bio="{{ $member['bio'] ?? '' }}"
@@ -207,25 +182,12 @@
                     image: $el.dataset.memberImage || ''
                   })"
                   aria-label="{{ $team['open_profile'] }} {{ $member['name'] ?? $team['member_fallback'] }}"
-                >
-                  <div class="about-member-preview">
-                    <img
-                      src="{{ $member['image'] }}"
-                      alt="{{ $member['name'] ?? $team['member_fallback'] }}"
-                      class="h-16 w-16 rounded-full object-cover"
-                      loading="lazy"
-                      decoding="async"
-                    />
-                    <div>
-                      <h3 class="text-base font-semibold">{{ $member['name'] ?? $team['member_fallback'] }}</h3>
-                      <p class="text-xs text-[color:var(--text-muted)]">{{ $member['role'] ?? '' }}</p>
-                    </div>
-                  </div>
-
-                  @if (!empty($member['bio']))
-                    <p class="mt-4 line-clamp-3 text-sm text-[color:var(--text-muted)]">{{ $member['bio'] }}</p>
-                  @endif
-                </button>
+                  :image="$member['image']"
+                  :imageAlt="$member['name'] ?? $team['member_fallback']"
+                  :title="$member['name'] ?? $team['member_fallback']"
+                  :subtitle="$member['role'] ?? ''"
+                  :description="$member['bio'] ?? ''"
+                />
               @endforeach
             </div>
           @endif
@@ -242,7 +204,8 @@
           >
             <div class="absolute inset-0 bg-black/52 backdrop-blur-md" aria-hidden="true"></div>
 
-            <div
+            <x-ui.surface-card
+              as="div"
               x-show="isMemberModalOpen"
               x-transition:enter="transition ease-out duration-250"
               x-transition:enter-start="opacity-0 translate-y-3 scale-[0.98]"
@@ -250,7 +213,8 @@
               x-transition:leave="transition ease-in duration-180"
               x-transition:leave-start="opacity-100 translate-y-0 scale-100"
               x-transition:leave-end="opacity-0 translate-y-2 scale-[0.98]"
-              class="panel about-member-modal relative z-[1] w-full max-w-4xl p-5 md:p-7"
+              variant="default"
+              class="about-member-modal relative z-[1] w-full max-w-4xl p-5 md:p-7"
             >
               <button
                 type="button"
@@ -279,7 +243,7 @@
                   ></p>
                 </div>
               </div>
-            </div>
+            </x-ui.surface-card>
           </div>
         </template>
       </section>

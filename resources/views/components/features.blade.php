@@ -38,42 +38,34 @@
               $imageAlt = __('messages.features.image_alt', ['name' => $name]);
             }
           @endphp
-          <article class="feature-card p-4 md:p-5 ltr-reveal" data-reveal-ltr>
-            <img
-              src="{{ $cardImage }}"
-              alt="{{ $imageAlt }}"
-              class="feature-image mb-4 h-44 w-full"
-              width="1200"
-              height="704"
-              loading="lazy"
-              decoding="async"
-            />
-
-            <h3 class="text-xl font-semibold leading-tight">{{ $name }}</h3>
-            <p class="mt-2 text-sm text-[color:var(--text-muted)] line-clamp-4">{{ $desc }}</p>
+          <x-ui.media-card
+            variant="feature"
+            class="p-4 md:p-5 ltr-reveal"
+            data-reveal-ltr
+            :image="$cardImage"
+            :imageAlt="$imageAlt"
+            :title="$name"
+            :description="$desc"
+          >
             <a href="{{ route('services') }}" class="feature-more-link mt-4 inline-flex text-sm font-semibold">
               {{ $linkLabel }}
             </a>
-          </article>
+          </x-ui.media-card>
         @endforeach
       @else
         @foreach ((is_array($fallbackCards) ? $fallbackCards : []) as $card)
           @php
             $fallbackImage = $card['image'] ?? $fallbackImages[$loop->index % count($fallbackImages)];
           @endphp
-          <article class="feature-card p-5 ltr-reveal" data-reveal-ltr>
-            <img
-              src="{{ $fallbackImage }}"
-              alt="{{ __('messages.features.image_alt', ['name' => ($card['title'] ?? __('services.our_key_services'))]) }}"
-              class="feature-image mb-4 h-44 w-full"
-              width="1200"
-              height="704"
-              loading="lazy"
-              decoding="async"
-            />
-            <h3 class="text-xl font-semibold leading-tight">{{ $card['title'] ?? '' }}</h3>
-            <p class="mt-2 text-sm text-[color:var(--text-muted)] line-clamp-4">{{ $card['description'] ?? '' }}</p>
-          </article>
+          <x-ui.media-card
+            variant="feature"
+            class="p-5 ltr-reveal"
+            data-reveal-ltr
+            :image="$fallbackImage"
+            :imageAlt="__('messages.features.image_alt', ['name' => ($card['title'] ?? __('services.our_key_services'))])"
+            :title="$card['title'] ?? ''"
+            :description="$card['description'] ?? ''"
+          />
         @endforeach
       @endif
     </div>

@@ -16,6 +16,8 @@ return new class extends Migration
             $table->json('highlight')->nullable();
             $table->json('subtitle')->nullable();
             $table->json('button_text')->nullable();
+            $table->json('overlay_kicker')->nullable();
+            $table->json('overlay_points')->nullable();
 
             // Legacy link (kept for backward compatibility)
             $table->string('button_link')->nullable();

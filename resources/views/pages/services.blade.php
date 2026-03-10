@@ -2,7 +2,7 @@
   <section class="section-block services-page" id="services-top">
     <div class="section-inner services-page__stack">
       <header class="services-hero">
-        <div class="services-hero__copy reveal">
+        <x-ui.surface-card as="div" variant="hero" class="services-hero__copy reveal">
           <span class="section-kicker">{{ $page['hero_kicker'] }}</span>
           <h1 class="section-title">{{ $page['hero_title'] }}</h1>
           <p class="section-lead">{{ $page['hero_lead'] }}</p>
@@ -17,41 +17,30 @@
           </div>
 
           <div class="services-hero__stats">
-            <div class="metric-card">
-              <p>{{ $page['stat_tracks_label'] }}</p>
-              <p class="metric-value">{{ $serviceCount }}</p>
-            </div>
-            <div class="metric-card">
-              <p>{{ $page['stat_pain_points_label'] }}</p>
-              <p class="metric-value">{{ $problemCount }}</p>
-            </div>
+            <x-ui.stat-card as="div" :label="$page['stat_tracks_label']" :value="$serviceCount" />
+            <x-ui.stat-card as="div" :label="$page['stat_pain_points_label']" :value="$problemCount" />
           </div>
-        </div>
+        </x-ui.surface-card>
 
-        <aside class="services-hero__overview panel-soft reveal reveal-delay-1">
+        <x-ui.surface-card as="aside" variant="soft" class="services-hero__overview reveal reveal-delay-1">
           <p class="services-hero__overview-kicker">{{ $page['overview_heading'] }}</p>
           <p class="services-hero__overview-copy">{{ $page['overview_body'] }}</p>
 
           <div class="services-overview-list">
             @foreach ($services as $service)
-              <a href="#service-{{ $service['slug'] }}" class="services-overview-item">
-                <span class="services-overview-item__index">
-                  {{ str_pad((string) $service['index'], 2, '0', STR_PAD_LEFT) }}
-                </span>
-                <span class="services-overview-item__content">
-                  <strong>{{ $service['title'] }}</strong>
-                  @if ($service['cue_label'] !== '')
-                    <span>{{ $service['cue_label'] }}</span>
-                  @endif
-                </span>
-              </a>
+              <x-ui.index-link-card
+                href="#service-{{ $service['slug'] }}"
+                :index="str_pad((string) $service['index'], 2, '0', STR_PAD_LEFT)"
+                :title="$service['title']"
+                :subtitle="$service['cue_label'] !== '' ? $service['cue_label'] : null"
+              />
             @endforeach
           </div>
-        </aside>
+        </x-ui.surface-card>
       </header>
 
       @if ($page['proof_items'] !== [])
-        <section class="services-proof panel reveal reveal-delay-2" aria-labelledby="services-proof-title">
+        <x-ui.surface-card as="section" class="services-proof reveal reveal-delay-2" aria-labelledby="services-proof-title">
           <div class="services-proof__head">
             <h2 id="services-proof-title" class="services-proof__title">{{ $page['proof_heading'] }}</h2>
             <p class="services-proof__body">{{ $page['proof_body'] }}</p>
@@ -62,7 +51,7 @@
               <span class="services-proof__chip">{{ $problem }}</span>
             @endforeach
           </div>
-        </section>
+        </x-ui.surface-card>
       @endif
 
       <div id="services-list" class="services-list stagger">
@@ -89,22 +78,24 @@
         @endforeach
       </div>
 
-      <section class="services-cta panel reveal" aria-labelledby="services-cta-title">
-        <div class="services-cta__copy">
-          <span class="section-kicker">{{ $page['cta_kicker'] }}</span>
-          <h2 id="services-cta-title" class="section-title">{{ $page['cta_heading'] }}</h2>
-          <p class="section-lead">{{ $page['cta_body'] }}</p>
-        </div>
-
-        <div class="services-cta__actions">
-          <x-ui.button route="contact" variant="primary" size="lg">
-            {{ $page['cta_primary'] }}
-          </x-ui.button>
-          <a href="#services-top" class="btn btn-lg btn-ghost">
-            {{ $page['cta_secondary'] }}
-          </a>
-        </div>
-      </section>
+      <x-ui.section-cta-card
+        class="services-cta reveal"
+        aria-labelledby="services-cta-title"
+        :kicker="$page['cta_kicker']"
+        :title="$page['cta_heading']"
+        :body="$page['cta_body']"
+      >
+        <x-slot:actions>
+          <div class="services-cta__actions">
+            <x-ui.button route="contact" variant="primary" size="lg">
+              {{ $page['cta_primary'] }}
+            </x-ui.button>
+            <a href="#services-top" class="btn btn-lg btn-ghost">
+              {{ $page['cta_secondary'] }}
+            </a>
+          </div>
+        </x-slot:actions>
+      </x-ui.section-cta-card>
     </div>
   </section>
 </x-layouts.base>
