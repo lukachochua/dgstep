@@ -2,15 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Concerns\ResolvesLocalizedContent;
+use App\Models\HomePage;
 use App\Models\HeroSlide;
 use App\Models\Service;
 use Illuminate\Support\Facades\Route;
 
 class HeroController extends Controller
 {
+    use ResolvesLocalizedContent;
+
     public function index()
     {
         $locale = app()->getLocale();
+        $page = HomePage::singleton();
 
         $slides = HeroSlide::query()
             ->orderBy('id')
@@ -52,6 +57,56 @@ class HeroController extends Controller
 
         $featured = Service::featured()->get();
 
-        return view('pages.home', compact('featured', 'slides'));
+        $homePage = [
+            'title' => $this->localizedText($page->title, $locale),
+            'hero' => [
+                'kicker' => $this->localizedText($page->hero_kicker, $locale),
+                'secondary_cta' => $this->localizedText($page->hero_secondary_cta, $locale),
+                'slide_label' => $this->localizedText($page->hero_slide_label, $locale),
+                'slide_announcement' => $this->localizedText($page->hero_slide_announcement, $locale),
+                'audiences_label' => $this->localizedText($page->hero_audiences_label, $locale),
+                'audiences' => $this->localizedList($page->hero_audiences, $locale),
+                'visual_card_kicker' => $this->localizedText($page->hero_visual_card_kicker, $locale),
+                'visual_points' => $this->localizedPoints($page->hero_visual_points, $locale),
+                'image_alt' => $this->localizedText($page->hero_image_alt, $locale),
+            ],
+            'proof' => [
+                'kicker' => $this->localizedText($page->proof_kicker, $locale),
+                'title' => $this->localizedText($page->proof_title, $locale),
+                'subtitle' => $this->localizedText($page->proof_subtitle, $locale),
+            ],
+            'metrics' => [
+                'focus' => [
+                    'label' => $this->localizedText($page->metric_focus_label, $locale),
+                    'value' => $this->localizedText($page->metric_focus_value, $locale),
+                    'description' => $this->localizedText($page->metric_focus_description, $locale),
+                ],
+                'technology' => [
+                    'label' => $this->localizedText($page->metric_technology_label, $locale),
+                    'value' => $this->localizedText($page->metric_technology_value, $locale),
+                    'description' => $this->localizedText($page->metric_technology_description, $locale),
+                ],
+                'approach' => [
+                    'label' => $this->localizedText($page->metric_approach_label, $locale),
+                    'value' => $this->localizedText($page->metric_approach_value, $locale),
+                    'description' => $this->localizedText($page->metric_approach_description, $locale),
+                ],
+            ],
+            'solutions' => [
+                'kicker' => $this->localizedText($page->solutions_kicker, $locale),
+                'title' => $this->localizedText($page->solutions_title, $locale),
+                'subtitle' => $this->localizedText($page->solutions_subtitle, $locale),
+                'link_label' => $this->localizedText($page->solutions_link_label, $locale),
+            ],
+            'cta' => [
+                'kicker' => $this->localizedText($page->cta_kicker, $locale),
+                'title' => $this->localizedText($page->cta_title, $locale),
+                'subtitle' => $this->localizedText($page->cta_subtitle, $locale),
+                'primary' => $this->localizedText($page->cta_primary, $locale),
+                'secondary' => $this->localizedText($page->cta_secondary, $locale),
+            ],
+        ];
+
+        return view('pages.home', compact('featured', 'slides', 'homePage'));
     }
 }

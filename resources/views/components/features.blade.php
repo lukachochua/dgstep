@@ -1,5 +1,9 @@
 @props([
   'items' => collect(),
+  'kicker' => '',
+  'title' => '',
+  'subtitle' => '',
+  'linkLabel' => '',
 ])
 
 @php
@@ -16,9 +20,9 @@
 <section class="section-block">
   <div class="section-inner space-y-8">
     <div class="ltr-reveal" data-reveal-ltr>
-      <span class="section-kicker">{{ __('messages.home_solutions.kicker') }}</span>
-      <h2 class="section-title mt-3">{{ __('messages.home_solutions.title') }}</h2>
-      <p class="section-lead mt-2">{{ __('messages.home_solutions.subtitle') }}</p>
+      <span class="section-kicker">{{ $kicker }}</span>
+      <h2 class="section-title mt-3">{{ $title }}</h2>
+      <p class="section-lead mt-2">{{ $subtitle }}</p>
     </div>
 
     <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-3" data-reveal-ltr-group>
@@ -48,7 +52,7 @@
             <h3 class="text-xl font-semibold leading-tight">{{ $name }}</h3>
             <p class="mt-2 text-sm text-[color:var(--text-muted)] line-clamp-4">{{ $desc }}</p>
             <a href="{{ route('services') }}" class="feature-more-link mt-4 inline-flex text-sm font-semibold">
-              {{ __('services.read_more') }}
+              {{ $linkLabel }}
             </a>
           </article>
         @endforeach

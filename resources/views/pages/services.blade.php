@@ -1,63 +1,110 @@
-@php
-  use Illuminate\Support\HtmlString;
-@endphp
+<x-layouts.base :title="$page['title']">
+  <section class="section-block services-page" id="services-top">
+    <div class="section-inner services-page__stack">
+      <header class="services-hero">
+        <div class="services-hero__copy reveal">
+          <span class="section-kicker">{{ $page['hero_kicker'] }}</span>
+          <h1 class="section-title">{{ $page['hero_title'] }}</h1>
+          <p class="section-lead">{{ $page['hero_lead'] }}</p>
 
-<x-layouts.base :title="__('services.title')">
-  <section class="section-block">
-    <div class="section-inner space-y-8">
-      <header class="space-y-3 reveal">
-        <span class="section-kicker">{{ __('messages.services') }}</span>
-        <h1 class="section-title">{{ __('services.our_key_services') }}</h1>
-        <p class="section-lead">{{ __('services.how_we_can_help') }}</p>
+          <div class="services-hero__actions">
+            <x-ui.button route="contact" variant="primary" size="lg">
+              {{ $page['hero_primary_cta'] }}
+            </x-ui.button>
+            <a href="#services-list" class="btn btn-lg btn-ghost">
+              {{ $page['hero_secondary_cta'] }}
+            </a>
+          </div>
+
+          <div class="services-hero__stats">
+            <div class="metric-card">
+              <p>{{ $page['stat_tracks_label'] }}</p>
+              <p class="metric-value">{{ $serviceCount }}</p>
+            </div>
+            <div class="metric-card">
+              <p>{{ $page['stat_pain_points_label'] }}</p>
+              <p class="metric-value">{{ $problemCount }}</p>
+            </div>
+          </div>
+        </div>
+
+        <aside class="services-hero__overview panel-soft reveal reveal-delay-1">
+          <p class="services-hero__overview-kicker">{{ $page['overview_heading'] }}</p>
+          <p class="services-hero__overview-copy">{{ $page['overview_body'] }}</p>
+
+          <div class="services-overview-list">
+            @foreach ($services as $service)
+              <a href="#service-{{ $service['slug'] }}" class="services-overview-item">
+                <span class="services-overview-item__index">
+                  {{ str_pad((string) $service['index'], 2, '0', STR_PAD_LEFT) }}
+                </span>
+                <span class="services-overview-item__content">
+                  <strong>{{ $service['title'] }}</strong>
+                  @if ($service['cue_label'] !== '')
+                    <span>{{ $service['cue_label'] }}</span>
+                  @endif
+                </span>
+              </a>
+            @endforeach
+          </div>
+        </aside>
       </header>
 
-      @php
-        $locale = app()->getLocale();
-        $services = \App\Models\Service::ordered()->get();
-      @endphp
+      @if ($page['proof_items'] !== [])
+        <section class="services-proof panel reveal reveal-delay-2" aria-labelledby="services-proof-title">
+          <div class="services-proof__head">
+            <h2 id="services-proof-title" class="services-proof__title">{{ $page['proof_heading'] }}</h2>
+            <p class="services-proof__body">{{ $page['proof_body'] }}</p>
+          </div>
 
-      <div class="space-y-6">
-        @foreach($services as $i => $service)
-          @php
-            $names = $service->name ?? [];
-            $descriptions = $service->description ?? [];
-            $expanded = $service->description_expanded ?? [];
+          <div class="services-proof__chips">
+            @foreach ($page['proof_items'] as $problem)
+              <span class="services-proof__chip">{{ $problem }}</span>
+            @endforeach
+          </div>
+        </section>
+      @endif
 
-            $title = is_array($names) ? ($names[$locale] ?? $names['en'] ?? '') : (string) $names;
-            $description = is_array($descriptions) ? ($descriptions[$locale] ?? $descriptions['en'] ?? '') : (string) $descriptions;
-            $descriptionFull = is_array($expanded) ? ($expanded[$locale] ?? $expanded['en'] ?? '') : (string) $expanded;
-
-            $imageUrl = $service->image_url ?? null;
-            $imageAlt = $service->image_alt ?: $title;
-          @endphp
-
+      <div id="services-list" class="services-list stagger">
+        @foreach ($services as $service)
           <x-service.row
-            :title="$title"
-            :description="$description"
-            :fullDescription="new HtmlString($descriptionFull)"
-            :image="$imageUrl"
-            :imageAlt="$imageAlt"
-            :reversed="($i % 2) === 1"
+            :title="$service['title']"
+            :description="$service['description']"
+            :fullDescription="$service['full_description']"
+            :image="$service['image']"
+            :imageAlt="$service['image_alt']"
+            :slug="$service['slug']"
+            :problems="$service['problems']"
+            :index="$service['index']"
+            :cueStyle="$service['cue_style']"
+            :cueLabel="$service['cue_label']"
+            :cueValues="$service['cue_values']"
+            :problemsHeading="$page['card_problems_heading']"
+            :ctaLabel="$page['card_cta']"
+            :backToTopLabel="$page['card_back_to_top']"
+            :readMoreLabel="$page['read_more_label']"
+            :showLessLabel="$page['show_less_label']"
+            :reversed="(($service['index'] - 1) % 2) === 1"
           />
         @endforeach
       </div>
 
-      <div class="panel p-6 md:p-8 reveal">
-        <h2 class="text-2xl font-semibold">{{ __('services.sections.problems_heading') }}</h2>
-        <ul class="mt-4 grid gap-3 md:grid-cols-2">
-          @foreach (__('services.sections.problems') as $problem)
-            <li class="panel-soft px-4 py-3 text-sm text-[color:var(--text-muted)]">
-              {{ $problem }}
-            </li>
-          @endforeach
-        </ul>
-
-        <div class="mt-6">
-          <x-ui.button route="contact" variant="primary" size="lg">
-            {{ __('about.cta') }}
-          </x-ui.button>
+      <section class="services-cta panel reveal" aria-labelledby="services-cta-title">
+        <div class="services-cta__copy">
+          <span class="section-kicker">{{ $page['cta_kicker'] }}</span>
+          <h2 id="services-cta-title" class="section-title">{{ $page['cta_heading'] }}</h2>
+          <p class="section-lead">{{ $page['cta_body'] }}</p>
         </div>
-      </div>
+
+        <div class="services-cta__actions">
+          <x-ui.button route="contact" variant="primary" size="lg">
+            {{ $page['cta_primary'] }}
+          </x-ui.button>
+          <a href="#services-top" class="btn btn-lg btn-ghost">
+            {{ $page['cta_secondary'] }}
+          </a>
+        </div>
+      </section>
     </div>
   </section>
 </x-layouts.base>

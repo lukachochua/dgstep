@@ -1,5 +1,6 @@
 @props([
   'slides' => [],
+  'content' => [],
 ])
 
 @php
@@ -39,8 +40,8 @@
       ];
   }
 
-  $visualPoints = trans('messages.hero.visual_points');
-  $audiences = trans('messages.hero.audiences');
+  $visualPoints = data_get($content, 'visual_points', trans('messages.hero.visual_points'));
+  $audiences = data_get($content, 'audiences', trans('messages.hero.audiences'));
   $totalSlides = count($normalizedSlides);
 @endphp
 
@@ -48,8 +49,8 @@
   class="hero-v2"
   x-data="{
     swiper: null,
-    slideLabel: @js(__('messages.hero.slide_label')),
-    announcementTemplate: @js(__('messages.hero.slide_announcement', ['current' => ':current', 'total' => ':total'])),
+    slideLabel: @js((string) data_get($content, 'slide_label', __('messages.hero.slide_label'))),
+    announcementTemplate: @js((string) data_get($content, 'slide_announcement', __('messages.hero.slide_announcement', ['current' => ':current', 'total' => ':total']))),
     announcement: '',
     init() {
       if (!window.Swiper || {{ $totalSlides }} < 2) return;
@@ -98,7 +99,7 @@
             <article class="swiper-slide hero-v2__slide">
               <div class="hero-v2__grid" data-reveal-ltr-group>
                 <div class="hero-v2__content ltr-reveal" data-reveal-ltr>
-                  <p class="hero-v2__kicker">{{ __('messages.hero.kicker') }}</p>
+                  <p class="hero-v2__kicker">{{ data_get($content, 'kicker', __('messages.hero.kicker')) }}</p>
 
                   @php $headingTag = $loop->first ? 'h1' : 'h2'; @endphp
                   <{{ $headingTag }} class="hero-v2__title">
@@ -115,14 +116,14 @@
                   <div class="hero-v2__actions">
                     <x-ui.button href="{{ $slide['button_href'] }}" variant="hero" size="lg">{{ $slide['button_text'] }}</x-ui.button>
                     <span class="hero-v2__secondary-action">
-                      <x-ui.button route="services" variant="ghost" size="lg">{{ __('messages.hero.secondary_cta') }}</x-ui.button>
+                      <x-ui.button route="services" variant="ghost" size="lg">{{ data_get($content, 'secondary_cta', __('messages.hero.secondary_cta')) }}</x-ui.button>
                     </span>
                   </div>
 
                   @if (is_array($audiences) && count($audiences) > 0)
                     <div class="hero-v2__audience-block">
-                      <p class="hero-v2__eyebrow">{{ __('messages.hero.audiences_label') }}</p>
-                      <ul class="hero-v2__audiences" aria-label="{{ __('messages.hero.audiences_label') }}">
+                      <p class="hero-v2__eyebrow">{{ data_get($content, 'audiences_label', __('messages.hero.audiences_label')) }}</p>
+                      <ul class="hero-v2__audiences" aria-label="{{ data_get($content, 'audiences_label', __('messages.hero.audiences_label')) }}">
                         @foreach ($audiences as $audience)
                           <li>{{ $audience }}</li>
                         @endforeach
@@ -143,7 +144,7 @@
                       @if ($slide['image'])
                         <img
                           src="{{ $slide['image'] }}"
-                          alt="{{ __('messages.hero.image_alt') }}"
+                          alt="{{ data_get($content, 'image_alt', __('messages.hero.image_alt')) }}"
                           width="1600"
                           height="1200"
                           @if($loop->first) loading="eager" fetchpriority="high" @else loading="lazy" @endif
@@ -156,7 +157,7 @@
 
                     @if (is_array($visualPoints) && count($visualPoints) > 0)
                       <div class="hero-v2__overlay-card">
-                        <p class="hero-v2__overlay-kicker">{{ __('messages.hero.visual_card_kicker') }}</p>
+                        <p class="hero-v2__overlay-kicker">{{ data_get($content, 'visual_card_kicker', __('messages.hero.visual_card_kicker')) }}</p>
                         <ul class="hero-v2__overlay-list">
                           @foreach ($visualPoints as $point)
                             <li>

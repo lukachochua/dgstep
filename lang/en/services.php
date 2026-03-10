@@ -6,6 +6,33 @@ return [
     'how_we_can_help' => 'We offer a solution that will make your business more efficient.',
     'read_more' => 'Read More',
     'show_less' => 'Show Less',
+    'jump_to_service' => 'Jump to service',
+    'hero' => [
+        'title' => 'Service tracks shaped around the way Georgian teams actually operate.',
+        'lead' => 'DGstep helps businesses replace scattered spreadsheets, chats, and manual reporting with one practical workflow system built for day-to-day operations.',
+        'primary_cta' => 'Book a consultation',
+        'secondary_cta' => 'Explore service tracks',
+        'overview_heading' => 'Where we help most',
+        'overview_body' => 'Each service track is built around a specific operating model, so the page should help visitors quickly identify the closest fit.',
+        'proof_heading' => 'Common gaps we remove',
+        'proof_body' => 'These are the operational blockers we see repeatedly across service-heavy and compliance-heavy teams.',
+    ],
+    'stats' => [
+        'tracks' => 'Service Tracks',
+        'pain_points' => 'Pain Points Mapped',
+    ],
+    'card' => [
+        'problems_heading' => 'Typical Gaps',
+        'cta' => 'Talk about this service',
+        'back_to_top' => 'Back to top',
+    ],
+    'cta' => [
+        'kicker' => 'Next Step',
+        'heading' => 'Need a workflow that matches your business instead of forcing you into generic software?',
+        'body' => 'We can review the process you already run, identify the weak spots, and shape the right DGstep setup without changing your existing admin flow.',
+        'primary' => 'Start the conversation',
+        'secondary' => 'Return to top',
+    ],
     'sections' => [
         'pawnshop' => [
             'title' => 'Pawnshop Operations',

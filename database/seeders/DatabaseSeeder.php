@@ -107,6 +107,8 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             AboutPageSeeder::class,
+            HomePageSeeder::class,
+            ServicesPageSeeder::class,
             ServiceSeeder::class,
             ContactPageSeeder::class,
 

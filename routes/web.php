@@ -3,8 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Http\Controllers\HeroController;
+use App\Http\Controllers\ServicesPageController;
 use App\Models\AboutPage;
-use App\Models\Service;
 
 
 // Standard Routes
@@ -19,9 +19,7 @@ Route::get('/about', function () {
     return view('pages.about', compact('aboutPage', 'aboutDefaults'));
 })->name('about');
 
-Route::get('/services', function () {
-    return view('pages.services');
-})->name('services');
+Route::get('/services', ServicesPageController::class)->name('services');
 
 Route::get('/projects', function () {
     return view('pages.projects');
