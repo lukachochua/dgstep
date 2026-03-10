@@ -15,6 +15,103 @@ window.SwiperModules = {
     Pagination,
     Autoplay,
 };
+
+window.heroSlider = (config = {}) => ({
+    swiper: null,
+    ready: false,
+    fontsReady: false,
+    swiperReady: false,
+    slideLabel: config.slideLabel ?? '',
+    announcementTemplate: config.announcementTemplate ?? '',
+    announcement: '',
+    totalSlides: Number(config.totalSlides ?? 1),
+    fontWaitMs: Number(config.fontWaitMs ?? 650),
+    maybeMarkReady() {
+        if (this.ready || !this.fontsReady || !this.swiperReady) {
+            return;
+        }
+
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                this.ready = true;
+            });
+        });
+    },
+    initFonts() {
+        if (!document.fonts || !document.fonts.load) {
+            this.fontsReady = true;
+            this.maybeMarkReady();
+            return;
+        }
+
+        const heroText = 'DGstep ოპერაციული პროგრამული პლატფორმები';
+        const fontLoads = [
+            document.fonts.load('400 1em "FiraGO"', heroText),
+            document.fonts.load('700 1em "FiraGO"', heroText),
+        ];
+        const timeout = new Promise((resolve) => window.setTimeout(resolve, this.fontWaitMs));
+
+        Promise.race([
+            Promise.all(fontLoads),
+            timeout,
+        ]).then(() => {
+            this.fontsReady = true;
+            this.maybeMarkReady();
+        });
+    },
+    init() {
+        this.announcement = this.announcementTemplate
+            .replace(':current', '1')
+            .replace(':total', String(this.totalSlides));
+
+        this.initFonts();
+
+        if (!window.Swiper || this.totalSlides < 2) {
+            this.swiperReady = true;
+            this.maybeMarkReady();
+            return;
+        }
+
+        const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const modules = window.SwiperModules
+            ? [window.SwiperModules.Pagination, window.SwiperModules.Autoplay].filter(Boolean)
+            : [];
+
+        this.swiper = new window.Swiper(this.$refs.swiper, {
+            modules,
+            slidesPerView: 1,
+            loop: true,
+            speed: prefersReduced ? 0 : 760,
+            autoplay: prefersReduced
+                ? false
+                : {
+                    delay: 8200,
+                    disableOnInteraction: false,
+                    pauseOnMouseEnter: true,
+                },
+            pagination: {
+                el: this.$refs.pagination,
+                clickable: true,
+                bulletClass: 'hero-v2__dot',
+                bulletActiveClass: 'is-active',
+                renderBullet: (index, className) => `<button type="button" class="${className}" aria-label="${this.slideLabel} ${index + 1}"></button>`,
+            },
+            on: {
+                init: () => {
+                    this.swiperReady = true;
+                    this.maybeMarkReady();
+                },
+                slideChange: (swiper) => {
+                    const currentIndex = (swiper.realIndex ?? 0) + 1;
+                    this.announcement = this.announcementTemplate
+                        .replace(':current', String(currentIndex))
+                        .replace(':total', String(this.totalSlides));
+                },
+            },
+        });
+    },
+});
+
 Alpine.start();
 
 function initLtrRevealOnScroll() {

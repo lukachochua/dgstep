@@ -51,99 +51,12 @@
 <section
   class="hero-v2"
   x-bind:data-ready="ready ? 'true' : 'false'"
-  x-data="{
-    swiper: null,
-    ready: false,
-    fontsReady: false,
-    swiperReady: false,
+  x-data="heroSlider({
     slideLabel: @js((string) data_get($content, 'slide_label', __('messages.hero.slide_label'))),
     announcementTemplate: @js((string) data_get($content, 'slide_announcement', __('messages.hero.slide_announcement', ['current' => ':current', 'total' => ':total']))),
-    announcement: '',
-    maybeMarkReady() {
-      if (this.ready || !this.fontsReady || !this.swiperReady) {
-        return;
-      }
-
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          this.ready = true;
-        });
-      });
-    },
-    initFonts() {
-      if (!document.fonts || !document.fonts.load) {
-        this.fontsReady = true;
-        this.maybeMarkReady();
-        return;
-      }
-
-      const heroText = 'DGstep ოპერაციული პროგრამული პლატფორმები';
-      const fontLoads = [
-        document.fonts.load('400 1em "FiraGO"', heroText),
-        document.fonts.load('700 1em "FiraGO"', heroText),
-      ];
-      const timeout = new Promise((resolve) => window.setTimeout(resolve, 650));
-
-      Promise.race([
-        Promise.all(fontLoads),
-        timeout,
-      ]).then(() => {
-        this.fontsReady = true;
-        this.maybeMarkReady();
-      });
-    },
-    init() {
-      this.announcement = this.announcementTemplate
-        .replace(':current', '1')
-        .replace(':total', String({{ $totalSlides }}));
-
-      this.initFonts();
-
-      if (!window.Swiper || {{ $totalSlides }} < 2) {
-        this.swiperReady = true;
-        this.maybeMarkReady();
-        return;
-      }
-
-      const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const modules = window.SwiperModules
-        ? [window.SwiperModules.Pagination, window.SwiperModules.Autoplay].filter(Boolean)
-        : [];
-
-      this.swiper = new window.Swiper(this.$refs.swiper, {
-        modules,
-        slidesPerView: 1,
-        loop: true,
-        speed: prefersReduced ? 0 : 760,
-        autoplay: prefersReduced
-          ? false
-          : {
-              delay: 8200,
-              disableOnInteraction: false,
-              pauseOnMouseEnter: true,
-            },
-        pagination: {
-          el: this.$refs.pagination,
-          clickable: true,
-          bulletClass: 'hero-v2__dot',
-          bulletActiveClass: 'is-active',
-          renderBullet: (index, className) => `<button type='button' class='${className}' aria-label='${this.slideLabel} ${index + 1}'></button>`,
-        },
-        on: {
-          init: () => {
-            this.swiperReady = true;
-            this.maybeMarkReady();
-          },
-          slideChange: (swiper) => {
-            const currentIndex = (swiper.realIndex ?? 0) + 1;
-            this.announcement = this.announcementTemplate
-              .replace(':current', String(currentIndex))
-              .replace(':total', String({{ $totalSlides }}));
-          },
-        },
-      });
-    },
-  }"
+    totalSlides: {{ $totalSlides }},
+    fontWaitMs: 650,
+  })"
 >
   <div class="section-inner">
     <x-ui.surface-card as="div" variant="hero" class="hero-v2__frame">
