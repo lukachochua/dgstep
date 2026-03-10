@@ -1065,7 +1065,7 @@ a {
 
 .hero-v2 {
   width: 100%;
-  padding: calc(var(--nav-h) + 0.5rem) 0 0.55rem;
+  padding: calc(var(--nav-h) + 0.8rem) 0 0.55rem;
 }
 
 .hero-surface-card,
@@ -1449,7 +1449,7 @@ a {
 
 @media (max-width: 639px) {
   .hero-v2 {
-    padding-top: calc(var(--nav-h) + 0.5rem);
+    padding-top: calc(var(--nav-h) + 0.8rem);
     padding-bottom: 0.3rem;
   }
 
