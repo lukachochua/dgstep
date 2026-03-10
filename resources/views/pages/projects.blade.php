@@ -1,47 +1,68 @@
-<x-layouts.base :title="__('projects.title')">
+<x-layouts.base :title="$page['title'] ?? __('projects.title')">
   <section class="section-block">
     <div class="section-inner space-y-8">
-      <header class="space-y-3 reveal">
-        <span class="section-kicker">{{ __('messages.projects') }}</span>
-        <h1 class="section-title">{{ __('projects.heading') }}</h1>
-        <p class="section-lead">{{ __('projects.subheading') }}</p>
-      </header>
-
-      <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3 stagger">
-        @foreach (__('projects.cards') as $i => $card)
-          <article class="project-card p-4 md:p-5">
-            <img
-              @if ($i === 0)
-                src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1000&auto=format&fit=crop"
-              @elseif($i === 1)
-                src="https://images.unsplash.com/photo-1560264280-88b68371db39?q=80&w=1000&auto=format&fit=crop"
-              @else
-                src="https://images.unsplash.com/photo-1620825141088-a824daf6a46b?q=80&w=1000&auto=format&fit=crop"
-              @endif
-              alt="{{ $card['title'] }}"
-              class="project-image h-44 w-full"
-              loading="lazy"
-              decoding="async"
-            />
-
-            <h2 class="mt-4 text-xl font-semibold leading-tight">{{ $card['title'] }}</h2>
-            <p class="mt-2 text-sm text-[color:var(--text-muted)]">{{ $card['description'] }}</p>
-          </article>
-        @endforeach
-      </div>
-
-      <div class="panel p-6 md:p-8 reveal">
-        <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <div>
-            <h2 class="text-2xl font-semibold">{{ __('projects.cta_heading') }}</h2>
-            <p class="mt-1 text-sm text-[color:var(--text-muted)]">{{ __('projects.cta_description') }}</p>
+      <section class="panel projects-hero-card p-6 md:p-8 lg:p-10 reveal">
+        <div class="projects-hero-grid">
+          <div class="space-y-5">
+            <span class="section-kicker">{{ $page['hero_kicker'] }}</span>
+            <h1 class="section-title">{{ $page['hero_title'] }}</h1>
+            <p class="section-lead">{{ $page['hero_lead'] }}</p>
           </div>
 
-          <x-ui.button route="contact" variant="primary" size="lg">
-            {{ __('projects.cta') }}
+          <div class="projects-proof-band">
+            <div class="space-y-3">
+              <p class="text-sm font-semibold uppercase tracking-[0.18em] text-[color:var(--brand-strong)]">
+                {{ $page['proof_heading'] }}
+              </p>
+              <p class="text-sm leading-6 text-[color:var(--text-muted)] md:text-base">
+                {{ $page['proof_body'] }}
+              </p>
+            </div>
+
+            @if (!empty($page['proof_items']))
+              <div class="projects-proof-list">
+                @foreach ($page['proof_items'] as $item)
+                  <span class="projects-proof-chip">{{ $item }}</span>
+                @endforeach
+              </div>
+            @endif
+          </div>
+        </div>
+      </section>
+
+      <section class="projects-grid stagger">
+        @foreach ($cards as $card)
+          <article class="project-card projects-card p-4 md:p-5">
+            @if (!empty($card['image']))
+              <img
+                src="{{ $card['image'] }}"
+                alt="{{ $card['title'] }}"
+                class="project-image h-52 w-full"
+                loading="lazy"
+                decoding="async"
+              />
+            @endif
+
+            <div class="projects-card-copy">
+              <h2 class="text-xl font-semibold leading-tight">{{ $card['title'] }}</h2>
+              <p class="text-sm leading-6 text-[color:var(--text-muted)]">{{ $card['description'] }}</p>
+            </div>
+          </article>
+        @endforeach
+      </section>
+
+      <section class="panel projects-cta p-6 md:p-8 reveal">
+        <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div>
+            <h2 class="text-2xl font-semibold">{{ $page['cta_heading'] }}</h2>
+            <p class="mt-1 text-sm text-[color:var(--text-muted)] md:text-base">{{ $page['cta_description'] }}</p>
+          </div>
+
+          <x-ui.button route="contact" variant="primary" size="lg" class="projects-cta-button">
+            {{ $page['cta_label'] }}
           </x-ui.button>
         </div>
-      </div>
+      </section>
     </div>
   </section>
 </x-layouts.base>

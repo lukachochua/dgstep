@@ -109,6 +109,7 @@ class DatabaseSeeder extends Seeder
             AboutPageSeeder::class,
             HomePageSeeder::class,
             ServicesPageSeeder::class,
+            ProjectsPageSeeder::class,
             ServiceSeeder::class,
             ContactPageSeeder::class,
 

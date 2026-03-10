@@ -1649,6 +1649,269 @@ html[lang="ka"] .home-proof .metric-card > p:last-child {
   object-fit: cover;
 }
 
+.about-hero-card {
+  overflow: hidden;
+}
+
+.about-hero-grid {
+  display: grid;
+  gap: 1.75rem;
+}
+
+.about-story-copy {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.about-proof-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 0.8rem;
+}
+
+.about-proof-chip {
+  border: 1px solid color-mix(in oklab, var(--border) 88%, transparent 12%);
+  border-radius: 1rem;
+  padding: 0.95rem 1rem;
+  background: color-mix(in oklab, var(--bg-elevated) 80%, var(--bg-muted) 20%);
+  color: var(--text);
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.about-hero-media {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.about-hero-image {
+  width: 100%;
+  min-height: 20rem;
+}
+
+.about-hero-caption {
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+.about-principles {
+  display: grid;
+  gap: 1rem;
+}
+
+.about-principle-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.about-principle-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 4px;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--brand-strong) 74%, var(--accent) 26%);
+}
+
+.about-principle-card--vision::before {
+  background: color-mix(in oklab, var(--accent) 72%, var(--brand-strong) 28%);
+}
+
+.about-principle-label {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.35rem 0.72rem;
+  background: color-mix(in oklab, var(--brand-strong) 12%, transparent);
+  color: var(--brand-strong);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.about-team-section {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.about-team-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.about-team-toggle {
+  flex-shrink: 0;
+}
+
+.about-team-showcase {
+  display: grid;
+  gap: 1rem;
+}
+
+.about-team-lead {
+  display: grid;
+  gap: 1.35rem;
+  align-items: center;
+}
+
+.about-team-lead-media {
+  min-width: 0;
+}
+
+.about-team-lead-image {
+  width: 100%;
+  min-height: 16rem;
+  border-radius: calc(var(--radius) - 0.2rem);
+  object-fit: cover;
+}
+
+.about-team-lead-copy {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.about-team-aside,
+.about-team-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.about-member-button {
+  min-height: 100%;
+}
+
+.about-member-preview {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.about-member-modal {
+  max-height: min(88vh, 52rem);
+  overflow: auto;
+}
+
+.projects-hero-card {
+  overflow: hidden;
+}
+
+.projects-hero-grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.projects-proof-band {
+  display: grid;
+  gap: 1rem;
+  border: 1px solid color-mix(in oklab, var(--border) 88%, transparent 12%);
+  border-radius: 1rem;
+  padding: 1rem;
+  background: color-mix(in oklab, var(--bg-elevated) 82%, var(--bg-muted) 18%);
+}
+
+.projects-proof-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.projects-proof-chip {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.45rem 0.8rem;
+  background: color-mix(in oklab, var(--brand-strong) 10%, transparent);
+  color: var(--brand-strong);
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.projects-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.projects-card {
+  display: grid;
+  gap: 1rem;
+}
+
+.projects-card-copy {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.projects-cta {
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(in oklab, var(--brand-strong) 10%, var(--bg-elevated) 90%) 0%,
+      color-mix(in oklab, var(--accent) 10%, var(--bg-muted) 90%) 100%
+    );
+}
+
+.projects-cta-button {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+@media (min-width: 768px) {
+  .about-principles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .about-team-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .projects-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .about-hero-grid {
+    grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
+    align-items: center;
+  }
+
+  .about-team-showcase {
+    grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
+    align-items: stretch;
+  }
+
+  .about-team-lead {
+    grid-template-columns: minmax(220px, 0.72fr) minmax(0, 1fr);
+  }
+
+  .projects-hero-grid {
+    grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+    align-items: center;
+  }
+
+  .projects-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 767px) {
+  .about-team-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .about-team-toggle {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
 .footer-shell {
   margin-top: 2.2rem;
   border-top: 1px solid color-mix(in oklab, var(--border) 86%, transparent 14%);

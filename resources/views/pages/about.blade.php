@@ -1,97 +1,69 @@
-@php
-    use Illuminate\Support\Facades\Storage;
-
-    $locale = app()->getLocale();
-    $aboutDefaults = $aboutDefaults ?? \App\Models\AboutPage::defaults();
-    $aboutPage = $aboutPage ?? \App\Models\AboutPage::singleton();
-
-    $pageTitle = $aboutPage->translated('title', $locale, $aboutDefaults);
-
-    $heroImageUrl = $aboutPage->hero_image_url ?? ($aboutDefaults['hero_image_url'] ?? null);
-    $heroImageAlt = $aboutPage->translated('hero_image_alt', $locale, $aboutDefaults);
-    $heroCaption = $aboutPage->translated('hero_caption', $locale, $aboutDefaults);
-
-    $whoHeading = $aboutPage->translated('who_heading', $locale, $aboutDefaults);
-    $whoParagraph1 = $aboutPage->translated('who_paragraph_1', $locale, $aboutDefaults);
-    $whoParagraph2 = $aboutPage->translated('who_paragraph_2', $locale, $aboutDefaults);
-
-    $missionHeading = $aboutPage->translated('mission_heading', $locale, $aboutDefaults);
-    $missionDescription = $aboutPage->translated('mission_description', $locale, $aboutDefaults);
-
-    $visionHeading = $aboutPage->translated('vision_heading', $locale, $aboutDefaults);
-    $visionDescription = $aboutPage->translated('vision_description', $locale, $aboutDefaults);
-
-    $badges = $aboutPage->badgesForLocale($locale, $aboutDefaults);
-
-    $managementHeading = $aboutPage->translated('management_heading', $locale, $aboutDefaults);
-    $managementMembers = $aboutPage->membersForLocale($locale, $aboutDefaults);
-
-    $defaultMemberImage = 'https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=300&h=300&fit=crop';
-
-    $resolveMemberImage = function (array $member) use ($defaultMemberImage) {
-        $uploadPath = $member['image_path'] ?? null;
-
-        if ($uploadPath) {
-            try {
-                return Storage::disk('public')->url($uploadPath);
-            } catch (\Throwable $exception) {
-            }
-        }
-
-        return ($member['image_url'] ?? null) ?: $defaultMemberImage;
-    };
-@endphp
-
-<x-layouts.base :title="$pageTitle ?? __('about.title')">
+<x-layouts.base :title="$page['title'] ?? __('about.title')">
   <section class="section-block">
     <div class="section-inner space-y-8">
-      <div class="panel p-6 md:p-8 lg:p-10 reveal">
-        <div class="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-          <div class="space-y-4">
-            <span class="section-kicker">{{ __('messages.about') }}</span>
-            <h1 class="section-title">{!! $whoHeading ?? __('about.who_we_are.heading') !!}</h1>
-            <p class="section-lead">{!! $whoParagraph1 ?? __('about.who_we_are.paragraph_1') !!}</p>
-            <p class="text-sm text-[color:var(--text-muted)]">{!! $whoParagraph2 ?? __('about.who_we_are.paragraph_2') !!}</p>
+      <section class="panel about-hero-card p-6 md:p-8 lg:p-10 reveal">
+        <div class="about-hero-grid">
+          <div class="space-y-5">
+            <span class="section-kicker">{{ $page['hero']['kicker'] }}</span>
 
-            <div class="flex flex-wrap gap-2 pt-2">
-              @foreach ($badges as $badge)
-                <span class="section-kicker">{{ $badge }}</span>
-              @endforeach
+            <div class="space-y-4">
+              <h1 class="section-title">{!! $page['hero']['heading'] !!}</h1>
+
+              <div class="about-story-copy">
+                @foreach ($page['hero']['paragraphs'] as $index => $paragraph)
+                  <p class="{{ $index === 0 ? 'section-lead' : 'text-sm text-[color:var(--text-muted)] md:text-base' }}">
+                    {!! $paragraph !!}
+                  </p>
+                @endforeach
+              </div>
             </div>
+
+            @if (!empty($page['hero']['badges']))
+              <div class="about-proof-grid">
+                @foreach ($page['hero']['badges'] as $badge)
+                  <div class="about-proof-chip">
+                    <span>{{ $badge }}</span>
+                  </div>
+                @endforeach
+              </div>
+            @endif
           </div>
 
-          <div>
+          <figure class="about-hero-media">
             <img
-              src="{{ $heroImageUrl }}"
-              alt="{{ $heroImageAlt ?? __('about.hero_image_fallback_alt') }}"
-              class="service-image h-72 w-full md:h-80"
+              src="{{ $page['hero']['image'] }}"
+              alt="{{ $page['hero']['image_alt'] }}"
+              class="service-image about-hero-image"
               loading="eager"
               fetchpriority="high"
               decoding="async"
             />
-            <p class="mt-2 text-xs text-[color:var(--text-muted)]">{{ $heroCaption }}</p>
-          </div>
+            @if (filled($page['hero']['caption']))
+              <figcaption class="about-hero-caption">{{ $page['hero']['caption'] }}</figcaption>
+            @endif
+          </figure>
         </div>
-      </div>
+      </section>
 
-      <div class="grid gap-6 md:grid-cols-2 stagger">
-        <article class="panel p-6 md:p-7">
-          <h2 class="text-2xl font-semibold leading-tight">{!! $missionHeading ?? __('about.mission.heading') !!}</h2>
-          <p class="mt-3 text-sm text-[color:var(--text-muted)]">{!! $missionDescription ?? __('about.mission.description') !!}</p>
-        </article>
-
-        <article class="panel p-6 md:p-7">
-          <h2 class="text-2xl font-semibold leading-tight">{!! $visionHeading ?? __('about.vision.heading') !!}</h2>
-          <p class="mt-3 text-sm text-[color:var(--text-muted)]">{!! $visionDescription ?? __('about.vision.description') !!}</p>
-        </article>
-      </div>
+        <section class="about-principles stagger">
+        @foreach ($page['principles'] as $principle)
+          <article class="panel about-principle-card about-principle-card--{{ $principle['tone'] }} p-6 md:p-7">
+            @if ($principle['show_label'])
+              <span class="about-principle-label">{{ $principle['label'] }}</span>
+            @endif
+            <h2 class="{{ $principle['show_label'] ? 'mt-4' : '' }} text-2xl font-semibold leading-tight">{!! $principle['heading'] !!}</h2>
+            <p class="mt-3 text-sm leading-6 text-[color:var(--text-muted)] md:text-base">{!! $principle['description'] !!}</p>
+          </article>
+        @endforeach
+      </section>
 
       <section
-        class="space-y-5 reveal reveal-delay-1"
+        class="about-team-section space-y-5 reveal reveal-delay-1"
         x-data="{
           openMember: null,
           isMemberModalOpen: false,
           memberModalCleanupTimer: null,
+          showAllMembers: false,
           openMemberModal(member) {
             if (this.memberModalCleanupTimer) {
               clearTimeout(this.memberModalCleanupTimer);
@@ -116,55 +88,148 @@
         @keydown.escape.window="if (isMemberModalOpen) closeMemberModal()"
         x-effect="document.body.classList.toggle('overflow-hidden', isMemberModalOpen)"
       >
-        <h2 class="section-title text-[clamp(1.4rem,2.2vw,2.1rem)]">{!! $managementHeading ?? __('about.management.heading') !!}</h2>
+        <div class="about-team-header">
+          <h2 class="section-title text-[clamp(1.4rem,2.2vw,2.1rem)]">{!! $team['heading'] !!}</h2>
 
-        <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          @forelse ($managementMembers as $member)
-            @php
-              $memberData = is_array($member) ? $member : (array) $member;
-              $memberName = $memberData['name'] ?? __('about.management.member_fallback');
-              $memberRole = $memberData['role'] ?? '';
-              $memberBio = $memberData['bio'] ?? '';
-              $memberImage = $resolveMemberImage($memberData);
-            @endphp
-
-            <button
-              type="button"
-              class="team-card w-full cursor-pointer p-5 text-left"
-              data-member-name="{{ $memberName }}"
-              data-member-role="{{ $memberRole }}"
-              data-member-bio="{{ $memberBio }}"
-              data-member-image="{{ $memberImage }}"
-              @click="openMemberModal({
-                name: $el.dataset.memberName || '',
-                role: $el.dataset.memberRole || '',
-                bio: $el.dataset.memberBio || '',
-                image: $el.dataset.memberImage || ''
-              })"
-              aria-label="{{ __('about.management.open_profile') }} {{ $memberName }}"
-            >
-              <div class="flex items-center gap-4">
-                <img
-                  src="{{ $memberImage }}"
-                  alt="{{ $memberName }}"
-                  class="h-14 w-14 rounded-full object-cover"
-                  loading="lazy"
-                  decoding="async"
-                />
-                <div>
-                  <h3 class="text-base font-semibold">{{ $memberName }}</h3>
-                  <p class="text-xs text-[color:var(--text-muted)]">{{ $memberRole }}</p>
-                </div>
-              </div>
-
-              @if (!empty($memberBio))
-                <p class="mt-4 line-clamp-3 text-sm text-[color:var(--text-muted)]">{{ $memberBio }}</p>
-              @endif
+          @if (!empty($team['extended']))
+            <button type="button" class="btn btn-ghost about-team-toggle" @click="showAllMembers = !showAllMembers">
+              <span x-show="!showAllMembers">{{ $team['view_all'] }}</span>
+              <span x-show="showAllMembers" x-cloak>{{ $team['collapse'] }}</span>
             </button>
-          @empty
-            <article class="panel p-5 text-sm text-[color:var(--text-muted)]">{{ __('about.management.no_members') }}</article>
-          @endforelse
+          @endif
         </div>
+
+        @if ($team['count'] === 0)
+          <article class="panel p-5 text-sm text-[color:var(--text-muted)]">{{ $team['no_members'] }}</article>
+        @else
+          <div class="about-team-showcase">
+            @if (!empty($team['lead']))
+              <button
+                type="button"
+                class="team-card about-team-lead w-full cursor-pointer p-6 text-left"
+                data-member-name="{{ $team['lead']['name'] ?? $team['member_fallback'] }}"
+                data-member-role="{{ $team['lead']['role'] ?? '' }}"
+                data-member-bio="{{ $team['lead']['bio'] ?? '' }}"
+                data-member-image="{{ $team['lead']['image'] ?? '' }}"
+                @click="openMemberModal({
+                  name: $el.dataset.memberName || '',
+                  role: $el.dataset.memberRole || '',
+                  bio: $el.dataset.memberBio || '',
+                  image: $el.dataset.memberImage || ''
+                })"
+                aria-label="{{ $team['open_profile'] }} {{ $team['lead']['name'] ?? $team['member_fallback'] }}"
+              >
+                <div class="about-team-lead-media">
+                  <img
+                    src="{{ $team['lead']['image'] }}"
+                    alt="{{ $team['lead']['name'] ?? $team['member_fallback'] }}"
+                    class="about-team-lead-image"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
+
+                <div class="about-team-lead-copy">
+                  <span class="section-kicker">{{ $team['lead']['role'] ?? '' }}</span>
+                  <h3 class="text-[clamp(1.5rem,2.4vw,2.1rem)] font-semibold leading-tight">{{ $team['lead']['name'] ?? $team['member_fallback'] }}</h3>
+                  @if (!empty($team['lead']['bio']))
+                    <p class="text-sm leading-6 text-[color:var(--text-muted)] md:text-base">{{ $team['lead']['bio'] }}</p>
+                  @endif
+                </div>
+              </button>
+            @endif
+
+            @if (!empty($team['core']))
+              <div class="about-team-aside">
+                @foreach ($team['core'] as $member)
+                  <button
+                    type="button"
+                    class="team-card about-member-button w-full cursor-pointer p-5 text-left"
+                    data-member-name="{{ $member['name'] ?? $team['member_fallback'] }}"
+                    data-member-role="{{ $member['role'] ?? '' }}"
+                    data-member-bio="{{ $member['bio'] ?? '' }}"
+                    data-member-image="{{ $member['image'] ?? '' }}"
+                    @click="openMemberModal({
+                      name: $el.dataset.memberName || '',
+                      role: $el.dataset.memberRole || '',
+                      bio: $el.dataset.memberBio || '',
+                      image: $el.dataset.memberImage || ''
+                    })"
+                    aria-label="{{ $team['open_profile'] }} {{ $member['name'] ?? $team['member_fallback'] }}"
+                  >
+                    <div class="about-member-preview">
+                      <img
+                        src="{{ $member['image'] }}"
+                        alt="{{ $member['name'] ?? $team['member_fallback'] }}"
+                        class="h-16 w-16 rounded-full object-cover"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                      <div>
+                        <h3 class="text-base font-semibold">{{ $member['name'] ?? $team['member_fallback'] }}</h3>
+                        <p class="text-xs text-[color:var(--text-muted)]">{{ $member['role'] ?? '' }}</p>
+                      </div>
+                    </div>
+
+                    @if (!empty($member['bio']))
+                      <p class="mt-4 line-clamp-3 text-sm text-[color:var(--text-muted)]">{{ $member['bio'] }}</p>
+                    @endif
+                  </button>
+                @endforeach
+              </div>
+            @endif
+          </div>
+
+          @if (!empty($team['extended']))
+            <div
+              x-cloak
+              x-show="showAllMembers"
+              x-transition:enter="transition ease-out duration-220"
+              x-transition:enter-start="opacity-0 translate-y-3"
+              x-transition:enter-end="opacity-100 translate-y-0"
+              x-transition:leave="transition ease-in duration-180"
+              x-transition:leave-start="opacity-100 translate-y-0"
+              x-transition:leave-end="opacity-0 translate-y-2"
+              class="about-team-grid"
+            >
+              @foreach ($team['extended'] as $member)
+                <button
+                  type="button"
+                  class="team-card about-member-button w-full cursor-pointer p-5 text-left"
+                  data-member-name="{{ $member['name'] ?? $team['member_fallback'] }}"
+                  data-member-role="{{ $member['role'] ?? '' }}"
+                  data-member-bio="{{ $member['bio'] ?? '' }}"
+                  data-member-image="{{ $member['image'] ?? '' }}"
+                  @click="openMemberModal({
+                    name: $el.dataset.memberName || '',
+                    role: $el.dataset.memberRole || '',
+                    bio: $el.dataset.memberBio || '',
+                    image: $el.dataset.memberImage || ''
+                  })"
+                  aria-label="{{ $team['open_profile'] }} {{ $member['name'] ?? $team['member_fallback'] }}"
+                >
+                  <div class="about-member-preview">
+                    <img
+                      src="{{ $member['image'] }}"
+                      alt="{{ $member['name'] ?? $team['member_fallback'] }}"
+                      class="h-16 w-16 rounded-full object-cover"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    <div>
+                      <h3 class="text-base font-semibold">{{ $member['name'] ?? $team['member_fallback'] }}</h3>
+                      <p class="text-xs text-[color:var(--text-muted)]">{{ $member['role'] ?? '' }}</p>
+                    </div>
+                  </div>
+
+                  @if (!empty($member['bio']))
+                    <p class="mt-4 line-clamp-3 text-sm text-[color:var(--text-muted)]">{{ $member['bio'] }}</p>
+                  @endif
+                </button>
+              @endforeach
+            </div>
+          @endif
+        @endif
 
         <template x-teleport="body">
           <div
@@ -185,21 +250,21 @@
               x-transition:leave="transition ease-in duration-180"
               x-transition:leave-start="opacity-100 translate-y-0 scale-100"
               x-transition:leave-end="opacity-0 translate-y-2 scale-[0.98]"
-              class="panel relative z-[1] w-full max-w-2xl p-5 md:p-7"
+              class="panel about-member-modal relative z-[1] w-full max-w-4xl p-5 md:p-7"
             >
               <button
                 type="button"
                 class="btn btn-sm btn-ghost absolute right-4 top-4"
                 @click="closeMemberModal()"
               >
-                {{ __('about.management.close_modal') }}
+                {{ $team['close_modal'] }}
               </button>
 
-              <div class="grid gap-5 pt-10 md:grid-cols-[220px_1fr] md:items-start md:pt-0">
+              <div class="grid gap-5 pt-10 md:grid-cols-[280px_1fr] md:items-start md:gap-7 md:pt-0">
                 <img
                   :src="openMember ? openMember.image : ''"
                   :alt="openMember ? openMember.name : ''"
-                  class="service-image h-52 w-full md:h-64"
+                  class="service-image h-52 w-full md:h-80"
                   loading="lazy"
                   decoding="async"
                 />

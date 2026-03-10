@@ -2,9 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use App\Http\Controllers\AboutPageController;
 use App\Http\Controllers\HeroController;
+use App\Http\Controllers\ProjectsPageController;
 use App\Http\Controllers\ServicesPageController;
-use App\Models\AboutPage;
 
 
 // Standard Routes
@@ -12,18 +13,11 @@ use App\Models\AboutPage;
 Route::get('/', [HeroController::class, 'index'])->name('home');
 
 
-Route::get('/about', function () {
-    $aboutPage = AboutPage::singleton();
-    $aboutDefaults = AboutPage::defaults();
-
-    return view('pages.about', compact('aboutPage', 'aboutDefaults'));
-})->name('about');
+Route::get('/about', AboutPageController::class)->name('about');
 
 Route::get('/services', ServicesPageController::class)->name('services');
 
-Route::get('/projects', function () {
-    return view('pages.projects');
-})->name('projects');
+Route::get('/projects', ProjectsPageController::class)->name('projects');
 
 
 Route::get('/login', function () {
