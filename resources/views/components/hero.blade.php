@@ -114,7 +114,9 @@
 
                   <div class="hero-v2__actions">
                     <x-ui.button href="{{ $slide['button_href'] }}" variant="hero" size="lg">{{ $slide['button_text'] }}</x-ui.button>
-                    <x-ui.button route="services" variant="ghost" size="lg">{{ __('messages.hero.secondary_cta') }}</x-ui.button>
+                    <span class="hero-v2__secondary-action">
+                      <x-ui.button route="services" variant="ghost" size="lg">{{ __('messages.hero.secondary_cta') }}</x-ui.button>
+                    </span>
                   </div>
 
                   @if (is_array($audiences) && count($audiences) > 0)
