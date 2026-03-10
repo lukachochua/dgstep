@@ -32,7 +32,20 @@
 
       <x-ui.surface-card class="p-6 md:p-8 reveal reveal-delay-1" id="contact-form">
         <form
-          x-data="contactForm()"
+          x-data="contactForm({
+            initial: {
+              name: @js(old('name', '')),
+              surname: @js(old('surname', '')),
+              phone: @js(old('phone', '')),
+              comments: @js(old('comments', '')),
+            },
+            messages: {
+              name: @js(__('contact.validation.name')),
+              surname: @js(__('contact.validation.surname')),
+              phoneRequired: @js(__('contact.validation.phone_required')),
+              phoneInvalid: @js(__('contact.validation.phone_invalid')),
+            },
+          })"
           x-on:submit.prevent="submitForm"
           method="POST"
           action="{{ route('contact.submit') }}"
@@ -91,36 +104,6 @@
       </x-ui.surface-card>
     </div>
   </section>
-
-  <script>
-    function contactForm() {
-      return {
-        form: {
-          name: @js(old('name', '')),
-          surname: @js(old('surname', '')),
-          phone: @js(old('phone', '')),
-          comments: @js(old('comments', '')),
-        },
-        errors: {},
-        submitForm() {
-          this.errors = {};
-
-          if (!this.form.name) this.errors.name = '{{ __('contact.validation.name') }}';
-          if (!this.form.surname) this.errors.surname = '{{ __('contact.validation.surname') }}';
-
-          if (!this.form.phone) {
-            this.errors.phone = '{{ __('contact.validation.phone_required') }}';
-          } else if (!/^\+?\d{7,15}$/.test(this.form.phone)) {
-            this.errors.phone = '{{ __('contact.validation.phone_invalid') }}';
-          }
-
-          if (Object.keys(this.errors).length === 0) {
-            this.$el.submit();
-          }
-        }
-      };
-    }
-  </script>
 
   @if ($recaptchaSiteKey)
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>

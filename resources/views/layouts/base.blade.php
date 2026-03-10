@@ -12,8 +12,8 @@
       $ogLocale = $locale === 'ka' ? 'ka_GE' : 'en_US';
       $ogLocaleAlternate = $locale === 'ka' ? 'en_US' : 'ka_GE';
       $ogImage = asset(Vite::asset('resources/images/brand/logo-color-01.png'));
-      $firaGoRegular = asset(Vite::asset('resources/fonts/firago/FiraGO-Regular.ttf'));
-      $firaGoBold = asset(Vite::asset('resources/fonts/firago/FiraGO-Bold.ttf'));
+      $firaGoRegular = asset(Vite::asset('resources/fonts/firago/FiraGO-Regular.woff2'));
+      $firaGoBold = asset(Vite::asset('resources/fonts/firago/FiraGO-Bold.woff2'));
     @endphp
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -32,8 +32,8 @@
       })();
     </script>
 
-    <link rel="preload" href="{{ $firaGoRegular }}" as="font" type="font/ttf" crossorigin>
-    <link rel="preload" href="{{ $firaGoBold }}" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="{{ $firaGoRegular }}" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ $firaGoBold }}" as="font" type="font/woff2" crossorigin>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 

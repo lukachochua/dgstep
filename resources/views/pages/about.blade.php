@@ -59,32 +59,7 @@
 
       <section
         class="about-team-section space-y-5 reveal reveal-delay-1"
-        x-data="{
-          openMember: null,
-          isMemberModalOpen: false,
-          memberModalCleanupTimer: null,
-          showAllMembers: false,
-          openMemberModal(member) {
-            if (this.memberModalCleanupTimer) {
-              clearTimeout(this.memberModalCleanupTimer);
-              this.memberModalCleanupTimer = null;
-            }
-            this.openMember = member;
-            this.isMemberModalOpen = true;
-          },
-          closeMemberModal() {
-            this.isMemberModalOpen = false;
-            if (this.memberModalCleanupTimer) {
-              clearTimeout(this.memberModalCleanupTimer);
-            }
-            this.memberModalCleanupTimer = setTimeout(() => {
-              if (!this.isMemberModalOpen) {
-                this.openMember = null;
-              }
-              this.memberModalCleanupTimer = null;
-            }, 220);
-          }
-        }"
+        x-data="aboutTeam()"
         @keydown.escape.window="if (isMemberModalOpen) closeMemberModal()"
         x-effect="document.body.classList.toggle('overflow-hidden', isMemberModalOpen)"
       >
@@ -92,7 +67,7 @@
           <h2 class="section-title text-[clamp(1.4rem,2.2vw,2.1rem)]">{!! $team['heading'] !!}</h2>
 
           @if (!empty($team['extended']))
-            <button type="button" class="btn btn-ghost about-team-toggle" @click="showAllMembers = !showAllMembers">
+            <button type="button" class="btn btn-ghost about-team-toggle" @click="toggleMembers()">
               <span x-show="!showAllMembers">{{ $team['view_all'] }}</span>
               <span x-show="showAllMembers" x-cloak>{{ $team['collapse'] }}</span>
             </button>
@@ -112,12 +87,7 @@
                 data-member-role="{{ $team['lead']['role'] ?? '' }}"
                 data-member-bio="{{ $team['lead']['bio'] ?? '' }}"
                 data-member-image="{{ $team['lead']['image'] ?? '' }}"
-                @click="openMemberModal({
-                  name: $el.dataset.memberName || '',
-                  role: $el.dataset.memberRole || '',
-                  bio: $el.dataset.memberBio || '',
-                  image: $el.dataset.memberImage || ''
-                })"
+                @click="openMemberModalFromDataset($el.dataset)"
                 aria-label="{{ $team['open_profile'] }} {{ $team['lead']['name'] ?? $team['member_fallback'] }}"
                 :image="$team['lead']['image']"
                 :imageAlt="$team['lead']['name'] ?? $team['member_fallback']"
@@ -137,12 +107,7 @@
                     data-member-role="{{ $member['role'] ?? '' }}"
                     data-member-bio="{{ $member['bio'] ?? '' }}"
                     data-member-image="{{ $member['image'] ?? '' }}"
-                    @click="openMemberModal({
-                      name: $el.dataset.memberName || '',
-                      role: $el.dataset.memberRole || '',
-                      bio: $el.dataset.memberBio || '',
-                      image: $el.dataset.memberImage || ''
-                    })"
+                    @click="openMemberModalFromDataset($el.dataset)"
                     aria-label="{{ $team['open_profile'] }} {{ $member['name'] ?? $team['member_fallback'] }}"
                     :image="$member['image']"
                     :imageAlt="$member['name'] ?? $team['member_fallback']"
@@ -175,12 +140,7 @@
                   data-member-role="{{ $member['role'] ?? '' }}"
                   data-member-bio="{{ $member['bio'] ?? '' }}"
                   data-member-image="{{ $member['image'] ?? '' }}"
-                  @click="openMemberModal({
-                    name: $el.dataset.memberName || '',
-                    role: $el.dataset.memberRole || '',
-                    bio: $el.dataset.memberBio || '',
-                    image: $el.dataset.memberImage || ''
-                  })"
+                  @click="openMemberModalFromDataset($el.dataset)"
                   aria-label="{{ $team['open_profile'] }} {{ $member['name'] ?? $team['member_fallback'] }}"
                   :image="$member['image']"
                   :imageAlt="$member['name'] ?? $team['member_fallback']"

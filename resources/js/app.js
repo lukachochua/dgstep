@@ -112,6 +112,96 @@ window.heroSlider = (config = {}) => ({
     },
 });
 
+window.contactForm = (config = {}) => ({
+    form: {
+        name: config.initial?.name ?? '',
+        surname: config.initial?.surname ?? '',
+        phone: config.initial?.phone ?? '',
+        comments: config.initial?.comments ?? '',
+    },
+    errors: {},
+    messages: config.messages ?? {},
+    submitForm() {
+        this.errors = {};
+
+        if (!this.form.name) this.errors.name = this.messages.name ?? '';
+        if (!this.form.surname) this.errors.surname = this.messages.surname ?? '';
+
+        if (!this.form.phone) {
+            this.errors.phone = this.messages.phoneRequired ?? '';
+        } else if (!/^\+?\d{7,15}$/.test(this.form.phone)) {
+            this.errors.phone = this.messages.phoneInvalid ?? '';
+        }
+
+        if (Object.keys(this.errors).length === 0) {
+            this.$el.submit();
+        }
+    },
+});
+
+window.aboutTeam = () => ({
+    openMember: null,
+    isMemberModalOpen: false,
+    memberModalCleanupTimer: null,
+    showAllMembers: false,
+    openMemberModalFromDataset(dataset) {
+        this.openMemberModal({
+            name: dataset.memberName || '',
+            role: dataset.memberRole || '',
+            bio: dataset.memberBio || '',
+            image: dataset.memberImage || '',
+        });
+    },
+    openMemberModal(member) {
+        if (this.memberModalCleanupTimer) {
+            clearTimeout(this.memberModalCleanupTimer);
+            this.memberModalCleanupTimer = null;
+        }
+        this.openMember = member;
+        this.isMemberModalOpen = true;
+    },
+    closeMemberModal() {
+        this.isMemberModalOpen = false;
+        if (this.memberModalCleanupTimer) {
+            clearTimeout(this.memberModalCleanupTimer);
+        }
+        this.memberModalCleanupTimer = setTimeout(() => {
+            if (!this.isMemberModalOpen) {
+                this.openMember = null;
+            }
+            this.memberModalCleanupTimer = null;
+        }, 220);
+    },
+    toggleMembers() {
+        this.showAllMembers = !this.showAllMembers;
+    },
+});
+
+window.siteNav = () => ({
+    open: false,
+    theme: 'light',
+    init() {
+        const attr = document.documentElement.getAttribute('data-theme');
+        this.theme = (attr === 'dark' || attr === 'light') ? attr : 'light';
+    },
+    toggleTheme() {
+        this.theme = this.theme === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', this.theme);
+        try {
+            localStorage.setItem('dg:theme', this.theme);
+        } catch (_) {}
+    },
+    closeMenu() {
+        this.open = false;
+    },
+    toggleMenu() {
+        this.open = !this.open;
+    },
+    submitLocaleSwitch() {
+        document.getElementById('locale-switch-form')?.submit();
+    },
+});
+
 Alpine.start();
 
 function initLtrRevealOnScroll() {

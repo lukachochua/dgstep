@@ -15,23 +15,7 @@
 
 <div
   class="site-nav"
-  x-data="{
-    open: false,
-    theme: 'light',
-    init() {
-      const attr = document.documentElement.getAttribute('data-theme');
-      this.theme = (attr === 'dark' || attr === 'light') ? attr : 'light';
-    },
-    toggleTheme() {
-      this.theme = this.theme === 'dark' ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', this.theme);
-      try { localStorage.setItem('dg:theme', this.theme); } catch (_) {}
-    },
-    closeMenu() {
-      this.open = false;
-    }
-  }"
-  x-init="init()"
+  x-data="siteNav()"
   @keydown.window.escape="closeMenu()"
 >
   <header class="nav-shell">
@@ -80,7 +64,7 @@
         <button
           type="button"
           class="nav-icon-btn desktop-only"
-          onclick="document.getElementById('locale-switch-form').submit(); return false;"
+          @click="submitLocaleSwitch()"
           aria-label="{{ $targetLocaleSr }}"
         >
           <span class="text-base leading-none" aria-hidden="true">{{ $targetLocaleFlag }}</span>
@@ -91,7 +75,7 @@
           {{ __('contact.cta_button') }}
         </a>
 
-        <button type="button" class="nav-icon-btn mobile-only" @click="open = !open" :aria-expanded="open.toString()" aria-controls="mobile-nav">
+        <button type="button" class="nav-icon-btn mobile-only" @click="toggleMenu()" :aria-expanded="open.toString()" aria-controls="mobile-nav">
           <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
             <path x-show="!open" x-cloak d="M4 6h16M4 12h16M4 18h16" />
             <path x-show="open" x-cloak d="M6 6l12 12M18 6 6 18" />
@@ -147,7 +131,7 @@
           <button
             type="button"
             class="btn btn-sm btn-ghost"
-            onclick="document.getElementById('locale-switch-form').submit(); return false;"
+            @click="submitLocaleSwitch()"
             aria-label="{{ $targetLocaleSr }}"
           >
             <span class="text-base leading-none" aria-hidden="true">{{ $targetLocaleFlag }}</span>
