@@ -39,18 +39,6 @@ test('home page renders editable home copy while keeping featured services data-
             'en' => ['Pawn teams', 'Operations leads'],
             'ka' => ['ლომბარდის გუნდები', 'ოპერაციების ლიდერები'],
         ],
-        'hero_visual_card_kicker' => [
-            'en' => 'Custom Improvements',
-            'ka' => 'მორგებული გაუმჯობესებები',
-        ],
-        'hero_visual_points' => [
-            'en' => [
-                ['label' => 'Visibility', 'value' => 'Custom dashboard clarity.'],
-            ],
-            'ka' => [
-                ['label' => 'ხილვადობა', 'value' => 'მორგებული დაფის სიცხადე.'],
-            ],
-        ],
         'hero_image_alt' => [
             'en' => 'Custom hero image alt',
             'ka' => 'მორგებული alt ტექსტი',
@@ -142,6 +130,15 @@ test('home page renders editable home copy while keeping featured services data-
         'highlight' => ['en' => 'Hero Highlight', 'ka' => 'Hero Highlight'],
         'subtitle' => ['en' => 'Hero slide subtitle.', 'ka' => 'Hero slide subtitle.'],
         'button_text' => ['en' => 'Hero Button', 'ka' => 'Hero Button'],
+        'overlay_kicker' => ['en' => 'Custom Slide Overlay', 'ka' => 'Custom Slide Overlay'],
+        'overlay_points' => [
+            'en' => [
+                ['label' => 'Visibility', 'value' => 'Custom dashboard clarity.'],
+            ],
+            'ka' => [
+                ['label' => 'ხილვადობა', 'value' => 'მორგებული დაფის სიცხადე.'],
+            ],
+        ],
         'link_type' => 'internal',
         'button_route' => 'contact',
         'button_params' => [],
@@ -174,6 +171,8 @@ test('home page renders editable home copy while keeping featured services data-
         ->assertSeeText('Custom Hero CTA')
         ->assertSeeText('Custom proof headline')
         ->assertSeeText('Custom Focus Value')
+        ->assertSeeText('Custom Slide Overlay')
+        ->assertSeeText('Custom dashboard clarity.')
         ->assertSeeText('Custom solutions title')
         ->assertSeeText('Custom CTA Title')
         ->assertSeeText('Featured Service')

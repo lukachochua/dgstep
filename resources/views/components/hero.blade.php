@@ -26,6 +26,8 @@
           'button_text' => (string) data_get($slide, 'button_text', data_get($slide, 'button.text', __('messages.hero.primary_cta'))),
           'button_href' => $buttonHref,
           'image' => data_get($slide, 'image'),
+          'overlay_kicker' => (string) data_get($slide, 'overlay_kicker', ''),
+          'overlay_points' => data_get($slide, 'overlay_points', []),
       ];
   })->filter(fn ($slide) => filled($slide['title']) || filled($slide['subtitle']))->values()->all();
 
@@ -37,10 +39,11 @@
           'button_text' => __('messages.hero.primary_cta'),
           'button_href' => route('contact'),
           'image' => null,
+          'overlay_kicker' => '',
+          'overlay_points' => [],
       ];
   }
 
-  $visualPoints = data_get($content, 'visual_points', trans('messages.hero.visual_points'));
   $audiences = data_get($content, 'audiences', trans('messages.hero.audiences'));
   $totalSlides = count($normalizedSlides);
 @endphp
@@ -155,11 +158,11 @@
                       @endif
                     </div>
 
-                    @if (is_array($visualPoints) && count($visualPoints) > 0)
+                    @if (is_array($slide['overlay_points'] ?? null) && count($slide['overlay_points']) > 0)
                       <div class="hero-v2__overlay-card">
-                        <p class="hero-v2__overlay-kicker">{{ data_get($content, 'visual_card_kicker', __('messages.hero.visual_card_kicker')) }}</p>
+                        <p class="hero-v2__overlay-kicker">{{ $slide['overlay_kicker'] }}</p>
                         <ul class="hero-v2__overlay-list">
-                          @foreach ($visualPoints as $point)
+                          @foreach ($slide['overlay_points'] as $point)
                             <li>
                               <p class="hero-v2__overlay-title">{{ $point['label'] ?? '' }}</p>
                               <p class="hero-v2__overlay-copy">{{ $point['value'] ?? '' }}</p>

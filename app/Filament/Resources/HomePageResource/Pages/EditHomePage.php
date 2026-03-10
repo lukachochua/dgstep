@@ -30,37 +30,8 @@ class EditHomePage extends EditRecord
             })
             ->all();
 
-        $data['hero_visual_points'] = collect($data['hero_visual_points'] ?? [])
-            ->mapWithKeys(function ($items, $locale) {
-                return [
-                    $locale => collect($items)
-                        ->map(function ($item) {
-                            if (! is_array($item)) {
-                                return null;
-                            }
-
-                            $label = trim((string) ($item['label'] ?? ''));
-                            $value = trim((string) ($item['value'] ?? ''));
-
-                            if ($label === '' && $value === '') {
-                                return null;
-                            }
-
-                            return [
-                                'label' => $label,
-                                'value' => $value,
-                            ];
-                        })
-                        ->filter()
-                        ->values()
-                        ->all(),
-                ];
-            })
-            ->all();
-
         foreach ($locales as $locale) {
             $data['hero_audiences'][$locale] = $data['hero_audiences'][$locale] ?? [];
-            $data['hero_visual_points'][$locale] = $data['hero_visual_points'][$locale] ?? [];
         }
 
         return $data;

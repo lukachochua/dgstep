@@ -110,25 +110,6 @@ class HomePageResource extends Resource
                                                                     ->all()
                                                             );
                                                         }),
-                                                    Forms\Components\TextInput::make("hero_visual_card_kicker.$code")
-                                                        ->label('Visual card kicker')
-                                                        ->maxLength(120)
-                                                        ->required(),
-                                                    RepeaterComponent::make("hero_visual_points.$code")
-                                                        ->label('Visual points')
-                                                        ->addActionLabel('Add point')
-                                                        ->default([])
-                                                        ->collapsed()
-                                                        ->schema([
-                                                            Forms\Components\TextInput::make('label')
-                                                                ->label('Label')
-                                                                ->maxLength(160)
-                                                                ->required(),
-                                                            Forms\Components\Textarea::make('value')
-                                                                ->label('Value')
-                                                                ->rows(2)
-                                                                ->required(),
-                                                        ]),
                                                 ]),
 
                                             Forms\Components\Section::make('Proof Section')

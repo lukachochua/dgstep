@@ -18,8 +18,6 @@ class HomePage extends Model
         'hero_slide_announcement',
         'hero_audiences_label',
         'hero_audiences',
-        'hero_visual_card_kicker',
-        'hero_visual_points',
         'hero_image_alt',
         'proof_kicker',
         'proof_title',
@@ -46,7 +44,6 @@ class HomePage extends Model
 
     protected $casts = [
         'hero_audiences' => 'array',
-        'hero_visual_points' => 'array',
     ];
 
     public array $translatable = [
@@ -56,7 +53,6 @@ class HomePage extends Model
         'hero_slide_label',
         'hero_slide_announcement',
         'hero_audiences_label',
-        'hero_visual_card_kicker',
         'hero_image_alt',
         'proof_kicker',
         'proof_title',
@@ -111,14 +107,6 @@ class HomePage extends Model
             'hero_audiences' => [
                 'en' => Lang::get('messages.hero.audiences', [], 'en'),
                 'ka' => Lang::get('messages.hero.audiences', [], 'ka'),
-            ],
-            'hero_visual_card_kicker' => [
-                'en' => Lang::get('messages.hero.visual_card_kicker', [], 'en'),
-                'ka' => Lang::get('messages.hero.visual_card_kicker', [], 'ka'),
-            ],
-            'hero_visual_points' => [
-                'en' => Lang::get('messages.hero.visual_points', [], 'en'),
-                'ka' => Lang::get('messages.hero.visual_points', [], 'ka'),
             ],
             'hero_image_alt' => [
                 'en' => Lang::get('messages.hero.image_alt', [], 'en'),

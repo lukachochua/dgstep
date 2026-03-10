@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\HeroSlideResource\Pages;
 use App\Models\HeroSlide;
 use Filament\Forms;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Tabs;
@@ -50,6 +51,24 @@ class HeroSlideResource extends Resource
                                     TextInput::make('button_text.en')
                                         ->label('Primary Button Text (EN)')
                                         ->maxLength(255),
+                                    TextInput::make('overlay_kicker.en')
+                                        ->label('Overlay Card Kicker (EN)')
+                                        ->maxLength(120),
+                                    Repeater::make('overlay_points.en')
+                                        ->label('Overlay Points (EN)')
+                                        ->addActionLabel('Add overlay point')
+                                        ->default([])
+                                        ->collapsed()
+                                        ->schema([
+                                            TextInput::make('label')
+                                                ->label('Label')
+                                                ->maxLength(160)
+                                                ->required(),
+                                            Textarea::make('value')
+                                                ->label('Value')
+                                                ->rows(2)
+                                                ->required(),
+                                        ]),
                                 ])
                                 ->columns(1),
                             Tab::make('ქართული')
@@ -68,6 +87,24 @@ class HeroSlideResource extends Resource
                                     TextInput::make('button_text.ka')
                                         ->label('ძირითადი ღილაკი (KA)')
                                         ->maxLength(255),
+                                    TextInput::make('overlay_kicker.ka')
+                                        ->label('ოვერლეი ბარათის ქიქერი (KA)')
+                                        ->maxLength(120),
+                                    Repeater::make('overlay_points.ka')
+                                        ->label('ოვერლეი პოინტები (KA)')
+                                        ->addActionLabel('ოვერლეი პოინტის დამატება')
+                                        ->default([])
+                                        ->collapsed()
+                                        ->schema([
+                                            TextInput::make('label')
+                                                ->label('სათაური')
+                                                ->maxLength(160)
+                                                ->required(),
+                                            Textarea::make('value')
+                                                ->label('ტექსტი')
+                                                ->rows(2)
+                                                ->required(),
+                                        ]),
                                 ])
                                 ->columns(1),
                         ])

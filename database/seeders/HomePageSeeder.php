@@ -21,7 +21,6 @@ class HomePageSeeder extends Seeder
                 'hero_slide_label',
                 'hero_slide_announcement',
                 'hero_audiences_label',
-                'hero_visual_card_kicker',
                 'hero_image_alt',
                 'proof_kicker',
                 'proof_title',
@@ -49,7 +48,6 @@ class HomePageSeeder extends Seeder
             }
 
             $page->hero_audiences = $defaults['hero_audiences'];
-            $page->hero_visual_points = $defaults['hero_visual_points'];
             $page->save();
 
             return;

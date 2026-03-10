@@ -15,6 +15,8 @@ class HeroSlide extends Model
         'highlight',
         'subtitle',
         'button_text',
+        'overlay_kicker',
+        'overlay_points',
         'button_link',
         'link_type',
         'button_route',
@@ -31,10 +33,12 @@ class HeroSlide extends Model
         'highlight',
         'subtitle',
         'button_text',
+        'overlay_kicker',
     ];
 
     protected $casts = [
         'button_params'           => 'array',
+        'overlay_points'          => 'array',
     ];
 
     protected $appends = [

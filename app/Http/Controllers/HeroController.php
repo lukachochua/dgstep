@@ -49,6 +49,8 @@ class HeroController extends Controller
                     'button_text' => blank($manualText) ? $fallbackLabel : $manualText,
                     'button_href' => $resolvedHref,
                     'image' => $slide->image_url,
+                    'overlay_kicker' => $this->localizedText($slide->overlay_kicker, $locale),
+                    'overlay_points' => $this->localizedPoints($slide->overlay_points, $locale),
                 ];
             })
             ->filter(fn (array $slide) => filled($slide['title']) || filled($slide['subtitle']))
@@ -66,8 +68,6 @@ class HeroController extends Controller
                 'slide_announcement' => $this->localizedText($page->hero_slide_announcement, $locale),
                 'audiences_label' => $this->localizedText($page->hero_audiences_label, $locale),
                 'audiences' => $this->localizedList($page->hero_audiences, $locale),
-                'visual_card_kicker' => $this->localizedText($page->hero_visual_card_kicker, $locale),
-                'visual_points' => $this->localizedPoints($page->hero_visual_points, $locale),
                 'image_alt' => $this->localizedText($page->hero_image_alt, $locale),
             ],
             'proof' => [
