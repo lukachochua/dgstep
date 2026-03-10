@@ -16,7 +16,9 @@
 <section class="section-block">
   <div class="section-inner space-y-8">
     <div class="ltr-reveal" data-reveal-ltr>
-      <h2 class="section-title">{{ __('services.our_key_services') }}</h2>
+      <span class="section-kicker">{{ __('messages.home_solutions.kicker') }}</span>
+      <h2 class="section-title mt-3">{{ __('messages.home_solutions.title') }}</h2>
+      <p class="section-lead mt-2">{{ __('messages.home_solutions.subtitle') }}</p>
     </div>
 
     <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-3" data-reveal-ltr-group>

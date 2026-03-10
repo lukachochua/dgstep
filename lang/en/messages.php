@@ -8,78 +8,103 @@ return [
     'contact'   => 'Contact',
     'login'     => 'Login',
     'register'  => 'Register',
+    'homepage_title' => 'Operational Software for Georgian Businesses | DGstep',
     'see_how_it_works' => 'See how it works',
 
     'hero' => [
+        'kicker' => 'Operational software for Georgian businesses',
+        'title' => 'Bring daily operations, approvals, and reporting into one working system',
+        'highlight' => 'Built for teams that need structure without enterprise bloat.',
+        'subtitle' => 'DGstep helps pawnshops, service businesses, and compliance-heavy teams replace scattered spreadsheets and chat handoffs with one practical workflow platform.',
+        'primary_cta' => 'Request a workflow review',
+        'secondary_cta' => 'See services',
+        'slide_label' => 'Slide',
+        'slide_announcement' => 'Slide :current of :total',
+        'audiences_label' => 'Best fit for',
+        'audiences' => [
+            'Pawnshops',
+            'Growing service businesses',
+            'Compliance-heavy teams',
+        ],
         'slides' => [
             [
-                'title'     => 'Run daily operations from one workflow platform',
-                'highlight' => 'Less manual work, more time for growth.',
-                'subtitle'  => 'DGstep unifies tasks, approvals, and records so your team moves faster with fewer handoffs.',
-                'button'    => [
-                    'text' => 'Contact Us',
-                    'link' => '#contact',
+                'title' => 'Bring daily operations, approvals, and reporting',
+                'highlight' => 'into one working system',
+                'subtitle' => 'Replace spreadsheet sprawl and chat-based handoffs with one practical workflow platform built for Georgian businesses.',
+                'button' => [
+                    'text' => 'Request a workflow review',
+                    'route' => 'contact',
                 ],
             ],
             [
-                'title'     => 'See operations across teams in real time',
-                'highlight' => 'Make decisions with clear visibility.',
-                'subtitle'  => 'Track progress, catch bottlenecks early, and keep departments aligned in one dashboard.',
-                'button'    => [
-                    'text' => 'Contact Us',
-                    'link' => '#contact',
+                'title' => 'Built for pawnshops, service businesses,',
+                'highlight' => 'and compliance-heavy teams',
+                'subtitle' => 'Keep customer records, operational handoffs, and reporting aligned without forcing your team into enterprise-style complexity.',
+                'button' => [
+                    'text' => 'See services',
+                    'route' => 'services',
                 ],
             ],
             [
-                'title'     => 'Launch a system tailored to your business in weeks',
-                'highlight' => 'Practical software built around your process.',
-                'subtitle'  => 'From discovery to rollout, we deliver tools shaped for your workflow and local requirements.',
-                'button'    => [
-                    'text' => 'Contact Us',
-                    'link' => '#contact',
+                'title' => 'Start with one operational bottleneck',
+                'highlight' => 'and expand from there',
+                'subtitle' => 'We begin where pressure is highest, then shape the rollout around the way your business already works.',
+                'button' => [
+                    'text' => 'Book a discovery call',
+                    'route' => 'contact',
                 ],
             ],
         ],
-        'ui' => [
-            'kicker' => 'Operational software for Georgian SMB teams',
-            'insights_aria' => 'Operational insights',
-            'slide_label' => 'Slide',
-            'coverage_label' => 'Coverage',
-            'coverage_value' => '24/7',
-            'delivery_label' => 'Delivery',
-            'delivery_value' => '4-8 weeks',
-            'tag_workflow' => 'Workflow Orchestration',
-            'tag_smb' => 'SMB Focused',
-            'pause_autoplay' => 'Pause',
-            'play_autoplay' => 'Play',
-            'slide_announcement' => 'Slide :current of :total',
-            'prev_slide' => 'Previous slide',
-            'next_slide' => 'Next slide',
+        'visual_card_kicker' => 'What improves',
+        'visual_points' => [
+            [
+                'label' => 'Tasks and approvals',
+                'value' => 'Clear ownership instead of scattered follow-up.',
+            ],
+            [
+                'label' => 'Records and reporting',
+                'value' => 'Consistent data instead of fragmented spreadsheets.',
+            ],
         ],
+        'image_alt' => 'DGstep workflow interface preview',
     ],
 
     'home_metrics' => [
         'focus' => [
-            'label' => 'Go-live time',
-            'value' => '4-8 weeks',
-            'description' => 'From scoped discovery to production rollout with a practical plan.',
+            'label' => 'Operational focus',
+            'value' => 'Tasks to records',
+            'description' => 'Unify day-to-day work that usually lives across chats, calls, and spreadsheets.',
         ],
         'technology' => [
-            'label' => 'Daily visibility',
-            'value' => '24/7 control',
-            'description' => 'See tasks, statuses, and blockers across teams in one operational view.',
+            'label' => 'Rollout style',
+            'value' => 'Practical first',
+            'description' => 'Start with the process that causes the most friction, then expand in controlled steps.',
         ],
         'approach' => [
-            'label' => 'Local fit',
+            'label' => 'Business fit',
             'value' => 'Georgia-ready',
-            'description' => 'Workflows configured for local business reality and regulatory context.',
+            'description' => 'Designed for local teams that need clearer control, accountability, and reporting.',
         ],
     ],
 
     'home_proof' => [
-        'kicker' => 'Proof of execution',
-        'title' => 'Built for teams that run operations every day',
-        'subtitle' => 'Clear scope, practical rollout, and ongoing support from one partner.',
+        'kicker' => 'Why teams come to DGstep',
+        'title' => 'We focus on the work that breaks first when a business grows',
+        'subtitle' => 'Approvals, follow-up, customer records, handoffs, and reporting are where operational pressure shows up. That is where we start.',
+    ],
+
+    'home_solutions' => [
+        'kicker' => 'Where DGstep fits',
+        'title' => 'Choose the area closest to your operational bottleneck',
+        'subtitle' => 'Start with the workflow that is slowing your team down today.',
+    ],
+
+    'home_cta' => [
+        'kicker' => 'Start with your bottleneck',
+        'title' => 'Show us the process that is slowing your team down',
+        'subtitle' => 'We will review the workflow, identify where software reduces friction, and recommend a practical next step.',
+        'primary' => 'Book a discovery call',
+        'secondary' => 'Explore services',
     ],
 
     'features' => [

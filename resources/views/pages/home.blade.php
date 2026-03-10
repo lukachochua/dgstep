@@ -1,9 +1,5 @@
-<x-layouts.base title="DGstep Landing Page">
-  <x-hero
-    :slides="$slides"
-    :hero-heading-scale="$heroHeadingScale"
-    :hero-subtitle-scale="$heroSubtitleScale"
-  />
+<x-layouts.base title="{{ __('messages.homepage_title') }}">
+  <x-hero :slides="$slides" />
 
   <section class="py-3 md:py-6">
     <div class="section-inner">
@@ -41,14 +37,14 @@
     <div class="section-inner">
       <div class="panel p-6 md:p-9 lg:flex lg:items-center lg:justify-between lg:gap-8 ltr-reveal" data-reveal-ltr data-reveal-ltr-group>
         <div class="ltr-reveal" data-reveal-ltr>
-          <span class="section-kicker">{{ __('messages.see_how_it_works') }}</span>
-          <h2 class="section-title mt-3">{{ __('contact.headline') }}</h2>
-          <p class="section-lead mt-2">{{ __('contact.description') }}</p>
+          <span class="section-kicker">{{ __('messages.home_cta.kicker') }}</span>
+          <h2 class="section-title mt-3">{{ __('messages.home_cta.title') }}</h2>
+          <p class="section-lead mt-2">{{ __('messages.home_cta.subtitle') }}</p>
         </div>
 
         <div class="mt-5 flex flex-wrap gap-3 lg:mt-0 lg:shrink-0 ltr-reveal" data-reveal-ltr>
-          <x-ui.button route="contact" variant="primary" size="lg">{{ __('contact.cta_button') }}</x-ui.button>
-          <x-ui.button route="services" variant="ghost" size="lg">{{ __('messages.services') }}</x-ui.button>
+          <x-ui.button route="contact" variant="primary" size="lg">{{ __('messages.home_cta.primary') }}</x-ui.button>
+          <x-ui.button route="services" variant="ghost" size="lg">{{ __('messages.home_cta.secondary') }}</x-ui.button>
         </div>
       </div>
     </div>

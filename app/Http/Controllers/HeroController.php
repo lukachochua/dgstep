@@ -11,7 +11,6 @@ class HeroController extends Controller
     public function index()
     {
         $locale = app()->getLocale();
-        [$heroHeadingScale, $heroSubtitleScale] = $this->heroTypographyScale($locale);
 
         $slides = HeroSlide::query()
             ->orderBy('id')
@@ -19,13 +18,12 @@ class HeroController extends Controller
             ->values()
             ->map(function (HeroSlide $slide, int $index) use ($locale) {
                 $fallbacks = [
-                    0 => ['route' => 'services', 'label' => __('messages.services', [], $locale)],
-                    1 => ['route' => 'contact', 'label' => __('contact.cta_button', [], $locale)],
+                    0 => ['route' => 'contact', 'label' => __('messages.hero.primary_cta', [], $locale)],
+                    1 => ['route' => 'services', 'label' => __('messages.hero.secondary_cta', [], $locale)],
                     2 => ['route' => 'about', 'label' => __('messages.footer.nav.about', [], $locale)],
                 ];
 
                 $fallback = $fallbacks[$index] ?? null;
-
                 $resolvedHref = $slide->button_href;
 
                 if (!$resolvedHref && $fallback && Route::has($fallback['route'])) {
@@ -37,57 +35,23 @@ class HeroController extends Controller
                 }
 
                 $manualText = $slide->getTranslation('button_text', $locale);
-                $fallbackLabel = $fallback['label'] ?? trans('messages.footer.cta', [], $locale);
-                $defaultContactLabel = trans('contact.cta_button', [], $locale);
-
-                if (blank($manualText)) {
-                    $buttonText = $fallbackLabel;
-                } elseif (($fallback['label'] ?? null) && $manualText === $defaultContactLabel && $fallbackLabel !== $defaultContactLabel) {
-                    // Preserve older data that still uses the Contact label when route-specific copy is expected.
-                    $buttonText = $fallbackLabel;
-                } else {
-                    $buttonText = $manualText;
-                }
+                $fallbackLabel = $fallback['label'] ?? trans('contact.cta_button', [], $locale);
 
                 return [
-                    'title'       => $slide->getTranslation('title', $locale),
-                    'highlight'   => $slide->getTranslation('highlight', $locale),
-                    'subtitle'    => $slide->getTranslation('subtitle', $locale),
-                    'button'      => [
-                        'text' => $buttonText,
-                        'href' => $resolvedHref,
-                        'link' => $resolvedHref,
-                    ],
+                    'title' => $slide->getTranslation('title', $locale),
+                    'highlight' => $slide->getTranslation('highlight', $locale),
+                    'subtitle' => $slide->getTranslation('subtitle', $locale),
+                    'button_text' => blank($manualText) ? $fallbackLabel : $manualText,
                     'button_href' => $resolvedHref,
-                    'button_text' => $buttonText,
-                    'image'       => $slide->image_url,
+                    'image' => $slide->image_url,
                 ];
             })
+            ->filter(fn (array $slide) => filled($slide['title']) || filled($slide['subtitle']))
             ->values()
             ->all();
 
         $featured = Service::featured()->get();
 
-        return view('pages.home', compact(
-            'slides',
-            'featured',
-            'heroHeadingScale',
-            'heroSubtitleScale'
-        ));
-    }
-
-    private function heroTypographyScale(string $locale): array
-    {
-        if ($locale === 'ka') {
-            return [
-                'clamp(1rem, 2.35vw, 2.35rem)',
-                'clamp(0.84rem, 1.02vw, 0.95rem)',
-            ];
-        }
-
-        return [
-            'clamp(1.02rem, 2.7vw, 2.75rem)',
-            'clamp(0.86rem, 1.1vw, 1rem)',
-        ];
+        return view('pages.home', compact('featured', 'slides'));
     }
 }

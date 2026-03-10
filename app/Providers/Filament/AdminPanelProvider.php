@@ -50,8 +50,8 @@ class AdminPanelProvider extends PanelProvider
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->colors([
                 'primary' => Color::hex('#5b56d6'),
-                'secondary' => Color::hex('#6c63ff'),
-                'info' => Color::hex('#7aa2ff'),
+                'secondary' => Color::hex('#222228'),
+                'info' => Color::hex('#5b56d6'),
                 'success' => Color::hex('#16a34a'),
                 'warning' => Color::hex('#f59e0b'),
                 'danger' => Color::hex('#ef4444'),
