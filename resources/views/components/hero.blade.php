@@ -50,13 +50,29 @@
 
 <section
   class="hero-v2"
+  x-bind:data-ready="ready ? 'true' : 'false'"
   x-data="{
     swiper: null,
+    ready: false,
     slideLabel: @js((string) data_get($content, 'slide_label', __('messages.hero.slide_label'))),
     announcementTemplate: @js((string) data_get($content, 'slide_announcement', __('messages.hero.slide_announcement', ['current' => ':current', 'total' => ':total']))),
     announcement: '',
+    markReady() {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          this.ready = true;
+        });
+      });
+    },
     init() {
-      if (!window.Swiper || {{ $totalSlides }} < 2) return;
+      this.announcement = this.announcementTemplate
+        .replace(':current', '1')
+        .replace(':total', String({{ $totalSlides }}));
+
+      if (!window.Swiper || {{ $totalSlides }} < 2) {
+        this.markReady();
+        return;
+      }
 
       const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const modules = window.SwiperModules
@@ -83,6 +99,9 @@
           renderBullet: (index, className) => `<button type='button' class='${className}' aria-label='${this.slideLabel} ${index + 1}'></button>`,
         },
         on: {
+          init: () => {
+            this.markReady();
+          },
           slideChange: (swiper) => {
             const currentIndex = (swiper.realIndex ?? 0) + 1;
             this.announcement = this.announcementTemplate

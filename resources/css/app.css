@@ -1068,6 +1068,17 @@ a {
   padding: calc(var(--nav-h) + 0.8rem) 0 0.55rem;
 }
 
+.hero-v2[data-ready="false"] .hero-v2__visual,
+.hero-v2[data-ready="false"] .hero-v2__hud {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.hero-v2__visual,
+.hero-v2__hud {
+  transition: opacity 180ms ease;
+}
+
 .hero-surface-card,
 .hero-v2__frame {
   position: relative;
