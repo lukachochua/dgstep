@@ -46,11 +46,10 @@
       </nav>
 
       <div class="nav-actions">
-        <button
+        <x-ui.icon-button
           type="button"
-          class="nav-icon-btn"
           @click="toggleTheme()"
-          :aria-label="theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'"
+          ::aria-label="theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'"
         >
           <svg x-show="theme === 'light'" x-cloak class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
             <circle cx="12" cy="12" r="4" />
@@ -59,28 +58,28 @@
           <svg x-show="theme === 'dark'" x-cloak class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
             <path d="M21 12.8A9 9 0 1 1 11.2 3a7.2 7.2 0 0 0 9.8 9.8z" />
           </svg>
-        </button>
+        </x-ui.icon-button>
 
-        <button
+        <x-ui.icon-button
           type="button"
-          class="nav-icon-btn desktop-only"
+          class="desktop-only"
           @click="submitLocaleSwitch()"
           aria-label="{{ $targetLocaleSr }}"
         >
           <span class="text-base leading-none" aria-hidden="true">{{ $targetLocaleFlag }}</span>
           <span class="sr-only">{{ $targetLocaleSr }}</span>
-        </button>
+        </x-ui.icon-button>
 
-        <a href="{{ route('contact') }}" class="btn btn-md btn-primary desktop-only">
+        <x-ui.button route="contact" variant="primary" size="md" class="desktop-only">
           {{ __('contact.cta_button') }}
-        </a>
+        </x-ui.button>
 
-        <button type="button" class="nav-icon-btn mobile-only" @click="toggleMenu()" :aria-expanded="open.toString()" aria-controls="mobile-nav">
+        <x-ui.icon-button type="button" class="mobile-only" @click="toggleMenu()" ::aria-expanded="open.toString()" aria-controls="mobile-nav">
           <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
             <path x-show="!open" x-cloak d="M4 6h16M4 12h16M4 18h16" />
             <path x-show="open" x-cloak d="M6 6l12 12M18 6 6 18" />
           </svg>
-        </button>
+        </x-ui.icon-button>
       </div>
     </div>
   </header>
@@ -128,19 +127,21 @@
         </div>
 
         <div class="mobile-nav-actions">
-          <button
+          <x-ui.button
+            as="button"
             type="button"
-            class="btn btn-sm btn-ghost"
+            variant="ghost"
+            size="sm"
             @click="submitLocaleSwitch()"
             aria-label="{{ $targetLocaleSr }}"
           >
             <span class="text-base leading-none" aria-hidden="true">{{ $targetLocaleFlag }}</span>
             <span class="sr-only">{{ $targetLocaleSr }}</span>
-          </button>
+          </x-ui.button>
 
-          <a href="{{ route('contact') }}" class="btn btn-sm btn-primary flex-1 text-center" @click="closeMenu()">
+          <x-ui.button route="contact" variant="primary" size="sm" class="flex-1 text-center" @click="closeMenu()">
             {{ __('contact.cta_button') }}
-          </a>
+          </x-ui.button>
         </div>
       </div>
     </div>

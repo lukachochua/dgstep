@@ -11,9 +11,9 @@
             <x-ui.button route="contact" variant="primary" size="lg">
               {{ $page['hero_primary_cta'] }}
             </x-ui.button>
-            <a href="#services-list" class="btn btn-lg btn-ghost">
+            <x-ui.button href="#services-list" variant="ghost" size="lg">
               {{ $page['hero_secondary_cta'] }}
-            </a>
+            </x-ui.button>
           </div>
 
           <div class="services-hero__stats">
@@ -90,9 +90,9 @@
             <x-ui.button route="contact" variant="primary" size="lg">
               {{ $page['cta_primary'] }}
             </x-ui.button>
-            <a href="#services-top" class="btn btn-lg btn-ghost">
+            <x-ui.button href="#services-top" variant="ghost" size="lg">
               {{ $page['cta_secondary'] }}
-            </a>
+            </x-ui.button>
           </div>
         </x-slot:actions>
       </x-ui.section-cta-card>

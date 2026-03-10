@@ -97,9 +97,9 @@
             <p class="field-error">{{ $message }}</p>
           @enderror
 
-          <button type="submit" class="btn btn-lg btn-primary w-full justify-center">
+          <x-ui.button as="button" type="submit" variant="primary" size="lg" class="w-full justify-center">
             {{ __('contact.form.cta') }}
-          </button>
+          </x-ui.button>
         </form>
       </x-ui.surface-card>
     </div>

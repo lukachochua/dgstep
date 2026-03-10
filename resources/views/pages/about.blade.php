@@ -67,10 +67,10 @@
           <h2 class="section-title text-[clamp(1.4rem,2.2vw,2.1rem)]">{!! $team['heading'] !!}</h2>
 
           @if (!empty($team['extended']))
-            <button type="button" class="btn btn-ghost about-team-toggle" @click="toggleMembers()">
+            <x-ui.button as="button" type="button" variant="ghost" size="md" class="about-team-toggle" @click="toggleMembers()">
               <span x-show="!showAllMembers">{{ $team['view_all'] }}</span>
               <span x-show="showAllMembers" x-cloak>{{ $team['collapse'] }}</span>
-            </button>
+            </x-ui.button>
           @endif
         </div>
 
@@ -176,13 +176,16 @@
               variant="default"
               class="about-member-modal relative z-[1] w-full max-w-4xl p-5 md:p-7"
             >
-              <button
+              <x-ui.button
+                as="button"
                 type="button"
-                class="btn btn-sm btn-ghost absolute right-4 top-4"
+                variant="ghost"
+                size="sm"
+                class="absolute right-4 top-4"
                 @click="closeMemberModal()"
               >
                 {{ $team['close_modal'] }}
-              </button>
+              </x-ui.button>
 
               <div class="grid gap-5 pt-10 md:grid-cols-[280px_1fr] md:items-start md:gap-7 md:pt-0">
                 <img
