@@ -71,13 +71,23 @@
       });
     },
     initFonts() {
-      if (!document.fonts || !document.fonts.ready) {
+      if (!document.fonts || !document.fonts.load) {
         this.fontsReady = true;
         this.maybeMarkReady();
         return;
       }
 
-      document.fonts.ready.then(() => {
+      const heroText = 'DGstep ოპერაციული პროგრამული პლატფორმები';
+      const fontLoads = [
+        document.fonts.load('400 1em "FiraGO"', heroText),
+        document.fonts.load('700 1em "FiraGO"', heroText),
+      ];
+      const timeout = new Promise((resolve) => window.setTimeout(resolve, 650));
+
+      Promise.race([
+        Promise.all(fontLoads),
+        timeout,
+      ]).then(() => {
         this.fontsReady = true;
         this.maybeMarkReady();
       });
