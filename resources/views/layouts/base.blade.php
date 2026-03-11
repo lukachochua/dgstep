@@ -34,6 +34,14 @@
 
     <link rel="preload" href="{{ $firaGoMedium }}" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="{{ $firaGoBold }}" as="font" type="font/woff2" crossorigin>
+    <noscript>
+      <style>
+        .site-nav .nav-links,
+        .site-nav .nav-actions {
+          visibility: visible !important;
+        }
+      </style>
+    </noscript>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 

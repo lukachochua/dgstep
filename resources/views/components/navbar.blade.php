@@ -15,6 +15,7 @@
 
 <div
   class="site-nav"
+  data-fonts-ready="false"
   x-data="siteNav()"
   x-bind:data-fonts-ready="fontsReady ? 'true' : 'false'"
   @keydown.window.escape="closeMenu()"

@@ -184,19 +184,13 @@ window.siteNav = () => ({
     open: false,
     theme: 'light',
     fontsReady: false,
-    fontWaitMs: 650,
     init() {
         const attr = document.documentElement.getAttribute('data-theme');
         this.theme = (attr === 'dark' || attr === 'light') ? attr : 'light';
-        this.initFonts();
-    },
-    initFonts() {
-        const navText = 'DGstep Services About Projects Contact სერვისები ჩვენ შესახებ პროექტები კონტაქტი';
-
         waitForFonts([
             '500 1em "FiraGO"',
             '700 1em "FiraGO"',
-        ], navText, this.fontWaitMs).then(() => {
+        ], 'DGstep Services About Projects Contact სერვისები ჩვენ შესახებ პროექტები კონტაქტი', 650).then(() => {
             this.fontsReady = true;
         });
     },
