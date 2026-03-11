@@ -44,12 +44,14 @@
   --text-muted: color-mix(in oklab, #222228 68%, #ffffff 32%);
   --border: #e5e8ea;
 
-  --brand: #5b56d6;
-  --brand-support: #5b56d6;
-  --brand-support-soft: color-mix(in oklab, var(--brand) 58%, #ffffff 42%);
-  --brand-support-deep: color-mix(in oklab, var(--brand) 46%, #222228 54%);
-  --brand-strong: color-mix(in oklab, #5b56d6 82%, #222228 18%);
-  --accent: #5b56d6;
+  --brand-base: #5b56d6;
+  --brand-secondary: var(--brand-base);
+  --brand: color-mix(in oklab, var(--brand-base) 68%, #222228 32%);
+  --brand-support: var(--brand-secondary);
+  --brand-support-soft: color-mix(in oklab, var(--brand-secondary) 58%, #ffffff 42%);
+  --brand-support-deep: color-mix(in oklab, var(--brand-secondary) 46%, #222228 54%);
+  --brand-strong: var(--brand);
+  --accent: var(--brand-secondary);
   --accent-soft: #e5e8ea;
   --color-electric-sky: var(--brand);
 
@@ -65,6 +67,8 @@
 }
 
 :root[data-theme="dark"] {
+  --brand-base: #5b56d6;
+  --brand-secondary: var(--brand-base);
   --brand-support: #7758ec;
   --brand-support-soft: #8d72ff;
   --brand-support-deep: #5a3cc0;
@@ -78,9 +82,9 @@
   --text-muted: color-mix(in oklab, #ffffff 78%, var(--brand-support) 22%);
   --border: color-mix(in oklab, var(--brand-support) 22%, rgba(229, 232, 234, 0.18));
 
-  --brand: #5b56d6;
-  --brand-strong: color-mix(in oklab, var(--brand-support-soft) 72%, #ffffff 28%);
-  --accent: var(--brand-support);
+  --brand: color-mix(in oklab, var(--brand-support-soft) 72%, #ffffff 28%);
+  --brand-strong: var(--brand);
+  --accent: var(--brand-secondary);
   --accent-soft: color-mix(in oklab, var(--brand-support) 28%, var(--bg-elevated) 72%);
   --color-electric-sky: var(--brand);
 
@@ -796,26 +800,26 @@ html[data-theme="dark"] .nav-link-active {
 
 .btn-primary,
 .btn-hero {
-  background: var(--brand);
+  background: var(--brand-strong);
   color: #f3fffe;
-  box-shadow: 0 10px 20px color-mix(in oklab, var(--brand) 32%, transparent);
+  box-shadow: 0 10px 20px color-mix(in oklab, var(--brand-strong) 32%, transparent);
 }
 
 .btn-primary:hover,
 .btn-primary:focus-visible,
 .btn-hero:hover,
 .btn-hero:focus-visible {
-  background: var(--brand-strong);
+  background: var(--accent);
 }
 
 .btn-secondary {
-  background: color-mix(in oklab, var(--bg-elevated) 72%, var(--brand-support) 28%);
+  background: color-mix(in oklab, var(--bg-elevated) 72%, var(--accent) 28%);
   color: #ffffff;
 }
 
 .btn-secondary:hover,
 .btn-secondary:focus-visible {
-  background: color-mix(in oklab, var(--bg-elevated) 62%, var(--brand-support-soft) 38%);
+  background: color-mix(in oklab, var(--bg-elevated) 62%, var(--accent) 38%);
 }
 
 .btn-ghost {
@@ -1041,9 +1045,9 @@ html[data-theme="dark"] .nav-link-active {
 }
 
 .service-cue__dot.is-active {
-  border-color: color-mix(in oklab, var(--brand) 56%, transparent 44%);
-  background: var(--brand);
-  box-shadow: 0 0 0 4px color-mix(in oklab, var(--brand) 12%, transparent);
+  border-color: color-mix(in oklab, var(--brand-strong) 56%, transparent 44%);
+  background: var(--brand-strong);
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--brand-strong) 12%, transparent);
 }
 
 .service-cue--bubbles {
@@ -1467,8 +1471,8 @@ html[data-theme="dark"] .nav-link-active {
 }
 
 .hero-v2__dot.is-active::before {
-  background: var(--brand);
-  border-color: color-mix(in oklab, var(--brand) 60%, white 40%);
+  background: var(--brand-strong);
+  border-color: color-mix(in oklab, var(--brand-strong) 60%, white 40%);
   transform: scale(1.12);
 }
 

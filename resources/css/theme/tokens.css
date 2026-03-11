@@ -52,7 +52,7 @@
   --radius-2xl: 1rem;
   --radius-3xl: 1.25rem;
 
-  --shadow-brand: 0 12px 24px color-mix(in oklab, var(--color-brand-500) 28%, transparent);
+  --shadow-brand: 0 12px 24px color-mix(in oklab, var(--color-electric-sky) 28%, transparent);
   --shadow-soft:  0 6px 18px rgba(0,0,0,0.22);
 
   --ease-brand: cubic-bezier(.22,.61,.36,1);
@@ -62,6 +62,12 @@
    Root tokens (unified)
    ────────────────────────────────────────────────────────────── */
 :root {
+  --color-brand-primary: color-mix(in oklab, var(--color-brand-500) 68%, #000 32%);
+  --color-brand-secondary: var(--color-brand-500);
+  --color-electric-sky: var(--color-brand-primary);
+  --color-electric-sky-hover: var(--color-brand-secondary);
+  --color-electric-sky-focus: var(--color-brand-primary);
+
   /* Page defaults (dark-first to prevent flash) */
   --bg-default:   color-mix(in oklab, var(--neutral-900) 88%, var(--color-brand-support-500) 12%);
   --text-default: color-mix(in oklab, var(--neutral-white) 94%, var(--color-brand-support-500) 6%);
@@ -117,41 +123,41 @@ html.fi:not(.dark) {
   --bg-elevated:  var(--neutral-white);
 
   /* NAV (solid purple bar w/ white ink) */
-  --nav-bg:        color-mix(in oklab, var(--color-brand-500) 88%, transparent);
+  --nav-bg:        color-mix(in oklab, var(--color-brand-primary) 88%, transparent);
   --nav-border:    rgba(255,255,255,0.12);
-  --mobile-nav-bg: var(--color-brand-500);
+  --mobile-nav-bg: var(--color-brand-primary);
   --nav-fg:        #ffffff;
   --nav-fg-muted:  rgba(255,255,255,0.90);
   --nav-blur:      0px;
 
   /* Two-story */
   --nav-top-bg:     var(--nav-bg);
-  --nav-bottom-bg:  var(--color-brand-500);
+  --nav-bottom-bg:  var(--color-brand-primary);
   --nav-divider-bg: linear-gradient(90deg, transparent, rgba(255,255,255,.22), transparent);
 
   /* Chips on solid bar */
   --nav-link-bg:         color-mix(in oklab, #ffffff 12%, transparent);
   --nav-link-hover-bg:   color-mix(in oklab, #ffffff 18%, transparent);
-  --nav-link-active-bg:  var(--color-brand-500);
+  --nav-link-active-bg:  var(--color-brand-primary);
 
   /* Buttons — light */
-  --btn-primary-bg:       var(--color-brand-500);
-  --btn-primary-bg-hover: color-mix(in oklab, var(--color-brand-500) 84%, #000 16%);
+  --btn-primary-bg:       var(--color-brand-primary);
+  --btn-primary-bg-hover: var(--color-brand-secondary);
   --btn-primary-fg:       #ffffff;
-  --btn-primary-shadow:   0 10px 22px color-mix(in oklab, var(--color-brand-500) 28%, transparent);
+  --btn-primary-shadow:   0 10px 22px color-mix(in oklab, var(--color-brand-primary) 28%, transparent);
 
   --btn-secondary-bg:       transparent;
-  --btn-secondary-bg-hover: color-mix(in oklab, var(--color-brand-500) 12%, transparent);
+  --btn-secondary-bg-hover: color-mix(in oklab, var(--color-brand-secondary) 12%, transparent);
   --btn-secondary-fg:       var(--neutral-900);
-  --btn-secondary-border:   color-mix(in oklab, var(--color-brand-500) 42%, transparent);
+  --btn-secondary-border:   color-mix(in oklab, var(--color-brand-secondary) 42%, transparent);
 
   --btn-subtle-bg:          color-mix(in oklab, var(--neutral-300) 55%, transparent);
   --btn-subtle-bg-hover:    color-mix(in oklab, var(--neutral-300) 72%, transparent);
   --btn-subtle-fg:          var(--neutral-900);
   --btn-subtle-border:      color-mix(in oklab, var(--neutral-900) 16%, transparent);
 
-  --btn-ghost-fg:           var(--color-brand-500);
-  --btn-ghost-bg-hover:     color-mix(in oklab, var(--color-brand-500) 10%, transparent);
+  --btn-ghost-fg:           var(--color-brand-primary);
+  --btn-ghost-bg-hover:     color-mix(in oklab, var(--color-brand-secondary) 10%, transparent);
 
   --btn-danger-bg:          var(--color-danger);
   --btn-danger-bg-hover:    color-mix(in oklab, var(--color-danger) 86%, #000 14%);
@@ -218,7 +224,7 @@ html.fi:not(.dark) {
   --features-text-muted:   color-mix(in oklab, var(--neutral-900) 58%, transparent);
 
   /* Footer */
-  --footer-bg:     var(--color-brand-500);
+  --footer-bg:     var(--color-brand-primary);
   --footer-fg:     #ffffff;
   --footer-border: rgba(0,0,0,0.14);
 }
@@ -226,10 +232,13 @@ html.fi:not(.dark) {
 /* DARK THEME OVERRIDES */
 :root[data-theme="dark"],
 html.fi.dark {
+  --color-brand-primary: color-mix(in oklab, var(--color-brand-500) 84%, #ffffff 16%);
+  --color-brand-secondary: var(--color-brand-500);
+
   /* Accents tuned for dark */
-  --color-electric-sky:       var(--color-brand-500);
-  --color-electric-sky-hover: var(--color-brand-500);
-  --color-electric-sky-focus: var(--color-brand-500);
+  --color-electric-sky:       var(--color-brand-primary);
+  --color-electric-sky-hover: var(--color-brand-secondary);
+  --color-electric-sky-focus: var(--color-brand-primary);
 
   /* Page */
   --bg-default:   color-mix(in oklab, var(--neutral-900) 88%, var(--color-brand-support-500) 12%);
@@ -246,22 +255,22 @@ html.fi.dark {
 
   /* Two-story */
   --nav-top-bg:     var(--nav-bg);
-  --nav-bottom-bg:  color-mix(in oklab, var(--nav-bg) 72%, var(--color-brand-support-500) 28%);
+  --nav-bottom-bg:  color-mix(in oklab, var(--nav-bg) 64%, var(--color-brand-primary) 36%);
   --nav-divider-bg: linear-gradient(90deg, transparent, color-mix(in oklab, var(--color-brand-support-500) 30%, rgba(255,255,255,.16)), transparent);
 
   /* Chips */
   --nav-link-bg:         color-mix(in oklab, var(--color-brand-support-400) 18%, var(--bg-elevated) 82%);
   --nav-link-hover-bg:   color-mix(in oklab, var(--color-brand-support-500) 28%, var(--bg-elevated) 72%);
-  --nav-link-active-bg:  color-mix(in oklab, var(--color-brand-support-600) 34%, var(--bg-elevated) 66%);
+  --nav-link-active-bg:  color-mix(in oklab, var(--color-brand-primary) 34%, var(--bg-elevated) 66%);
 
   /* Buttons */
-  --btn-primary-bg:         var(--color-brand-500);
-  --btn-primary-bg-hover:   color-mix(in oklab, var(--color-brand-500) 84%, #ffffff 16%);
+  --btn-primary-bg:         var(--color-brand-primary);
+  --btn-primary-bg-hover:   var(--color-brand-secondary);
   --btn-primary-fg:         #ffffff;
-  --btn-primary-shadow:     0 10px 22px color-mix(in oklab, var(--color-brand-500) 34%, transparent);
+  --btn-primary-shadow:     0 10px 22px color-mix(in oklab, var(--color-brand-primary) 34%, transparent);
 
-  --btn-secondary-bg:       color-mix(in oklab, var(--color-brand-support-400) 24%, var(--bg-elevated) 76%);
-  --btn-secondary-bg-hover: color-mix(in oklab, var(--color-brand-support-500) 32%, var(--bg-elevated) 68%);
+  --btn-secondary-bg:       color-mix(in oklab, var(--color-brand-secondary) 24%, var(--bg-elevated) 76%);
+  --btn-secondary-bg-hover: color-mix(in oklab, var(--color-brand-secondary) 32%, var(--bg-elevated) 68%);
   --btn-secondary-fg:       var(--text-default);
   --btn-secondary-border:   color-mix(in oklab, #ffffff 12%, transparent);
 
@@ -270,8 +279,8 @@ html.fi.dark {
   --btn-subtle-fg:          var(--neutral-200);
   --btn-subtle-border:      color-mix(in oklab, #ffffff 10%, transparent);
 
-  --btn-ghost-fg:           var(--color-brand-500);
-  --btn-ghost-bg-hover:     color-mix(in oklab, var(--color-brand-support-400) 20%, transparent);
+  --btn-ghost-fg:           var(--color-brand-primary);
+  --btn-ghost-bg-hover:     color-mix(in oklab, var(--color-brand-secondary) 20%, transparent);
 
   --btn-danger-bg:          var(--color-danger);
   --btn-danger-bg-hover:    color-mix(in oklab, var(--color-danger) 86%, #000 14%);
