@@ -8,12 +8,23 @@
 @import "tailwindcss";
 
 @font-face {
+  font-family: "FiraGO Nav Fallback";
+  src: local("Segoe UI"), local("Calibri"), local("Arial");
+  font-style: normal;
+  font-weight: 400 700;
+  ascent-override: 92%;
+  descent-override: 24%;
+  line-gap-override: 0%;
+  size-adjust: 98%;
+}
+
+@font-face {
   font-family: "FiraGO";
   src: url("../fonts/firago/FiraGO-Regular.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
-  /* Avoid late font swaps that resize the navbar on first paint. */
-  font-display: optional;
+  /* Use the preloaded font on fast loads, but avoid very-late swaps. */
+  font-display: fallback;
 }
 
 @font-face {
@@ -21,7 +32,7 @@
   src: url("../fonts/firago/FiraGO-Medium.woff2") format("woff2");
   font-weight: 500;
   font-style: normal;
-  font-display: optional;
+  font-display: fallback;
 }
 
 @font-face {
@@ -29,11 +40,12 @@
   src: url("../fonts/firago/FiraGO-Bold.woff2") format("woff2");
   font-weight: 700;
   font-style: normal;
-  font-display: optional;
+  font-display: fallback;
 }
 
 :root {
   --font-sans: "FiraGO", "Calibri", "Segoe UI", sans-serif;
+  --font-sans-nav: "FiraGO", "FiraGO Nav Fallback", "Segoe UI", "Calibri", Arial, sans-serif;
 
   --bg: #e5e8ea;
   --bg-elevated: #ffffff;
@@ -450,6 +462,7 @@ a {
   height: var(--nav-h);
   background: transparent;
   border-bottom: 0;
+  font-family: var(--font-sans-nav);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
 }
