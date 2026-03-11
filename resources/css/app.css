@@ -45,6 +45,9 @@
   --border: #e5e8ea;
 
   --brand: #5b56d6;
+  --brand-support: #5b56d6;
+  --brand-support-soft: color-mix(in oklab, var(--brand) 58%, #ffffff 42%);
+  --brand-support-deep: color-mix(in oklab, var(--brand) 46%, #222228 54%);
   --brand-strong: color-mix(in oklab, #5b56d6 82%, #222228 18%);
   --accent: #5b56d6;
   --accent-soft: #e5e8ea;
@@ -62,25 +65,28 @@
 }
 
 :root[data-theme="dark"] {
-  --bg: #222228;
-  --bg-elevated: #000000;
-  --mobile-nav-bg: color-mix(in oklab, #000000 96%, #222228 4%);
-  --mobile-nav-surface: color-mix(in oklab, #000000 90%, var(--brand) 10%);
-  --mobile-nav-surface-hover: color-mix(in oklab, #000000 84%, var(--brand) 16%);
-  --bg-muted: color-mix(in oklab, #e5e8ea 10%, #222228 90%);
+  --brand-support: #7758ec;
+  --brand-support-soft: #8d72ff;
+  --brand-support-deep: #5a3cc0;
+  --bg: color-mix(in oklab, #222228 86%, var(--brand-support) 14%);
+  --bg-elevated: color-mix(in oklab, #000000 84%, var(--brand-support-deep) 16%);
+  --mobile-nav-bg: color-mix(in oklab, #000000 72%, var(--brand-support) 28%);
+  --mobile-nav-surface: color-mix(in oklab, var(--bg-elevated) 78%, var(--brand-support) 22%);
+  --mobile-nav-surface-hover: color-mix(in oklab, var(--bg-elevated) 68%, var(--brand-support-soft) 32%);
+  --bg-muted: color-mix(in oklab, #222228 70%, var(--brand-support-deep) 30%);
   --text: #ffffff;
-  --text-muted: color-mix(in oklab, #ffffff 74%, #222228 26%);
-  --border: color-mix(in oklab, #e5e8ea 18%, transparent 82%);
+  --text-muted: color-mix(in oklab, #ffffff 78%, var(--brand-support) 22%);
+  --border: color-mix(in oklab, var(--brand-support) 22%, rgba(229, 232, 234, 0.18));
 
   --brand: #5b56d6;
-  --brand-strong: color-mix(in oklab, #5b56d6 78%, #ffffff 22%);
-  --accent: #5b56d6;
-  --accent-soft: color-mix(in oklab, #5b56d6 14%, #222228 86%);
+  --brand-strong: color-mix(in oklab, var(--brand-support-soft) 72%, #ffffff 28%);
+  --accent: var(--brand-support);
+  --accent-soft: color-mix(in oklab, var(--brand-support) 28%, var(--bg-elevated) 72%);
   --color-electric-sky: var(--brand);
 
-  --ring: color-mix(in oklab, var(--brand) 65%, #ffffff 35%);
-  --shadow: 0 24px 52px rgba(8, 8, 26, 0.46);
-  --shadow-soft: 0 12px 30px rgba(8, 8, 26, 0.32);
+  --ring: color-mix(in oklab, var(--brand-support-soft) 68%, #ffffff 32%);
+  --shadow: 0 24px 52px color-mix(in oklab, var(--brand-support) 24%, rgba(8, 8, 26, 0.46));
+  --shadow-soft: 0 12px 30px color-mix(in oklab, var(--brand-support) 18%, rgba(8, 8, 26, 0.32));
 }
 
 html {
@@ -147,6 +153,18 @@ html[data-theme="light"] body {
     radial-gradient(circle at top right, color-mix(in oklab, var(--brand) 10%, transparent) 0%, transparent 28%),
     radial-gradient(circle at top left, color-mix(in oklab, #222228 4%, transparent) 0%, transparent 24%),
     linear-gradient(180deg, #ffffff 0%, var(--bg) 100%);
+}
+
+html[data-theme="dark"] body {
+  background:
+    radial-gradient(circle at top right, color-mix(in oklab, var(--brand-support) 16%, transparent) 0%, transparent 26%),
+    radial-gradient(circle at top left, color-mix(in oklab, var(--brand-support-soft) 10%, transparent) 0%, transparent 22%),
+    linear-gradient(
+      180deg,
+      color-mix(in oklab, var(--bg) 82%, var(--brand-support) 18%) 0%,
+      var(--bg) 48%,
+      color-mix(in oklab, var(--bg-elevated) 82%, var(--brand-support-deep) 18%) 100%
+    );
 }
 
 html[data-theme="light"] body::before {
@@ -562,6 +580,21 @@ a {
   color: var(--brand-strong);
 }
 
+html[data-theme="dark"] .nav-link:hover,
+html[data-theme="dark"] .nav-link:focus-visible {
+  background: color-mix(in oklab, var(--brand-support) 18%, transparent 82%);
+}
+
+html[data-theme="dark"] .nav-link-active {
+  background: linear-gradient(
+    135deg,
+    color-mix(in oklab, var(--brand-support) 28%, transparent 72%) 0%,
+    color-mix(in oklab, var(--brand-support-soft) 20%, transparent 80%) 100%
+  );
+  color: var(--brand-strong);
+  box-shadow: 0 10px 22px color-mix(in oklab, var(--brand-support) 20%, transparent);
+}
+
 .nav-actions {
   display: flex;
   align-items: center;
@@ -776,13 +809,13 @@ a {
 }
 
 .btn-secondary {
-  background: #222228;
+  background: color-mix(in oklab, var(--bg-elevated) 72%, var(--brand-support) 28%);
   color: #ffffff;
 }
 
 .btn-secondary:hover,
 .btn-secondary:focus-visible {
-  background: #000000;
+  background: color-mix(in oklab, var(--bg-elevated) 62%, var(--brand-support-soft) 38%);
 }
 
 .btn-ghost {
@@ -1343,8 +1376,12 @@ a {
 .hero-v2__media-fallback {
   background:
     radial-gradient(circle at 20% 20%, color-mix(in oklab, var(--brand) 46%, transparent) 0%, transparent 34%),
-    radial-gradient(circle at 82% 76%, color-mix(in oklab, var(--accent) 40%, transparent) 0%, transparent 36%),
-    linear-gradient(132deg, color-mix(in oklab, var(--brand) 72%, #10142f 28%) 0%, color-mix(in oklab, var(--accent) 34%, #0f1638 66%) 100%);
+    radial-gradient(circle at 82% 76%, color-mix(in oklab, var(--brand-support-soft) 42%, transparent) 0%, transparent 36%),
+    linear-gradient(
+      132deg,
+      color-mix(in oklab, var(--brand-support) 70%, var(--bg-elevated) 30%) 0%,
+      color-mix(in oklab, var(--brand-support-soft) 46%, var(--bg-elevated) 54%) 100%
+    );
 }
 
 .hero-v2__overlay-card {
