@@ -8,23 +8,11 @@
 @import "tailwindcss";
 
 @font-face {
-  font-family: "FiraGO Nav Fallback";
-  src: local("Segoe UI"), local("Calibri"), local("Arial");
-  font-style: normal;
-  font-weight: 400 700;
-  ascent-override: 92%;
-  descent-override: 24%;
-  line-gap-override: 0%;
-  size-adjust: 98%;
-}
-
-@font-face {
   font-family: "FiraGO";
   src: url("../fonts/firago/FiraGO-Regular.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
-  /* Use the preloaded font on fast loads, but avoid very-late swaps. */
-  font-display: fallback;
+  font-display: swap;
 }
 
 @font-face {
@@ -32,7 +20,7 @@
   src: url("../fonts/firago/FiraGO-Medium.woff2") format("woff2");
   font-weight: 500;
   font-style: normal;
-  font-display: fallback;
+  font-display: swap;
 }
 
 @font-face {
@@ -40,12 +28,11 @@
   src: url("../fonts/firago/FiraGO-Bold.woff2") format("woff2");
   font-weight: 700;
   font-style: normal;
-  font-display: fallback;
+  font-display: swap;
 }
 
 :root {
   --font-sans: "FiraGO", "Calibri", "Segoe UI", sans-serif;
-  --font-sans-nav: "FiraGO", "FiraGO Nav Fallback", "Segoe UI", "Calibri", Arial, sans-serif;
 
   --bg: #e5e8ea;
   --bg-elevated: #ffffff;
@@ -462,7 +449,6 @@ a {
   height: var(--nav-h);
   background: transparent;
   border-bottom: 0;
-  font-family: var(--font-sans-nav);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
 }
@@ -2144,12 +2130,16 @@ html[lang="ka"] .home-proof .metric-card > p:last-child {
   .nav-inner {
     display: grid;
     grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
   }
 
   .nav-links {
     display: flex;
+    position: static;
+    align-items: center;
     justify-content: center;
     min-width: 0;
+    transform: none;
   }
 
   .mobile-only {

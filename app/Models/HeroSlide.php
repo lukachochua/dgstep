@@ -76,7 +76,9 @@ class HeroSlide extends Model
             return $this->image_path;
         }
 
-        return url(Storage::disk('public')->url($this->image_path));
+        $storageUrl = Storage::disk('public')->url($this->image_path);
+
+        return parse_url($storageUrl, PHP_URL_PATH) ?: $storageUrl;
     }
 
     public function getButtonHrefAttribute(): ?string
