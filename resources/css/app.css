@@ -20,7 +20,7 @@
   src: url("../fonts/firago/FiraGO-Medium.woff2") format("woff2");
   font-weight: 500;
   font-style: normal;
-  font-display: block;
+  font-display: swap;
 }
 
 @font-face {
@@ -2127,8 +2127,15 @@ html[lang="ka"] .home-proof .metric-card > p:last-child {
 }
 
 @media (min-width: 900px) {
+  .nav-inner {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+
   .nav-links {
     display: flex;
+    justify-content: center;
+    min-width: 0;
   }
 
   .mobile-only {
