@@ -12,7 +12,8 @@
   src: url("../fonts/firago/FiraGO-Regular.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
-  font-display: swap;
+  /* Avoid late font swaps that resize the navbar on first paint. */
+  font-display: optional;
 }
 
 @font-face {
@@ -20,7 +21,7 @@
   src: url("../fonts/firago/FiraGO-Medium.woff2") format("woff2");
   font-weight: 500;
   font-style: normal;
-  font-display: swap;
+  font-display: optional;
 }
 
 @font-face {
@@ -28,7 +29,7 @@
   src: url("../fonts/firago/FiraGO-Bold.woff2") format("woff2");
   font-weight: 700;
   font-style: normal;
-  font-display: swap;
+  font-display: optional;
 }
 
 :root {
