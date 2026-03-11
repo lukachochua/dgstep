@@ -444,6 +444,11 @@ a {
   margin-bottom: calc(-1 * var(--nav-h));
 }
 
+.site-nav[data-fonts-ready="false"] .nav-links,
+.site-nav[data-fonts-ready="false"] .nav-actions {
+  visibility: hidden;
+}
+
 .nav-shell {
   position: relative;
   height: var(--nav-h);
