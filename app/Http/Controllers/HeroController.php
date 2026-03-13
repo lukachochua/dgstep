@@ -44,13 +44,10 @@ class HeroController extends Controller
 
                 return [
                     'title' => $slide->getTranslation('title', $locale),
-                    'highlight' => $slide->getTranslation('highlight', $locale),
                     'subtitle' => $slide->getTranslation('subtitle', $locale),
                     'button_text' => blank($manualText) ? $fallbackLabel : $manualText,
                     'button_href' => $resolvedHref,
                     'image' => $slide->image_url,
-                    'overlay_kicker' => $this->localizedText($slide->overlay_kicker, $locale),
-                    'overlay_points' => $this->localizedPoints($slide->overlay_points, $locale),
                 ];
             })
             ->filter(fn (array $slide) => filled($slide['title']) || filled($slide['subtitle']))
@@ -66,8 +63,6 @@ class HeroController extends Controller
                 'secondary_cta' => $this->localizedText($page->hero_secondary_cta, $locale),
                 'slide_label' => $this->localizedText($page->hero_slide_label, $locale),
                 'slide_announcement' => $this->localizedText($page->hero_slide_announcement, $locale),
-                'audiences_label' => $this->localizedText($page->hero_audiences_label, $locale),
-                'audiences' => $this->localizedList($page->hero_audiences, $locale),
                 'image_alt' => $this->localizedText($page->hero_image_alt, $locale),
             ],
             'proof' => [

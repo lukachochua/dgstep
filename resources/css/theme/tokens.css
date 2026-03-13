@@ -15,9 +15,9 @@
   --color-brand-500: #5b56d6;  /* MAIN */
   --color-brand-600: #5b56d6;
   --color-brand-700: #5b56d6;
-  --color-brand-support-400: #6b4fe3;
-  --color-brand-support-500: #7758ec;
-  --color-brand-support-600: #8d72ff;
+  --color-brand-support-400: color-mix(in oklab, var(--color-brand-500) 46%, #222228 54%);
+  --color-brand-support-500: color-mix(in oklab, var(--color-brand-500) 78%, #ffffff 22%);
+  --color-brand-support-600: color-mix(in oklab, var(--color-brand-500) 58%, #ffffff 42%);
   --color-brand-800: #222228;
   --color-brand-900: #222228;
   --color-brand-950: #000000;

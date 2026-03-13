@@ -19,6 +19,7 @@
 /storage/*.key
 /storage/pail
 /vendor
+SITE_REDESIGN.local.md
 Homestead.json
 Homestead.yaml
 Thumbs.db

@@ -9,8 +9,8 @@
                 @forelse ($heroSlides as $slide)
                     <li class="bg-white px-4 py-3 text-sm leading-6 dark:bg-gray-800">
                         <p class="font-medium text-gray-900 dark:text-gray-100">{{ $slide['title'] ?? '—' }}</p>
-                        @if (!empty($slide['highlight']))
-                            <p class="text-gray-500 dark:text-gray-400">{{ $slide['highlight'] }}</p>
+                        @if (!empty($slide['subtitle']))
+                            <p class="text-gray-500 dark:text-gray-400">{{ Str::limit($slide['subtitle'], 120) }}</p>
                         @endif
                         @if (!empty($slide['route']))
                             <p class="mt-1 text-xs text-gray-400 dark:text-gray-500">Linked to: {{ $slide['route'] }}</p>

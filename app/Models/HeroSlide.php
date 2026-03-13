@@ -12,11 +12,8 @@ class HeroSlide extends Model
 
     protected $fillable = [
         'title',
-        'highlight',
         'subtitle',
         'button_text',
-        'overlay_kicker',
-        'overlay_points',
         'button_link',
         'link_type',
         'button_route',
@@ -30,15 +27,12 @@ class HeroSlide extends Model
      */
     public array $translatable = [
         'title',
-        'highlight',
         'subtitle',
         'button_text',
-        'overlay_kicker',
     ];
 
     protected $casts = [
-        'button_params'           => 'array',
-        'overlay_points'          => 'array',
+        'button_params' => 'array',
     ];
 
     protected $appends = [

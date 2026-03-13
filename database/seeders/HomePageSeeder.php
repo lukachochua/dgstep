@@ -20,7 +20,6 @@ class HomePageSeeder extends Seeder
                 'hero_secondary_cta',
                 'hero_slide_label',
                 'hero_slide_announcement',
-                'hero_audiences_label',
                 'hero_image_alt',
                 'proof_kicker',
                 'proof_title',
@@ -46,8 +45,6 @@ class HomePageSeeder extends Seeder
             ] as $attribute) {
                 $page->setTranslations($attribute, $defaults[$attribute]);
             }
-
-            $page->hero_audiences = $defaults['hero_audiences'];
             $page->save();
 
             return;

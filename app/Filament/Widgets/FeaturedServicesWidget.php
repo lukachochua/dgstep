@@ -30,7 +30,7 @@ class FeaturedServicesWidget extends Widget
             ->map(function (HeroSlide $slide) use ($locale) {
                 return [
                     'title' => $slide->getTranslation('title', $locale) ?? $slide->getTranslation('title', 'en'),
-                    'highlight' => $slide->getTranslation('highlight', $locale) ?? $slide->getTranslation('highlight', 'en'),
+                    'subtitle' => $slide->getTranslation('subtitle', $locale) ?? $slide->getTranslation('subtitle', 'en'),
                     'route' => $slide->button_href,
                 ];
             })

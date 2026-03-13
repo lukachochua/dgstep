@@ -16,8 +16,6 @@ class HomePage extends Model
         'hero_secondary_cta',
         'hero_slide_label',
         'hero_slide_announcement',
-        'hero_audiences_label',
-        'hero_audiences',
         'hero_image_alt',
         'proof_kicker',
         'proof_title',
@@ -42,17 +40,12 @@ class HomePage extends Model
         'cta_secondary',
     ];
 
-    protected $casts = [
-        'hero_audiences' => 'array',
-    ];
-
     public array $translatable = [
         'title',
         'hero_kicker',
         'hero_secondary_cta',
         'hero_slide_label',
         'hero_slide_announcement',
-        'hero_audiences_label',
         'hero_image_alt',
         'proof_kicker',
         'proof_title',
@@ -99,14 +92,6 @@ class HomePage extends Model
             'hero_slide_announcement' => [
                 'en' => Lang::get('messages.hero.slide_announcement', [], 'en'),
                 'ka' => Lang::get('messages.hero.slide_announcement', [], 'ka'),
-            ],
-            'hero_audiences_label' => [
-                'en' => Lang::get('messages.hero.audiences_label', [], 'en'),
-                'ka' => Lang::get('messages.hero.audiences_label', [], 'ka'),
-            ],
-            'hero_audiences' => [
-                'en' => Lang::get('messages.hero.audiences', [], 'en'),
-                'ka' => Lang::get('messages.hero.audiences', [], 'ka'),
             ],
             'hero_image_alt' => [
                 'en' => Lang::get('messages.hero.image_alt', [], 'en'),

@@ -5,7 +5,6 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\HomePageResource\Pages;
 use App\Models\HomePage;
 use Filament\Forms;
-use Filament\Forms\Components\Repeater as RepeaterComponent;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -54,7 +53,7 @@ class HomePageResource extends Resource
                                                         ->maxLength(140)
                                                         ->required(),
                                                     Forms\Components\TextInput::make("hero_secondary_cta.$code")
-                                                        ->label('Hero secondary button')
+                                                        ->label('Hero secondary link')
                                                         ->maxLength(120)
                                                         ->required(),
                                                     Forms\Components\TextInput::make("hero_slide_label.$code")
@@ -84,32 +83,12 @@ class HomePageResource extends Resource
                                     return Forms\Components\Tabs\Tab::make($label)
                                         ->icon('heroicon-o-language')
                                         ->schema([
-                                            Forms\Components\Section::make('Hero Support Copy')
+                                            Forms\Components\Section::make('Hero')
                                                 ->icon('heroicon-o-sparkles')
                                                 ->schema([
-                                                    Forms\Components\TextInput::make("hero_audiences_label.$code")
-                                                        ->label('Audiences label')
-                                                        ->maxLength(140)
-                                                        ->required(),
-                                                    RepeaterComponent::make("hero_audiences.$code")
-                                                        ->label('Audience items')
-                                                        ->addActionLabel('Add audience')
-                                                        ->default([])
-                                                        ->collapsed()
-                                                        ->schema([
-                                                            Forms\Components\TextInput::make('value')
-                                                                ->label('Audience')
-                                                                ->maxLength(160)
-                                                                ->required(),
-                                                        ])
-                                                        ->mutateDehydratedStateUsing(fn ($state) => collect($state)->pluck('value')->filter()->values()->all())
-                                                        ->afterStateHydrated(function (RepeaterComponent $component, ?array $state): void {
-                                                            $component->state(
-                                                                collect($state ?? [])
-                                                                    ->map(fn ($item) => ['value' => $item])
-                                                                    ->all()
-                                                            );
-                                                        }),
+                                                    Forms\Components\Placeholder::make("hero_summary_$code")
+                                                        ->label('Hero structure')
+                                                        ->content('Kicker, title, short paragraph, primary CTA, secondary link, and image.'),
                                                 ]),
 
                                             Forms\Components\Section::make('Proof Section')
