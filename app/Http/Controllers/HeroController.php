@@ -94,7 +94,6 @@ class HeroController extends Controller
                 'link_label' => $this->localizedText($page->solutions_link_label, $locale),
             ],
             'cta' => [
-                'kicker' => $this->localizedText($page->cta_kicker, $locale),
                 'title' => $this->localizedText($page->cta_title, $locale),
                 'subtitle' => $this->localizedText($page->cta_subtitle, $locale),
                 'primary' => $this->localizedText($page->cta_primary, $locale),

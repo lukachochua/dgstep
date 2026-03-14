@@ -17,15 +17,17 @@
   ];
 @endphp
 
-<section class="section-block">
-  <div class="section-inner space-y-8">
-    <div class="ltr-reveal" data-reveal-ltr>
-      <span class="section-kicker">{{ $kicker }}</span>
-      <h2 class="section-title mt-3">{{ $title }}</h2>
-      <p class="section-lead mt-2">{{ $subtitle }}</p>
+<section class="section-block home-features">
+  <div class="section-inner">
+    <div class="features-header ltr-reveal" data-reveal-ltr>
+      <div class="features-header__copy">
+        <span class="section-kicker">{{ $kicker }}</span>
+        <h2 class="section-title mt-3">{{ $title }}</h2>
+      </div>
+      <p class="section-lead">{{ $subtitle }}</p>
     </div>
 
-    <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-3" data-reveal-ltr-group>
+    <div class="feature-grid" data-reveal-ltr-group>
       @if ($hasDbItems)
         @foreach ($items as $service)
           @php
@@ -40,7 +42,7 @@
           @endphp
           <x-ui.media-card
             variant="feature"
-            class="p-4 md:p-5 ltr-reveal"
+            class="{{ $loop->first ? 'feature-card--lead p-5 md:p-6' : 'feature-card--support p-4 md:p-5' }} ltr-reveal"
             data-reveal-ltr
             :image="$cardImage"
             :imageAlt="$imageAlt"
@@ -59,7 +61,7 @@
           @endphp
           <x-ui.media-card
             variant="feature"
-            class="p-5 ltr-reveal"
+            class="{{ $loop->first ? 'feature-card--lead p-5 md:p-6' : 'feature-card--support p-4 md:p-5' }} ltr-reveal"
             data-reveal-ltr
             :image="$fallbackImage"
             :imageAlt="__('messages.features.image_alt', ['name' => ($card['title'] ?? __('services.our_key_services'))])"

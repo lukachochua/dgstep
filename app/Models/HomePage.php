@@ -33,7 +33,6 @@ class HomePage extends Model
         'solutions_title',
         'solutions_subtitle',
         'solutions_link_label',
-        'cta_kicker',
         'cta_title',
         'cta_subtitle',
         'cta_primary',
@@ -63,7 +62,6 @@ class HomePage extends Model
         'solutions_title',
         'solutions_subtitle',
         'solutions_link_label',
-        'cta_kicker',
         'cta_title',
         'cta_subtitle',
         'cta_primary',
@@ -160,10 +158,6 @@ class HomePage extends Model
             'solutions_link_label' => [
                 'en' => Lang::get('services.read_more', [], 'en'),
                 'ka' => Lang::get('services.read_more', [], 'ka'),
-            ],
-            'cta_kicker' => [
-                'en' => Lang::get('messages.home_cta.kicker', [], 'en'),
-                'ka' => Lang::get('messages.home_cta.kicker', [], 'ka'),
             ],
             'cta_title' => [
                 'en' => Lang::get('messages.home_cta.title', [], 'en'),

@@ -6,15 +6,15 @@
   /* Typography */
   --font-sans: "Calibri", ui-sans-serif, system-ui, sans-serif;
 
-  /* Primary (Pantone 2727 → #5B56D6) */
+  /* Primary brand indigo */
   --color-brand-50:  #ffffff;
   --color-brand-100: #e5e8ea;
   --color-brand-200: #e5e8ea;
   --color-brand-300: #e5e8ea;
-  --color-brand-400: #5b56d6;
-  --color-brand-500: #5b56d6;  /* MAIN */
-  --color-brand-600: #5b56d6;
-  --color-brand-700: #5b56d6;
+  --color-brand-400: #5a3fd9;
+  --color-brand-500: #5a3fd9;  /* MAIN */
+  --color-brand-600: #5a3fd9;
+  --color-brand-700: #5a3fd9;
   --color-brand-support-400: color-mix(in oklab, var(--color-brand-500) 46%, #222228 54%);
   --color-brand-support-500: color-mix(in oklab, var(--color-brand-500) 78%, #ffffff 22%);
   --color-brand-support-600: color-mix(in oklab, var(--color-brand-500) 58%, #ffffff 42%);
@@ -23,10 +23,10 @@
   --color-brand-950: #000000;
 
   /* Alternate accents collapse to the approved brand accent */
-  --color-accent-1: #5b56d6;
-  --color-accent-1-600: #5b56d6;
-  --color-accent-2: #5b56d6;
-  --color-accent-2-600: #5b56d6;
+  --color-accent-1: #5a3fd9;
+  --color-accent-1-600: #5a3fd9;
+  --color-accent-2: #5a3fd9;
+  --color-accent-2-600: #5a3fd9;
 
   /* Neutrals */
   --neutral-black:   #000000;

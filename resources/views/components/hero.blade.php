@@ -43,6 +43,7 @@
 
 <section
   class="hero-v2"
+  data-ready="false"
   x-bind:data-ready="ready ? 'true' : 'false'"
   x-data="heroSlider({
     slideLabel: @js((string) data_get($content, 'slide_label', __('messages.hero.slide_label'))),
@@ -57,11 +58,11 @@
         <div class="swiper-wrapper">
           @foreach ($normalizedSlides as $slide)
             <article class="swiper-slide hero-v2__slide">
+              <p class="hero-v2__eyebrow">{{ data_get($content, 'kicker', __('messages.hero.kicker')) }}</p>
+
               <div class="hero-v2__grid">
                 <div class="hero-v2__content">
                   <div class="hero-v2__copy">
-                    <p class="hero-v2__eyebrow">{{ data_get($content, 'kicker', __('messages.hero.kicker')) }}</p>
-
                     @php $headingTag = $loop->first ? 'h1' : 'h2'; @endphp
                     <{{ $headingTag }} class="hero-v2__title">
                       {{ $slide['title'] }}

@@ -91,8 +91,9 @@ class HomePageResource extends Resource
                                                         ->content('Kicker, title, short paragraph, primary CTA, secondary link, and image.'),
                                                 ]),
 
-                                            Forms\Components\Section::make('Proof Section')
+                                            Forms\Components\Section::make('Proof Snapshot')
                                                 ->icon('heroicon-o-shield-check')
+                                                ->description('Intro copy plus three supporting evidence rows.')
                                                 ->schema([
                                                     Forms\Components\TextInput::make("proof_kicker.$code")
                                                         ->label('Kicker')
@@ -134,6 +135,7 @@ class HomePageResource extends Resource
 
                                             Forms\Components\Section::make('Featured Services Intro')
                                                 ->icon('heroicon-o-rectangle-stack')
+                                                ->description('Section heading and intro for the featured services block.')
                                                 ->schema([
                                                     Forms\Components\TextInput::make("solutions_kicker.$code")
                                                         ->label('Kicker')
@@ -153,14 +155,11 @@ class HomePageResource extends Resource
                                                         ->required(),
                                                 ]),
 
-                                            Forms\Components\Section::make('Bottom CTA')
+                                            Forms\Components\Section::make('Closing CTA')
                                                 ->icon('heroicon-o-megaphone')
+                                                ->description('Quiet closing call to action with one primary button and one text link.')
                                                 ->columns(2)
                                                 ->schema([
-                                                    Forms\Components\TextInput::make("cta_kicker.$code")
-                                                        ->label('Kicker')
-                                                        ->maxLength(120)
-                                                        ->required(),
                                                     Forms\Components\TextInput::make("cta_title.$code")
                                                         ->label('Headline')
                                                         ->maxLength(255)

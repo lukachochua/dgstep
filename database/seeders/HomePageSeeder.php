@@ -37,7 +37,6 @@ class HomePageSeeder extends Seeder
                 'solutions_title',
                 'solutions_subtitle',
                 'solutions_link_label',
-                'cta_kicker',
                 'cta_title',
                 'cta_subtitle',
                 'cta_primary',
