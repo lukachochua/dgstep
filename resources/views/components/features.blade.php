@@ -42,19 +42,22 @@
             }
           @endphp
           <x-ui.media-card
-            as="a"
-            href="{{ $serviceHref }}"
+            as="article"
             variant="feature"
             class="{{ $loop->first ? 'feature-card--lead p-5 md:p-6' : 'feature-card--support p-4 md:p-5' }} ltr-reveal"
             data-reveal-ltr
+            data-card-link="{{ $serviceHref }}"
+            tabindex="0"
+            role="link"
+            aria-label="{{ $name }}"
             :image="$cardImage"
             :imageAlt="$imageAlt"
             :title="$name"
             :description="$desc"
           >
-            <span class="feature-more-link mt-4 inline-flex text-sm font-semibold">
+            <a href="{{ $serviceHref }}" class="feature-more-link mt-4 inline-flex text-sm font-semibold">
               {{ $linkLabel }}
-            </span>
+            </a>
           </x-ui.media-card>
         @endforeach
       @else
@@ -63,19 +66,22 @@
             $fallbackImage = $card['image'] ?? $fallbackImages[$loop->index % count($fallbackImages)];
           @endphp
           <x-ui.media-card
-            as="a"
-            href="{{ route('services') }}"
+            as="article"
             variant="feature"
             class="{{ $loop->first ? 'feature-card--lead p-5 md:p-6' : 'feature-card--support p-4 md:p-5' }} ltr-reveal"
             data-reveal-ltr
+            data-card-link="{{ route('services') }}"
+            tabindex="0"
+            role="link"
+            aria-label="{{ $card['title'] ?? __('services.our_key_services') }}"
             :image="$fallbackImage"
             :imageAlt="__('messages.features.image_alt', ['name' => ($card['title'] ?? __('services.our_key_services'))])"
             :title="$card['title'] ?? ''"
             :description="$card['description'] ?? ''"
           >
-            <span class="feature-more-link mt-4 inline-flex text-sm font-semibold">
+            <a href="{{ route('services') }}" class="feature-more-link mt-4 inline-flex text-sm font-semibold">
               {{ $linkLabel }}
-            </span>
+            </a>
           </x-ui.media-card>
         @endforeach
       @endif

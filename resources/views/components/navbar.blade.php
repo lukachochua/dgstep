@@ -5,13 +5,28 @@
   $targetLocaleSr = $targetLocale === 'ka' ? 'Switch language to Georgian' : 'Switch language to English';
 
   $navLinks = [
-    ['route' => 'home', 'label' => __('messages.home')],
-    ['route' => 'services', 'label' => __('messages.services')],
-    ['route' => 'about', 'label' => __('messages.about')],
-    ['route' => 'projects', 'label' => __('messages.projects')],
-    ['route' => 'contact', 'label' => __('messages.contact')],
+    ['route' => 'home', 'label' => __('messages.home'), 'icon' => 'home'],
+    ['route' => 'services', 'label' => __('messages.services'), 'icon' => 'layers'],
+    ['route' => 'about', 'label' => __('messages.about'), 'icon' => 'nodes'],
+    // ['route' => 'projects', 'label' => __('messages.projects'), 'icon' => 'grid'],
+    ['route' => 'contact', 'label' => __('messages.contact'), 'icon' => 'mail'],
   ];
 @endphp
+
+@once
+  @php
+    $renderNavIcon = static function (string $icon): string {
+        return match ($icon) {
+            'home' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 10.8 12 4l9 6.8" /><path d="M6.5 9.8V20h11V9.8" /></svg>',
+            'layers' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m12 4 8 4.5-8 4.5-8-4.5L12 4Z" /><path d="m4 12.5 8 4.5 8-4.5" /><path d="m4 16.5 8 4.5 8-4.5" /></svg>',
+            'nodes' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="6" cy="6" r="2.2" /><circle cx="18" cy="6" r="2.2" /><circle cx="12" cy="18" r="2.2" /><path d="M8 7.4 10.7 15M16 7.4 13.3 15M8.2 6h7.6" /></svg>',
+            'grid' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="4" width="6.5" height="6.5" rx="1.2" /><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.2" /><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.2" /><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.2" /></svg>',
+            'mail' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13" rx="2" /><path d="m5.5 8 6.5 5 6.5-5" /></svg>',
+            default => '',
+        };
+    };
+  @endphp
+@endonce
 
 <div
   class="site-nav"
@@ -42,7 +57,8 @@
             class="nav-link {{ $isActive ? 'nav-link-active' : '' }}"
             @if($isActive) aria-current="page" @endif
           >
-            {{ $link['label'] }}
+            <span class="nav-link__icon">{!! $renderNavIcon($link['icon']) !!}</span>
+            <span class="nav-link__label">{{ $link['label'] }}</span>
           </a>
         @endforeach
       </nav>
@@ -71,10 +87,6 @@
           <span class="text-base leading-none" aria-hidden="true">{{ $targetLocaleFlag }}</span>
           <span class="sr-only">{{ $targetLocaleSr }}</span>
         </x-ui.icon-button>
-
-        <x-ui.button route="contact" variant="primary" size="md" class="desktop-only">
-          {{ __('contact.cta_button') }}
-        </x-ui.button>
 
         <x-ui.icon-button type="button" class="mobile-only" @click="toggleMenu()" ::aria-expanded="open.toString()" aria-controls="mobile-nav">
           <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
@@ -123,27 +135,21 @@
               @if($isActive) aria-current="page" @endif
               @click="closeMenu()"
             >
-              {{ $link['label'] }}
+              <span class="nav-link__icon">{!! $renderNavIcon($link['icon']) !!}</span>
+              <span class="nav-link__label">{{ $link['label'] }}</span>
             </a>
           @endforeach
         </div>
 
         <div class="mobile-nav-actions">
-          <x-ui.button
-            as="button"
+          <x-ui.icon-button
             type="button"
-            variant="ghost"
-            size="sm"
             @click="submitLocaleSwitch()"
             aria-label="{{ $targetLocaleSr }}"
           >
             <span class="text-base leading-none" aria-hidden="true">{{ $targetLocaleFlag }}</span>
             <span class="sr-only">{{ $targetLocaleSr }}</span>
-          </x-ui.button>
-
-          <x-ui.button route="contact" variant="primary" size="sm" class="flex-1 text-center" @click="closeMenu()">
-            {{ __('contact.cta_button') }}
-          </x-ui.button>
+          </x-ui.icon-button>
         </div>
       </div>
     </div>

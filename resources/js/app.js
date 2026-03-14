@@ -329,14 +329,57 @@ function initFeatureDescriptionClamp() {
     scheduleClamp();
 }
 
+function initDesktopFeatureCardLinks() {
+    const cards = Array.from(document.querySelectorAll('.home-features .feature-card[data-card-link]'));
+    if (cards.length === 0) return;
+
+    const desktopQuery = window.matchMedia('(min-width: 1024px)');
+    const isInteractiveTarget = (target) => target instanceof Element
+        && Boolean(target.closest('a, button, input, select, textarea, summary, label'));
+
+    const navigateFromCard = (card) => {
+        if (!desktopQuery.matches) return;
+
+        const href = card.getAttribute('data-card-link');
+        if (!href) return;
+
+        window.location.assign(href);
+    };
+
+    cards.forEach((card) => {
+        card.addEventListener('click', (event) => {
+            if (isInteractiveTarget(event.target)) {
+                return;
+            }
+
+            navigateFromCard(card);
+        });
+
+        card.addEventListener('keydown', (event) => {
+            if (!desktopQuery.matches || isInteractiveTarget(event.target)) {
+                return;
+            }
+
+            if (event.key !== 'Enter' && event.key !== ' ') {
+                return;
+            }
+
+            event.preventDefault();
+            navigateFromCard(card);
+        });
+    });
+}
+
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
         initLtrRevealOnScroll();
         initFeatureDescriptionClamp();
+        initDesktopFeatureCardLinks();
     }, { once: true });
 } else {
     initLtrRevealOnScroll();
     initFeatureDescriptionClamp();
+    initDesktopFeatureCardLinks();
 }
 
 import.meta.glob([

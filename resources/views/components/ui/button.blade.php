@@ -19,7 +19,7 @@
     {{ $attributes->merge(['class' => $classes]) }}
     @if($disabled) disabled aria-disabled="true" @endif
   >
-    {{ $slot }}
+    <span class="btn__label">{{ $slot }}</span>
   </button>
 @else
   <a
@@ -27,6 +27,6 @@
     {{ $attributes->merge(['class' => $classes]) }}
     @if($disabled) aria-disabled="true" tabindex="-1" @endif
   >
-    {{ $slot }}
+    <span class="btn__label">{{ $slot }}</span>
   </a>
 @endif
