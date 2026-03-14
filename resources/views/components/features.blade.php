@@ -35,12 +35,15 @@
             $desc = $service->description[$locale] ?? ($service->description['en'] ?? '');
             $img = $service->featured_image_url ?? $service->image_url;
             $cardImage = $img ?: $fallbackImages[$loop->index % count($fallbackImages)];
+            $serviceHref = filled($service->slug) ? route('services') . '#service-' . $service->slug : route('services');
             $imageAlt = trim((string) ($service->image_alt ?? ''));
             if ($imageAlt === '') {
               $imageAlt = __('messages.features.image_alt', ['name' => $name]);
             }
           @endphp
           <x-ui.media-card
+            as="a"
+            href="{{ $serviceHref }}"
             variant="feature"
             class="{{ $loop->first ? 'feature-card--lead p-5 md:p-6' : 'feature-card--support p-4 md:p-5' }} ltr-reveal"
             data-reveal-ltr
@@ -49,9 +52,9 @@
             :title="$name"
             :description="$desc"
           >
-            <a href="{{ route('services') }}" class="feature-more-link mt-4 inline-flex text-sm font-semibold">
+            <span class="feature-more-link mt-4 inline-flex text-sm font-semibold">
               {{ $linkLabel }}
-            </a>
+            </span>
           </x-ui.media-card>
         @endforeach
       @else
@@ -60,6 +63,8 @@
             $fallbackImage = $card['image'] ?? $fallbackImages[$loop->index % count($fallbackImages)];
           @endphp
           <x-ui.media-card
+            as="a"
+            href="{{ route('services') }}"
             variant="feature"
             class="{{ $loop->first ? 'feature-card--lead p-5 md:p-6' : 'feature-card--support p-4 md:p-5' }} ltr-reveal"
             data-reveal-ltr
@@ -67,7 +72,11 @@
             :imageAlt="__('messages.features.image_alt', ['name' => ($card['title'] ?? __('services.our_key_services'))])"
             :title="$card['title'] ?? ''"
             :description="$card['description'] ?? ''"
-          />
+          >
+            <span class="feature-more-link mt-4 inline-flex text-sm font-semibold">
+              {{ $linkLabel }}
+            </span>
+          </x-ui.media-card>
         @endforeach
       @endif
     </div>

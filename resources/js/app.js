@@ -261,10 +261,82 @@ function initLtrRevealOnScroll() {
         .forEach((node) => observer.observe(node));
 }
 
+function initFeatureDescriptionClamp() {
+    const descriptions = Array.from(document.querySelectorAll('.home-features .feature-card__description'));
+    if (descriptions.length === 0) return;
+
+    const clampDescription = (node) => {
+        const fullText = node.dataset.fullText ?? node.textContent?.trim() ?? '';
+        node.dataset.fullText = fullText;
+
+        node.textContent = fullText;
+        if (!fullText) return;
+
+        if (node.scrollHeight <= node.clientHeight + 1) {
+            return;
+        }
+
+        const words = fullText.split(/\s+/).filter(Boolean);
+        if (words.length === 0) return;
+
+        let low = 0;
+        let high = words.length;
+        let best = '';
+
+        while (low <= high) {
+            const mid = Math.floor((low + high) / 2);
+            const candidate = `${words.slice(0, mid).join(' ')}...`.trim();
+            node.textContent = candidate;
+
+            if (node.scrollHeight <= node.clientHeight + 1) {
+                best = candidate;
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+
+        node.textContent = best || `${words[0]}...`;
+    };
+
+    const scheduleClamp = (() => {
+        let frame = null;
+
+        return () => {
+            if (frame !== null) {
+                window.cancelAnimationFrame(frame);
+            }
+
+            frame = window.requestAnimationFrame(() => {
+                descriptions.forEach(clampDescription);
+                frame = null;
+            });
+        };
+    })();
+
+    descriptions.forEach((node) => {
+        node.dataset.fullText = node.textContent?.trim() ?? '';
+    });
+
+    const resizeObserver = new ResizeObserver(() => {
+        scheduleClamp();
+    });
+
+    descriptions.forEach((node) => {
+        resizeObserver.observe(node);
+    });
+
+    scheduleClamp();
+}
+
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initLtrRevealOnScroll, { once: true });
+    document.addEventListener('DOMContentLoaded', () => {
+        initLtrRevealOnScroll();
+        initFeatureDescriptionClamp();
+    }, { once: true });
 } else {
     initLtrRevealOnScroll();
+    initFeatureDescriptionClamp();
 }
 
 import.meta.glob([

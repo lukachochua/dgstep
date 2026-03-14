@@ -4,7 +4,7 @@
 ])
 
 @php
-  $tag = in_array($as, ['div', 'article', 'section', 'aside', 'button'], true) ? $as : 'article';
+  $tag = in_array($as, ['div', 'article', 'section', 'aside', 'button', 'a'], true) ? $as : 'article';
 
   $variantClasses = match ($variant) {
       'service' => ['service-card'],
