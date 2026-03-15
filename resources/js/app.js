@@ -10,11 +10,8 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 
 window.Alpine = Alpine;
-window.Swiper = Swiper;
-window.SwiperModules = {
-    Pagination,
-    Autoplay,
-};
+
+const heroSwiperModules = [Pagination, Autoplay];
 
 function waitForFonts(fontDescriptors, text, waitMs = 650) {
     if (!document.fonts || !document.fonts.load) {
@@ -69,19 +66,16 @@ window.heroSlider = (config = {}) => ({
 
         this.initFonts();
 
-        if (!window.Swiper || this.totalSlides < 2) {
+        if (!Swiper || this.totalSlides < 2) {
             this.swiperReady = true;
             this.maybeMarkReady();
             return;
         }
 
-        const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        const modules = window.SwiperModules
-            ? [window.SwiperModules.Pagination, window.SwiperModules.Autoplay].filter(Boolean)
-            : [];
+        const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-        this.swiper = new window.Swiper(this.$refs.swiper, {
-            modules,
+        this.swiper = new Swiper(this.$refs.swiper, {
+            modules: heroSwiperModules,
             slidesPerView: 1,
             loop: true,
             speed: prefersReduced ? 0 : 760,
@@ -370,16 +364,16 @@ function initDesktopFeatureCardLinks() {
     });
 }
 
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-        initLtrRevealOnScroll();
-        initFeatureDescriptionClamp();
-        initDesktopFeatureCardLinks();
-    }, { once: true });
-} else {
+function initMarketingApp() {
     initLtrRevealOnScroll();
     initFeatureDescriptionClamp();
     initDesktopFeatureCardLinks();
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMarketingApp, { once: true });
+} else {
+    initMarketingApp();
 }
 
 import.meta.glob([
