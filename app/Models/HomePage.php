@@ -16,6 +16,8 @@ class HomePage extends Model
         'hero_secondary_cta',
         'hero_slide_label',
         'hero_slide_announcement',
+        'hero_audiences_label',
+        'hero_audiences',
         'hero_image_alt',
         'proof_kicker',
         'proof_title',
@@ -33,6 +35,7 @@ class HomePage extends Model
         'solutions_title',
         'solutions_subtitle',
         'solutions_link_label',
+        'cta_kicker',
         'cta_title',
         'cta_subtitle',
         'cta_primary',
@@ -45,6 +48,8 @@ class HomePage extends Model
         'hero_secondary_cta',
         'hero_slide_label',
         'hero_slide_announcement',
+        'hero_audiences_label',
+        'hero_audiences',
         'hero_image_alt',
         'proof_kicker',
         'proof_title',
@@ -62,6 +67,7 @@ class HomePage extends Model
         'solutions_title',
         'solutions_subtitle',
         'solutions_link_label',
+        'cta_kicker',
         'cta_title',
         'cta_subtitle',
         'cta_primary',
@@ -90,6 +96,14 @@ class HomePage extends Model
             'hero_slide_announcement' => [
                 'en' => Lang::get('messages.hero.slide_announcement', [], 'en'),
                 'ka' => Lang::get('messages.hero.slide_announcement', [], 'ka'),
+            ],
+            'hero_audiences_label' => [
+                'en' => Lang::get('messages.hero.audiences_label', [], 'en'),
+                'ka' => Lang::get('messages.hero.audiences_label', [], 'ka'),
+            ],
+            'hero_audiences' => [
+                'en' => Lang::get('messages.hero.audiences', [], 'en'),
+                'ka' => Lang::get('messages.hero.audiences', [], 'ka'),
             ],
             'hero_image_alt' => [
                 'en' => Lang::get('messages.hero.image_alt', [], 'en'),
@@ -158,6 +172,10 @@ class HomePage extends Model
             'solutions_link_label' => [
                 'en' => Lang::get('services.read_more', [], 'en'),
                 'ka' => Lang::get('services.read_more', [], 'ka'),
+            ],
+            'cta_kicker' => [
+                'en' => Lang::get('messages.home_cta.kicker', [], 'en'),
+                'ka' => Lang::get('messages.home_cta.kicker', [], 'ka'),
             ],
             'cta_title' => [
                 'en' => Lang::get('messages.home_cta.title', [], 'en'),

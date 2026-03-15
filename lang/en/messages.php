@@ -13,9 +13,9 @@ return [
 
     'hero' => [
         'kicker' => 'Operational software for Georgian businesses',
-        'title' => 'Bring daily operations, approvals, and reporting into one working system',
+        'title' => 'Run operations in one system',
         'highlight' => 'Built for teams that need structure without enterprise bloat.',
-        'subtitle' => 'DGstep helps pawnshops, service businesses, and compliance-heavy teams replace scattered spreadsheets and chat handoffs with one practical workflow platform.',
+        'subtitle' => 'DGstep replaces scattered spreadsheets, chats, and handoffs with one practical workflow system.',
         'primary_cta' => 'Request a workflow review',
         'secondary_cta' => 'See services',
         'slide_label' => 'Slide',
@@ -28,27 +28,27 @@ return [
         ],
         'slides' => [
             [
-                'title' => 'Bring daily operations, approvals, and reporting',
+                'title' => 'Run daily operations',
                 'highlight' => 'into one working system',
-                'subtitle' => 'Replace spreadsheet sprawl and chat-based handoffs with one practical workflow platform built for Georgian businesses.',
+                'subtitle' => 'Replace spreadsheets and chat handoffs with one practical workflow system.',
                 'button' => [
                     'text' => 'Request a workflow review',
                     'route' => 'contact',
                 ],
             ],
             [
-                'title' => 'Built for pawnshops, service businesses,',
+                'title' => 'Built for pawnshops',
                 'highlight' => 'and compliance-heavy teams',
-                'subtitle' => 'Keep customer records, operational handoffs, and reporting aligned without forcing your team into enterprise-style complexity.',
+                'subtitle' => 'Keep records, handoffs, and reporting aligned without enterprise overhead.',
                 'button' => [
                     'text' => 'See services',
                     'route' => 'services',
                 ],
             ],
             [
-                'title' => 'Start with one operational bottleneck',
+                'title' => 'Start with the biggest bottleneck',
                 'highlight' => 'and expand from there',
-                'subtitle' => 'We begin where pressure is highest, then shape the rollout around the way your business already works.',
+                'subtitle' => 'Fix the highest-pressure workflow first, then expand from there.',
                 'button' => [
                     'text' => 'Book a discovery call',
                     'route' => 'contact',
@@ -89,20 +89,20 @@ return [
 
     'home_proof' => [
         'kicker' => 'Why teams come to DGstep',
-        'title' => 'We focus on the work that breaks first when a business grows',
-        'subtitle' => 'Approvals, follow-up, customer records, handoffs, and reporting are where operational pressure shows up. That is where we start.',
+        'title' => 'We fix the processes that break first',
+        'subtitle' => 'Approvals, handoffs, records, and reporting are usually where the pressure starts.',
     ],
 
     'home_solutions' => [
         'kicker' => 'Where DGstep fits',
-        'title' => 'Choose the area closest to your operational bottleneck',
+        'title' => 'Choose your biggest bottleneck',
         'subtitle' => 'Start with the workflow that is slowing your team down today.',
     ],
 
     'home_cta' => [
         'kicker' => 'Start with your bottleneck',
-        'title' => 'Show us the process that is slowing your team down',
-        'subtitle' => 'We will review the workflow, identify where software reduces friction, and recommend a practical next step.',
+        'title' => 'Show us your slowest process',
+        'subtitle' => 'We will review it and recommend a practical next step.',
         'primary' => 'Book a discovery call',
         'secondary' => 'Explore services',
     ],

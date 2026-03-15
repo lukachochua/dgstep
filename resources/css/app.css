@@ -34,15 +34,15 @@
 :root {
   --font-sans: "FiraGO", "Calibri", "Segoe UI", sans-serif;
 
-  --bg: color-mix(in oklab, var(--brand-secondary) 14%, #ffffff 86%);
-  --bg-elevated: #ffffff;
-  --mobile-nav-bg: #ffffff;
-  --mobile-nav-surface: color-mix(in oklab, #ffffff 96%, var(--brand) 4%);
-  --mobile-nav-surface-hover: color-mix(in oklab, #ffffff 92%, var(--brand) 8%);
-  --bg-muted: color-mix(in oklab, var(--brand-support-deep) 18%, #ffffff 82%);
+  --bg: color-mix(in oklab, var(--brand-secondary) 10%, #ece7df 90%);
+  --bg-elevated: #f5f1ea;
+  --mobile-nav-bg: #f3eee7;
+  --mobile-nav-surface: color-mix(in oklab, #f5f1ea 90%, var(--brand) 10%);
+  --mobile-nav-surface-hover: color-mix(in oklab, #efe8df 82%, var(--brand) 18%);
+  --bg-muted: color-mix(in oklab, var(--brand-support-deep) 14%, #e4ddd3 86%);
   --text: #222228;
-  --text-muted: color-mix(in oklab, #222228 68%, #ffffff 32%);
-  --border: #e5e8ea;
+  --text-muted: color-mix(in oklab, #222228 74%, #f5f1ea 26%);
+  --border: color-mix(in oklab, #c7cbc9 84%, #ddd6cb 16%);
 
   --brand-base: #5a3fd9;
   --brand-secondary: var(--brand-base);
@@ -84,15 +84,15 @@
   --brand-support: color-mix(in oklab, var(--brand-secondary) 78%, #ffffff 22%);
   --brand-support-soft: color-mix(in oklab, var(--brand-secondary) 58%, #ffffff 42%);
   --brand-support-deep: color-mix(in oklab, var(--brand-secondary) 46%, #222228 54%);
-  --bg: color-mix(in oklab, #222228 86%, var(--brand-support) 14%);
-  --bg-elevated: color-mix(in oklab, #000000 84%, var(--brand-support-deep) 16%);
-  --mobile-nav-bg: color-mix(in oklab, #000000 72%, var(--brand-support) 28%);
-  --mobile-nav-surface: color-mix(in oklab, var(--bg-elevated) 78%, var(--brand-support) 22%);
-  --mobile-nav-surface-hover: color-mix(in oklab, var(--bg-elevated) 68%, var(--brand-support-soft) 32%);
-  --bg-muted: color-mix(in oklab, #222228 70%, var(--brand-support-deep) 30%);
+  --bg: color-mix(in oklab, #171625 68%, var(--brand-support-deep) 32%);
+  --bg-elevated: color-mix(in oklab, #0f0d18 62%, var(--brand-support-deep) 38%);
+  --mobile-nav-bg: color-mix(in oklab, #110f1b 54%, var(--brand-support-deep) 46%);
+  --mobile-nav-surface: color-mix(in oklab, var(--bg-elevated) 70%, var(--brand-support) 30%);
+  --mobile-nav-surface-hover: color-mix(in oklab, var(--bg-elevated) 58%, var(--brand-support-soft) 42%);
+  --bg-muted: color-mix(in oklab, #1a1727 48%, var(--brand-support-deep) 52%);
   --text: #ffffff;
-  --text-muted: color-mix(in oklab, #ffffff 78%, var(--brand-support) 22%);
-  --border: color-mix(in oklab, var(--brand-support) 22%, rgba(229, 232, 234, 0.18));
+  --text-muted: color-mix(in oklab, #ffffff 74%, var(--brand-support-soft) 26%);
+  --border: color-mix(in oklab, var(--brand-support-soft) 28%, rgba(229, 232, 234, 0.14));
 
   --brand: color-mix(in oklab, var(--brand-secondary) 72%, #ffffff 28%);
   --brand-strong: var(--brand);
@@ -125,29 +125,15 @@ body {
 
 body::before,
 body::after {
-  content: "";
-  position: fixed;
-  z-index: -2;
-  pointer-events: none;
-  filter: blur(80px);
+  content: none;
 }
 
 body::before {
-  width: min(50vw, 620px);
-  height: min(50vw, 620px);
-  top: -220px;
-  right: -150px;
-  background: color-mix(in oklab, var(--brand) 24%, transparent 76%);
-  animation: float-orb 14s ease-in-out infinite;
+  content: none;
 }
 
 body::after {
-  width: min(42vw, 520px);
-  height: min(42vw, 520px);
-  bottom: -170px;
-  left: -170px;
-  background: color-mix(in oklab, var(--brand) 14%, transparent 86%);
-  animation: float-orb 18s ease-in-out infinite reverse;
+  content: none;
 }
 
 .page-grid {
@@ -155,53 +141,57 @@ body::after {
   inset: 0;
   z-index: -3;
   pointer-events: none;
-  opacity: 0.4;
+  opacity: 0.18;
   background-image:
-    linear-gradient(to right, color-mix(in oklab, var(--border) 16%, transparent) 1px, transparent 1px),
-    linear-gradient(to bottom, color-mix(in oklab, var(--border) 16%, transparent) 1px, transparent 1px);
-  background-size: 32px 32px;
+    linear-gradient(to right, color-mix(in oklab, var(--border) 22%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklab, var(--border) 22%, transparent) 1px, transparent 1px);
+  background-size: 40px 40px;
   background-position: -1px -1px;
-  mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
 }
 
 html[data-theme="light"] body {
   background:
-    radial-gradient(circle at top right, color-mix(in oklab, var(--brand) 10%, transparent) 0%, transparent 28%),
-    radial-gradient(circle at top left, color-mix(in oklab, #222228 4%, transparent) 0%, transparent 24%),
     linear-gradient(
       180deg,
-      color-mix(in oklab, var(--brand-secondary) 8%, #ffffff 92%) 0%,
+      color-mix(in oklab, var(--brand-secondary) 12%, #efe9df 88%) 0%,
+      color-mix(in oklab, var(--brand-secondary) 6%, #ece7df 94%) 18%,
       var(--bg) 100%
     );
 }
 
 html[data-theme="dark"] body {
   background:
-    radial-gradient(circle at top right, color-mix(in oklab, var(--brand-support) 16%, transparent) 0%, transparent 26%),
-    radial-gradient(circle at top left, color-mix(in oklab, var(--brand-support-soft) 10%, transparent) 0%, transparent 22%),
     linear-gradient(
       180deg,
-      color-mix(in oklab, var(--bg) 82%, var(--brand-support) 18%) 0%,
-      var(--bg) 48%,
-      color-mix(in oklab, var(--bg-elevated) 82%, var(--brand-support-deep) 18%) 100%
+      color-mix(in oklab, var(--bg) 52%, var(--brand-secondary) 48%) 0%,
+      color-mix(in oklab, var(--bg) 74%, var(--brand-support-deep) 26%) 20%,
+      var(--bg) 58%,
+      color-mix(in oklab, var(--bg-elevated) 80%, var(--brand-support-deep) 20%) 100%
     );
 }
 
 html[data-theme="light"] body::before {
-  background: color-mix(in oklab, var(--brand) 18%, transparent 82%);
+  content: none;
 }
 
 html[data-theme="light"] body::after {
-  background: color-mix(in oklab, #222228 9%, transparent 91%);
+  content: none;
 }
 
 html[data-theme="light"] .page-grid {
-  opacity: 0.32;
+  opacity: 0.14;
   background-image:
-    linear-gradient(to right, color-mix(in oklab, var(--brand) 8%, transparent) 1px, transparent 1px),
-    linear-gradient(to bottom, color-mix(in oklab, #222228 7%, transparent) 1px, transparent 1px);
-  background-size: 36px 36px;
-  mask-image: radial-gradient(circle at center, black 34%, transparent 100%);
+    linear-gradient(to right, color-mix(in oklab, var(--brand-secondary) 18%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklab, #222228 8%, transparent) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+html[data-theme="dark"] .page-grid {
+  opacity: 0.16;
+  background-image:
+    linear-gradient(to right, color-mix(in oklab, var(--brand-support-soft) 18%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklab, #ffffff 8%, transparent) 1px, transparent 1px);
+  background-size: 40px 40px;
 }
 
 [x-cloak] {
@@ -297,169 +287,208 @@ a {
   border-radius: var(--radius);
 }
 
+html[data-theme="light"] .panel,
+html[data-theme="light"] .panel-soft {
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in oklab, var(--bg-elevated) 98%, var(--bg-muted) 2%) 0%,
+      color-mix(in oklab, var(--bg-elevated) 95%, var(--bg-muted) 5%) 100%
+    );
+  box-shadow: 0 10px 22px rgba(15, 31, 47, 0.05);
+}
+
 .services-page__stack {
   display: grid;
-  gap: 1.2rem;
+  gap: clamp(1.5rem, 3vw, 2.35rem);
 }
 
 .services-hero {
+  position: relative;
+}
+
+.services-hero__shell {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(1.4rem, 2.8vw, 2.4rem);
+  border-color: color-mix(in oklab, var(--border) 90%, transparent 10%);
+  background:
+    radial-gradient(circle at top right, color-mix(in oklab, var(--brand) 8%, transparent) 0%, transparent 34%),
+    linear-gradient(
+      180deg,
+      color-mix(in oklab, var(--bg-elevated) 98%, var(--bg-muted) 2%) 0%,
+      color-mix(in oklab, var(--bg-elevated) 94%, var(--bg-muted) 6%) 100%
+    );
+  box-shadow: 0 12px 24px rgba(15, 31, 47, 0.05);
+}
+
+.services-hero__grid {
   display: grid;
-  gap: 1rem;
+  gap: clamp(1.35rem, 2.4vw, 2.2rem);
+  align-items: start;
 }
 
 .services-hero__copy {
-  position: relative;
-  overflow: hidden;
-  border-radius: calc(var(--radius) + 0.25rem);
-  border: 1px solid color-mix(in oklab, var(--border) 82%, transparent 18%);
-  padding: clamp(1.35rem, 3vw, 2.35rem);
-  background:
-    radial-gradient(circle at 16% 16%, color-mix(in oklab, var(--brand) 20%, transparent) 0%, transparent 34%),
-    radial-gradient(circle at 82% 18%, color-mix(in oklab, var(--accent) 18%, transparent) 0%, transparent 32%),
-    linear-gradient(
-      135deg,
-      color-mix(in oklab, var(--bg-elevated) 88%, var(--brand) 12%) 0%,
-      color-mix(in oklab, var(--bg-elevated) 78%, var(--accent) 14%, var(--bg-muted) 8%) 100%
-    );
-  box-shadow: var(--shadow);
+  display: grid;
+  gap: 0.95rem;
+  min-width: 0;
+}
+
+.services-hero__copy .section-title {
+  max-width: 18ch;
+  font-size: clamp(1.75rem, 3.1vw, 2.65rem);
+  line-height: 1.02;
 }
 
 .services-hero__copy .section-lead {
-  max-width: 60ch;
+  max-width: 58ch;
+  margin: 0;
 }
 
 .services-hero__actions,
 .services-cta__actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-top: 1.2rem;
-}
-
-.services-hero__stats {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.8rem;
-  margin-top: 1.3rem;
-  max-width: 28rem;
-}
-
-.services-hero__stats .metric-card > p:first-child {
-  font-size: 0.72rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--text-muted);
+  gap: 0.85rem;
+  margin-top: 0.4rem;
 }
 
 .services-hero__overview {
-  padding: clamp(1.15rem, 2vw, 1.55rem);
+  display: grid;
+  gap: 0.95rem;
+  align-content: start;
 }
 
 .services-hero__overview-kicker {
-  font-size: 0.78rem;
+  margin: 0;
+  font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--brand-strong);
+  color: color-mix(in oklab, var(--text) 76%, var(--brand-secondary) 24%);
 }
 
 .services-hero__overview-copy {
-  margin-top: 0.5rem;
+  margin: 0;
   color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.55;
 }
 
 .services-overview-list {
   display: grid;
-  gap: 0.7rem;
-  margin-top: 1rem;
+  gap: 0;
 }
 
 .services-overview-item {
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: 0.8rem;
+  gap: 0.85rem;
   align-items: start;
-  padding: 0.9rem 0.95rem;
-  border-radius: 1rem;
-  border: 1px solid color-mix(in oklab, var(--border) 78%, transparent 22%);
-  background: color-mix(in oklab, var(--bg-elevated) 78%, var(--bg-muted) 22%);
+  padding: 0.85rem 0;
+  border-radius: 0;
+  border: 0;
+  border-top: 1px solid color-mix(in oklab, var(--border) 88%, transparent 12%);
+  background: transparent;
   text-decoration: none;
-  transition: border-color 180ms ease, transform 180ms ease, background-color 180ms ease;
+  transition: color 180ms ease, transform 180ms ease, padding-left 180ms ease;
+}
+
+.services-overview-item:first-child {
+  padding-top: 0;
+  border-top: 0;
 }
 
 .services-overview-item:hover,
 .services-overview-item:focus-visible {
-  border-color: color-mix(in oklab, var(--brand) 40%, var(--border) 60%);
-  background: color-mix(in oklab, var(--brand) 10%, var(--bg-elevated) 90%);
-  transform: translateY(-2px);
+  color: var(--text);
+  padding-left: 0.3rem;
+  transform: translateX(4px);
   outline: none;
 }
 
 .services-overview-item__index {
-  display: inline-grid;
-  place-items: center;
-  min-width: 2.2rem;
-  height: 2.2rem;
-  border-radius: 999px;
-  background: color-mix(in oklab, var(--brand) 16%, var(--bg-elevated) 84%);
-  color: var(--brand-strong);
-  font-size: 0.82rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  min-width: 1.8rem;
+  color: color-mix(in oklab, var(--text-muted) 72%, var(--brand-secondary) 28%);
+  font-size: 0.78rem;
   font-weight: 700;
+  letter-spacing: 0.08em;
 }
 
 .services-overview-item__content {
   display: grid;
-  gap: 0.18rem;
+  gap: 0.22rem;
+  min-width: 0;
 }
 
 .services-overview-item__content strong {
-  font-size: 0.98rem;
+  font-size: 1rem;
   line-height: 1.25;
 }
 
 .services-overview-item__content span {
   color: var(--text-muted);
-  font-size: 0.86rem;
+  font-size: 0.84rem;
+  line-height: 1.45;
 }
 
 .services-proof {
   display: grid;
-  gap: 1rem;
-  padding: clamp(1.15rem, 2vw, 1.5rem);
+  gap: 0.85rem;
+  margin-top: 0.45rem;
+  padding-top: 0.35rem;
+  border-top: 1px solid color-mix(in oklab, var(--border) 88%, transparent 12%);
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.services-proof__head {
+  display: grid;
+  gap: 0.35rem;
+  align-content: start;
 }
 
 .services-proof__title {
-  font-size: clamp(1.35rem, 2.4vw, 2rem);
-  line-height: 1.15;
+  font-size: clamp(1rem, 1.4vw, 1.18rem);
+  line-height: 1.12;
   font-weight: 700;
+  letter-spacing: -0.01em;
 }
 
 .services-proof__body {
-  margin-top: 0.35rem;
+  margin: 0;
   color: var(--text-muted);
-  max-width: 62ch;
+  max-width: 54ch;
+  font-size: 0.9rem;
+  line-height: 1.5;
 }
 
 .services-proof__chips {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.65rem;
+  gap: 0.45rem;
+  align-content: start;
 }
 
 .services-proof__chip {
   display: inline-flex;
   align-items: center;
-  padding: 0.62rem 0.85rem;
-  border-radius: 0.7rem;
-  border: 1px solid color-mix(in oklab, var(--border) 74%, transparent 26%);
-  background: color-mix(in oklab, var(--bg-elevated) 78%, var(--bg-muted) 22%);
-  color: color-mix(in oklab, var(--text) 90%, var(--text-muted) 10%);
-  font-size: 0.9rem;
+  padding: 0.46rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in oklab, var(--border) 90%, transparent 10%);
+  background: color-mix(in oklab, var(--bg-elevated) 88%, var(--bg-muted) 12%);
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-weight: 500;
+  line-height: 1.4;
 }
 
 .services-list {
   display: grid;
-  gap: 1rem;
+  gap: 1.15rem;
 }
 
 .services-cta {
@@ -467,13 +496,14 @@ a {
   gap: 1rem;
   align-items: center;
   padding: clamp(1.3rem, 2.6vw, 2rem);
+  border-color: color-mix(in oklab, var(--border) 90%, transparent 10%);
   background:
-    radial-gradient(circle at 16% 16%, color-mix(in oklab, var(--brand) 18%, transparent) 0%, transparent 34%),
     linear-gradient(
-      135deg,
-      color-mix(in oklab, var(--bg-elevated) 88%, var(--brand) 12%) 0%,
-      color-mix(in oklab, var(--bg-muted) 58%, var(--bg-elevated) 42%) 100%
+      180deg,
+      color-mix(in oklab, var(--bg-elevated) 98%, var(--bg-muted) 2%) 0%,
+      color-mix(in oklab, var(--bg-elevated) 94%, var(--bg-muted) 6%) 100%
     );
+  box-shadow: 0 12px 24px rgba(15, 31, 47, 0.05);
 }
 
 .site-nav {
@@ -515,7 +545,12 @@ a {
 }
 
 html[data-theme="light"] .nav-shell::before {
-  background: var(--hero-surface-bg-strong);
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in oklab, var(--bg-elevated) 88%, var(--brand-secondary) 12%) 0%,
+      color-mix(in oklab, var(--bg-elevated) 96%, var(--bg-muted) 4%) 100%
+    );
 }
 
 .nav-shell::after {
@@ -736,6 +771,15 @@ html[data-theme="light"] .nav-shell::before {
   overflow: hidden;
 }
 
+html[data-theme="light"] .mobile-nav-panel {
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in oklab, var(--bg-elevated) 92%, var(--brand-secondary) 8%) 0%,
+      color-mix(in oklab, var(--bg-elevated) 97%, var(--bg-muted) 3%) 100%
+    );
+}
+
 .mobile-nav-panel::before {
   content: none;
 }
@@ -920,7 +964,62 @@ html[data-theme="light"] .nav-shell::before {
 }
 
 .service-expand-btn {
+  cursor: pointer;
+  align-self: start;
+  width: fit-content;
   gap: 0.36rem;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: inherit;
+  font-size: 0.94rem;
+  font-weight: 600;
+}
+
+.service-expand-btn:hover,
+.service-expand-btn:focus-visible {
+  box-shadow: none;
+}
+
+.service-expand-btn::after {
+  content: none;
+}
+
+.service-expand-btn__label-wrap {
+  position: relative;
+  display: inline-block;
+  min-width: var(--expand-label-width, 8ch);
+}
+
+.service-expand-btn__label {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.service-expand-btn__label-wrap::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.55rem;
+  height: 2px;
+  background: color-mix(in oklab, var(--brand-secondary) 58%, transparent);
+  transform: scaleX(0.12);
+  transform-origin: center center;
+  opacity: 0;
+  transition: transform 280ms ease, opacity 220ms ease;
+}
+
+.service-expand-btn:hover .service-expand-btn__label-wrap::after,
+.service-expand-btn:focus-visible .service-expand-btn__label-wrap::after {
+  transform: scaleX(1);
+  opacity: 0.65;
+}
+
+html[data-theme="dark"] .service-expand-btn__label-wrap::after {
+  background: color-mix(in oklab, var(--brand-support-soft) 84%, transparent);
 }
 
 .service-expand-btn__chevron {
@@ -935,27 +1034,38 @@ html[data-theme="light"] .nav-shell::before {
   position: relative;
   overflow: hidden;
   scroll-margin-top: calc(var(--nav-h) + 1rem);
+  padding: clamp(1.15rem, 2.4vw, 1.85rem);
+  border-radius: 0.8rem;
+  border-color: color-mix(in oklab, var(--border) 90%, transparent 10%);
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in oklab, var(--bg-elevated) 98%, var(--bg-muted) 2%) 0%,
+      color-mix(in oklab, var(--bg-elevated) 94%, var(--bg-muted) 6%) 100%
+    );
+  box-shadow: 0 10px 22px rgba(15, 31, 47, 0.05);
 }
 
 .service-entry__eyebrow {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.6rem;
-  margin-bottom: 1rem;
+  gap: 0.65rem;
+  margin-bottom: 0.9rem;
 }
 
 .service-entry__index {
-  display: inline-grid;
-  place-items: center;
-  min-width: 2.35rem;
-  height: 2.35rem;
-  padding: 0 0.6rem;
-  border-radius: 999px;
-  border: 1px solid color-mix(in oklab, var(--brand) 24%, var(--border) 76%);
-  background: color-mix(in oklab, var(--brand) 12%, var(--bg-elevated) 88%);
-  color: var(--brand-strong);
-  font-size: 0.82rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  height: 2rem;
+  padding: 0 0.2rem;
+  border-radius: 0.6rem;
+  border: 1px solid color-mix(in oklab, var(--border) 90%, transparent 10%);
+  background: color-mix(in oklab, var(--bg-elevated) 92%, var(--bg-muted) 8%);
+  color: color-mix(in oklab, var(--text-muted) 72%, var(--brand-secondary) 28%);
+  font-size: 0.76rem;
   font-weight: 700;
   letter-spacing: 0.08em;
 }
@@ -963,40 +1073,44 @@ html[data-theme="light"] .nav-shell::before {
 .service-entry__cue-label {
   display: inline-flex;
   align-items: center;
-  border-radius: 0.7rem;
-  border: 1px solid color-mix(in oklab, var(--border) 76%, transparent 24%);
-  background: color-mix(in oklab, var(--bg-elevated) 78%, var(--bg-muted) 22%);
+  border-radius: 0.65rem;
+  border: 1px solid color-mix(in oklab, var(--border) 90%, transparent 10%);
+  background: color-mix(in oklab, var(--bg-elevated) 88%, var(--bg-muted) 12%);
   color: var(--text-muted);
-  padding: 0.4rem 0.78rem;
-  font-size: 0.78rem;
+  padding: 0.36rem 0.68rem;
+  font-size: 0.74rem;
   font-weight: 600;
+  letter-spacing: 0.04em;
 }
 
 .service-entry__copy {
   display: grid;
-  gap: 1rem;
+  gap: 0.95rem;
 }
 
 .service-entry__title {
-  font-size: clamp(1.55rem, 2.4vw, 2.35rem);
-  line-height: 1.08;
+  font-size: clamp(1.4rem, 2.1vw, 2rem);
+  line-height: 1.04;
   font-weight: 700;
+  max-width: 18ch;
 }
 
 .service-entry__lead {
   color: var(--text-muted);
-  max-width: 58ch;
+  max-width: 62ch;
+  font-size: 0.98rem;
+  line-height: 1.6;
 }
 
 .service-entry__block {
   display: grid;
-  gap: 0.7rem;
+  gap: 0.65rem;
 }
 
 .service-entry__block-label {
-  font-size: 0.74rem;
+  font-size: 0.7rem;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--text-muted);
 }
@@ -1004,30 +1118,30 @@ html[data-theme="light"] .nav-shell::before {
 .service-entry__problems {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.6rem;
+  gap: 0.5rem;
 }
 
 .service-problem-pill {
   display: inline-flex;
   align-items: center;
-  min-height: 2.5rem;
-  padding: 0.58rem 0.8rem;
-  border-radius: 1rem;
-  border: 1px solid color-mix(in oklab, var(--border) 76%, transparent 24%);
-  background: color-mix(in oklab, var(--bg-elevated) 76%, var(--bg-muted) 24%);
+  min-height: 2.2rem;
+  padding: 0.5rem 0.72rem;
+  border-radius: 0.72rem;
+  border: 1px solid color-mix(in oklab, var(--border) 90%, transparent 10%);
+  background: color-mix(in oklab, var(--bg-elevated) 84%, var(--bg-muted) 16%);
   color: color-mix(in oklab, var(--text) 90%, var(--text-muted) 10%);
-  font-size: 0.9rem;
-  line-height: 1.35;
+  font-size: 0.86rem;
+  line-height: 1.4;
 }
 
 .service-entry__details {
-  border-radius: 1rem;
-  border: 1px solid color-mix(in oklab, var(--border) 82%, transparent 18%);
-  background: color-mix(in oklab, var(--bg-elevated) 66%, var(--bg-muted) 34%);
+  border-radius: 0.9rem;
+  border: 1px solid color-mix(in oklab, var(--border) 90%, transparent 10%);
+  background: color-mix(in oklab, var(--bg-elevated) 88%, var(--bg-muted) 12%);
   padding: 1rem;
   color: var(--text-muted);
   font-size: 0.94rem;
-  line-height: 1.65;
+  line-height: 1.7;
 }
 
 .service-entry__details :where(p, ul, ol) + :where(p, ul, ol) {
@@ -1039,56 +1153,129 @@ html[data-theme="light"] .nav-shell::before {
   padding-left: 1.15rem;
 }
 
+.service-entry__details-shell {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transform: translateY(-0.3rem);
+  transition:
+    grid-template-rows 260ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 200ms ease,
+    transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.service-entry__details-shell.is-open {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.service-entry__details-shell-inner {
+  min-height: 0;
+  overflow: hidden;
+  padding-top: 0;
+  transition: padding-top 260ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.service-entry__details-shell.is-open .service-entry__details-shell-inner {
+  padding-top: 0.1rem;
+}
+
 .service-entry__actions {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.95rem;
+  padding-top: 0.95rem;
+  border-top: 1px solid color-mix(in oklab, var(--border) 90%, transparent 10%);
+}
+
+.inline-accent-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0;
+  color: color-mix(in oklab, var(--text-muted) 74%, var(--brand-secondary) 26%);
+  font-size: 0.94rem;
+  font-weight: 600;
+  line-height: 1.3;
+  text-decoration: none;
+  transition: color 160ms ease, transform 160ms ease;
+}
+
+.inline-accent-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.55rem;
+  height: 2px;
+  background: color-mix(in oklab, var(--brand-secondary) 58%, transparent);
+  transform: scaleX(0.12);
+  transform-origin: center center;
+  opacity: 0;
+  transition: transform 280ms ease, opacity 220ms ease;
 }
 
 .service-anchor-link {
-  color: var(--text-muted);
   font-size: 0.92rem;
-  font-weight: 600;
-  text-decoration: none;
-  transition: color 160ms ease;
 }
 
-.service-anchor-link:hover,
-.service-anchor-link:focus-visible {
+.inline-accent-link:hover,
+.inline-accent-link:focus-visible {
   color: var(--brand-strong);
+  transform: translateY(-1px);
   outline: none;
 }
 
+.inline-accent-link:hover::after,
+.inline-accent-link:focus-visible::after {
+  transform: scaleX(1);
+  opacity: 0.65;
+}
+
+.service-expand-btn.inline-accent-link::after {
+  content: none;
+}
+
+html[data-theme="dark"] .inline-accent-link {
+  color: color-mix(in oklab, #ffffff 68%, var(--brand-support-soft) 32%);
+}
+
+html[data-theme="dark"] .inline-accent-link::after {
+  background: color-mix(in oklab, var(--brand-support-soft) 84%, transparent);
+}
+
+html[data-theme="dark"] .inline-accent-link:hover,
+html[data-theme="dark"] .inline-accent-link:focus-visible {
+  color: color-mix(in oklab, #ffffff 82%, var(--brand-support-soft) 18%);
+}
+
 .service-entry__media {
-  display: grid;
-  gap: 0.85rem;
+  display: block;
 }
 
 .service-entry__image {
   width: 100%;
+  min-height: 100%;
+  border-radius: 0.68rem;
 }
 
 .service-cue-card {
   display: grid;
-  gap: 0.7rem;
-  border-radius: 1rem;
-  border: 1px solid color-mix(in oklab, var(--border) 82%, transparent 18%);
-  background:
-    linear-gradient(
-      135deg,
-      color-mix(in oklab, var(--bg-elevated) 86%, var(--brand) 14%) 0%,
-      color-mix(in oklab, var(--bg-elevated) 72%, var(--accent) 18%, var(--bg-muted) 10%) 100%
-    );
-  padding: 0.95rem 1rem;
+  gap: 0.65rem;
+  border-radius: 0.95rem;
+  border: 1px solid color-mix(in oklab, var(--border) 90%, transparent 10%);
+  background: color-mix(in oklab, var(--bg-elevated) 88%, var(--bg-muted) 12%);
+  padding: 0.9rem 0.95rem;
 }
 
 .service-cue-card__label {
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--brand-strong);
+  color: var(--text-muted);
 }
 
 .service-cue {
@@ -1102,9 +1289,9 @@ html[data-theme="light"] .nav-shell::before {
 
 .service-cue__bar {
   display: block;
-  height: 0.55rem;
+  height: 0.45rem;
   border-radius: 999px;
-  background: color-mix(in oklab, var(--bg-muted) 76%, var(--bg-elevated) 24%);
+  background: color-mix(in oklab, var(--bg-muted) 52%, var(--bg-elevated) 48%);
   overflow: hidden;
 }
 
@@ -1112,7 +1299,11 @@ html[data-theme="light"] .nav-shell::before {
   display: block;
   height: 100%;
   border-radius: inherit;
-  background: linear-gradient(90deg, var(--brand) 0%, color-mix(in oklab, var(--accent) 72%, white 28%) 100%);
+  background: linear-gradient(
+    90deg,
+    color-mix(in oklab, var(--brand) 76%, white 24%) 0%,
+    color-mix(in oklab, var(--brand-secondary) 58%, var(--bg-elevated) 42%) 100%
+  );
 }
 
 .service-cue--dots {
@@ -1123,17 +1314,17 @@ html[data-theme="light"] .nav-shell::before {
 }
 
 .service-cue__dot {
-  width: 0.8rem;
-  height: 0.8rem;
+  width: 0.72rem;
+  height: 0.72rem;
   border-radius: 999px;
-  border: 1px solid color-mix(in oklab, var(--border) 68%, transparent 32%);
-  background: color-mix(in oklab, var(--bg-muted) 74%, var(--bg-elevated) 26%);
+  border: 1px solid color-mix(in oklab, var(--border) 84%, transparent 16%);
+  background: color-mix(in oklab, var(--bg-muted) 52%, var(--bg-elevated) 48%);
 }
 
 .service-cue__dot.is-active {
-  border-color: color-mix(in oklab, var(--brand-strong) 56%, transparent 44%);
-  background: var(--brand-strong);
-  box-shadow: 0 0 0 4px color-mix(in oklab, var(--brand-strong) 12%, transparent);
+  border-color: color-mix(in oklab, var(--brand-strong) 28%, transparent 72%);
+  background: color-mix(in oklab, var(--brand-strong) 72%, var(--bg-elevated) 28%);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--brand-strong) 8%, transparent);
 }
 
 .service-cue--bubbles {
@@ -1149,13 +1340,12 @@ html[data-theme="light"] .nav-shell::before {
   width: var(--cue-size);
   height: var(--cue-size);
   border-radius: 999px;
-  background:
-    radial-gradient(circle at 30% 28%, color-mix(in oklab, white 36%, transparent) 0%, transparent 34%),
-    linear-gradient(135deg, color-mix(in oklab, var(--brand) 74%, white 26%) 0%, color-mix(in oklab, var(--accent) 74%, var(--brand) 26%) 100%);
-  color: #ffffff;
+  background: color-mix(in oklab, var(--brand-secondary) 16%, var(--bg-elevated) 84%);
+  color: color-mix(in oklab, var(--text) 82%, var(--brand-secondary) 18%);
   font-size: 0.78rem;
   font-weight: 700;
-  box-shadow: 0 10px 18px color-mix(in oklab, var(--brand) 20%, transparent);
+  border: 1px solid color-mix(in oklab, var(--border) 88%, transparent 12%);
+  box-shadow: none;
 }
 
 .field-label {
@@ -1197,7 +1387,7 @@ html[data-theme="light"] .nav-shell::before {
 
 .hero-v2 {
   width: 100%;
-  padding: calc(var(--nav-h) + 0.7rem) 0 0.4rem;
+  padding: calc(var(--nav-h) + 1.05rem) 0 0;
 }
 
 .hero-v2[data-ready="false"] .hero-v2__frame {
@@ -1234,6 +1424,9 @@ html[data-theme="light"] .nav-shell::before {
   text-transform: uppercase;
   font-weight: 700;
   line-height: 1.25;
+  cursor: default;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .hero-v2__frame::before {
@@ -1287,6 +1480,9 @@ html[data-theme="light"] .nav-shell::before {
   display: grid;
   min-width: 0;
   gap: 0.8rem;
+  cursor: default;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .hero-v2__title {
@@ -1298,6 +1494,10 @@ html[data-theme="light"] .nav-shell::before {
   max-width: 100%;
   overflow-wrap: anywhere;
   margin: 0;
+}
+
+.hero-v2__slide--lead .hero-v2__title {
+  font-size: clamp(1.7rem, 2.75vw, 2.65rem);
 }
 
 .hero-v2__subtitle {
@@ -1475,8 +1675,8 @@ html[data-theme="light"] .nav-shell::before {
 
 @media (max-width: 639px) {
   .hero-v2 {
-    padding-top: calc(var(--nav-h) + 0.7rem);
-    padding-bottom: 0.3rem;
+    padding-top: calc(var(--nav-h) + 0.9rem);
+    padding-bottom: 0;
   }
 
   .hero-v2__frame {
@@ -1558,6 +1758,29 @@ html[lang="ka"] .hero-v2__subtitle {
   max-width: 42ch;
 }
 
+@media (min-width: 1024px) {
+  .hero-v2__content {
+    width: min(72%, 60rem);
+  }
+
+  html[lang="en"] .hero-v2__title {
+    max-width: 18ch;
+  }
+
+  html[lang="en"] .hero-v2__subtitle {
+    max-width: 46ch;
+  }
+
+  html[lang="ka"] .hero-v2__title {
+    font-size: clamp(1.5rem, 2.15vw, 2.35rem);
+    max-width: 28ch;
+  }
+
+  html[lang="ka"] .hero-v2__subtitle {
+    max-width: 50ch;
+  }
+}
+
 .metric-card {
   border: 1px solid color-mix(in oklab, var(--border) 88%, transparent 12%);
   border-radius: 0.95rem;
@@ -1587,7 +1810,7 @@ html[lang="ka"] .hero-v2__subtitle {
 }
 
 .home-proof.section-block {
-  margin-top: -1.1rem;
+  margin-top: -2rem;
   padding-bottom: 0.95rem;
   position: relative;
   z-index: 1;
@@ -1725,7 +1948,6 @@ html[lang="ka"] .hero-v2__subtitle {
 }
 
 .feature-card,
-.service-card,
 .team-card,
 .project-card,
 .legal-card,
@@ -1743,7 +1965,6 @@ html[lang="ka"] .hero-v2__subtitle {
 
 html[data-theme="light"] .metric-card,
 html[data-theme="light"] .feature-card,
-html[data-theme="light"] .service-card,
 html[data-theme="light"] .team-card,
 html[data-theme="light"] .project-card,
 html[data-theme="light"] .legal-card,
@@ -1751,9 +1972,13 @@ html[data-theme="light"] .auth-card,
 html[data-theme="light"] .about-proof-chip,
 html[data-theme="light"] .about-principle-card,
 html[data-theme="light"] .projects-card,
-html[data-theme="light"] .home-cta,
-html[data-theme="light"] .service-cue-card {
-  background: var(--hero-surface-bg);
+html[data-theme="light"] .home-cta {
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in oklab, var(--bg-elevated) 98%, var(--bg-muted) 2%) 0%,
+      color-mix(in oklab, var(--bg-elevated) 95%, var(--bg-muted) 5%) 100%
+    );
 }
 
 .feature-card,
@@ -1797,6 +2022,11 @@ html[data-theme="light"] .service-cue-card {
 
 .feature-card--lead h3 {
   font-size: clamp(1.3rem, 2vw, 1.7rem);
+}
+
+.feature-card--lead-primary .feature-card__title {
+  font-size: clamp(1.14rem, 1.55vw, 1.38rem);
+  line-height: 1.08;
 }
 
 .feature-card--support .feature-image {
@@ -1921,7 +2151,7 @@ html[data-theme="light"] .service-cue-card {
   right: 0;
   bottom: -0.55rem;
   height: 2px;
-  background: color-mix(in oklab, var(--brand-strong) 72%, transparent);
+  background: color-mix(in oklab, var(--brand-strong) 84%, transparent);
   transform: scaleX(0.12);
   transform-origin: center center;
   opacity: 0;
@@ -2224,7 +2454,7 @@ html[data-theme="light"] .service-cue-card {
   transform-origin: center center;
   opacity: 0;
   transition: transform 280ms ease, opacity 220ms ease;
-  background: color-mix(in oklab, var(--brand-secondary) 40%, transparent);
+  background: color-mix(in oklab, var(--brand-secondary) 58%, transparent);
 }
 
 .home-cta__secondary-link:hover,
@@ -2468,7 +2698,12 @@ html[data-theme="light"] .service-cue-card {
 }
 
 html[data-theme="light"] .footer-shell {
-  background: var(--hero-surface-bg-strong);
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in oklab, var(--bg-muted) 44%, var(--bg-elevated) 56%) 0%,
+      color-mix(in oklab, var(--bg-elevated) 97%, var(--bg-muted) 3%) 100%
+    );
 }
 
 .footer-inner {
@@ -2664,9 +2899,10 @@ html[data-theme="light"] .footer-shell {
     padding: 3.4rem 0;
   }
 
-  .services-hero__stats {
-    max-width: none;
+  .services-hero__shell {
+    padding: 1.2rem;
   }
+
 }
 
 @media (min-width: 900px) {
@@ -2677,12 +2913,17 @@ html[data-theme="light"] .footer-shell {
     width: min(1120px, calc(100% - 3rem));
   }
 
-  .services-hero {
-    grid-template-columns: minmax(0, 1.16fr) minmax(320px, 0.84fr);
+  .services-hero__grid {
+    grid-template-columns: minmax(0, 1.18fr) minmax(300px, 0.82fr);
+  }
+
+  .services-hero__overview {
+    padding-left: 1.5rem;
+    border-left: 1px solid color-mix(in oklab, var(--border) 88%, transparent 12%);
   }
 
   .services-proof {
-    grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr);
+    grid-template-columns: minmax(240px, 0.5fr) minmax(0, 1.5fr);
     align-items: start;
   }
 

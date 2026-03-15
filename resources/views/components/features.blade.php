@@ -44,7 +44,7 @@
           <x-ui.media-card
             as="article"
             variant="feature"
-            class="{{ $loop->first ? 'feature-card--lead p-5 md:p-6' : 'feature-card--support p-4 md:p-5' }} ltr-reveal"
+            class="{{ $loop->first ? 'feature-card--lead feature-card--lead-primary p-5 md:p-6' : 'feature-card--support p-4 md:p-5' }} ltr-reveal"
             data-reveal-ltr
             data-card-link="{{ $serviceHref }}"
             tabindex="0"
@@ -68,7 +68,7 @@
           <x-ui.media-card
             as="article"
             variant="feature"
-            class="{{ $loop->first ? 'feature-card--lead p-5 md:p-6' : 'feature-card--support p-4 md:p-5' }} ltr-reveal"
+            class="{{ $loop->first ? 'feature-card--lead feature-card--lead-primary p-5 md:p-6' : 'feature-card--support p-4 md:p-5' }} ltr-reveal"
             data-reveal-ltr
             data-card-link="{{ route('services') }}"
             tabindex="0"

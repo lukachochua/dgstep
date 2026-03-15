@@ -57,7 +57,10 @@
       <div class="swiper hero-v2__swiper" x-ref="swiper">
         <div class="swiper-wrapper">
           @foreach ($normalizedSlides as $slide)
-            <article class="swiper-slide hero-v2__slide">
+            <article @class([
+              'swiper-slide hero-v2__slide',
+              'hero-v2__slide--lead' => $loop->first,
+            ])>
               <p class="hero-v2__eyebrow">{{ data_get($content, 'kicker', __('messages.hero.kicker')) }}</p>
 
               <div class="hero-v2__grid">

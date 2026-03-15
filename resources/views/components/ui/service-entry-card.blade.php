@@ -25,8 +25,9 @@
   $problemItems = array_slice($problems, 0, 4);
   $serviceId = $slug !== '' ? 'service-' . $slug : null;
   $displayIndex = str_pad((string) max(1, $index), 2, '0', STR_PAD_LEFT);
-  $cueItems = array_slice($cueValues, 0, 5);
-  $hasCue = $cueLabel !== '' && $cueItems !== [];
+  $readMoreLength = function_exists('mb_strlen') ? mb_strlen($readMoreLabel) : strlen($readMoreLabel);
+  $showLessLength = function_exists('mb_strlen') ? mb_strlen($showLessLabel) : strlen($showLessLabel);
+  $expandLabelWidth = max(1, $readMoreLength, $showLessLength);
 @endphp
 
 <x-ui.entity-card
@@ -64,28 +65,27 @@
       @if ($hasFull)
         <div x-data="{ open: false }" class="service-entry__block">
           <div
-            x-show="open"
-            x-cloak
-            x-transition:enter="transition ease-out duration-200"
-            x-transition:enter-start="opacity-0 -translate-y-1"
-            x-transition:enter-end="opacity-100 translate-y-0"
-            x-transition:leave="transition ease-in duration-150"
-            x-transition:leave-start="opacity-100 translate-y-0"
-            x-transition:leave-end="opacity-0 -translate-y-1"
-            class="service-entry__details"
+            class="service-entry__details-shell"
+            :class="{ 'is-open': open }"
+            :aria-hidden="(!open).toString()"
           >
-            {!! $fullDescription !!}
+            <div class="service-entry__details-shell-inner">
+              <div class="service-entry__details">
+                {!! $fullDescription !!}
+              </div>
+            </div>
           </div>
 
-          <x-ui.button
-            as="button"
+          <button
             type="button"
-            variant="ghost"
-            size="sm"
-            class="service-expand-btn"
+            class="inline-accent-link service-expand-btn"
+            style="--expand-label-width: {{ $expandLabelWidth }}ch;"
             @click="open = !open"
+            :aria-expanded="open.toString()"
           >
-            <span x-text="open ? @js($showLessLabel) : @js($readMoreLabel)"></span>
+            <span class="service-expand-btn__label-wrap">
+              <span class="service-expand-btn__label" x-text="open ? @js($showLessLabel) : @js($readMoreLabel)"></span>
+            </span>
             <svg
               class="service-expand-btn__chevron"
               :class="{ 'is-open': open }"
@@ -98,15 +98,15 @@
             >
               <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-          </x-ui.button>
+          </button>
         </div>
       @endif
 
       <div class="service-entry__actions">
-        <x-ui.button route="contact" variant="primary" size="sm">
+        <x-ui.button route="contact" variant="primary" size="md">
           {{ $ctaLabel }}
         </x-ui.button>
-        <a href="#services-top" class="service-anchor-link">{{ $backToTopLabel }}</a>
+        <a href="#services-top" class="inline-accent-link service-anchor-link">{{ $backToTopLabel }}</a>
       </div>
     </div>
 
@@ -118,33 +118,6 @@
         loading="lazy"
         decoding="async"
       />
-
-      @if ($hasCue)
-        <div class="service-cue-card">
-          <p class="service-cue-card__label">{{ $cueLabel }}</p>
-
-          <div class="service-cue service-cue--{{ $cueStyle }}">
-            @foreach ($cueItems as $value)
-              @php $normalizedValue = max(0, min(100, (int) $value)); @endphp
-
-              @if ($cueStyle === 'bars')
-                <span class="service-cue__bar">
-                  <span style="width: {{ max(14, $normalizedValue) }}%"></span>
-                </span>
-              @elseif ($cueStyle === 'dots')
-                <span class="service-cue__dot {{ $normalizedValue > 0 ? 'is-active' : '' }}"></span>
-              @else
-                <span
-                  class="service-cue__bubble"
-                  style="--cue-size: {{ max(1.8, min(3.2, 1.45 + ($normalizedValue / 42))) }}rem;"
-                >
-                  {{ $normalizedValue }}
-                </span>
-              @endif
-            @endforeach
-          </div>
-        </div>
-      @endif
     </div>
   </div>
 </x-ui.entity-card>
