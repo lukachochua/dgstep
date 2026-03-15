@@ -34,15 +34,15 @@
 :root {
   --font-sans: "FiraGO", "Calibri", "Segoe UI", sans-serif;
 
-  --bg: color-mix(in oklab, var(--brand-secondary) 10%, #ece7df 90%);
-  --bg-elevated: #f5f1ea;
-  --mobile-nav-bg: #f3eee7;
-  --mobile-nav-surface: color-mix(in oklab, #f5f1ea 90%, var(--brand) 10%);
-  --mobile-nav-surface-hover: color-mix(in oklab, #efe8df 82%, var(--brand) 18%);
-  --bg-muted: color-mix(in oklab, var(--brand-support-deep) 14%, #e4ddd3 86%);
+  --bg: color-mix(in oklab, var(--brand-secondary) 14%, #f1eeff 86%);
+  --bg-elevated: #f8f5ff;
+  --mobile-nav-bg: #f4f0ff;
+  --mobile-nav-surface: color-mix(in oklab, #f8f5ff 86%, var(--brand) 14%);
+  --mobile-nav-surface-hover: color-mix(in oklab, #f3edff 76%, var(--brand) 24%);
+  --bg-muted: color-mix(in oklab, var(--brand-support-deep) 18%, #ebe5fb 82%);
   --text: #222228;
-  --text-muted: color-mix(in oklab, #222228 74%, #f5f1ea 26%);
-  --border: color-mix(in oklab, #c7cbc9 84%, #ddd6cb 16%);
+  --text-muted: color-mix(in oklab, #222228 74%, #f8f5ff 26%);
+  --border: color-mix(in oklab, #d3d0e6 78%, var(--brand-secondary) 22%);
 
   --brand-base: #5a3fd9;
   --brand-secondary: var(--brand-base);
@@ -153,8 +153,8 @@ html[data-theme="light"] body {
   background:
     linear-gradient(
       180deg,
-      color-mix(in oklab, var(--brand-secondary) 12%, #efe9df 88%) 0%,
-      color-mix(in oklab, var(--brand-secondary) 6%, #ece7df 94%) 18%,
+      color-mix(in oklab, var(--brand-secondary) 22%, #f4f1ff 78%) 0%,
+      color-mix(in oklab, var(--brand-secondary) 14%, #f2efff 86%) 18%,
       var(--bg) 100%
     );
 }
@@ -179,10 +179,10 @@ html[data-theme="light"] body::after {
 }
 
 html[data-theme="light"] .page-grid {
-  opacity: 0.14;
+  opacity: 0.16;
   background-image:
-    linear-gradient(to right, color-mix(in oklab, var(--brand-secondary) 18%, transparent) 1px, transparent 1px),
-    linear-gradient(to bottom, color-mix(in oklab, #222228 8%, transparent) 1px, transparent 1px);
+    linear-gradient(to right, color-mix(in oklab, var(--brand-secondary) 24%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklab, #222228 6%, transparent) 1px, transparent 1px);
   background-size: 40px 40px;
 }
 
@@ -548,8 +548,8 @@ html[data-theme="light"] .nav-shell::before {
   background:
     linear-gradient(
       180deg,
-      color-mix(in oklab, var(--bg-elevated) 88%, var(--brand-secondary) 12%) 0%,
-      color-mix(in oklab, var(--bg-elevated) 96%, var(--bg-muted) 4%) 100%
+      color-mix(in oklab, var(--bg-elevated) 58%, var(--brand-secondary) 42%) 0%,
+      color-mix(in oklab, var(--bg-elevated) 76%, var(--brand-secondary) 24%) 100%
     );
 }
 
@@ -2701,8 +2701,8 @@ html[data-theme="light"] .footer-shell {
   background:
     linear-gradient(
       180deg,
-      color-mix(in oklab, var(--bg-muted) 44%, var(--bg-elevated) 56%) 0%,
-      color-mix(in oklab, var(--bg-elevated) 97%, var(--bg-muted) 3%) 100%
+      color-mix(in oklab, #f7f2ff 34%, var(--brand-base) 66%) 0%,
+      color-mix(in oklab, #faf7ff 52%, var(--brand-secondary) 48%) 100%
     );
 }
 
