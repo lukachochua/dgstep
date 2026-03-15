@@ -34,12 +34,12 @@
 :root {
   --font-sans: "FiraGO", "Calibri", "Segoe UI", sans-serif;
 
-  --bg: color-mix(in oklab, var(--brand-secondary) 14%, #f1eeff 86%);
+  --bg: color-mix(in oklab, var(--brand-secondary) 10%, #e8e3f2 90%);
   --bg-elevated: #f8f5ff;
   --mobile-nav-bg: #f4f0ff;
   --mobile-nav-surface: color-mix(in oklab, #f8f5ff 86%, var(--brand) 14%);
   --mobile-nav-surface-hover: color-mix(in oklab, #f3edff 76%, var(--brand) 24%);
-  --bg-muted: color-mix(in oklab, var(--brand-support-deep) 18%, #ebe5fb 82%);
+  --bg-muted: color-mix(in oklab, var(--brand-support-deep) 16%, #ddd6ef 84%);
   --text: #222228;
   --text-muted: color-mix(in oklab, #222228 74%, #f8f5ff 26%);
   --border: color-mix(in oklab, #d3d0e6 78%, var(--brand-secondary) 22%);
@@ -153,8 +153,8 @@ html[data-theme="light"] body {
   background:
     linear-gradient(
       180deg,
-      color-mix(in oklab, var(--brand-secondary) 22%, #f4f1ff 78%) 0%,
-      color-mix(in oklab, var(--brand-secondary) 14%, #f2efff 86%) 18%,
+      color-mix(in oklab, var(--brand-secondary) 18%, #ede8f9 82%) 0%,
+      color-mix(in oklab, var(--brand-secondary) 10%, #e9e4f4 90%) 18%,
       var(--bg) 100%
     );
 }
@@ -245,6 +245,7 @@ a {
 .section-kicker {
   display: inline-flex;
   align-items: center;
+  width: fit-content;
   gap: 0.45rem;
   border: 1px solid color-mix(in oklab, var(--brand) 20%, var(--border) 80%);
   background: color-mix(in oklab, var(--brand-secondary) 6%, var(--bg-elevated) 94%);
@@ -292,10 +293,11 @@ html[data-theme="light"] .panel-soft {
   background:
     linear-gradient(
       180deg,
-      color-mix(in oklab, var(--bg-elevated) 98%, var(--bg-muted) 2%) 0%,
-      color-mix(in oklab, var(--bg-elevated) 95%, var(--bg-muted) 5%) 100%
+      color-mix(in oklab, #f8f4ff 74%, var(--brand-base) 26%) 0%,
+      color-mix(in oklab, #f3ebff 68%, var(--brand-secondary) 32%) 100%
     );
-  box-shadow: 0 10px 22px rgba(15, 31, 47, 0.05);
+  border-color: color-mix(in oklab, var(--brand-secondary) 16%, var(--border) 84%);
+  box-shadow: 0 12px 26px rgba(15, 31, 47, 0.06);
 }
 
 .services-page__stack {
@@ -1805,6 +1807,27 @@ html[lang="ka"] .hero-v2__subtitle {
   box-shadow: 0 8px 18px rgba(15, 31, 47, 0.04);
 }
 
+html[data-theme="light"] .home-proof__frame {
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in oklab, #f7f1ff 68%, var(--brand-base) 32%) 0%,
+      color-mix(in oklab, #efe4ff 61%, var(--brand-secondary) 39%) 100%
+    );
+  border-color: color-mix(in oklab, var(--brand-secondary) 18%, var(--border) 82%);
+  box-shadow: 0 12px 24px rgba(15, 31, 47, 0.05);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html[data-theme="light"] .home-proof__item:hover {
+    transform: translateX(3px);
+  }
+
+  html[data-theme="light"] .home-proof__item:hover::before {
+    background: color-mix(in oklab, var(--brand-secondary) 54%, transparent 46%);
+  }
+}
+
 .home-proof__frame::before {
   content: none;
 }
@@ -1931,6 +1954,22 @@ html[lang="ka"] .hero-v2__subtitle {
   }
 }
 
+@media (hover: hover) and (pointer: fine) {
+  html[data-theme="light"] .home-proof__item:hover {
+    transform: translateX(3px);
+    background: transparent;
+    border-color: color-mix(in oklab, var(--border) 86%, transparent 14%);
+  }
+
+  html[data-theme="light"] .home-proof__item:hover::before {
+    background: color-mix(in oklab, var(--brand-secondary) 54%, transparent 46%);
+  }
+
+  html[data-theme="light"] .home-proof__item:hover .home-proof__item-label {
+    color: var(--text-muted);
+  }
+}
+
 .features-header {
   display: grid;
   gap: 0.85rem;
@@ -1976,9 +2015,23 @@ html[data-theme="light"] .home-cta {
   background:
     linear-gradient(
       180deg,
-      color-mix(in oklab, var(--bg-elevated) 98%, var(--bg-muted) 2%) 0%,
-      color-mix(in oklab, var(--bg-elevated) 95%, var(--bg-muted) 5%) 100%
+      color-mix(in oklab, #f8f3ff 72%, var(--brand-base) 28%) 0%,
+      color-mix(in oklab, #f0e6ff 65%, var(--brand-secondary) 35%) 100%
     );
+  border-color: color-mix(in oklab, var(--brand-secondary) 18%, var(--border) 82%);
+}
+
+html[data-theme="light"] .service-entry,
+html[data-theme="light"] .services-hero__shell,
+html[data-theme="light"] .services-cta {
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in oklab, #f7f1ff 68%, var(--brand-base) 32%) 0%,
+      color-mix(in oklab, #eee1ff 59%, var(--brand-secondary) 41%) 100%
+    );
+  border-color: color-mix(in oklab, var(--brand-secondary) 20%, var(--border) 80%);
+  box-shadow: 0 12px 26px rgba(15, 31, 47, 0.06);
 }
 
 .feature-card,
