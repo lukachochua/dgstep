@@ -3047,6 +3047,7 @@ html[data-theme="light"] .footer-shell {
     border-radius: 1.15rem;
     border-color: color-mix(in oklab, var(--brand-secondary) 16%, var(--border) 84%);
     box-shadow: 0 14px 32px color-mix(in oklab, var(--brand-support-deep) 14%, transparent);
+    opacity: 0.9;
   }
 
   .nav-shell--scrolled .nav-inner {

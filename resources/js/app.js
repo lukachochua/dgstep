@@ -180,6 +180,7 @@ window.siteNav = () => ({
     fontsReady: false,
     desktopScrolled: false,
     desktopMedia: null,
+    desktopScrollThreshold: 22,
     init() {
         const attr = document.documentElement.getAttribute('data-theme');
         this.theme = (attr === 'dark' || attr === 'light') ? attr : 'light';
@@ -195,7 +196,7 @@ window.siteNav = () => ({
         });
     },
     syncDesktopScrollState() {
-        this.desktopScrolled = !!this.desktopMedia?.matches && window.scrollY > 22;
+        this.desktopScrolled = !!this.desktopMedia?.matches && window.scrollY > this.desktopScrollThreshold;
         document.body.classList.toggle('nav-desktop-fixed', this.desktopScrolled);
     },
     toggleTheme() {
