@@ -107,6 +107,15 @@ return [
         'secondary' => 'Explore services',
     ],
 
+    'floating_cta' => [
+        'kicker' => 'Need a clearer workflow?',
+        'title' => 'Want a clearer workflow?',
+        'body' => 'We will review the bottleneck and suggest a practical next step.',
+        'primary' => 'Book call',
+        'secondary' => 'See services',
+        'dismiss' => 'Dismiss this prompt',
+    ],
+
     'features' => [
         'heading'    => 'Built for Pawnshops & Growing Businesses',
         'subheading' => 'Every feature crafted for speed, compliance, and scale.',

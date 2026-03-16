@@ -42,14 +42,6 @@ test('services page renders localized service content and cues', function () {
             'en' => 'Overview body copy.',
             'ka' => 'მიმოხილვის ტექსტი.',
         ],
-        'stat_tracks_label' => [
-            'en' => 'Tracks',
-            'ka' => 'მიმართულებები',
-        ],
-        'stat_pain_points_label' => [
-            'en' => 'Pain Points',
-            'ka' => 'პრობლემები',
-        ],
         'proof_heading' => [
             'en' => 'Proof Heading',
             'ka' => 'დამადასტურებელი სათაური',
@@ -107,12 +99,10 @@ test('services page renders localized service content and cues', function () {
         'is_featured' => true,
         'featured_order' => 1,
         'display_order' => 1,
-        'cue_style' => 'bars',
         'cue_label' => [
             'en' => 'Ops Coverage',
             'ka' => 'ოპერაციები',
         ],
-        'cue_values' => [70, 60, 40],
     ]);
 
     Service::create([
@@ -138,12 +128,10 @@ test('services page renders localized service content and cues', function () {
         'is_featured' => false,
         'featured_order' => 0,
         'display_order' => 2,
-        'cue_style' => 'dots',
         'cue_label' => [
             'en' => 'Audit Ready',
             'ka' => 'აუდიტი',
         ],
-        'cue_values' => [1, 1, 0, 1],
     ]);
 
     $response = $this->get(route('services'));

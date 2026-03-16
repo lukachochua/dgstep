@@ -69,18 +69,14 @@ class ContactPageResource extends Resource
 
     public static function getNavigationUrl(): string
     {
-        $record = ContactPage::query()->latest('id')->first();
+        $record = ContactPage::singleton();
 
-        if ($record) {
-            return static::getUrl('edit', ['record' => $record]);
-        }
-
-        return static::getUrl('create');
+        return static::getUrl('edit', ['record' => $record]);
     }
 
     public static function canCreate(): bool
     {
-        return ! ContactPage::query()->exists();
+        return false;
     }
 
     public static function canDelete($record): bool

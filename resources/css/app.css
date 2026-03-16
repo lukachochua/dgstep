@@ -2523,6 +2523,92 @@ html[data-theme="light"] .services-cta {
   opacity: 0.65;
 }
 
+.floating-cta {
+  position: fixed;
+  right: max(1.1rem, env(safe-area-inset-right));
+  bottom: max(1.1rem, env(safe-area-inset-bottom));
+  z-index: 85;
+  width: min(18.75rem, calc(100vw - 1.5rem));
+  padding: 0.84rem 0.84rem 0.8rem;
+  display: grid;
+  gap: 0.65rem;
+  border-radius: 0.72rem;
+  box-shadow: 0 10px 18px color-mix(in oklab, var(--brand-support-deep) 10%, transparent);
+}
+
+.floating-cta__header {
+  position: relative;
+  min-height: 1.3rem;
+}
+
+.floating-cta__dismiss {
+  position: absolute;
+  top: -0.02rem;
+  right: -0.02rem;
+  width: 1.3rem;
+  height: 1.3rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color 180ms ease, opacity 180ms ease;
+  opacity: 0.74;
+}
+
+.floating-cta__dismiss:hover,
+.floating-cta__dismiss:focus-visible {
+  color: var(--brand-strong);
+  opacity: 1;
+  outline: none;
+}
+
+.floating-cta__dismiss svg {
+  width: 0.92rem;
+  height: 0.92rem;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  fill: none;
+}
+
+.floating-cta__title {
+  max-width: calc(100% - 1.9rem);
+  font-size: clamp(0.78rem, 0.92vw, 0.9rem);
+  line-height: 1.34;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.floating-cta__actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.floating-cta__primary {
+  min-width: 0;
+  width: 100%;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+html[data-theme="light"] .floating-cta {
+  background: color-mix(in oklab, #f6f1ff 88%, var(--brand-base) 12%);
+  border-color: color-mix(in oklab, var(--brand-secondary) 14%, var(--border) 86%);
+}
+
+html[data-theme="dark"] .floating-cta {
+  background: color-mix(in oklab, var(--bg-elevated) 90%, var(--brand-support) 10%);
+  border-color: color-mix(in oklab, var(--brand-support-soft) 14%, var(--border) 86%);
+}
+
 @media (min-width: 768px) {
   .home-proof__frame {
     grid-template-columns: minmax(0, 0.86fr) minmax(0, 1.14fr);
@@ -2728,6 +2814,18 @@ html[data-theme="light"] .services-cta {
 }
 
 @media (max-width: 767px) {
+  .floating-cta {
+    left: max(0.75rem, env(safe-area-inset-left));
+    right: max(0.75rem, env(safe-area-inset-right));
+    bottom: max(0.75rem, env(safe-area-inset-bottom));
+    width: auto;
+    padding: 0.8rem 0.8rem 0.76rem;
+  }
+
+  .floating-cta__actions {
+    gap: 0.5rem;
+  }
+
   .about-team-header {
     align-items: flex-start;
     flex-direction: column;
@@ -3007,7 +3105,8 @@ html[data-theme="light"] .footer-shell {
 
   .btn,
   .nav-icon-btn,
-  .footer-social-link {
+  .footer-social-link,
+  .floating-cta__dismiss {
     transition: none;
   }
 

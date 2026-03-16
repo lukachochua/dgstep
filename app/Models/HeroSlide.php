@@ -11,6 +11,7 @@ class HeroSlide extends Model
     use HasTranslations;
 
     protected $fillable = [
+        'sort_order',
         'title',
         'subtitle',
         'button_text',
@@ -33,6 +34,7 @@ class HeroSlide extends Model
 
     protected $casts = [
         'button_params' => 'array',
+        'sort_order' => 'integer',
     ];
 
     protected $appends = [
@@ -43,6 +45,10 @@ class HeroSlide extends Model
     protected static function booted(): void
     {
         static::saving(function (HeroSlide $slide): void {
+            if (!$slide->sort_order) {
+                $slide->sort_order = ((int) static::max('sort_order')) + 1;
+            }
+
             if (!$slide->link_type) {
                 $slide->link_type = 'internal';
             }

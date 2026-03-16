@@ -15,8 +15,6 @@ return new class extends Migration
             $table->json('hero_secondary_cta');
             $table->json('hero_slide_label');
             $table->json('hero_slide_announcement');
-            $table->json('hero_audiences_label');
-            $table->json('hero_audiences')->nullable();
             $table->json('hero_image_alt');
             $table->json('proof_kicker');
             $table->json('proof_title');
@@ -33,11 +31,13 @@ return new class extends Migration
             $table->json('solutions_kicker');
             $table->json('solutions_title');
             $table->json('solutions_subtitle');
-            $table->json('cta_kicker');
+            $table->json('solutions_link_label')->nullable();
             $table->json('cta_title');
             $table->json('cta_subtitle');
             $table->json('cta_primary');
             $table->json('cta_secondary');
+            $table->json('floating_cta_title')->nullable();
+            $table->json('floating_cta_primary')->nullable();
             $table->timestamps();
         });
     }

@@ -48,4 +48,9 @@
       </x-ui.section-cta-card>
     </div>
   </section>
+
+  <x-ui.floating-cta
+    :title="$homePage['floating_cta']['title']"
+    :primaryLabel="$homePage['floating_cta']['primary']"
+  />
 </x-layouts.base>

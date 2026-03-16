@@ -10,26 +10,17 @@ return new class extends Migration
     {
         Schema::create('hero_slides', function (Blueprint $table) {
             $table->id();
+            $table->unsignedInteger('sort_order')->default(0);
 
-            // Translatable JSON fields
             $table->json('title')->nullable();
-            $table->json('highlight')->nullable();
             $table->json('subtitle')->nullable();
             $table->json('button_text')->nullable();
-            $table->json('overlay_kicker')->nullable();
-            $table->json('overlay_points')->nullable();
-
-            // Legacy link (kept for backward compatibility)
             $table->string('button_link')->nullable();
-
-            // Route-aware linking
-            $table->string('link_type')->default('legacy'); // 'internal' | 'external' | 'legacy'
-            $table->string('button_route')->nullable();     // e.g. 'contact', 'projects.show'
-            $table->json('button_params')->nullable();      // e.g. {"slug":"my-project"}
-            $table->string('button_url')->nullable();       // external URL
-
-            // Media
-            $table->string('image_path')->nullable();       // background image path
+            $table->string('link_type')->default('internal');
+            $table->string('button_route')->nullable();
+            $table->json('button_params')->nullable();
+            $table->string('button_url')->nullable();
+            $table->string('image_path')->nullable();
 
             $table->timestamps();
         });

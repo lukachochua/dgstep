@@ -20,8 +20,6 @@ class HomePageSeeder extends Seeder
                 'hero_secondary_cta',
                 'hero_slide_label',
                 'hero_slide_announcement',
-                'hero_audiences_label',
-                'hero_audiences',
                 'hero_image_alt',
                 'proof_kicker',
                 'proof_title',
@@ -39,11 +37,12 @@ class HomePageSeeder extends Seeder
                 'solutions_title',
                 'solutions_subtitle',
                 'solutions_link_label',
-                'cta_kicker',
                 'cta_title',
                 'cta_subtitle',
                 'cta_primary',
                 'cta_secondary',
+                'floating_cta_title',
+                'floating_cta_primary',
             ] as $attribute) {
                 $page->setTranslations($attribute, $defaults[$attribute]);
             }

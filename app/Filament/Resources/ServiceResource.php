@@ -73,6 +73,11 @@ class ServiceResource extends Resource
                                                 ->defaultItems(0)
                                                 ->columnSpanFull()
                                                 ->helperText('Shown as bullet points on the homepage cards and services page.'),
+
+                                            Forms\Components\TextInput::make("cue_label.$code")
+                                                ->label('Overview label')
+                                                ->maxLength(120)
+                                                ->helperText('Shown in the services page overview rail and above each service entry.'),
                                         ]);
                                 })->toArray()
                             ),

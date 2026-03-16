@@ -18,6 +18,7 @@ class HeroController extends Controller
         $page = HomePage::singleton();
 
         $slides = HeroSlide::query()
+            ->orderBy('sort_order')
             ->orderBy('id')
             ->get()
             ->values()
@@ -98,6 +99,10 @@ class HeroController extends Controller
                 'subtitle' => $this->localizedText($page->cta_subtitle, $locale),
                 'primary' => $this->localizedText($page->cta_primary, $locale),
                 'secondary' => $this->localizedText($page->cta_secondary, $locale),
+            ],
+            'floating_cta' => [
+                'title' => $this->localizedText($page->floating_cta_title, $locale),
+                'primary' => $this->localizedText($page->floating_cta_primary, $locale),
             ],
         ];
 

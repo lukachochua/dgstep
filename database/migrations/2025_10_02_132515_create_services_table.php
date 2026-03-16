@@ -11,18 +11,24 @@ return new class extends Migration {
             $table->id();
 
             // Localized fields
-            $table->json('name');         // {"en":"...","ka":"..."}
-            $table->json('description');  // {"en":"...","ka":"..."}
-            $table->json('problems');     // {"en":[...],"ka":[...]}
+            $table->json('name');
+            $table->json('description');
+            $table->json('description_expanded')->nullable();
+            $table->json('problems');
 
             // Meta
             $table->string('slug')->unique();
             $table->string('image_path');
+            $table->string('featured_image_path')->nullable();
             $table->string('image_alt')->nullable();
 
             // Featured flags
             $table->boolean('is_featured')->default(false);
             $table->unsignedTinyInteger('featured_order')->default(0);
+            $table->unsignedTinyInteger('display_order')->default(0);
+            $table->string('cue_style')->default('bubbles');
+            $table->json('cue_label')->nullable();
+            $table->json('cue_values')->nullable();
 
             $table->timestamps();
         });

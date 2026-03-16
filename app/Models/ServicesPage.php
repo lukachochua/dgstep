@@ -19,8 +19,6 @@ class ServicesPage extends Model
         'hero_secondary_cta',
         'overview_heading',
         'overview_body',
-        'stat_tracks_label',
-        'stat_pain_points_label',
         'proof_heading',
         'proof_body',
         'proof_items',
@@ -49,8 +47,6 @@ class ServicesPage extends Model
         'hero_secondary_cta',
         'overview_heading',
         'overview_body',
-        'stat_tracks_label',
-        'stat_pain_points_label',
         'proof_heading',
         'proof_body',
         'cta_kicker',
@@ -99,14 +95,6 @@ class ServicesPage extends Model
             'overview_body' => [
                 'en' => Lang::get('services.hero.overview_body', [], 'en'),
                 'ka' => Lang::get('services.hero.overview_body', [], 'ka'),
-            ],
-            'stat_tracks_label' => [
-                'en' => Lang::get('services.stats.tracks', [], 'en'),
-                'ka' => Lang::get('services.stats.tracks', [], 'ka'),
-            ],
-            'stat_pain_points_label' => [
-                'en' => Lang::get('services.stats.pain_points', [], 'en'),
-                'ka' => Lang::get('services.stats.pain_points', [], 'ka'),
             ],
             'proof_heading' => [
                 'en' => Lang::get('services.hero.proof_heading', [], 'en'),

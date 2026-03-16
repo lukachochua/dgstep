@@ -26,9 +26,9 @@ return new class extends Migration
             $table->json('management_collapse')->nullable();
             $table->json('badges')->nullable();
             $table->string('hero_image_url')->nullable();
+            $table->string('hero_image_path')->nullable();
             $table->json('hero_image_alt')->nullable();
             $table->json('hero_caption')->nullable();
-            $table->json('hero_status_label')->nullable();
             $table->json('management_members')->nullable();
             $table->timestamps();
         });

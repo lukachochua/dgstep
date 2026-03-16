@@ -30,15 +30,7 @@ class ServicesPageController extends Controller
                     'image' => $service->image_url,
                     'image_alt' => $service->image_alt ?: $title,
                     'problems' => $this->localizedList($service->problems, $locale),
-                    'cue_style' => in_array($service->cue_style, ['bubbles', 'bars', 'dots'], true)
-                        ? $service->cue_style
-                        : 'bubbles',
                     'cue_label' => $this->localizedText($service->cue_label, $locale),
-                    'cue_values' => collect($service->cue_values ?? [])
-                        ->filter(fn ($value) => is_numeric($value))
-                        ->map(fn ($value) => (int) $value)
-                        ->values()
-                        ->all(),
                 ];
             })
             ->values();
@@ -53,8 +45,6 @@ class ServicesPageController extends Controller
                 'hero_secondary_cta' => $this->localizedText($page->hero_secondary_cta, $locale),
                 'overview_heading' => $this->localizedText($page->overview_heading, $locale),
                 'overview_body' => $this->localizedText($page->overview_body, $locale),
-                'stat_tracks_label' => $this->localizedText($page->stat_tracks_label, $locale),
-                'stat_pain_points_label' => $this->localizedText($page->stat_pain_points_label, $locale),
                 'proof_heading' => $this->localizedText($page->proof_heading, $locale),
                 'proof_body' => $this->localizedText($page->proof_body, $locale),
                 'proof_items' => $this->localizedList($page->proof_items, $locale),

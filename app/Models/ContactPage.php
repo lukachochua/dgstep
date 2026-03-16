@@ -52,4 +52,9 @@ class ContactPage extends Model
             'cta_phone_href' => '+9955XXXXXXX',
         ];
     }
+
+    public static function singleton(): self
+    {
+        return static::query()->first() ?? static::create(static::defaults());
+    }
 }

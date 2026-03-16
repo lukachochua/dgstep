@@ -19,6 +19,7 @@ use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class HeroSlideResource extends Resource
 {
@@ -32,6 +33,12 @@ class HeroSlideResource extends Resource
         return $form->schema([
             Section::make(__('Hero Content'))
                 ->schema([
+                    TextInput::make('sort_order')
+                        ->label('Slide order')
+                        ->numeric()
+                        ->minValue(1)
+                        ->required(),
+
                     Tabs::make('translations')
                         ->tabs([
                             Tab::make('English')
@@ -146,6 +153,10 @@ class HeroSlideResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
 
+                TextColumn::make('sort_order')
+                    ->label('Order')
+                    ->sortable(),
+
                 TextColumn::make('title_en')
                     ->label('Title (EN)')
                     ->getStateUsing(fn (HeroSlide $record) => $record->getTranslation('title', 'en') ?? '—')
@@ -173,8 +184,19 @@ class HeroSlideResource extends Resource
                     ->url(fn (HeroSlide $record) => $record->button_href)
                     ->openUrlInNewTab(),
 
-                ImageColumn::make('image_url')
+                ImageColumn::make('background_preview')
                     ->label('Background')
+                    ->getStateUsing(function (HeroSlide $record): ?string {
+                        if (! $record->image_path) {
+                            return null;
+                        }
+
+                        if (str_starts_with($record->image_path, 'http://') || str_starts_with($record->image_path, 'https://')) {
+                            return $record->image_path;
+                        }
+
+                        return Storage::disk('public')->url($record->image_path);
+                    })
                     ->circular(false)
                     ->size(48),
 
@@ -183,7 +205,7 @@ class HeroSlideResource extends Resource
                     ->since()
                     ->toggleable(),
             ])
-            ->defaultSort('id')
+            ->defaultSort('sort_order')
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),

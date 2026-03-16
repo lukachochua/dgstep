@@ -9,83 +9,30 @@ return new class extends Migration
 {
     public function up(): void
     {
-        if (! Schema::hasTable('services_pages')) {
-            Schema::create('services_pages', function (Blueprint $table) {
-                $table->id();
-                $table->json('title')->nullable();
-                $table->json('sections')->nullable();
-                $table->timestamps();
-            });
-        }
-
-        Schema::table('services_pages', function (Blueprint $table) {
-            if (! Schema::hasColumn('services_pages', 'hero_kicker')) {
-                $table->json('hero_kicker')->nullable()->after('title');
-            }
-
-            if (! Schema::hasColumn('services_pages', 'hero_title')) {
-                $table->json('hero_title')->nullable()->after('hero_kicker');
-            }
-
-            if (! Schema::hasColumn('services_pages', 'hero_lead')) {
-                $table->json('hero_lead')->nullable()->after('hero_title');
-            }
-
-            if (! Schema::hasColumn('services_pages', 'hero_primary_cta')) {
-                $table->json('hero_primary_cta')->nullable()->after('hero_lead');
-            }
-
-            if (! Schema::hasColumn('services_pages', 'hero_secondary_cta')) {
-                $table->json('hero_secondary_cta')->nullable()->after('hero_primary_cta');
-            }
-
-            if (! Schema::hasColumn('services_pages', 'overview_heading')) {
-                $table->json('overview_heading')->nullable()->after('hero_secondary_cta');
-            }
-
-            if (! Schema::hasColumn('services_pages', 'overview_body')) {
-                $table->json('overview_body')->nullable()->after('overview_heading');
-            }
-
-            if (! Schema::hasColumn('services_pages', 'stat_tracks_label')) {
-                $table->json('stat_tracks_label')->nullable()->after('overview_body');
-            }
-
-            if (! Schema::hasColumn('services_pages', 'stat_pain_points_label')) {
-                $table->json('stat_pain_points_label')->nullable()->after('stat_tracks_label');
-            }
-
-            if (! Schema::hasColumn('services_pages', 'proof_heading')) {
-                $table->json('proof_heading')->nullable()->after('stat_pain_points_label');
-            }
-
-            if (! Schema::hasColumn('services_pages', 'proof_body')) {
-                $table->json('proof_body')->nullable()->after('proof_heading');
-            }
-
-            if (! Schema::hasColumn('services_pages', 'proof_items')) {
-                $table->json('proof_items')->nullable()->after('proof_body');
-            }
-
-            if (! Schema::hasColumn('services_pages', 'cta_kicker')) {
-                $table->json('cta_kicker')->nullable()->after('proof_items');
-            }
-
-            if (! Schema::hasColumn('services_pages', 'cta_heading')) {
-                $table->json('cta_heading')->nullable()->after('cta_kicker');
-            }
-
-            if (! Schema::hasColumn('services_pages', 'cta_body')) {
-                $table->json('cta_body')->nullable()->after('cta_heading');
-            }
-
-            if (! Schema::hasColumn('services_pages', 'cta_primary')) {
-                $table->json('cta_primary')->nullable()->after('cta_body');
-            }
-
-            if (! Schema::hasColumn('services_pages', 'cta_secondary')) {
-                $table->json('cta_secondary')->nullable()->after('cta_primary');
-            }
+        Schema::create('services_pages', function (Blueprint $table) {
+            $table->id();
+            $table->json('title')->nullable();
+            $table->json('hero_kicker')->nullable();
+            $table->json('hero_title')->nullable();
+            $table->json('hero_lead')->nullable();
+            $table->json('hero_primary_cta')->nullable();
+            $table->json('hero_secondary_cta')->nullable();
+            $table->json('overview_heading')->nullable();
+            $table->json('overview_body')->nullable();
+            $table->json('proof_heading')->nullable();
+            $table->json('proof_body')->nullable();
+            $table->json('proof_items')->nullable();
+            $table->json('cta_kicker')->nullable();
+            $table->json('cta_heading')->nullable();
+            $table->json('cta_body')->nullable();
+            $table->json('cta_primary')->nullable();
+            $table->json('cta_secondary')->nullable();
+            $table->json('card_problems_heading')->nullable();
+            $table->json('card_cta')->nullable();
+            $table->json('card_back_to_top')->nullable();
+            $table->json('read_more_label')->nullable();
+            $table->json('show_less_label')->nullable();
+            $table->timestamps();
         });
 
         $defaults = [
@@ -120,14 +67,6 @@ return new class extends Migration
             'overview_body' => json_encode([
                 'en' => 'Each service track is built around a specific operating model, so the page should help visitors quickly identify the closest fit.',
                 'ka' => 'თითოეული სერვისი აგებულია კონკრეტულ სამუშაო მოდელზე, რათა ვიზიტორმა სწრაფად იპოვოს მის ბიზნესთან ყველაზე ახლოს მდგომი მიმართულება.',
-            ]),
-            'stat_tracks_label' => json_encode([
-                'en' => 'Service Tracks',
-                'ka' => 'სერვისის მიმართულება',
-            ]),
-            'stat_pain_points_label' => json_encode([
-                'en' => 'Pain Points Mapped',
-                'ka' => 'დაფარული პრობლემა',
             ]),
             'proof_heading' => json_encode([
                 'en' => 'Common gaps we remove',
@@ -173,51 +112,36 @@ return new class extends Migration
                 'en' => 'Return to top',
                 'ka' => 'დასაწყისში დაბრუნება',
             ]),
+            'card_problems_heading' => json_encode([
+                'en' => 'Typical Gaps',
+                'ka' => 'ტიპური სირთულეები',
+            ]),
+            'card_cta' => json_encode([
+                'en' => 'Talk about this service',
+                'ka' => 'ამ სერვისზე საუბარი',
+            ]),
+            'card_back_to_top' => json_encode([
+                'en' => 'Back to top',
+                'ka' => 'ზემოთ დაბრუნება',
+            ]),
+            'read_more_label' => json_encode([
+                'en' => 'Read More',
+                'ka' => 'მეტის ნახვა',
+            ]),
+            'show_less_label' => json_encode([
+                'en' => 'Show Less',
+                'ka' => 'დამალვა',
+            ]),
         ];
 
-        if (! DB::table('services_pages')->exists()) {
-            DB::table('services_pages')->insert(array_merge($defaults, [
-                'sections' => null,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]));
-        } else {
-            DB::table('services_pages')
-                ->whereNull('hero_title')
-                ->update($defaults);
-        }
+        DB::table('services_pages')->insert(array_merge($defaults, [
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]));
     }
 
     public function down(): void
     {
-        if (! Schema::hasTable('services_pages')) {
-            return;
-        }
-
-        Schema::table('services_pages', function (Blueprint $table) {
-            foreach ([
-                'hero_kicker',
-                'hero_title',
-                'hero_lead',
-                'hero_primary_cta',
-                'hero_secondary_cta',
-                'overview_heading',
-                'overview_body',
-                'stat_tracks_label',
-                'stat_pain_points_label',
-                'proof_heading',
-                'proof_body',
-                'proof_items',
-                'cta_kicker',
-                'cta_heading',
-                'cta_body',
-                'cta_primary',
-                'cta_secondary',
-            ] as $column) {
-                if (Schema::hasColumn('services_pages', $column)) {
-                    $table->dropColumn($column);
-                }
-            }
-        });
+        Schema::dropIfExists('services_pages');
     }
 };

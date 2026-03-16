@@ -23,8 +23,6 @@ class ServicesPageSeeder extends Seeder
                 'hero_secondary_cta',
                 'overview_heading',
                 'overview_body',
-                'stat_tracks_label',
-                'stat_pain_points_label',
                 'proof_heading',
                 'proof_body',
                 'cta_kicker',

@@ -19,7 +19,7 @@ class ContactController extends Controller
     public function show()
     {
         $locale   = app()->getLocale();
-        $record   = ContactPage::query()->latest('id')->first();
+        $record   = ContactPage::singleton();
         $defaults = ContactPage::defaults() ?? [];
 
         // Map keys to final i18n fallbacks in lang files

@@ -206,6 +206,36 @@ window.siteNav = () => ({
     },
 });
 
+window.floatingCta = (config = {}) => ({
+    isVisible: false,
+    delayMs: Number(config.delayMs ?? 7200),
+    showTimer: null,
+    init() {
+        const schedule = () => {
+            this.showTimer = window.setTimeout(() => {
+                this.isVisible = true;
+            }, this.delayMs);
+        };
+
+        if (document.readyState === 'complete') {
+            schedule();
+            return;
+        }
+
+        window.addEventListener('load', schedule, { once: true });
+    },
+    dismiss() {
+        this.isVisible = false;
+        if (this.showTimer !== null) {
+            window.clearTimeout(this.showTimer);
+            this.showTimer = null;
+        }
+    },
+    markConverted() {
+        this.dismiss();
+    },
+});
+
 Alpine.start();
 
 function initLtrRevealOnScroll() {

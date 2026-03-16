@@ -88,7 +88,7 @@ class HomePageResource extends Resource
                                                 ->schema([
                                                     Forms\Components\Placeholder::make("hero_summary_$code")
                                                         ->label('Hero structure')
-                                                        ->content('Kicker, title, short paragraph, primary CTA, secondary link, and image.'),
+                                                        ->content('This page controls the hero shell only. Slide title, subtitle, primary CTA, image, and ordering are managed under Hero Slides.'),
                                                 ]),
 
                                             Forms\Components\Section::make('Proof Snapshot')
@@ -176,6 +176,22 @@ class HomePageResource extends Resource
                                                         ->required(),
                                                     Forms\Components\TextInput::make("cta_secondary.$code")
                                                         ->label('Secondary button')
+                                                        ->maxLength(120)
+                                                        ->required(),
+                                                ]),
+
+                                            Forms\Components\Section::make('Floating CTA')
+                                                ->icon('heroicon-o-chat-bubble-bottom-center-text')
+                                                ->description('Small delayed homepage prompt in the bottom-right corner.')
+                                                ->columns(2)
+                                                ->schema([
+                                                    Forms\Components\TextInput::make("floating_cta_title.$code")
+                                                        ->label('Prompt title')
+                                                        ->maxLength(160)
+                                                        ->required()
+                                                        ->columnSpanFull(),
+                                                    Forms\Components\TextInput::make("floating_cta_primary.$code")
+                                                        ->label('Primary button')
                                                         ->maxLength(120)
                                                         ->required(),
                                                 ]),

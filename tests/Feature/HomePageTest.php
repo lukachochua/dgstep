@@ -31,14 +31,6 @@ test('home page renders editable home copy while keeping featured services data-
             'en' => 'Panel :current of :total',
             'ka' => 'პანელი :current / :total',
         ],
-        'hero_audiences_label' => [
-            'en' => 'Custom Audiences',
-            'ka' => 'მორგებული აუდიტორიები',
-        ],
-        'hero_audiences' => [
-            'en' => ['Pawn teams', 'Operations leads'],
-            'ka' => ['ლომბარდის გუნდები', 'ოპერაციების ლიდერები'],
-        ],
         'hero_image_alt' => [
             'en' => 'Custom hero image alt',
             'ka' => 'მორგებული alt ტექსტი',
@@ -103,10 +95,6 @@ test('home page renders editable home copy while keeping featured services data-
             'en' => 'Custom solutions subtitle.',
             'ka' => 'მორგებული solutions subtitle.',
         ],
-        'cta_kicker' => [
-            'en' => 'Custom CTA Kicker',
-            'ka' => 'მორგებული CTA kicker',
-        ],
         'cta_title' => [
             'en' => 'Custom CTA Title',
             'ka' => 'მორგებული CTA სათაური',
@@ -123,22 +111,21 @@ test('home page renders editable home copy while keeping featured services data-
             'en' => 'Custom CTA Secondary',
             'ka' => 'მორგებული CTA secondary',
         ],
+        'floating_cta_title' => [
+            'en' => 'Custom floating CTA',
+            'ka' => 'მორგებული floating CTA',
+        ],
+        'floating_cta_primary' => [
+            'en' => 'Custom floating button',
+            'ka' => 'მორგებული floating button',
+        ],
     ]);
 
     HeroSlide::create([
+        'sort_order' => 1,
         'title' => ['en' => 'Hero Slide Title', 'ka' => 'Hero Slide Title'],
-        'highlight' => ['en' => 'Hero Highlight', 'ka' => 'Hero Highlight'],
         'subtitle' => ['en' => 'Hero slide subtitle.', 'ka' => 'Hero slide subtitle.'],
         'button_text' => ['en' => 'Hero Button', 'ka' => 'Hero Button'],
-        'overlay_kicker' => ['en' => 'Custom Slide Overlay', 'ka' => 'Custom Slide Overlay'],
-        'overlay_points' => [
-            'en' => [
-                ['label' => 'Visibility', 'value' => 'Custom dashboard clarity.'],
-            ],
-            'ka' => [
-                ['label' => 'ხილვადობა', 'value' => 'მორგებული დაფის სიცხადე.'],
-            ],
-        ],
         'link_type' => 'internal',
         'button_route' => 'contact',
         'button_params' => [],
@@ -171,10 +158,12 @@ test('home page renders editable home copy while keeping featured services data-
         ->assertSeeText('Custom Hero CTA')
         ->assertSeeText('Custom proof headline')
         ->assertSeeText('Custom Focus Value')
-        ->assertSeeText('Custom Slide Overlay')
-        ->assertSeeText('Custom dashboard clarity.')
+        ->assertSeeText('Hero slide subtitle.')
+        ->assertSeeText('Hero Button')
         ->assertSeeText('Custom solutions title')
         ->assertSeeText('Custom CTA Title')
         ->assertSeeText('Featured Service')
-        ->assertSeeText('Hero Slide Title');
+        ->assertSeeText('Hero Slide Title')
+        ->assertSeeText('Custom floating CTA')
+        ->assertSeeText('Custom floating button');
 });

@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
         // Seed hero slides
         $slides = [
             [
+                'sort_order' => 1,
                 'title' => [
                     'en' => 'Digitize your business’s daily operations',
                     'ka' => 'გადაიყვანეთ თქვენი ბიზნესის ყოველდღიური ოპერაციები ციფრულ რეჟიმში',
@@ -47,6 +48,7 @@ class DatabaseSeeder extends Seeder
                 'image_path' => $this->resolveHeroSlideImagePath(1),
             ],
             [
+                'sort_order' => 2,
                 'title' => [
                     'en' => 'Simplify and increase the efficiency of your business',
                     'ka' => 'გაამარტივეთ და გაზარდეთ თქვენი ბიზნესის ეფექტურობა',
@@ -66,6 +68,7 @@ class DatabaseSeeder extends Seeder
                 'image_path' => $this->resolveHeroSlideImagePath(2),
             ],
             [
+                'sort_order' => 3,
                 'title' => [
                     'en' => 'Time to digitize your business.',
                     'ka' => 'დადგა დრო თქვენი ბიზნესის დიგიტალიზაციისთვის.',

@@ -104,20 +104,6 @@ class ServicesPageResource extends Resource
                                                         ->required(),
                                                 ]),
 
-                                            Forms\Components\Section::make('Stats')
-                                                ->icon('heroicon-o-chart-bar')
-                                                ->columns(2)
-                                                ->schema([
-                                                    Forms\Components\TextInput::make("stat_tracks_label.$code")
-                                                        ->label('Tracks label')
-                                                        ->maxLength(120)
-                                                        ->required(),
-                                                    Forms\Components\TextInput::make("stat_pain_points_label.$code")
-                                                        ->label('Pain-points label')
-                                                        ->maxLength(120)
-                                                        ->required(),
-                                                ]),
-
                                             Forms\Components\Section::make('Proof Band')
                                                 ->icon('heroicon-o-shield-check')
                                                 ->schema([
