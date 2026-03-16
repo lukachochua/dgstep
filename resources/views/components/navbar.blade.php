@@ -35,7 +35,7 @@
   x-bind:data-fonts-ready="fontsReady ? 'true' : 'false'"
   @keydown.window.escape="closeMenu()"
 >
-  <header class="nav-shell">
+  <header class="nav-shell" :class="{ 'nav-shell--scrolled': desktopScrolled }">
     <div class="nav-inner">
       <a href="{{ route('home') }}" class="nav-logo" aria-label="DGstep home">
         <img

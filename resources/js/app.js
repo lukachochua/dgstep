@@ -178,15 +178,25 @@ window.siteNav = () => ({
     open: false,
     theme: 'light',
     fontsReady: false,
+    desktopScrolled: false,
+    desktopMedia: null,
     init() {
         const attr = document.documentElement.getAttribute('data-theme');
         this.theme = (attr === 'dark' || attr === 'light') ? attr : 'light';
+        this.desktopMedia = window.matchMedia('(min-width: 900px)');
+        this.syncDesktopScrollState();
+        window.addEventListener('scroll', () => this.syncDesktopScrollState(), { passive: true });
+        this.desktopMedia.addEventListener?.('change', () => this.syncDesktopScrollState());
         waitForFonts([
             '500 1em "FiraGO"',
             '700 1em "FiraGO"',
         ], 'DGstep Services About Projects Contact სერვისები ჩვენ შესახებ პროექტები კონტაქტი', 650).then(() => {
             this.fontsReady = true;
         });
+    },
+    syncDesktopScrollState() {
+        this.desktopScrolled = !!this.desktopMedia?.matches && window.scrollY > 22;
+        document.body.classList.toggle('nav-desktop-fixed', this.desktopScrolled);
     },
     toggleTheme() {
         this.theme = this.theme === 'dark' ? 'light' : 'dark';
