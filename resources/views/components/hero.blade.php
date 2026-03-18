@@ -78,7 +78,7 @@
 
                   <div class="hero-v2__actions">
                     <x-ui.button href="{{ $slide['button_href'] }}" variant="hero" size="lg">{{ $slide['button_text'] }}</x-ui.button>
-                    <a href="{{ route('services') }}" class="hero-v2__secondary-link">
+                    <a href="{{ route('services') }}" class="hero-v2__secondary-link desktop-only">
                       {{ data_get($content, 'secondary_cta', __('messages.hero.secondary_cta')) }}
                     </a>
                   </div>

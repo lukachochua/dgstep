@@ -8,7 +8,7 @@
 
   $variantClasses = match ($variant) {
       'soft' => ['panel-soft'],
-      'hero' => ['panel', 'hero-surface-card'],
+      'hero' => ['panel'],
       'hero-detail' => ['hero-detail-card'],
       default => ['panel'],
   };
