@@ -91,8 +91,9 @@ class ServicesPageResource extends Resource
                                                         ->required(),
                                                 ]),
 
-                                            Forms\Components\Section::make('Overview Rail')
+                                            Forms\Components\Section::make('Modules Rail')
                                                 ->icon('heroicon-o-queue-list')
+                                                ->description('Copy above the right-side module list on the public page.')
                                                 ->schema([
                                                     Forms\Components\TextInput::make("overview_heading.$code")
                                                         ->label('Heading')
@@ -100,12 +101,13 @@ class ServicesPageResource extends Resource
                                                         ->required(),
                                                     Forms\Components\Textarea::make("overview_body.$code")
                                                         ->label('Body')
-                                                        ->rows(3)
+                                                        ->rows(4)
                                                         ->required(),
                                                 ]),
 
-                                            Forms\Components\Section::make('Proof Band')
+                                            Forms\Components\Section::make('Checklist Section')
                                                 ->icon('heroicon-o-shield-check')
+                                                ->description('Heading, intro, and checklist items shown beneath the hero.')
                                                 ->schema([
                                                     Forms\Components\TextInput::make("proof_heading.$code")
                                                         ->label('Heading')
@@ -113,16 +115,16 @@ class ServicesPageResource extends Resource
                                                         ->required(),
                                                     Forms\Components\Textarea::make("proof_body.$code")
                                                         ->label('Body')
-                                                        ->rows(3)
+                                                        ->rows(4)
                                                         ->required(),
                                                     RepeaterComponent::make("proof_items.$code")
-                                                        ->label('Proof chips')
-                                                        ->addActionLabel('Add chip')
+                                                        ->label('Checklist items')
+                                                        ->addActionLabel('Add item')
                                                         ->default([])
                                                         ->collapsed()
                                                         ->schema([
                                                             Forms\Components\TextInput::make('value')
-                                                                ->label('Chip text')
+                                                                ->label('Item text')
                                                                 ->maxLength(180)
                                                                 ->required(),
                                                         ])
@@ -138,6 +140,7 @@ class ServicesPageResource extends Resource
 
                                             Forms\Components\Section::make('Bottom CTA')
                                                 ->icon('heroicon-o-megaphone')
+                                                ->description('Keep this section short and conversion-focused. Longer offer/benefit copy now lives on the homepage.')
                                                 ->columns(2)
                                                 ->schema([
                                                     Forms\Components\TextInput::make("cta_kicker.$code")
@@ -169,7 +172,7 @@ class ServicesPageResource extends Resource
                                                 ->columns(2)
                                                 ->schema([
                                                     Forms\Components\TextInput::make("card_problems_heading.$code")
-                                                        ->label('Problems heading')
+                                                        ->label('Benefits heading')
                                                         ->maxLength(120)
                                                         ->required(),
                                                     Forms\Components\TextInput::make("card_cta.$code")

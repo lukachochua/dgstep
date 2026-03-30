@@ -69,28 +69,22 @@ class AboutPageResource extends Resource
                                         ->schema([
                                             Forms\Components\Section::make('Page Title & Hero Copy')
                                                 ->icon('heroicon-o-sparkles')
-                                                ->description('Localized headline visible on the hero and browser tab.')
+                                                ->description('Localized browser title and hero image metadata.')
                                                 ->columns(2)
                                                 ->schema([
                                                     Forms\Components\TextInput::make("title.$code")
                                                         ->label('Page title')
                                                         ->maxLength(160)
                                                         ->required(),
-                                                    Forms\Components\TextInput::make("hero_caption.$code")
-                                                        ->label('Hero caption')
-                                                        ->maxLength(180),
                                                     Forms\Components\TextInput::make("hero_image_alt.$code")
                                                         ->label('Hero image alt text')
                                                         ->maxLength(180),
                                                 ]),
 
-                                            Forms\Components\Section::make('Who we are')
+                                            Forms\Components\Section::make('Hero copy')
                                                 ->icon('heroicon-o-user-group')
+                                                ->description('The circle label stays fixed on the front end; only these intro paragraphs are editable.')
                                                 ->schema([
-                                                    Forms\Components\TextInput::make("who_heading.$code")
-                                                        ->label('Heading')
-                                                        ->maxLength(255)
-                                                        ->required(),
                                                     Forms\Components\Textarea::make("who_paragraph_1.$code")
                                                         ->label('Paragraph 1')
                                                         ->rows(4)
@@ -150,33 +144,6 @@ class AboutPageResource extends Resource
                                                         ->required(),
                                                 ]),
 
-                                            Forms\Components\Section::make('Badge chips')
-                                                ->icon('heroicon-o-bookmark')
-                                                ->description('Short highlights rendered as pills below the hero copy.')
-                                                ->schema([
-                                                    RepeaterComponent::make("badges.$code")
-                                                        ->label('Badges for this locale')
-                                                        ->addActionLabel('Add badge')
-                                                        ->maxItems(5)
-                                                        ->grid(1)
-                                                        ->default([])
-                                                        ->orderable()
-                                                        ->collapsed()
-                                                        ->schema([
-                                                            Forms\Components\TextInput::make('value')
-                                                                ->label('Badge text')
-                                                                ->maxLength(120)
-                                                                ->required(),
-                                                        ])
-                                                        ->mutateDehydratedStateUsing(fn ($state) => collect($state)->pluck('value')->filter()->values()->all())
-                                                        ->afterStateHydrated(function (RepeaterComponent $component, ?array $state): void {
-                                                            $component->state(
-                                                                collect($state ?? [])
-                                                                    ->map(fn ($badge) => ['value' => $badge])
-                                                                    ->all()
-                                                            );
-                                                        }),
-                                                ]),
                                         ]);
                                 })->toArray()
                             ),

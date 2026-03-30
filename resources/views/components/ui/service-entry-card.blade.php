@@ -26,6 +26,7 @@
   $readMoreLength = function_exists('mb_strlen') ? mb_strlen($readMoreLabel) : strlen($readMoreLabel);
   $showLessLength = function_exists('mb_strlen') ? mb_strlen($showLessLabel) : strlen($showLessLabel);
   $expandLabelWidth = max(1, $readMoreLength, $showLessLength);
+  $detailsId = $slug !== '' ? 'service-details-' . $slug : 'service-details-' . $displayIndex;
 @endphp
 
 <x-ui.entity-card
@@ -54,7 +55,10 @@
           <p class="service-entry__block-label">{{ $problemsHeading }}</p>
           <ul class="service-entry__problems" aria-label="{{ $problemsHeading }}">
             @foreach ($problemItems as $problem)
-              <li class="service-problem-pill">{{ $problem }}</li>
+              <li class="service-problem-pill">
+                <span class="service-problem-pill__icon" aria-hidden="true">+</span>
+                <span class="service-problem-pill__text">{{ $problem }}</span>
+              </li>
             @endforeach
           </ul>
         </div>
@@ -63,6 +67,7 @@
       @if ($hasFull)
         <div x-data="{ open: false }" class="service-entry__block">
           <div
+            id="{{ $detailsId }}"
             class="service-entry__details-shell"
             :class="{ 'is-open': open }"
             :aria-hidden="(!open).toString()"
@@ -76,10 +81,11 @@
 
           <button
             type="button"
-            class="inline-accent-link service-expand-btn"
+            class="service-expand-btn"
             style="--expand-label-width: {{ $expandLabelWidth }}ch;"
             @click="open = !open"
             :aria-expanded="open.toString()"
+            aria-controls="{{ $detailsId }}"
           >
             <span class="service-expand-btn__label-wrap">
               <span class="service-expand-btn__label" x-text="open ? @js($showLessLabel) : @js($readMoreLabel)"></span>

@@ -7,7 +7,7 @@
         <div class="home-proof__intro">
           <p class="home-proof__eyebrow">{{ $homePage['proof']['kicker'] }}</p>
           <h2 class="section-title">{{ $homePage['proof']['title'] }}</h2>
-          <p class="section-lead">{{ $homePage['proof']['subtitle'] }}</p>
+          <p class="section-lead whitespace-pre-line">{{ $homePage['proof']['subtitle'] }}</p>
         </div>
 
         <div class="home-proof__list" data-reveal-ltr-group>
@@ -15,7 +15,7 @@
             <article class="home-proof__item ltr-reveal" data-reveal-ltr>
               <p class="home-proof__item-label">{{ $homePage['metrics'][$metricKey]['label'] }}</p>
               <p class="home-proof__item-value">{{ $homePage['metrics'][$metricKey]['value'] }}</p>
-              <p class="home-proof__item-copy">{{ $homePage['metrics'][$metricKey]['description'] }}</p>
+              <p class="home-proof__item-copy whitespace-pre-line">{{ $homePage['metrics'][$metricKey]['description'] }}</p>
             </article>
           @endforeach
         </div>

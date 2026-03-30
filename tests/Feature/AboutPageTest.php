@@ -106,9 +106,7 @@ test('about page renders editable singleton copy and management members', functi
 
     $response
         ->assertOk()
-        ->assertSeeText('Custom About Heading')
         ->assertSeeText('Custom paragraph one.')
-        ->assertSeeText('Custom badge one')
         ->assertSeeText('Custom Mission Label')
         ->assertSeeText('Vision Headline')
         ->assertSeeText('Leadership Team')
@@ -116,5 +114,8 @@ test('about page renders editable singleton copy and management members', functi
         ->assertSeeText('Lead Person')
         ->assertSeeText('Second Person')
         ->assertSeeText('Third Person')
-        ->assertSeeText('Fourth Person');
+        ->assertSeeText('Fourth Person')
+        ->assertDontSeeText('Custom About Heading')
+        ->assertDontSeeText('Custom badge one')
+        ->assertDontSeeText('Custom hero caption');
 });

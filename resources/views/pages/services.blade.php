@@ -7,7 +7,7 @@
             <div class="services-hero__copy">
               <span class="section-kicker">{{ $page['hero_kicker'] }}</span>
               <h1 class="section-title">{{ $page['hero_title'] }}</h1>
-              <p class="section-lead">{{ $page['hero_lead'] }}</p>
+              <p class="section-lead whitespace-pre-line">{{ $page['hero_lead'] }}</p>
 
               <div class="services-hero__actions">
                 <x-ui.button route="contact" variant="primary" size="lg">
@@ -21,7 +21,7 @@
 
             <aside class="services-hero__overview">
               <p class="services-hero__overview-kicker">{{ $page['overview_heading'] }}</p>
-              <p class="services-hero__overview-copy">{{ $page['overview_body'] }}</p>
+              <p class="services-hero__overview-copy whitespace-pre-line">{{ $page['overview_body'] }}</p>
 
               <div class="services-overview-list">
                 @foreach ($services as $service)
@@ -42,14 +42,14 @@
         <section class="services-proof reveal reveal-delay-1" aria-labelledby="services-proof-title">
           <div class="services-proof__head">
             <h2 id="services-proof-title" class="services-proof__title">{{ $page['proof_heading'] }}</h2>
-            <p class="services-proof__body">{{ $page['proof_body'] }}</p>
+            <p class="services-proof__body whitespace-pre-line">{{ $page['proof_body'] }}</p>
           </div>
 
-          <div class="services-proof__chips">
+          <ul class="services-proof__chips" aria-label="{{ $page['proof_heading'] }}">
             @foreach ($page['proof_items'] as $problem)
-              <span class="services-proof__chip">{{ $problem }}</span>
+              <li class="services-proof__chip">{{ $problem }}</li>
             @endforeach
-          </div>
+          </ul>
         </section>
       @endif
 
@@ -81,6 +81,7 @@
         :kicker="$page['cta_kicker']"
         :title="$page['cta_heading']"
         :body="$page['cta_body']"
+        :preserveLineBreaks="true"
       >
         <x-slot:actions>
           <div class="services-cta__actions">

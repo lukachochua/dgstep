@@ -21,6 +21,8 @@ class ContactController extends Controller
         $locale   = app()->getLocale();
         $record   = ContactPage::singleton();
         $defaults = ContactPage::defaults() ?? [];
+        $recaptchaSiteKey = config('services.recaptcha.site_key');
+        $recaptchaEnabled = filled($recaptchaSiteKey) && filled(config('services.recaptcha.secret_key'));
 
         // Map keys to final i18n fallbacks in lang files
         $langFallbacks = [
@@ -64,7 +66,8 @@ class ContactController extends Controller
             'ctaPhone' => $record?->cta_phone_href
                 ?? ($defaults['cta_phone_href'] ?? __('contact.cta_phone_href')),
 
-            'recaptchaSiteKey' => config('services.recaptcha.site_key'),
+            'recaptchaSiteKey' => $recaptchaSiteKey,
+            'recaptchaEnabled' => $recaptchaEnabled,
         ];
 
         return view('pages.contact', $view);
@@ -115,6 +118,12 @@ class ContactController extends Controller
         }
 
         if (! data_get($response->json(), 'success')) {
+            Log::warning('Contact reCAPTCHA verification failed.', [
+                'ip' => $request->ip(),
+                'host' => $request->getHost(),
+                'response' => $response->json(),
+            ]);
+
             throw ValidationException::withMessages([
                 'g-recaptcha-response' => __('contact.validation.captcha_invalid'),
             ]);
@@ -131,17 +140,42 @@ class ContactController extends Controller
         ]);
 
         // 4) Send the ops notification email (recipient from config/env)
+        $opsTo = $this->configuredOpsRecipient();
+
+        if (! $opsTo) {
+            Log::error('ContactSubmission mail skipped: invalid ops recipient.', [
+                'submission_id' => $submission->id,
+                'ops_to' => config('mail.ops_to'),
+                'mailer' => config('mail.default'),
+            ]);
+
+            return back()->with('warning', __('contact.warning_mail_not_sent'));
+        }
+
         try {
-            $opsTo = config('mail.ops_to'); // reads MAIL_OPS_TO with default fallback
             Mail::to($opsTo)->send(new ContactSubmissionReceived($submission));
         } catch (\Throwable $e) {
-            // Don't block the user if mailer fails; just log and proceed.
             Log::warning('ContactSubmission mail failed: '.$e->getMessage(), [
                 'submission_id' => $submission->id,
+                'ops_to' => $opsTo,
+                'mailer' => config('mail.default'),
             ]);
+
+            return back()->with('warning', __('contact.warning_mail_not_sent'));
         }
 
         // 5) UX: flash success and return
         return back()->with('success', __('contact.success'));
+    }
+
+    private function configuredOpsRecipient(): ?string
+    {
+        $opsTo = trim((string) config('mail.ops_to'));
+
+        if ($opsTo === '' || ! filter_var($opsTo, FILTER_VALIDATE_EMAIL)) {
+            return null;
+        }
+
+        return str_ends_with(strtolower($opsTo), '@example.com') ? null : $opsTo;
     }
 }

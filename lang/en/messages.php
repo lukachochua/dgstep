@@ -16,8 +16,8 @@ return [
         'title' => 'Run operations in one system',
         'highlight' => 'Built for teams that need structure without enterprise bloat.',
         'subtitle' => 'DGstep replaces scattered spreadsheets, chats, and handoffs with one practical workflow system.',
-        'primary_cta' => 'Request a workflow review',
-        'secondary_cta' => 'See services',
+        'primary_cta' => 'Contact us',
+        'secondary_cta' => 'Services',
         'slide_label' => 'Slide',
         'slide_announcement' => 'Slide :current of :total',
         'audiences_label' => 'Best fit for',
@@ -28,29 +28,31 @@ return [
         ],
         'slides' => [
             [
-                'title' => 'Run daily operations',
-                'highlight' => 'into one working system',
-                'subtitle' => 'Replace spreadsheets and chat handoffs with one practical workflow system.',
+                'title' => 'Implement a Warehouse Management System (WMS)',
+                'highlight' => '',
+                'subtitle' => 'Manage the full warehouse process in one system.
+Product ordering -> receiving -> storage -> fulfillment -> inventory -> analytics -> role management',
                 'button' => [
-                    'text' => 'Request a workflow review',
+                    'text' => 'Contact us',
                     'route' => 'contact',
                 ],
             ],
             [
-                'title' => 'Built for pawnshops',
-                'highlight' => 'and compliance-heavy teams',
-                'subtitle' => 'Keep records, handoffs, and reporting aligned without enterprise overhead.',
+                'title' => 'Increase your business efficiency',
+                'highlight' => '',
+                'subtitle' => 'We help simplify day-to-day business processes.
+It is time to digitize your business.',
                 'button' => [
-                    'text' => 'See services',
+                    'text' => 'Services',
                     'route' => 'services',
                 ],
             ],
             [
-                'title' => 'Start with the biggest bottleneck',
-                'highlight' => 'and expand from there',
-                'subtitle' => 'Fix the highest-pressure workflow first, then expand from there.',
+                'title' => 'Save time and resources with our software',
+                'highlight' => '',
+                'subtitle' => 'We implement software tailored to your business that saves time, money, and human resources in daily operations.',
                 'button' => [
-                    'text' => 'Book a discovery call',
+                    'text' => 'Contact us',
                     'route' => 'contact',
                 ],
             ],
@@ -71,26 +73,26 @@ return [
 
     'home_metrics' => [
         'focus' => [
-            'label' => 'Operational focus',
-            'value' => 'Tasks to records',
-            'description' => 'Unify day-to-day work that usually lives across chats, calls, and spreadsheets.',
+            'label' => 'What We Offer',
+            'value' => 'Analysis, build, rollout',
+            'description' => "✔️ Detailed business process analysis\n✔️ Custom software built for your operation\n✔️ System implementation and integration\n✔️ Ongoing technical support",
         ],
         'technology' => [
-            'label' => 'Rollout style',
-            'value' => 'Practical first',
-            'description' => 'Start with the process that causes the most friction, then expand in controlled steps.',
+            'label' => 'Who It Fits',
+            'value' => 'Small, medium, and large businesses',
+            'description' => 'If you want to digitize and optimize your business processes, contact us.',
         ],
         'approach' => [
-            'label' => 'Business fit',
-            'value' => 'Georgia-ready',
-            'description' => 'Designed for local teams that need clearer control, accountability, and reporting.',
+            'label' => 'Ongoing Support',
+            'value' => 'Partnership after rollout',
+            'description' => 'DG Step supports not only the build, but also the rollout, integration, and continued technical support of your system.',
         ],
     ],
 
     'home_proof' => [
-        'kicker' => 'Why teams come to DGstep',
-        'title' => 'We fix the processes that break first',
-        'subtitle' => 'Approvals, handoffs, records, and reporting are usually where the pressure starts.',
+        'kicker' => 'Working With DG Step',
+        'title' => 'What you can achieve with DG Step',
+        'subtitle' => "🔹 Software tailored specifically to your business\n🔹 Simpler day-to-day workflows\n🔹 Higher team efficiency and productivity\n🔹 Automation for the processes your business depends on",
     ],
 
     'home_solutions' => [

@@ -19,10 +19,6 @@ test('home page renders editable home copy while keeping featured services data-
             'en' => 'Custom Hero Kicker',
             'ka' => 'მორგებული ჰირო ქიქერი',
         ],
-        'hero_secondary_cta' => [
-            'en' => 'Custom Hero CTA',
-            'ka' => 'მორგებული გმირის CTA',
-        ],
         'hero_slide_label' => [
             'en' => 'Panel',
             'ka' => 'პანელი',
@@ -125,7 +121,6 @@ test('home page renders editable home copy while keeping featured services data-
         'sort_order' => 1,
         'title' => ['en' => 'Hero Slide Title', 'ka' => 'Hero Slide Title'],
         'subtitle' => ['en' => 'Hero slide subtitle.', 'ka' => 'Hero slide subtitle.'],
-        'button_text' => ['en' => 'Hero Button', 'ka' => 'Hero Button'],
         'link_type' => 'internal',
         'button_route' => 'contact',
         'button_params' => [],
@@ -155,11 +150,11 @@ test('home page renders editable home copy while keeping featured services data-
     $response
         ->assertOk()
         ->assertSeeText('Custom Hero Kicker')
-        ->assertSeeText('Custom Hero CTA')
         ->assertSeeText('Custom proof headline')
         ->assertSeeText('Custom Focus Value')
         ->assertSeeText('Hero slide subtitle.')
-        ->assertSeeText('Hero Button')
+        ->assertSeeText('Contact us')
+        ->assertSeeText('Services')
         ->assertSeeText('Custom solutions title')
         ->assertSeeText('Custom CTA Title')
         ->assertSeeText('Featured Service')

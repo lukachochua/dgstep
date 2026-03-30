@@ -52,10 +52,6 @@ class HomePageResource extends Resource
                                                         ->label('Hero kicker')
                                                         ->maxLength(140)
                                                         ->required(),
-                                                    Forms\Components\TextInput::make("hero_secondary_cta.$code")
-                                                        ->label('Hero secondary link')
-                                                        ->maxLength(120)
-                                                        ->required(),
                                                     Forms\Components\TextInput::make("hero_slide_label.$code")
                                                         ->label('Slide label')
                                                         ->maxLength(80)
@@ -88,12 +84,12 @@ class HomePageResource extends Resource
                                                 ->schema([
                                                     Forms\Components\Placeholder::make("hero_summary_$code")
                                                         ->label('Hero structure')
-                                                        ->content('This page controls the hero shell only. Slide title, subtitle, primary CTA, image, and ordering are managed under Hero Slides.'),
+                                                        ->content('Hero slide text, image, and order are managed under Hero Slides. The front end always shows two fixed links: Contact and Services.'),
                                                 ]),
 
-                                            Forms\Components\Section::make('Proof Snapshot')
+                                            Forms\Components\Section::make('Section Under Hero')
                                                 ->icon('heroicon-o-shield-check')
-                                                ->description('Intro copy plus three supporting evidence rows.')
+                                                ->description('This is the homepage content block shown directly under the hero slider.')
                                                 ->schema([
                                                     Forms\Components\TextInput::make("proof_kicker.$code")
                                                         ->label('Kicker')
@@ -109,27 +105,28 @@ class HomePageResource extends Resource
                                                         ->required(),
                                                 ]),
 
-                                            Forms\Components\Section::make('Metric Cards')
+                                            Forms\Components\Section::make('Three Support Cards')
                                                 ->icon('heroicon-o-chart-bar-square')
+                                                ->description('Use these three cards for offer details, audience/fit copy, and rollout/support messaging.')
                                                 ->columns(3)
                                                 ->schema([
-                                                    Forms\Components\Fieldset::make('Focus')
+                                                    Forms\Components\Fieldset::make('Card 1')
                                                         ->schema([
                                                             Forms\Components\TextInput::make("metric_focus_label.$code")->label('Label')->required(),
                                                             Forms\Components\TextInput::make("metric_focus_value.$code")->label('Value')->required(),
-                                                            Forms\Components\Textarea::make("metric_focus_description.$code")->label('Description')->rows(3)->required(),
+                                                            Forms\Components\Textarea::make("metric_focus_description.$code")->label('Description')->rows(5)->required(),
                                                         ]),
-                                                    Forms\Components\Fieldset::make('Technology')
+                                                    Forms\Components\Fieldset::make('Card 2')
                                                         ->schema([
                                                             Forms\Components\TextInput::make("metric_technology_label.$code")->label('Label')->required(),
                                                             Forms\Components\TextInput::make("metric_technology_value.$code")->label('Value')->required(),
-                                                            Forms\Components\Textarea::make("metric_technology_description.$code")->label('Description')->rows(3)->required(),
+                                                            Forms\Components\Textarea::make("metric_technology_description.$code")->label('Description')->rows(5)->required(),
                                                         ]),
-                                                    Forms\Components\Fieldset::make('Approach')
+                                                    Forms\Components\Fieldset::make('Card 3')
                                                         ->schema([
                                                             Forms\Components\TextInput::make("metric_approach_label.$code")->label('Label')->required(),
                                                             Forms\Components\TextInput::make("metric_approach_value.$code")->label('Value')->required(),
-                                                            Forms\Components\Textarea::make("metric_approach_description.$code")->label('Description')->rows(3)->required(),
+                                                            Forms\Components\Textarea::make("metric_approach_description.$code")->label('Description')->rows(5)->required(),
                                                         ]),
                                                 ]),
 

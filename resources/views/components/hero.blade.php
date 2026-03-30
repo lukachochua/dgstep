@@ -8,22 +8,9 @@
   $rawSlides = !empty($slides) ? $slides : (is_array($fallbackSlides) ? $fallbackSlides : []);
 
   $normalizedSlides = collect($rawSlides)->map(function ($slide) {
-      $buttonHref = data_get($slide, 'button_href') ?? data_get($slide, 'button.href') ?? data_get($slide, 'button.link');
-      $buttonRoute = data_get($slide, 'button.route');
-
-      if (blank($buttonHref) && filled($buttonRoute) && \Illuminate\Support\Facades\Route::has($buttonRoute)) {
-          $buttonHref = route($buttonRoute);
-      }
-
-      if (blank($buttonHref)) {
-          $buttonHref = route('contact');
-      }
-
       return [
           'title' => (string) data_get($slide, 'title', ''),
           'subtitle' => (string) data_get($slide, 'subtitle', ''),
-          'button_text' => (string) data_get($slide, 'button_text', data_get($slide, 'button.text', __('messages.hero.primary_cta'))),
-          'button_href' => $buttonHref,
           'image' => data_get($slide, 'image'),
       ];
   })->filter(fn ($slide) => filled($slide['title']) || filled($slide['subtitle']))->values()->all();
@@ -32,8 +19,6 @@
       $normalizedSlides[] = [
           'title' => __('messages.hero.title'),
           'subtitle' => __('messages.hero.subtitle'),
-          'button_text' => __('messages.hero.primary_cta'),
-          'button_href' => route('contact'),
           'image' => null,
       ];
   }
@@ -77,9 +62,9 @@
                   </div>
 
                   <div class="hero-v2__actions">
-                    <x-ui.button href="{{ $slide['button_href'] }}" variant="hero" size="lg">{{ $slide['button_text'] }}</x-ui.button>
-                    <a href="{{ route('services') }}" class="hero-v2__secondary-link desktop-only">
-                      {{ data_get($content, 'secondary_cta', __('messages.hero.secondary_cta')) }}
+                    <x-ui.button route="contact" variant="hero" size="lg">{{ __('messages.hero.primary_cta') }}</x-ui.button>
+                    <a href="{{ route('services') }}" class="hero-v2__secondary-link">
+                      {{ __('messages.hero.secondary_cta') }}
                     </a>
                   </div>
                 </div>

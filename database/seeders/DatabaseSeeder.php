@@ -30,12 +30,32 @@ class DatabaseSeeder extends Seeder
             [
                 'sort_order' => 1,
                 'title' => [
-                    'en' => 'Digitize your business’s daily operations',
-                    'ka' => 'გადაიყვანეთ თქვენი ბიზნესის ყოველდღიური ოპერაციები ციფრულ რეჟიმში',
+                    'en' => 'Implement a Warehouse Management System (WMS)',
+                    'ka' => 'დანერგე საწყობის მართვის სისტემა (WMS)',
                 ],
                 'subtitle' => [
-                    'en' => 'Automate manual workflows and connect every touchpoint into one platform.',
-                    'ka' => 'დაავტომატიზეთ ხელით შესრულებული პროცესები და გააერთიანეთ ყველა სამუშაო ნაკადი ერთ პლატფორმაში.',
+                    'en' => "Manage the full warehouse process in one system.\nProduct ordering -> receiving -> storage -> fulfillment -> inventory -> analytics -> role management",
+                    'ka' => "საწყობის სრული პროცესის მართვის კონტროლი ერთ სისტემაში\nპროდუქტის შეკვეთა → პროდუქტის მიღება → დასაწყობება → რეალიზაცია → ინვენტარიზაცია → ანალიტიკა → როლების მართვა",
+                ],
+                'button_text' => [
+                    'en' => 'Contact us',
+                    'ka' => 'დაგვიკავშირდი',
+                ],
+                'button_link' => '#contact',
+                'link_type' => 'internal',
+                'button_route' => 'contact',
+                'button_params' => null,
+                'image_path' => $this->resolveHeroSlideImagePath(1),
+            ],
+            [
+                'sort_order' => 2,
+                'title' => [
+                    'en' => 'Increase your business efficiency',
+                    'ka' => 'გაამარტივეთ და გაზარდეთ თქვენი ბიზნესის ეფექტურობა',
+                ],
+                'subtitle' => [
+                    'en' => "We help simplify day-to-day business processes.\nIt is time to digitize your business.",
+                    'ka' => "ჩვენ დაგეხმარებით ყოველდღიური ბიზნეს პროცესების გამარტივებაში.\nდროა გააციფრულო შენი ბიზნესი",
                 ],
                 'button_text' => [
                     'en' => 'Services',
@@ -45,45 +65,25 @@ class DatabaseSeeder extends Seeder
                 'link_type' => 'internal',
                 'button_route' => 'services',
                 'button_params' => null,
-                'image_path' => $this->resolveHeroSlideImagePath(1),
-            ],
-            [
-                'sort_order' => 2,
-                'title' => [
-                    'en' => 'Simplify and increase the efficiency of your business',
-                    'ka' => 'გაამარტივეთ და გაზარდეთ თქვენი ბიზნესის ეფექტურობა',
-                ],
-                'subtitle' => [
-                    'en' => 'Gain visibility across teams, track KPIs in real time, and remove bottlenecks.',
-                    'ka' => 'მიიღეთ სრული სურათი გუნდების მუშაობაზე, აკონტროლეთ KPI-ები რეალურ დროში და აღმოფხვერით შეფერხებები.',
-                ],
-                'button_text' => [
-                    'en' => 'Contact Us',
-                    'ka' => 'დაგვიკავშირდით',
-                ],
-                'button_link' => '#contact',
-                'link_type' => 'internal',
-                'button_route' => 'contact',
-                'button_params' => null,
                 'image_path' => $this->resolveHeroSlideImagePath(2),
             ],
             [
                 'sort_order' => 3,
                 'title' => [
-                    'en' => 'Time to digitize your business.',
-                    'ka' => 'დადგა დრო თქვენი ბიზნესის დიგიტალიზაციისთვის.',
+                    'en' => 'Save time and resources with our software',
+                    'ka' => 'დაზოგე დრო და რესურსი ჩვენი პროგრამების დახმარებით',
                 ],
                 'subtitle' => [
-                    'en' => 'Launch tailored software faster with a partner who understands local regulations.',
-                    'ka' => 'გაუშვით მორგებული პროგრამული უზრუნველყოფა უფრო სწრაფად პარტნიორთან ერთად, რომელიც იცნობს ადგილობრივ რეგულაციებს.',
+                    'en' => 'We implement software tailored to your business that saves time, money, and human resources in daily operations.',
+                    'ka' => 'ჩვენ ვნერგავთ თქვენზე მორგებულ პროგრამებს, რომელიც ყოველდღიურ საქმიანობაში დაგიზოგავთ დროს, ფინანსებს და ადამიანურ რესურსს.',
                 ],
                 'button_text' => [
-                    'en' => 'About Us',
-                    'ka' => 'ჩვენ შესახებ',
+                    'en' => 'Contact us',
+                    'ka' => 'დაგვიკავშირდი',
                 ],
                 'button_link' => '#contact',
                 'link_type' => 'internal',
-                'button_route' => 'about',
+                'button_route' => 'contact',
                 'button_params' => null,
                 'image_path' => $this->resolveHeroSlideImagePath(3),
             ],
@@ -91,7 +91,7 @@ class DatabaseSeeder extends Seeder
 
         foreach ($slides as $slide) {
             HeroSlide::updateOrCreate(
-                ['button_link' => $slide['button_link'], 'title->en' => $slide['title']['en']],
+                ['sort_order' => $slide['sort_order']],
                 $slide
             );
         }

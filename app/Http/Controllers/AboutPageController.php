@@ -29,16 +29,13 @@ class AboutPageController extends Controller
                 'title' => $page->translated('title', $locale, $defaults),
                 'hero' => [
                     'kicker' => trans('messages.about', [], $locale),
-                    'heading' => $page->translated('who_heading', $locale, $defaults),
                     'paragraphs' => array_values(array_filter([
                         $page->translated('who_paragraph_1', $locale, $defaults),
                         $page->translated('who_paragraph_2', $locale, $defaults),
                     ])),
-                    'badges' => $page->badgesForLocale($locale, $defaults),
                     'image' => $page->hero_image_url ?? ($defaults['hero_image_url'] ?? null),
                     'image_alt' => $page->translated('hero_image_alt', $locale, $defaults)
                         ?: trans('about.hero_image_fallback_alt', [], $locale),
-                    'caption' => $page->translated('hero_caption', $locale, $defaults),
                 ],
                 'principles' => [
                     [

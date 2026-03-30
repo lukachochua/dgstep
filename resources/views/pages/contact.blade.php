@@ -7,6 +7,7 @@
     $ctaLabel = $ctaLabel ?? __('contact.cta_button');
     $ctaPhone = $ctaPhone ?? __('contact.cta_phone_href');
     $recaptchaSiteKey = $recaptchaSiteKey ?? config('services.recaptcha.site_key');
+    $recaptchaEnabled = $recaptchaEnabled ?? (filled($recaptchaSiteKey) && filled(config('services.recaptcha.secret_key')));
   @endphp
 
   <section class="section-block">
@@ -60,6 +61,12 @@
             </div>
           @endif
 
+          @if (session('warning'))
+            <div class="rounded-lg border border-[color:var(--accent)]/50 bg-[color:var(--accent-soft)] px-3 py-2 text-sm font-medium text-[color:var(--text)]">
+              {{ session('warning') }}
+            </div>
+          @endif
+
           <div>
             <label for="name" class="field-label">{{ __('contact.form.name') }} *</label>
             <input id="name" type="text" name="name" x-model="form.name" class="field-input" :class="errors.name ? 'border-[color:var(--danger)]' : ''" autocomplete="name" />
@@ -83,7 +90,7 @@
             <textarea id="comments" name="comments" x-model="form.comments" rows="4" class="field-textarea"></textarea>
           </div>
 
-          @if ($recaptchaSiteKey)
+          @if ($recaptchaEnabled)
             <div class="flex justify-center">
               <div class="g-recaptcha" data-sitekey="{{ $recaptchaSiteKey }}"></div>
             </div>
@@ -97,7 +104,7 @@
             <p class="field-error">{{ $message }}</p>
           @enderror
 
-          <x-ui.button as="button" type="submit" variant="primary" size="lg" class="w-full justify-center">
+          <x-ui.button as="button" type="submit" variant="primary" size="lg" class="w-full justify-center" :disabled="! $recaptchaEnabled">
             {{ __('contact.form.cta') }}
           </x-ui.button>
         </form>
@@ -105,7 +112,7 @@
     </div>
   </section>
 
-  @if ($recaptchaSiteKey)
+  @if ($recaptchaEnabled)
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   @endif
 </x-layouts.base>

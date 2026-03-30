@@ -6,27 +6,13 @@
           <div class="space-y-5">
             <span class="section-kicker">{{ $page['hero']['kicker'] }}</span>
 
-            <div class="space-y-4">
-              <h1 class="section-title">{!! $page['hero']['heading'] !!}</h1>
-
-              <div class="about-story-copy">
-                @foreach ($page['hero']['paragraphs'] as $index => $paragraph)
-                  <p class="{{ $index === 0 ? 'section-lead' : 'text-sm text-[color:var(--text-muted)] md:text-base' }}">
-                    {!! $paragraph !!}
-                  </p>
-                @endforeach
-              </div>
+            <div class="about-story-copy">
+              @foreach ($page['hero']['paragraphs'] as $index => $paragraph)
+                <p class="{{ $index === 0 ? 'section-lead' : 'text-sm text-[color:var(--text-muted)] md:text-base' }}">
+                  {!! nl2br(e($paragraph)) !!}
+                </p>
+              @endforeach
             </div>
-
-            @if (!empty($page['hero']['badges']))
-              <div class="about-proof-grid">
-                @foreach ($page['hero']['badges'] as $badge)
-                  <div class="about-proof-chip">
-                    <span>{{ $badge }}</span>
-                  </div>
-                @endforeach
-              </div>
-            @endif
           </div>
 
           <figure class="about-hero-media">
@@ -38,9 +24,6 @@
               fetchpriority="high"
               decoding="async"
             />
-            @if (filled($page['hero']['caption']))
-              <figcaption class="about-hero-caption">{{ $page['hero']['caption'] }}</figcaption>
-            @endif
           </figure>
         </div>
       </x-ui.surface-card>

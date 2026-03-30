@@ -6,6 +6,7 @@ return [
     'headline' => 'Contact us to get the service you need.',
     'description' => 'If you run a business and want to simplify your daily operations, contact us, our team will take care of implementing the processes you need.',
     'success' => 'Your message has been sent!',
+    'warning_mail_not_sent' => 'Your message was saved, but the team email notification could not be delivered right now. Please call us directly as well.',
     'metric' => [
         'label' => 'Client Satisfaction',
     ],

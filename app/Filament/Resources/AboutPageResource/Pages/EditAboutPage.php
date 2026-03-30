@@ -18,16 +18,6 @@ class EditAboutPage extends EditRecord
     {
         $locales = array_keys(AboutPageResource::getLocales());
 
-        $data['badges'] = collect($data['badges'] ?? [])
-            ->mapWithKeys(fn ($badges, $locale) => [
-                $locale => collect($badges)->filter()->values()->all(),
-            ])
-            ->all();
-
-        foreach ($locales as $locale) {
-            $data['badges'][$locale] = $data['badges'][$locale] ?? [];
-        }
-
         $data['management_members'] = collect($data['management_members'] ?? [])
             ->map(function (array $member) use ($locales) {
                 $member['name'] = collect($member['name'] ?? [])

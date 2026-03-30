@@ -1,5 +1,12 @@
 <?php
 
+$legacyMailEncryption = env('MAIL_ENCRYPTION');
+$normalizedMailScheme = match ($legacyMailEncryption) {
+    'ssl' => 'smtps',
+    'tls', null, '' => null,
+    default => $legacyMailEncryption,
+};
+
 return [
 
     /*
@@ -39,7 +46,7 @@ return [
 
         'smtp' => [
             'transport' => 'smtp',
-            'scheme' => env('MAIL_SCHEME'),
+            'scheme' => env('MAIL_SCHEME', $normalizedMailScheme),
             'url' => env('MAIL_URL'),
             'host' => env('MAIL_HOST', '127.0.0.1'),
             'port' => env('MAIL_PORT', 1025),
@@ -116,5 +123,5 @@ return [
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
-    'ops_to' => env('MAIL_OPS_TO', 'dgstep2025@gmail.com'),
+    'ops_to' => env('MAIL_OPS_TO', env('MAIL_FROM_ADDRESS', 'hello@example.com')),
 ];
