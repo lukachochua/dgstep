@@ -108,7 +108,7 @@
 }
 
 html {
-  scrollbar-gutter: stable;
+  scrollbar-gutter: auto;
 }
 
 html,
@@ -123,6 +123,20 @@ body {
   line-height: 1.6;
   letter-spacing: 0.01em;
   transition: background-color 260ms ease, color 260ms ease;
+}
+
+@media (min-width: 900px) {
+  html {
+    scrollbar-gutter: stable;
+  }
+}
+
+@media (max-width: 899px) {
+  html,
+  body {
+    overflow-x: hidden;
+    overflow-x: clip;
+  }
 }
 
 .page-grid {
@@ -3699,7 +3713,7 @@ html[data-theme="dark"] .field-textarea {
 }
 
 .contact-page .section-inner {
-  align-items: stretch;
+  align-items: start;
 }
 
 .contact-page .section-inner > .space-y-5 {
@@ -3712,6 +3726,10 @@ html[data-theme="dark"] .field-textarea {
 
 .contact-form-card {
   border-radius: 0.85rem;
+}
+
+.contact-recaptcha {
+  min-height: 78px;
 }
 
 .footer-shell,
@@ -4417,21 +4435,22 @@ html[data-theme="light"] .footer-social-link:focus-visible {
 
 @media (max-width: 767px) {
   .hero-v2 {
-    min-height: 100svh;
+    --hero-mobile-slider-h: 70svh;
+    min-height: auto;
     padding-top: var(--nav-h);
   }
 
   .hero-v2 > .section-inner {
     display: flex;
     width: 100%;
-    min-height: calc(100svh - var(--nav-h));
+    min-height: var(--hero-mobile-slider-h);
   }
 
   .hero-v2__frame,
   .hero-v2__swiper,
   .hero-v2__swiper .swiper-wrapper,
   .hero-v2__swiper .swiper-slide {
-    min-height: calc(100svh - var(--nav-h)) !important;
+    min-height: var(--hero-mobile-slider-h) !important;
   }
 
   .hero-v2__slide {
@@ -4461,7 +4480,10 @@ html[data-theme="light"] .footer-social-link:focus-visible {
    paints on the third card while preserving the Figma corner shape. */
 .home-features .feature-grid > .feature-card,
 .home-features .feature-grid > .feature-card.feature-card--lead {
+  --feature-card-surface: var(--bg-elevated);
+  --feature-card-border: var(--border);
   isolation: isolate;
+  border: 0 !important;
   overflow: visible !important;
   clip-path: none !important;
   background: transparent !important;
@@ -4473,9 +4495,8 @@ html[data-theme="light"] .footer-social-link:focus-visible {
   position: absolute;
   inset: 0;
   z-index: 0;
-  border: 1px solid var(--border);
   border-radius: var(--shape-card-radius);
-  background: var(--bg-elevated);
+  background: var(--feature-card-border);
   box-shadow: var(--shadow-soft);
   clip-path: polygon(
     0 0,
@@ -4487,15 +4508,32 @@ html[data-theme="light"] .footer-social-link:focus-visible {
   pointer-events: none;
 }
 
-html:not([data-theme="dark"]) .home-features .feature-grid > .feature-card::before,
-html[data-theme="light"] .home-features .feature-grid > .feature-card::before {
-  background: linear-gradient(180deg, #fbf9ff 0%, #ede9ff 100%);
-  border-color: #9ca6c8;
+.home-features .feature-grid > .feature-card::after {
+  content: "" !important;
+  position: absolute;
+  inset: 1px;
+  z-index: 0;
+  border-radius: calc(var(--shape-card-radius) - 1px);
+  background: var(--feature-card-surface);
+  clip-path: polygon(
+    0 0,
+    calc(100% - var(--shape-corner-cut) + 1px) 0,
+    100% calc(var(--shape-corner-cut) - 1px),
+    100% 100%,
+    0 100%
+  );
+  pointer-events: none;
 }
 
-html[data-theme="dark"] .home-features .feature-grid > .feature-card::before {
-  background: #182131;
-  border-color: rgba(203, 213, 225, 0.2);
+html:not([data-theme="dark"]) .home-features .feature-grid > .feature-card,
+html[data-theme="light"] .home-features .feature-grid > .feature-card {
+  --feature-card-surface: linear-gradient(180deg, #fbf9ff 0%, #ede9ff 100%);
+  --feature-card-border: #9ca6c8;
+}
+
+html[data-theme="dark"] .home-features .feature-grid > .feature-card {
+  --feature-card-surface: #182131;
+  --feature-card-border: rgba(203, 213, 225, 0.2);
 }
 
 .home-features .feature-grid > .feature-card > * {

@@ -91,7 +91,7 @@
           </div>
 
           @if ($recaptchaEnabled)
-            <div class="flex justify-center">
+            <div class="contact-recaptcha flex justify-center">
               <div class="g-recaptcha" data-sitekey="{{ $recaptchaSiteKey }}"></div>
             </div>
           @else
