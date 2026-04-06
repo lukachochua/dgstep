@@ -19,6 +19,22 @@ test('home page renders editable home copy while keeping featured services data-
             'en' => 'Custom Hero Kicker',
             'ka' => 'მორგებული ჰირო ქიქერი',
         ],
+        'hero_primary_cta' => [
+            'en' => 'Custom Hero Primary',
+            'ka' => 'მორგებული hero primary',
+        ],
+        'hero_secondary_cta' => [
+            'en' => 'Custom Hero Secondary',
+            'ka' => 'მორგებული hero secondary',
+        ],
+        'hero_visual_label' => [
+            'en' => 'Custom hero visual label',
+            'ka' => 'მორგებული hero visual label',
+        ],
+        'hero_visual_point' => [
+            'en' => 'Custom hero visual point',
+            'ka' => 'მორგებული hero visual point',
+        ],
         'hero_slide_label' => [
             'en' => 'Panel',
             'ka' => 'პანელი',
@@ -153,8 +169,10 @@ test('home page renders editable home copy while keeping featured services data-
         ->assertSeeText('Custom proof headline')
         ->assertSeeText('Custom Focus Value')
         ->assertSeeText('Hero slide subtitle.')
-        ->assertSeeText('Contact us')
-        ->assertSeeText('Services')
+        ->assertSeeText('Custom Hero Primary')
+        ->assertSeeText('Custom Hero Secondary')
+        ->assertSeeText('Custom hero visual label')
+        ->assertSeeText('Custom hero visual point')
         ->assertSeeText('Custom solutions title')
         ->assertSeeText('Custom CTA Title')
         ->assertSeeText('Featured Service')

@@ -10,7 +10,7 @@
     $recaptchaEnabled = $recaptchaEnabled ?? (filled($recaptchaSiteKey) && filled(config('services.recaptcha.secret_key')));
   @endphp
 
-  <section class="section-block">
+  <section class="section-block contact-page">
     <div class="section-inner grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
       <div class="space-y-5 reveal">
         <span class="section-kicker">{{ __('contact.tagline') }}</span>
@@ -31,7 +31,7 @@
         </x-ui.button>
       </div>
 
-      <x-ui.surface-card class="p-6 md:p-8 reveal reveal-delay-1" id="contact-form">
+      <x-ui.surface-card class="contact-form-card p-6 md:p-8 reveal reveal-delay-1" id="contact-form">
         <form
           x-data="contactForm({
             initial: {
@@ -109,6 +109,7 @@
           </x-ui.button>
         </form>
       </x-ui.surface-card>
+
     </div>
   </section>
 

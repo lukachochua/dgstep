@@ -81,10 +81,29 @@ class HomePageResource extends Resource
                                         ->schema([
                                             Forms\Components\Section::make('Hero')
                                                 ->icon('heroicon-o-sparkles')
+                                                ->description('Hero slide title, subtitle, image, and order are managed under Hero Slides. These fields control the shared hero text around the slider.')
+                                                ->columns(2)
                                                 ->schema([
-                                                    Forms\Components\Placeholder::make("hero_summary_$code")
-                                                        ->label('Hero structure')
-                                                        ->content('Hero slide text, image, and order are managed under Hero Slides. The front end always shows two fixed links: Contact and Services.'),
+                                                    Forms\Components\TextInput::make("hero_primary_cta.$code")
+                                                        ->label('Primary button')
+                                                        ->maxLength(120)
+                                                        ->required(),
+                                                    Forms\Components\TextInput::make("hero_secondary_cta.$code")
+                                                        ->label('Secondary link')
+                                                        ->maxLength(120)
+                                                        ->required(),
+                                                    Forms\Components\TextInput::make("hero_visual_label.$code")
+                                                        ->label('Visual stat label')
+                                                        ->helperText('Small label shown above the visual stat text.')
+                                                        ->maxLength(120)
+                                                        ->required()
+                                                        ->columnSpanFull(),
+                                                    Forms\Components\TextInput::make("hero_visual_point.$code")
+                                                        ->label('Visual stat text')
+                                                        ->helperText('Small text shown in the floating card over the hero image.')
+                                                        ->maxLength(180)
+                                                        ->required()
+                                                        ->columnSpanFull(),
                                                 ]),
 
                                             Forms\Components\Section::make('Section Under Hero')

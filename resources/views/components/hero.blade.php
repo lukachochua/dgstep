@@ -24,6 +24,27 @@
   }
 
   $totalSlides = count($normalizedSlides);
+  $fallbackVisual = asset('images/figma/cyber-lab.png');
+  $primaryCta = data_get($content, 'primary_cta', __('messages.hero.primary_cta'));
+  $secondaryCta = data_get($content, 'secondary_cta', __('messages.hero.secondary_cta'));
+  $visualLabel = data_get($content, 'visual_label', __('messages.hero.visual_card_kicker'));
+  $visualPoint = data_get($content, 'visual_point', data_get(__('messages.hero.visual_points'), '0.value', __('messages.hero.image_alt')));
+
+  if (blank($primaryCta)) {
+      $primaryCta = __('messages.hero.primary_cta');
+  }
+
+  if (blank($secondaryCta)) {
+      $secondaryCta = __('messages.hero.secondary_cta');
+  }
+
+  if (blank($visualLabel)) {
+      $visualLabel = __('messages.hero.visual_card_kicker');
+  }
+
+  if (blank($visualPoint)) {
+      $visualPoint = data_get(__('messages.hero.visual_points'), '0.value', __('messages.hero.image_alt'));
+  }
 @endphp
 
 <section
@@ -46,10 +67,10 @@
               'swiper-slide hero-v2__slide',
               'hero-v2__slide--lead' => $loop->first,
             ])>
-              <p class="hero-v2__eyebrow">{{ data_get($content, 'kicker', __('messages.hero.kicker')) }}</p>
-
               <div class="hero-v2__grid">
                 <div class="hero-v2__content">
+                  <p class="hero-v2__eyebrow">{{ data_get($content, 'kicker', __('messages.hero.kicker')) }}</p>
+
                   <div class="hero-v2__copy">
                     @php $headingTag = $loop->first ? 'h1' : 'h2'; @endphp
                     <{{ $headingTag }} class="hero-v2__title">
@@ -62,29 +83,31 @@
                   </div>
 
                   <div class="hero-v2__actions">
-                    <x-ui.button route="contact" variant="hero" size="lg">{{ __('messages.hero.primary_cta') }}</x-ui.button>
+                    <x-ui.button route="contact" variant="hero" size="lg">{{ $primaryCta }}</x-ui.button>
                     <a href="{{ route('services') }}" class="hero-v2__secondary-link">
-                      {{ __('messages.hero.secondary_cta') }}
+                      {{ $secondaryCta }}
                     </a>
                   </div>
                 </div>
 
                 <div class="hero-v2__visual">
+                  <div class="hero-v2__visual-accent" aria-hidden="true"></div>
                   <div class="hero-v2__media-shell">
                     <div class="hero-v2__media">
-                      @if ($slide['image'])
-                        <img
-                          src="{{ $slide['image'] }}"
-                          alt="{{ data_get($content, 'image_alt', __('messages.hero.image_alt')) }}"
-                          width="1600"
-                          height="1200"
-                          @if($loop->first) loading="eager" fetchpriority="high" @else loading="lazy" @endif
-                          decoding="async"
-                        />
-                      @else
-                        <div class="hero-v2__media-fallback"></div>
-                      @endif
+                      <img
+                        src="{{ $slide['image'] ?: $fallbackVisual }}"
+                        alt="{{ data_get($content, 'image_alt', __('messages.hero.image_alt')) }}"
+                        width="1200"
+                        height="1200"
+                        @if($loop->first) loading="eager" fetchpriority="high" @else loading="lazy" @endif
+                        decoding="async"
+                      />
                     </div>
+                  </div>
+
+                  <div class="hero-v2__stat-card" aria-hidden="true">
+                    <span>{{ $visualLabel }}</span>
+                    <strong>{{ $visualPoint }}</strong>
                   </div>
                 </div>
               </div>

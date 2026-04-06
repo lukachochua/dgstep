@@ -28,7 +28,7 @@ class HeroSlideResource extends Resource
     {
         return $form->schema([
             Section::make(__('Hero Content'))
-                ->description('Edit only the slide order, text, and image. Homepage actions are fixed on the front end as Contact and Services.')
+                ->description('Edit the slide order, title, subtitle, and image. Shared hero action labels are managed under Home Page Copy; their destinations remain Contact and Services.')
                 ->schema([
                     TextInput::make('sort_order')
                         ->label('Slide order')

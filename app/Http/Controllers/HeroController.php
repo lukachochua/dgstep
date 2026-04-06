@@ -61,7 +61,10 @@ class HeroController extends Controller
             'title' => $this->localizedText($page->title, $locale),
             'hero' => [
                 'kicker' => $this->localizedText($page->hero_kicker, $locale),
+                'primary_cta' => $this->localizedText($page->hero_primary_cta, $locale) ?: __('messages.hero.primary_cta', [], $locale),
                 'secondary_cta' => $this->localizedText($page->hero_secondary_cta, $locale),
+                'visual_label' => $this->localizedText($page->hero_visual_label, $locale) ?: __('messages.hero.visual_card_kicker', [], $locale),
+                'visual_point' => $this->localizedText($page->hero_visual_point, $locale) ?: __('messages.hero.visual_points.0.value', [], $locale),
                 'slide_label' => $this->localizedText($page->hero_slide_label, $locale),
                 'slide_announcement' => $this->localizedText($page->hero_slide_announcement, $locale),
                 'image_alt' => $this->localizedText($page->hero_image_alt, $locale),

@@ -13,7 +13,10 @@ class HomePage extends Model
     protected $fillable = [
         'title',
         'hero_kicker',
+        'hero_primary_cta',
         'hero_secondary_cta',
+        'hero_visual_label',
+        'hero_visual_point',
         'hero_slide_label',
         'hero_slide_announcement',
         'hero_image_alt',
@@ -44,7 +47,10 @@ class HomePage extends Model
     public array $translatable = [
         'title',
         'hero_kicker',
+        'hero_primary_cta',
         'hero_secondary_cta',
+        'hero_visual_label',
+        'hero_visual_point',
         'hero_slide_label',
         'hero_slide_announcement',
         'hero_image_alt',
@@ -83,9 +89,21 @@ class HomePage extends Model
                 'en' => Lang::get('messages.hero.kicker', [], 'en'),
                 'ka' => Lang::get('messages.hero.kicker', [], 'ka'),
             ],
+            'hero_primary_cta' => [
+                'en' => Lang::get('messages.hero.primary_cta', [], 'en'),
+                'ka' => Lang::get('messages.hero.primary_cta', [], 'ka'),
+            ],
             'hero_secondary_cta' => [
                 'en' => Lang::get('messages.hero.secondary_cta', [], 'en'),
                 'ka' => Lang::get('messages.hero.secondary_cta', [], 'ka'),
+            ],
+            'hero_visual_label' => [
+                'en' => Lang::get('messages.hero.visual_card_kicker', [], 'en'),
+                'ka' => Lang::get('messages.hero.visual_card_kicker', [], 'ka'),
+            ],
+            'hero_visual_point' => [
+                'en' => Lang::get('messages.hero.visual_points.0.value', [], 'en'),
+                'ka' => Lang::get('messages.hero.visual_points.0.value', [], 'ka'),
             ],
             'hero_slide_label' => [
                 'en' => Lang::get('messages.hero.slide_label', [], 'en'),

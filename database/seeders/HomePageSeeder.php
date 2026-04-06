@@ -17,7 +17,10 @@ class HomePageSeeder extends Seeder
             foreach ([
                 'title',
                 'hero_kicker',
+                'hero_primary_cta',
                 'hero_secondary_cta',
+                'hero_visual_label',
+                'hero_visual_point',
                 'hero_slide_label',
                 'hero_slide_announcement',
                 'hero_image_alt',

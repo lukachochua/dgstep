@@ -27,7 +27,7 @@
       <p class="section-lead">{{ $subtitle }}</p>
     </div>
 
-    <div class="feature-grid" data-reveal-ltr-group>
+    <div class="feature-grid">
       @if ($hasDbItems)
         @foreach ($items as $service)
           @php
@@ -44,11 +44,7 @@
           <x-ui.media-card
             as="article"
             variant="feature"
-            class="{{ $loop->first ? 'feature-card--lead feature-card--lead-primary p-5 md:p-6' : 'feature-card--support p-4 md:p-5' }} ltr-reveal"
-            data-reveal-ltr
-            data-card-link="{{ $serviceHref }}"
-            tabindex="0"
-            role="link"
+            class="{{ $loop->first ? 'feature-card--lead feature-card--lead-primary p-5 md:p-6' : 'feature-card--support p-4 md:p-5' }}"
             aria-label="{{ $name }}"
             :image="$cardImage"
             :imageAlt="$imageAlt"
@@ -68,11 +64,7 @@
           <x-ui.media-card
             as="article"
             variant="feature"
-            class="{{ $loop->first ? 'feature-card--lead feature-card--lead-primary p-5 md:p-6' : 'feature-card--support p-4 md:p-5' }} ltr-reveal"
-            data-reveal-ltr
-            data-card-link="{{ route('services') }}"
-            tabindex="0"
-            role="link"
+            class="{{ $loop->first ? 'feature-card--lead feature-card--lead-primary p-5 md:p-6' : 'feature-card--support p-4 md:p-5' }}"
             aria-label="{{ $card['title'] ?? __('services.our_key_services') }}"
             :image="$fallbackImage"
             :imageAlt="__('messages.features.image_alt', ['name' => ($card['title'] ?? __('services.our_key_services'))])"
