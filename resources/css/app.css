@@ -3179,6 +3179,8 @@ html[data-theme="light"] .service-entry,
 html[data-theme="light"] .services-hero__shell,
 html[data-theme="light"] .services-cta,
 html[data-theme="light"] .home-proof__frame {
+  --clipped-card-border: var(--border);
+  --clipped-card-surface: var(--bg-elevated);
   border-color: var(--border);
   background: var(--bg-elevated);
   box-shadow: var(--shadow-soft);
@@ -3555,6 +3557,8 @@ html[data-theme="dark"] .hero-v2__stat-card {
 html[data-theme="dark"] .home-proof__frame,
 html[data-theme="dark"] .feature-card,
 html[data-theme="dark"] .project-card {
+  --clipped-card-border: rgba(203, 213, 225, 0.2);
+  --clipped-card-surface: #182131;
   border-color: rgba(203, 213, 225, 0.2);
   background: #182131;
 }
@@ -3605,10 +3609,17 @@ html[data-theme="dark"] .feature-card__description {
 }
 
 .home-cta .btn-primary {
-  background: #ffffff;
-  border-color: #ffffff;
-  color: #423bbc;
-  box-shadow: none;
+  background: #423bbc;
+  border-color: #423bbc;
+  color: #ffffff;
+  box-shadow: 0 16px 32px rgba(66, 59, 188, 0.24);
+}
+
+.home-cta .btn-primary:hover,
+.home-cta .btn-primary:focus-visible {
+  background: #302a9b;
+  border-color: #302a9b;
+  color: #ffffff;
 }
 
 .services-page__stack {
@@ -4123,7 +4134,21 @@ html[data-theme="light"] :where(.home-cta, .projects-proof-band) :where(h1, h2, 
 
 html[data-theme="light"] .home-cta .btn-primary,
 html[data-theme="light"] .home-cta .btn-primary .btn__label {
+  color: #ffffff;
+}
+
+html[data-theme="light"] .home-cta .section-title,
+html[data-theme="light"] .home-cta .section-lead {
+  color: #0f172a;
+}
+
+html[data-theme="light"] .home-cta__secondary-link {
   color: #423bbc;
+}
+
+html[data-theme="light"] .home-cta__secondary-link:hover,
+html[data-theme="light"] .home-cta__secondary-link:focus-visible {
+  color: #302a9b;
 }
 
 /* Final hero/footer adjustments. */
@@ -4315,18 +4340,24 @@ html[data-theme="light"] .hero-v2 {
 
 html:not([data-theme="dark"]) :where(.panel, .panel-soft, .services-hero__shell, .about-hero-card, .projects-hero-card),
 html[data-theme="light"] :where(.panel, .panel-soft, .services-hero__shell, .about-hero-card, .projects-hero-card) {
+  --clipped-card-border: #99a4cc;
+  --clipped-card-surface: linear-gradient(180deg, #fffeff 0%, #f0edff 100%);
   background: linear-gradient(180deg, #fffeff 0%, #f0edff 100%) !important;
   border-color: #99a4cc !important;
 }
 
 html:not([data-theme="dark"]) :where(.feature-card, .project-card, .projects-card, .team-card, .metric-card, .about-principle-card, .service-cue-card),
 html[data-theme="light"] :where(.feature-card, .project-card, .projects-card, .team-card, .metric-card, .about-principle-card, .service-cue-card) {
+  --clipped-card-border: #9ca6c8;
+  --clipped-card-surface: linear-gradient(180deg, #fbf9ff 0%, #ede9ff 100%);
   background: linear-gradient(180deg, #fbf9ff 0%, #ede9ff 100%) !important;
   border-color: #9ca6c8 !important;
 }
 
 html:not([data-theme="dark"]) :where(.home-proof__frame, .services-proof, .service-entry, .contact-form-card, .contact-page .section-inner > .space-y-5),
 html[data-theme="light"] :where(.home-proof__frame, .services-proof, .service-entry, .contact-form-card, .contact-page .section-inner > .space-y-5) {
+  --clipped-card-border: #8f9fb7;
+  --clipped-card-surface: linear-gradient(180deg, #e8edf6 0%, #d3ddea 100%);
   background: linear-gradient(180deg, #e8edf6 0%, #d3ddea 100%) !important;
   border-color: #8f9fb7 !important;
 }
@@ -4499,7 +4530,7 @@ html[data-theme="light"] .footer-social-link:focus-visible {
   z-index: 0;
   border-radius: var(--shape-card-radius);
   background: var(--feature-card-border);
-  box-shadow: var(--shadow-soft);
+  filter: drop-shadow(var(--shadow-soft));
   clip-path: polygon(
     0 0,
     calc(100% - var(--shape-corner-cut)) 0,
@@ -4557,6 +4588,18 @@ html[data-theme="dark"] .home-features .feature-grid > .feature-card {
   box-shadow: none !important;
 }
 
+html .clipped-card {
+  overflow: visible !important;
+  border: 0 !important;
+  clip-path: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.clipped-card:is(.floating-cta) {
+  position: fixed;
+}
+
 .clipped-card::before,
 .clipped-card::after {
   content: "" !important;
@@ -4570,7 +4613,7 @@ html[data-theme="dark"] .home-features .feature-grid > .feature-card {
   z-index: 0;
   border-radius: var(--shape-card-radius);
   background: var(--clipped-card-border);
-  box-shadow: var(--clipped-card-shadow);
+  filter: drop-shadow(var(--clipped-card-shadow));
 }
 
 .clipped-card::after {
