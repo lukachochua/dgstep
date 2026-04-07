@@ -2389,6 +2389,13 @@ html[data-theme="light"] .services-cta {
   overflow: auto;
 }
 
+.about-member-modal > .about-member-modal__close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 2;
+}
+
 .projects-hero-grid {
   display: grid;
   gap: 1.5rem;

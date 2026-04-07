@@ -164,7 +164,7 @@
                 type="button"
                 variant="ghost"
                 size="sm"
-                class="absolute right-4 top-4"
+                class="about-member-modal__close absolute right-4 top-4"
                 @click="closeMemberModal()"
               >
                 {{ $team['close_modal'] }}
