@@ -2297,16 +2297,18 @@ html[data-theme="light"] .services-cta {
   user-select: none;
 }
 
-.editorial-card::before {
+.editorial-card__accent {
   content: "";
   position: absolute;
   inset: 0 auto 0 0;
+  z-index: 2;
   width: 4px;
   border-radius: 999px;
   background: color-mix(in oklab, var(--brand-strong) 74%, var(--accent) 26%);
+  pointer-events: none;
 }
 
-.editorial-card--vision::before {
+.editorial-card--vision .editorial-card__accent {
   background: color-mix(in oklab, var(--accent) 72%, var(--brand-strong) 28%);
 }
 
@@ -3674,7 +3676,7 @@ html[data-theme="dark"] .feature-card__description {
   gap: 1.25rem;
 }
 
-.editorial-card::before {
+.editorial-card__accent {
   width: 3px;
   border-radius: 0;
 }
@@ -4539,4 +4541,104 @@ html[data-theme="dark"] .home-features .feature-grid > .feature-card {
 .home-features .feature-grid > .feature-card > * {
   position: relative;
   z-index: 1;
+}
+
+/* Simulate the diagonal clipped-card border consistently. */
+.clipped-card {
+  --clipped-card-border: var(--border);
+  --clipped-card-surface: var(--bg-elevated);
+  --clipped-card-shadow: var(--shadow-soft);
+  position: relative;
+  isolation: isolate;
+  overflow: visible !important;
+  border: 0 !important;
+  clip-path: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.clipped-card::before,
+.clipped-card::after {
+  content: "" !important;
+  position: absolute;
+  pointer-events: none;
+  clip-path: polygon(0 0, calc(100% - var(--shape-corner-cut)) 0, 100% var(--shape-corner-cut), 100% 100%, 0 100%);
+}
+
+.clipped-card::before {
+  inset: 0;
+  z-index: 0;
+  border-radius: var(--shape-card-radius);
+  background: var(--clipped-card-border);
+  box-shadow: var(--clipped-card-shadow);
+}
+
+.clipped-card::after {
+  inset: 1px;
+  z-index: 0;
+  border-radius: calc(var(--shape-card-radius) - 1px);
+  background: var(--clipped-card-surface);
+  clip-path: polygon(0 0, calc(100% - var(--shape-corner-cut) + 1px) 0, 100% calc(var(--shape-corner-cut) - 1px), 100% 100%, 0 100%);
+}
+
+.clipped-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.clipped-card:is(.hero-detail-card) {
+  --clipped-card-border: color-mix(in oklab, var(--border) 82%, transparent 18%);
+  --clipped-card-surface: color-mix(in oklab, var(--bg-elevated) 82%, transparent 18%);
+}
+
+.clipped-card:is(.home-cta, .projects-proof-band) {
+  --clipped-card-border: #423bbc;
+  --clipped-card-surface: #423bbc;
+}
+
+.clipped-card:is(.projects-cta) {
+  --clipped-card-surface: linear-gradient(135deg, color-mix(in oklab, var(--brand-strong) 10%, var(--bg-elevated) 90%) 0%, color-mix(in oklab, var(--accent) 10%, var(--bg-muted) 90%) 100%);
+}
+
+.clipped-card:is(.floating-cta) {
+  --clipped-card-surface: color-mix(in oklab, var(--bg-elevated) 90%, var(--brand-support) 10%);
+}
+
+html:not([data-theme="dark"]) .clipped-card:is(.panel, .panel-soft, .services-hero__shell, .about-hero-card, .projects-hero-card),
+html[data-theme="light"] .clipped-card:is(.panel, .panel-soft, .services-hero__shell, .about-hero-card, .projects-hero-card) {
+  --clipped-card-surface: linear-gradient(180deg, #fffeff 0%, #f0edff 100%);
+  --clipped-card-border: #99a4cc;
+}
+
+html:not([data-theme="dark"]) .clipped-card:is(.feature-card, .project-card, .projects-card, .team-card, .metric-card, .about-principle-card, .service-cue-card),
+html[data-theme="light"] .clipped-card:is(.feature-card, .project-card, .projects-card, .team-card, .metric-card, .about-principle-card, .service-cue-card) {
+  --clipped-card-surface: linear-gradient(180deg, #fbf9ff 0%, #ede9ff 100%);
+  --clipped-card-border: #9ca6c8;
+}
+
+html:not([data-theme="dark"]) .clipped-card:is(.home-proof__frame, .services-proof, .service-entry, .contact-form-card, .contact-page .section-inner > .space-y-5),
+html[data-theme="light"] .clipped-card:is(.home-proof__frame, .services-proof, .service-entry, .contact-form-card, .contact-page .section-inner > .space-y-5) {
+  --clipped-card-surface: linear-gradient(180deg, #e8edf6 0%, #d3ddea 100%);
+  --clipped-card-border: #8f9fb7;
+}
+
+html:not([data-theme="dark"]) .clipped-card:is(.floating-cta),
+html[data-theme="light"] .clipped-card:is(.floating-cta) {
+  --clipped-card-surface: color-mix(in oklab, #f6f1ff 88%, var(--brand-base) 12%);
+  --clipped-card-border: color-mix(in oklab, var(--brand-secondary) 14%, var(--border) 86%);
+}
+
+html[data-theme="dark"] .clipped-card:is(.feature-card, .project-card, .home-proof__frame) {
+  --clipped-card-border: rgba(203, 213, 225, 0.2);
+  --clipped-card-surface: #182131;
+}
+
+.clipped-card:is(.project-card:hover, .team-card:hover) {
+  --clipped-card-border: color-mix(in oklab, var(--brand-secondary) 28%, var(--border) 72%);
+  --clipped-card-shadow: var(--shadow);
+}
+
+.editorial-card__accent {
+  position: absolute;
+  z-index: 2;
 }

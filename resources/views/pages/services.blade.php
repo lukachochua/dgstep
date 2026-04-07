@@ -39,7 +39,7 @@
       </header>
 
       @if ($page['proof_items'] !== [])
-        <section class="services-proof reveal reveal-delay-1" aria-labelledby="services-proof-title">
+        <section class="clipped-card services-proof reveal reveal-delay-1" aria-labelledby="services-proof-title">
           <div class="services-proof__head">
             <h2 id="services-proof-title" class="services-proof__title">{{ $page['proof_heading'] }}</h2>
             <p class="services-proof__body whitespace-pre-line">{{ $page['proof_body'] }}</p>

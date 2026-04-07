@@ -12,7 +12,7 @@
 
   <section class="section-block contact-page">
     <div class="section-inner grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-      <div class="space-y-5 reveal">
+      <div class="clipped-card space-y-5 reveal">
         <span class="section-kicker">{{ __('contact.tagline') }}</span>
         <h1 class="section-title">{{ $headline }}</h1>
         <p class="section-lead">{{ $desc }}</p>

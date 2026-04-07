@@ -3,7 +3,7 @@
 
   <section class="home-proof section-block pt-0">
     <div class="section-inner">
-      <div class="home-proof__frame">
+      <div class="clipped-card home-proof__frame">
         <div class="home-proof__intro">
           <p class="home-proof__eyebrow">{{ $homePage['proof']['kicker'] }}</p>
           <h2 class="section-title">{{ $homePage['proof']['title'] }}</h2>

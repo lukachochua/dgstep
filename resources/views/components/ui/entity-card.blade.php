@@ -7,12 +7,12 @@
   $tag = in_array($as, ['div', 'article', 'section', 'aside', 'button', 'a'], true) ? $as : 'article';
 
   $variantClasses = match ($variant) {
-      'service' => ['service-card'],
-      'team' => ['team-card'],
-      'project' => ['project-card'],
-      'legal' => ['legal-card'],
-      'auth' => ['auth-card'],
-      default => ['feature-card'],
+      'service' => ['clipped-card', 'service-card'],
+      'team' => ['clipped-card', 'team-card'],
+      'project' => ['clipped-card', 'project-card'],
+      'legal' => ['clipped-card', 'legal-card'],
+      'auth' => ['clipped-card', 'auth-card'],
+      default => ['clipped-card', 'feature-card'],
   };
 
   $attributesBag = $attributes->class($variantClasses);

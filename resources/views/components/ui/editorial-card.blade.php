@@ -11,6 +11,7 @@
 @endphp
 
 <x-ui.surface-card :as="$as" {{ $attributes->class([$toneClass]) }}>
+  <span class="editorial-card__accent" aria-hidden="true"></span>
   @if (filled($label))
     <span class="editorial-card__label">{{ $label }}</span>
   @endif
