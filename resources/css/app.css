@@ -4639,6 +4639,11 @@ html .clipped-card {
   --clipped-card-surface: #423bbc;
 }
 
+html[data-theme="dark"] .clipped-card:is(.home-cta) {
+  --clipped-card-border: var(--border);
+  --clipped-card-surface: var(--bg-elevated);
+}
+
 .clipped-card:is(.projects-cta) {
   --clipped-card-surface: linear-gradient(135deg, color-mix(in oklab, var(--brand-strong) 10%, var(--bg-elevated) 90%) 0%, color-mix(in oklab, var(--accent) 10%, var(--bg-muted) 90%) 100%);
 }
