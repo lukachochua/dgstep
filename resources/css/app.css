@@ -543,14 +543,12 @@ html[data-theme="light"] .panel-soft {
   bottom: 0;
   border-radius: 0;
   background: transparent;
-  opacity: 1;
+  opacity: 0;
   pointer-events: none;
   transition:
     inset-inline 460ms var(--nav-ease),
-    border-radius 460ms var(--nav-ease),
     box-shadow 460ms var(--nav-ease),
-    border-color 340ms ease,
-    background 340ms ease;
+    opacity 160ms ease;
   border: 1px solid transparent;
   box-shadow: none;
 }
@@ -574,9 +572,7 @@ html[data-theme="light"] .panel-soft {
     inset-inline 460ms var(--nav-ease),
     top 460ms var(--nav-ease),
     bottom 460ms var(--nav-ease),
-    border-radius 460ms var(--nav-ease),
-    background 340ms ease,
-    clip-path 460ms var(--nav-ease);
+    background 340ms ease;
 }
 
 html[data-theme="light"] .nav-shell::after {
@@ -2989,6 +2985,7 @@ html[data-theme="light"] .footer-shell {
     border-color: color-mix(in oklab, var(--brand-secondary) 16%, var(--border) 84%);
     box-shadow: 0 14px 32px color-mix(in oklab, var(--brand-support-deep) 14%, transparent);
     opacity: 0.9;
+    transition-delay: 0ms, 0ms, 220ms;
   }
 
   .nav-inner {
