@@ -6,7 +6,7 @@
       <p class="mt-2 text-sm text-[color:var(--text-muted)]">{{ __('auth.login.subtitle') }}</p>
 
       @if ($errors->any())
-        <div class="mt-4 rounded-lg border border-[color:var(--danger)]/40 bg-[color:var(--danger)]/10 px-3 py-2 text-sm text-[color:var(--danger)]">
+        <div class="feedback-banner feedback-banner--error mt-4">
           {{ $errors->first() }}
         </div>
       @endif
@@ -36,7 +36,7 @@
         </div>
 
         <button type="submit" class="btn btn-lg btn-primary w-full justify-center">
-          {{ __('auth.login.submit') }}
+          <span class="btn__label">{{ __('auth.login.submit') }}</span>
         </button>
       </form>
 

@@ -56,13 +56,13 @@
           @csrf
 
           @if (session('success'))
-            <div class="rounded-lg border border-[color:var(--ok)]/40 bg-[color:var(--ok)]/12 px-3 py-2 text-sm font-medium text-[color:var(--ok)]">
+            <div class="feedback-banner feedback-banner--success">
               {{ session('success') }}
             </div>
           @endif
 
           @if (session('warning'))
-            <div class="rounded-lg border border-[color:var(--accent)]/50 bg-[color:var(--accent-soft)] px-3 py-2 text-sm font-medium text-[color:var(--text)]">
+            <div class="feedback-banner feedback-banner--warning">
               {{ session('warning') }}
             </div>
           @endif
@@ -95,7 +95,7 @@
               <div class="g-recaptcha" data-sitekey="{{ $recaptchaSiteKey }}"></div>
             </div>
           @else
-            <p class="rounded-lg border border-[color:var(--accent)]/50 bg-[color:var(--accent-soft)] px-3 py-2 text-sm text-[color:var(--text)]">
+            <p class="feedback-banner feedback-banner--warning">
               {{ __('contact.validation.captcha_unavailable') }}
             </p>
           @endif

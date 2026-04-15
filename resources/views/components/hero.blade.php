@@ -27,9 +27,6 @@
   $fallbackVisual = asset('images/figma/cyber-lab.png');
   $primaryCta = data_get($content, 'primary_cta', __('messages.hero.primary_cta'));
   $secondaryCta = data_get($content, 'secondary_cta', __('messages.hero.secondary_cta'));
-  $visualLabel = data_get($content, 'visual_label', __('messages.hero.visual_card_kicker'));
-  $visualPoint = data_get($content, 'visual_point', data_get(__('messages.hero.visual_points'), '0.value', __('messages.hero.image_alt')));
-
   if (blank($primaryCta)) {
       $primaryCta = __('messages.hero.primary_cta');
   }
@@ -38,13 +35,6 @@
       $secondaryCta = __('messages.hero.secondary_cta');
   }
 
-  if (blank($visualLabel)) {
-      $visualLabel = __('messages.hero.visual_card_kicker');
-  }
-
-  if (blank($visualPoint)) {
-      $visualPoint = data_get(__('messages.hero.visual_points'), '0.value', __('messages.hero.image_alt'));
-  }
 @endphp
 
 <section
@@ -69,6 +59,7 @@
             ])>
               <div class="hero-v2__grid">
                 <div class="hero-v2__content">
+                  <div class="hero-v2__content-backdrop" aria-hidden="true"></div>
                   <p class="hero-v2__eyebrow">{{ data_get($content, 'kicker', __('messages.hero.kicker')) }}</p>
 
                   <div class="hero-v2__copy">
@@ -91,7 +82,6 @@
                 </div>
 
                 <div class="hero-v2__visual">
-                  <div class="hero-v2__visual-accent" aria-hidden="true"></div>
                   <div class="hero-v2__media-shell">
                     <div class="hero-v2__media">
                       <img
@@ -103,11 +93,6 @@
                         decoding="async"
                       />
                     </div>
-                  </div>
-
-                  <div class="hero-v2__stat-card" aria-hidden="true">
-                    <span>{{ $visualLabel }}</span>
-                    <strong>{{ $visualPoint }}</strong>
                   </div>
                 </div>
               </div>

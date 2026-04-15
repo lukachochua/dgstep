@@ -6,13 +6,13 @@
       <p class="mt-2 text-sm text-[color:var(--text-muted)]">{{ __('auth.forgot_password.subtitle') }}</p>
 
       @if (session('status'))
-        <div class="mt-4 rounded-lg border border-[color:var(--ok)]/40 bg-[color:var(--ok)]/10 px-3 py-2 text-sm text-[color:var(--ok)]">
+        <div class="feedback-banner feedback-banner--success mt-4">
           {{ session('status') }}
         </div>
       @endif
 
       @if ($errors->any())
-        <div class="mt-4 rounded-lg border border-[color:var(--danger)]/40 bg-[color:var(--danger)]/10 px-3 py-2 text-sm text-[color:var(--danger)]">
+        <div class="feedback-banner feedback-banner--error mt-4">
           {{ $errors->first() }}
         </div>
       @endif
@@ -26,7 +26,7 @@
         </div>
 
         <button type="submit" class="btn btn-lg btn-primary w-full justify-center">
-          {{ __('auth.forgot_password.submit') }}
+          <span class="btn__label">{{ __('auth.forgot_password.submit') }}</span>
         </button>
       </form>
 
