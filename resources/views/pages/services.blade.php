@@ -38,7 +38,7 @@
         </x-ui.surface-card>
       </header>
 
-      @if ($page['proof_items'] !== [])
+      {{-- @if ($page['proof_items'] !== [])
         <section class="clipped-card services-proof reveal reveal-delay-1" aria-labelledby="services-proof-title">
           <div class="services-proof__head">
             <h2 id="services-proof-title" class="services-proof__title">{{ $page['proof_heading'] }}</h2>
@@ -51,7 +51,7 @@
             @endforeach
           </ul>
         </section>
-      @endif
+      @endif --}}
 
       <div id="services-list" class="services-list stagger">
         @foreach ($services as $service)
@@ -62,7 +62,7 @@
             :image="$service['image']"
             :imageAlt="$service['image_alt']"
             :slug="$service['slug']"
-            :problems="$service['problems']"
+            {{-- :problems="$service['problems']" --}}
             :index="$service['index']"
             :cueLabel="$service['cue_label']"
             :problemsHeading="$page['card_problems_heading']"
