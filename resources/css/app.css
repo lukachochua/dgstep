@@ -87,6 +87,8 @@
 }
 
 :root[data-theme="dark"] {
+  --footer-surface: linear-gradient(135deg, #171b2d 0%, #272a6a 56%, #3d37a6 100%);
+  --nested-card-surface: #18212e;
   --brand-base: #5a3fd9;
   --brand-secondary: var(--brand-base);
   --brand-support: color-mix(in oklab, var(--brand-secondary) 78%, #ffffff 22%);
@@ -3045,7 +3047,7 @@ html[data-theme="dark"] .home-proof__frame,
 html[data-theme="dark"] .feature-card,
 html[data-theme="dark"] .project-card {
   --clipped-card-border: rgba(203, 213, 225, 0.2);
-  --clipped-card-surface: #182131;
+  --clipped-card-surface: var(--footer-surface);
 }
 
 html[data-theme="dark"] .home-proof__frame,
@@ -3182,85 +3184,16 @@ html[data-theme="dark"] .feature-card__description {
   border-radius: 0.45rem;
 }
 
-html[data-theme="light"] :where(
-  .panel,
-  .panel-soft,
-  .feature-card,
-  .project-card,
-  .projects-card,
-  .team-card,
-  .about-team-lead,
-  .about-member-button,
-  .about-member-modal,
-  .about-hero-card,
-  .about-principle-card,
-  .about-proof-chip,
-  .service-entry,
-  .services-hero__shell,
-  .services-proof,
-  .services-cta,
-  .metric-card,
-  .contact-form-card,
-  .contact-page .section-inner > .space-y-5,
-  .auth-card,
-  .legal-card,
-  .floating-cta
-) {
+html[data-theme="light"] :where(.clipped-card, .about-proof-chip) {
   color: #0f172a;
 }
 
-html[data-theme="light"] :where(
-  .panel,
-  .panel-soft,
-  .feature-card,
-  .project-card,
-  .projects-card,
-  .team-card,
-  .about-team-lead,
-  .about-member-button,
-  .about-member-modal,
-  .about-hero-card,
-  .about-principle-card,
-  .about-proof-chip,
-  .service-entry,
-  .services-hero__shell,
-  .services-proof,
-  .services-cta,
-  .metric-card,
-  .contact-form-card,
-  .contact-page .section-inner > .space-y-5,
-  .auth-card,
-  .legal-card,
-  .floating-cta
-) :where(h1, h2, h3, h4, strong, .section-title, .feature-card__title, .service-entry__title, .services-proof__title, .floating-cta__title) {
+html[data-theme="light"] :where(.clipped-card, .about-proof-chip) :where(h1, h2, h3, h4, strong, .section-title, .feature-card__title, .service-entry__title, .services-proof__title, .floating-cta__title) {
   color: #0f172a;
   text-shadow: none;
 }
 
-html[data-theme="light"] :where(
-  .panel,
-  .panel-soft,
-  .feature-card,
-  .project-card,
-  .projects-card,
-  .team-card,
-  .about-team-lead,
-  .about-member-button,
-  .about-member-modal,
-  .about-hero-card,
-  .about-principle-card,
-  .about-proof-chip,
-  .service-entry,
-  .services-hero__shell,
-  .services-proof,
-  .services-cta,
-  .metric-card,
-  .contact-form-card,
-  .contact-page .section-inner > .space-y-5,
-  .auth-card,
-  .legal-card,
-  .floating-cta
-) :where(p, li, label, figcaption, .section-lead, .feature-card__description, .project-card-copy, .editorial-card__body, .service-entry__lead, .services-proof__body, .field-label) {
+html[data-theme="light"] :where(.clipped-card, .about-proof-chip) :where(p, li, label, figcaption, .section-lead, .feature-card__description, .project-card-copy, .editorial-card__body, .service-entry__lead, .services-proof__body, .field-label) {
   color: #334155;
   text-shadow: none;
 }
@@ -3480,7 +3413,7 @@ html[data-theme="light"] .clipped-card:is(.floating-cta) {
 
 html[data-theme="dark"] .clipped-card:is(.feature-card, .project-card, .home-proof__frame) {
   --clipped-card-border: rgba(203, 213, 225, 0.2);
-  --clipped-card-surface: #182131;
+  --clipped-card-surface: var(--footer-surface);
 }
 
 .clipped-card:is(.project-card:hover, .team-card:hover) {
@@ -3860,13 +3793,7 @@ html[data-theme="light"] .home-cta .btn-primary:focus-visible {
 .footer-shell,
 html[data-theme="light"] .footer-shell {
   border-top: 1px solid rgba(91, 86, 214, 0.3);
-  background:
-    linear-gradient(
-      135deg,
-      #171b2d 0%,
-      #272a6a 56%,
-      #3d37a6 100%
-    );
+  background: var(--footer-surface, linear-gradient(135deg, #171b2d 0%, #272a6a 56%, #3d37a6 100%));
 }
 
 .footer-inner {
@@ -4034,7 +3961,7 @@ html[data-theme="light"] .footer-social-link:focus-visible {
 
 html[data-theme="dark"] .home-features .feature-grid > .feature-card,
 html[data-theme="dark"] .home-features .feature-card__title {
-  --feature-card-surface: #18212e;
+  --feature-card-surface: var(--nested-card-surface);
   --feature-card-border: rgba(226, 232, 240, 0.14);
   color: #f8fafc;
 }
@@ -4071,8 +3998,16 @@ html[data-theme="dark"] .clipped-card:is(
   .projects-cta
 ) {
   --clipped-card-border: rgba(226, 232, 240, 0.14);
-  --clipped-card-surface: #18212e;
+  --clipped-card-surface: var(--footer-surface);
   --clipped-card-shadow: 0 16px 34px rgba(2, 6, 23, 0.22);
+}
+
+html[data-theme="dark"] .clipped-card {
+  --clipped-card-surface: var(--footer-surface);
+}
+
+html[data-theme="dark"] .clipped-card .clipped-card {
+  --clipped-card-surface: var(--nested-card-surface);
 }
 
 @media (max-width: 1023px) {
