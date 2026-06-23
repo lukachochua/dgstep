@@ -147,99 +147,6 @@ class AboutPage extends Model
                 'en' => 'DGstep • SaaS for regulated services',
                 'ka' => 'DGstep • SaaS რეგულირებადი სერვისებისთვის',
             ],
-            'management_members' => [
-                [
-                    'name' => [
-                        'en' => 'Sergo Matiashvili',
-                        'ka' => 'სერგო მათიაშვილი',
-                    ],
-                    'role' => [
-                        'en' => 'Founder & CEO',
-                        'ka' => 'დამფუძნებელი და დირექტორი',
-                    ],
-                    'bio' => [
-                        'en' => 'Bootstrapped DGstep after a decade modernising regulated services.',
-                        'ka' => 'Bootstrapped DGstep after a decade modernising regulated services.',
-                    ],
-                    'image_url' => 'https://images.unsplash.com/photo-1607746882042-944635dfe10e?ixid=1&w=300&h=300&fit=crop',
-                ],
-                [
-                    'name' => [
-                        'en' => 'Luka Chochua',
-                        'ka' => 'ლუკა ჩოჩუა',
-                    ],
-                    'role' => [
-                        'en' => 'Head of Compliance',
-                        'ka' => 'კომპლაიანსის უფროსი',
-
-                    ],
-                    'bio' => [
-                        'en' => 'Leads policy, AML, and licensing strategy across DGstep products.',
-                        'ka' => 'Leads policy, AML, and licensing strategy across DGstep products.',
-                    ],
-                    'image_url' => 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?ixid=4&w=300&h=300&fit=crop',
-                ],
-                [
-                    'name' => [
-                        'en' => 'Mirian Tabatadze',
-                        'ka' => 'მირიან ტაბატაძე',
-                    ],
-                    'role' => [
-                        'en' => 'Marketing & Operations',
-                        'ka' => 'მარკეტინგი და ოპერაციები',
-                    ],
-                    'bio' => [
-                        'en' => 'Runs growth programs and customer operations for the platform.',
-                        'ka' => 'Runs growth programs and customer operations for the platform.',
-                    ],
-                    'image_url' => 'https://images.unsplash.com/photo-1607746882042-944635dfe10e?ixid=2&w=300&h=300&fit=crop',
-                ],
-                [
-                    'name' => [
-                        'en' => 'Lasha Endeladze',
-                        'ka' => 'ლაშა ენდელაძე',
-                    ],
-                    'role' => [
-                        'en' => 'Chief Technology Officer',
-                        'ka' => 'ტექნოლოგიური დირექტორი',
-                    ],
-                    'bio' => [
-                        'en' => 'Builds the product roadmap and engineering culture behind DGstep.',
-                        'ka' => 'Builds the product roadmap and engineering culture behind DGstep.',
-                    ],
-                    'image_url' => 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixid=5&w=300&h=300&fit=crop',
-                ],
-                [
-                    'name' => [
-                        'en' => 'Giga Lapachi',
-                        'ka' => 'გიგა ლაფაჩი',
-                    ],
-                    'role' => [
-                        'en' => 'Project Manager',
-                        'ka' => 'პროექტების მენეჯერი',
-                    ],
-                    'bio' => [
-                        'en' => 'Keeps cross-functional deliveries on track from discovery to launch.',
-                        'ka' => 'Keeps cross-functional deliveries on track from discovery to launch.',
-                    ],
-                    'image_url' => 'https://images.unsplash.com/photo-1607746882042-944635dfe10e?ixid=3&w=300&h=300&fit=crop',
-                ],
-                [
-                    'name' => [
-                        'en' => 'Puchi Pachuria',
-                        'ka' => 'პუჩი პაჭურია',
-                    ],
-                    'role' => [
-                        'en' => 'Lead Software Engineer',
-                        'ka' => 'წამყვანი პროგრამული ინჟინერი',
-                    ],
-                    'bio' => [
-                        'en' => 'Designs the core architecture that powers customer deployments.',
-                        'ka' => 'Designs the core architecture that powers customer deployments.',
-                    ],
-                    'image_url' => 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixid=6&w=300&h=300&fit=crop',
-                ],
-            ],
         ];
     }
 
@@ -274,21 +181,9 @@ class AboutPage extends Model
         return $this->resolveLocalizedArray($defaultBadges, $locale);
     }
 
-    public function membersForLocale(string $locale, array $defaults = []): array
+    public function membersForLocale(string $locale): array
     {
-        $members = collect($this->management_members ?? [])
-            ->map(fn (array $member) => $this->mapMember($member, $locale))
-            ->filter()
-            ->values()
-            ->all();
-
-        if (! empty($members)) {
-            return $members;
-        }
-
-        $defaultMembers = Arr::get($defaults, 'management_members', []);
-
-        return collect($defaultMembers)
+        return collect($this->management_members ?? [])
             ->map(fn (array $member) => $this->mapMember($member, $locale))
             ->filter()
             ->values()

@@ -58,7 +58,9 @@
         </div>
 
         @if ($team['count'] === 0)
-          <x-ui.surface-card as="article" class="p-5 text-sm text-[color:var(--text-muted)]">{{ $team['no_members'] }}</x-ui.surface-card>
+          <x-ui.surface-card as="article" class="p-5 text-sm text-[color:var(--text-muted)]">
+            <p>{{ $team['no_members'] }}</p>
+          </x-ui.surface-card>
         @else
           <div class="about-team-showcase">
             @if (!empty($team['lead']))

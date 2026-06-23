@@ -119,3 +119,14 @@ test('about page renders editable singleton copy and management members', functi
         ->assertDontSeeText('Custom badge one')
         ->assertDontSeeText('Custom hero caption');
 });
+
+test('about page does not restore default members when the saved list is empty', function () {
+    app()->setLocale('en');
+
+    AboutPage::singleton()->update(['management_members' => []]);
+
+    $this->get(route('about'))
+        ->assertOk()
+        ->assertSeeText(__('about.management.no_members'))
+        ->assertDontSeeText('Sergo Matiashvili');
+});

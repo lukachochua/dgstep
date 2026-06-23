@@ -17,7 +17,7 @@ class AboutPageController extends Controller
         $defaults = AboutPage::defaults();
         $page = AboutPage::singleton();
 
-        $members = collect($page->membersForLocale($locale, $defaults))
+        $members = collect($page->membersForLocale($locale))
             ->map(fn (array $member): array => [
                 ...$member,
                 'image' => $this->resolveMemberImage($member),

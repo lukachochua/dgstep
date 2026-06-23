@@ -40,21 +40,7 @@ return [
         'member_fallback' => 'Team member',
         'open_profile' => 'View profile',
         'close_modal' => 'Close',
-        'no_members' => 'No team members found.',
-        'members' => [
-            1 => [
-                'name' => 'Sergo Matiashvili',
-                'role' => 'Founder & CEO',
-            ],
-            2 => [
-                'name' => 'Mirian Tabatadze',
-                'role' => 'Marketing & Operations',
-            ],
-            3 => [
-                'name' => 'Giga Lapachi',
-                'role' => 'Project Manager',
-            ],
-        ],
+        'no_members' => 'Management team members are not yet available.',
     ],
 
     'vision' => [
