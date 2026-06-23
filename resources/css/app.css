@@ -3529,161 +3529,6 @@ html[data-theme="dark"] .footer-shell {
   background: #ffffff;
 }
 
-@media (min-width: 1024px) {
-  .feature-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    min-height: auto;
-  }
-
-  .feature-grid > .feature-card,
-  .feature-grid > .feature-card.feature-card--lead {
-    flex: initial;
-    display: grid;
-    padding: 1.1rem;
-    cursor: pointer;
-  }
-
-  .feature-grid > .feature-card::before {
-    content: none;
-  }
-
-  .feature-grid > .feature-card > .feature-image {
-    position: static;
-    width: 100%;
-    height: 15rem;
-    margin: 0 0 1rem;
-    border-radius: 0.7rem;
-  }
-
-  .feature-grid > .feature-card > .feature-card__copy-shell {
-    position: static;
-    width: auto;
-    height: auto;
-    min-height: auto;
-    border: 0;
-    border-radius: 0;
-    background: transparent;
-    box-shadow: none;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-  }
-
-  .feature-grid > .feature-card > .feature-card__copy-shell > .feature-card__copy-inner {
-    width: auto;
-    height: auto;
-    display: grid;
-    gap: 0.75rem;
-    padding: 0;
-  }
-
-  .feature-grid > .feature-card .feature-more-link,
-  .feature-grid > .feature-card .feature-more-link:hover,
-  .feature-grid > .feature-card .feature-more-link:focus-visible {
-    color: var(--brand-strong);
-  }
-
-  .feature-grid > .feature-card .feature-more-link::after {
-    background: var(--brand-strong);
-  }
-}
-
-@media (max-width: 1023px) {
-  .feature-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .feature-grid > .feature-card {
-    min-height: auto;
-    display: grid;
-    padding: 1rem;
-    background: var(--bg-elevated);
-  }
-
-  .feature-grid > .feature-card::before {
-    content: none;
-  }
-
-  .feature-grid > .feature-card > .feature-image {
-    position: static;
-    height: 14rem;
-    margin: 0 0 1rem;
-    border-radius: 0.7rem;
-  }
-
-  .feature-grid > .feature-card > .feature-card__copy-shell {
-    position: static;
-    width: auto;
-    min-height: auto;
-    border: 0;
-    background: transparent;
-    box-shadow: none;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-  }
-
-  .feature-grid > .feature-card > .feature-card__copy-shell > .feature-card__copy-inner {
-    display: grid;
-    gap: 0.75rem;
-    padding: 0;
-  }
-}
-
-.home-features .feature-grid > .feature-card > .feature-image {
-  position: static !important;
-  width: 100% !important;
-  height: 15rem !important;
-  margin: 0 0 1rem !important;
-  border-radius: 0.7rem !important;
-  clip-path: polygon(
-    0 0,
-    calc(100% - var(--shape-corner-cut)) 0,
-    100% var(--shape-corner-cut),
-    100% 100%,
-    0 100%
-  );
-}
-
-.home-features .feature-grid > .feature-card > .feature-card__copy-shell {
-  position: static !important;
-  width: auto !important;
-  height: auto !important;
-  min-height: auto !important;
-  border: 0 !important;
-  border-radius: 0 !important;
-  background: transparent !important;
-  box-shadow: none !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-}
-
-.home-features .feature-grid > .feature-card > .feature-card__copy-shell > .feature-card__copy-inner {
-  width: auto !important;
-  height: auto !important;
-}
-
-.home-features .feature-more-link {
-  display: inline-flex !important;
-  width: fit-content;
-  justify-content: flex-start;
-  padding-bottom: 0.7rem;
-}
-
-.home-features .feature-more-link::after {
-  left: 0;
-  right: 0;
-  bottom: 0;
-  transform: scaleX(0);
-  transform-origin: left center;
-  opacity: 0;
-}
-
-.home-features .feature-more-link:hover::after,
-.home-features .feature-more-link:focus-visible::after {
-  transform: scaleX(1);
-  opacity: 1;
-}
-
 html[data-theme="light"] :where(
   .panel,
   .panel-soft,
@@ -3989,72 +3834,6 @@ html[data-theme="light"] .footer-social-link:focus-visible {
   color: #ffffff;
   background: rgba(255, 255, 255, 0.18);
   border-color: rgba(255, 255, 255, 0.5);
-}
-
-/* Keep homepage feature-card contents out of the clipped compositing layer.
-   The clipped surface is drawn behind the content to avoid intermittent blank
-   paints on the third card while preserving the Figma corner shape. */
-.home-features .feature-grid > .feature-card,
-.home-features .feature-grid > .feature-card.feature-card--lead {
-  --feature-card-surface: var(--bg-elevated);
-  --feature-card-border: var(--border);
-  isolation: isolate;
-  border: 0 !important;
-  overflow: visible !important;
-  clip-path: none !important;
-  background: transparent !important;
-  box-shadow: none !important;
-}
-
-.home-features .feature-grid > .feature-card::before {
-  content: "" !important;
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  border-radius: var(--shape-card-radius);
-  background: var(--feature-card-border);
-  filter: drop-shadow(var(--shadow-soft));
-  clip-path: polygon(
-    0 0,
-    calc(100% - var(--shape-corner-cut)) 0,
-    100% var(--shape-corner-cut),
-    100% 100%,
-    0 100%
-  );
-  pointer-events: none;
-}
-
-.home-features .feature-grid > .feature-card::after {
-  content: "" !important;
-  position: absolute;
-  inset: 1px;
-  z-index: 0;
-  border-radius: calc(var(--shape-card-radius) - 1px);
-  background: var(--feature-card-surface);
-  clip-path: polygon(
-    0 0,
-    calc(100% - var(--shape-corner-cut) + 1px) 0,
-    100% calc(var(--shape-corner-cut) - 1px),
-    100% 100%,
-    0 100%
-  );
-  pointer-events: none;
-}
-
-html:not([data-theme="dark"]) .home-features .feature-grid > .feature-card,
-html[data-theme="light"] .home-features .feature-grid > .feature-card {
-  --feature-card-surface: linear-gradient(180deg, #fbf9ff 0%, #ede9ff 100%);
-  --feature-card-border: #9ca6c8;
-}
-
-html[data-theme="dark"] .home-features .feature-grid > .feature-card {
-  --feature-card-surface: #182131;
-  --feature-card-border: rgba(203, 213, 225, 0.2);
-}
-
-.home-features .feature-grid > .feature-card > * {
-  position: relative;
-  z-index: 1;
 }
 
 /* Simulate the diagonal clipped-card border consistently. */
@@ -4531,26 +4310,6 @@ html[data-theme="dark"] .page-grid {
   max-width: 15ch;
 }
 
-.feature-grid {
-  gap: 1.45rem;
-}
-
-.home-features .feature-grid > .feature-card::before {
-  filter: drop-shadow(0 12px 24px rgba(15, 23, 42, 0.07));
-}
-
-.home-features .feature-grid > .feature-card > .feature-image {
-  margin-bottom: 1.15rem !important;
-}
-
-.feature-card__title {
-  line-height: 1.08;
-}
-
-.feature-card__description {
-  line-height: 1.7;
-}
-
 html[data-theme="light"] .clipped-card:is(.home-proof__frame) {
   --clipped-card-surface: linear-gradient(180deg, #f2f5f9 0%, #e6ecf3 100%);
   --clipped-card-border: #b2bfd0;
@@ -4612,9 +4371,169 @@ html[data-theme="light"] .footer-social-link:focus-visible {
   border-color: rgba(255, 255, 255, 0.44);
 }
 
-html[data-theme="dark"] .home-features .feature-grid > .feature-card {
+/* Homepage feature cards: this is the single visual owner for the
+   CMS-backed media-card markup. Keep the clipped surface here instead of
+   layering page-specific corrections over the generic card primitive. */
+.home-features .feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.45rem;
+  min-height: auto;
+}
+
+.home-features .feature-grid > .feature-card,
+.home-features .feature-grid > .feature-card.feature-card--lead {
+  --feature-card-surface: linear-gradient(180deg, #fbf9ff 0%, #ede9ff 100%);
+  --feature-card-border: #9ca6c8;
+  position: relative;
+  display: grid;
+  min-height: 100%;
+  gap: 1rem;
+  padding: 1.1rem;
+  cursor: pointer;
+  isolation: isolate;
+  overflow: visible !important;
+  border: 0 !important;
+  clip-path: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+}
+
+.home-features .feature-grid > .feature-card::before,
+.home-features .feature-grid > .feature-card::after {
+  content: "" !important;
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.home-features .feature-grid > .feature-card::before {
+  inset: 0;
+  border-radius: var(--shape-card-radius);
+  background: var(--feature-card-border);
+  filter: drop-shadow(0 12px 24px rgba(15, 23, 42, 0.07));
+  clip-path: polygon(0 0, calc(100% - var(--shape-corner-cut)) 0, 100% var(--shape-corner-cut), 100% 100%, 0 100%);
+}
+
+.home-features .feature-grid > .feature-card::after {
+  inset: 1px;
+  border-radius: calc(var(--shape-card-radius) - 1px);
+  background: var(--feature-card-surface);
+  clip-path: polygon(0 0, calc(100% - var(--shape-corner-cut) + 1px) 0, 100% calc(var(--shape-corner-cut) - 1px), 100% 100%, 0 100%);
+}
+
+.home-features .feature-grid > .feature-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.home-features .feature-grid > .feature-card > .feature-image {
+  position: static;
+  width: 100%;
+  height: 15rem !important;
+  margin: 0 0 1.15rem !important;
+  border-radius: 0.7rem !important;
+  clip-path: polygon(0 0, calc(100% - var(--shape-corner-cut)) 0, 100% var(--shape-corner-cut), 100% 100%, 0 100%);
+}
+
+.home-features .feature-grid > .feature-card > .feature-card__copy-shell,
+.home-features .feature-grid > .feature-card > .feature-card__copy-shell > .feature-card__copy-inner {
+  width: auto;
+  height: auto;
+  min-height: auto;
+}
+
+.home-features .feature-grid > .feature-card > .feature-card__copy-shell {
+  position: static;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.home-features .feature-grid > .feature-card > .feature-card__copy-shell > .feature-card__copy-inner {
+  display: grid;
+  gap: 0.75rem;
+  padding: 0;
+}
+
+.home-features .feature-card__title,
+.home-features .feature-card__description {
+  margin: 0;
+  max-width: 100%;
+  color: #0f172a;
+  text-shadow: none;
+}
+
+.home-features .feature-card__title {
+  font-size: clamp(1.02rem, 1.15vw, 1.22rem);
+  line-height: 1.08;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+.home-features .feature-card--lead-primary .feature-card__title {
+  font-size: clamp(1.14rem, 1.55vw, 1.38rem);
+  line-height: 1.08;
+}
+
+.home-features .feature-card__description {
+  color: #334155;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+.home-features .feature-more-link {
+  display: inline-flex;
+  width: fit-content;
+  justify-content: flex-start;
+  padding-bottom: 0.7rem;
+  color: var(--brand-strong);
+}
+
+.home-features .feature-more-link::after {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--brand-strong);
+  transform: scaleX(0);
+  transform-origin: left center;
+  opacity: 0;
+}
+
+.home-features .feature-more-link:hover::after,
+.home-features .feature-more-link:focus-visible::after {
+  transform: scaleX(1);
+  opacity: 1;
+}
+
+html[data-theme="dark"] .home-features .feature-grid > .feature-card,
+html[data-theme="dark"] .home-features .feature-card__title {
   --feature-card-surface: #18212e;
   --feature-card-border: rgba(226, 232, 240, 0.14);
+  color: #f8fafc;
+}
+
+html[data-theme="dark"] .home-features .feature-card__description {
+  color: #cbd5e1;
+}
+
+@media (max-width: 1023px) {
+  .home-features .feature-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .home-features .feature-grid > .feature-card,
+  .home-features .feature-grid > .feature-card.feature-card--lead {
+    min-height: auto;
+    padding: 0.9rem;
+  }
 }
 
 html[data-theme="dark"] .clipped-card:is(
@@ -4649,18 +4568,6 @@ html[data-theme="dark"] .clipped-card:is(
     padding: 1.3rem;
   }
 
-  .feature-grid {
-    gap: 1rem;
-  }
-
-  .feature-grid > .feature-card {
-    padding: 0.9rem;
-  }
-
-  .feature-grid > .feature-card > .feature-image {
-    height: 12.5rem;
-  }
-
   .home-cta {
     min-height: auto;
   }
@@ -4684,10 +4591,6 @@ html[data-theme="dark"] .clipped-card:is(
 
   .home-proof__item {
     padding: 1rem 0 1rem 0.92rem;
-  }
-
-  .feature-grid > .feature-card > .feature-image {
-    height: 11.4rem !important;
   }
 
   .home-cta__actions {
