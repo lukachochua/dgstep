@@ -2116,7 +2116,6 @@ html[data-theme="light"] .home-proof__frame {
 
 .feature-grid {
   display: grid;
-  gap: 1rem;
 }
 
 .feature-card,
@@ -2180,30 +2179,22 @@ html[data-theme="light"] .services-cta {
 }
 
 .feature-card__title {
-  color: color-mix(in oklab, var(--brand-support-soft) 78%, #ffffff 22%);
   font-size: clamp(1.02rem, 1.15vw, 1.22rem);
   line-height: 1.12;
   overflow-wrap: normal;
   word-break: normal;
-  text-shadow: 0 2px 14px rgba(8, 10, 18, 0.52);
 }
 
 .feature-card__description {
-  color: #ffffff;
   font-size: 0.9rem;
   line-height: 1.45;
   overflow-wrap: normal;
   word-break: normal;
-  text-shadow: 0 2px 14px rgba(8, 10, 18, 0.52);
 }
 
 .feature-card--lead {
   display: grid;
   gap: 1rem;
-}
-
-.feature-card--lead .feature-image {
-  height: 15rem;
 }
 
 .feature-card--lead h3 {
@@ -2213,10 +2204,6 @@ html[data-theme="light"] .services-cta {
 .feature-card--lead-primary .feature-card__title {
   font-size: clamp(1.14rem, 1.55vw, 1.38rem);
   line-height: 1.08;
-}
-
-.feature-card--support .feature-image {
-  height: 12rem;
 }
 
 .project-card:hover,
@@ -3642,33 +3629,6 @@ html[data-theme="dark"] .footer-shell {
   }
 }
 
-/* Final stability/contrast guards.
-   These intentionally sit at the end of the cascade to neutralize the old
-   homepage hover accordion styles and keep light-mode card text readable. */
-.home-features .feature-grid {
-  display: grid !important;
-  min-height: auto !important;
-}
-
-.home-features .feature-grid > .feature-card,
-.home-features .feature-grid > .feature-card.feature-card--lead {
-  flex: initial !important;
-  flex-basis: auto !important;
-  flex-grow: 0 !important;
-  display: grid !important;
-  opacity: 1 !important;
-  filter: none !important;
-  transform: none !important;
-  border-color: var(--border) !important;
-  background: var(--bg-elevated) !important;
-  box-shadow: var(--shadow-soft) !important;
-  transition: none !important;
-}
-
-.home-features .feature-grid > .feature-card::before {
-  content: none !important;
-}
-
 .home-features .feature-grid > .feature-card > .feature-image {
   position: static !important;
   width: 100% !important;
@@ -4573,12 +4533,6 @@ html[data-theme="dark"] .page-grid {
 
 .feature-grid {
   gap: 1.45rem;
-}
-
-.home-features .feature-grid > .feature-card,
-.home-features .feature-grid > .feature-card.feature-card--lead {
-  --feature-card-surface: #f5f7fb;
-  --feature-card-border: #b7c1d2;
 }
 
 .home-features .feature-grid > .feature-card::before {
