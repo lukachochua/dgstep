@@ -527,8 +527,8 @@ html:not([data-theme="dark"]) .footer-link:focus-visible {
 }
 
 .home-features .feature-grid > .feature-card {
-  --clipped-card-surface: var(--card-standard-surface);
-  --clipped-card-border: var(--card-standard-border);
+  --clipped-card-surface: color-mix(in oklab, #f8f8ff 88%, var(--brand-secondary) 12%);
+  --clipped-card-border: color-mix(in oklab, var(--card-standard-border) 82%, var(--brand-secondary) 18%);
   --clipped-card-shadow: var(--card-feature-shadow);
   display: grid;
   min-height: 100%;
@@ -566,6 +566,8 @@ html:not([data-theme="dark"]) .footer-link:focus-visible {
 }
 
 .home-features .feature-more-link {
+  justify-self: start;
+  width: fit-content;
   padding-bottom: 0.7rem;
   color: var(--brand-strong);
 }
@@ -587,8 +589,8 @@ html:not([data-theme="dark"]) .footer-link:focus-visible {
 }
 
 html[data-theme="dark"] .home-features .feature-grid > .feature-card {
-  --clipped-card-surface: var(--nested-card-surface);
-  --clipped-card-border: var(--dark-card-border);
+  --clipped-card-surface: color-mix(in oklab, var(--bg-elevated) 70%, var(--brand-secondary) 30%);
+  --clipped-card-border: color-mix(in oklab, var(--dark-card-border) 72%, var(--brand-support) 28%);
   color: #f8fafc;
 }
 
@@ -611,4 +613,3 @@ html[data-theme="dark"] .home-features .feature-card__description {
     padding: 0.9rem;
   }
 }
-

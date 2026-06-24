@@ -33,7 +33,7 @@
     <div class="mt-6 flex flex-col gap-2 border-t border-[color:var(--border)] pt-5 text-xs text-[color:var(--text-muted)] md:flex-row md:items-center md:justify-between">
       <p>{{ trans('messages.footer.copyright', ['year' => now()->year]) }}</p>
       <div class="flex items-center gap-4">
-        <a href="tel:+995595002837" class="footer-link">595 002 837</a>
+        <a href="tel:+995595002837" class="footer-link">591 32 22 28</a>
         <a href="mailto:info@dgstep.ge" class="footer-link">info@dgstep.ge</a>
       </div>
     </div>

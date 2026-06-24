@@ -40,7 +40,7 @@
         @endforeach
       </section>
 
-      <section
+     {{-- <section
         class="about-team-section space-y-5 reveal reveal-delay-1"
         x-data="aboutTeam()"
         @keydown.escape.window="if (isMemberModalOpen) closeMemberModal()"
@@ -194,7 +194,7 @@
             </x-ui.surface-card>
           </div>
         </template>
-      </section>
+      </section> --}}
     </div>
   </section>
 </x-layouts.base>
