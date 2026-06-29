@@ -87,8 +87,8 @@
                       <img
                         src="{{ $slide['image'] ?: $fallbackVisual }}"
                         alt="{{ data_get($content, 'image_alt', __('messages.hero.image_alt')) }}"
-                        width="1200"
-                        height="1200"
+                        width="1280"
+                        height="800"
                         @if($loop->first) loading="eager" fetchpriority="high" @else loading="lazy" @endif
                         decoding="async"
                       />

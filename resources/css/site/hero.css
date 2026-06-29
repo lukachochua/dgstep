@@ -21,8 +21,10 @@ html:not([data-theme="dark"]) .hero-v2 {
 }
 
 .hero-v2 > .section-inner {
-  width: 100%;
-  max-width: none;
+  /* Keep the composition aligned with the rest of the site. The section
+     background remains full-bleed, but the slider must not grow forever on
+     ultrawide displays. */
+  width: min(var(--content-max-w), calc(100% - (var(--content-gutter) * 2)));
 }
 
 .hero-v2[data-ready="false"] .hero-v2__frame {
@@ -98,9 +100,9 @@ html:not([data-theme="dark"]) .hero-v2 {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(24rem, 1.08fr);
   align-items: center;
-  gap: clamp(1.65rem, 4.5vw, 4.6rem);
+  gap: clamp(1.65rem, 3.5vw, 3.5rem);
   min-height: auto;
-  padding: clamp(1.25rem, 3vw, 2.6rem) clamp(1rem, 5vw, 5.5rem) clamp(1.8rem, 4vw, 3.2rem);
+  padding: clamp(1.25rem, 3vw, 2.6rem) clamp(1rem, 3.5vw, 3rem) clamp(1.8rem, 4vw, 3.2rem);
   overflow: hidden;
 }
 
@@ -259,11 +261,11 @@ html[data-theme="dark"] .hero-v2__content-backdrop {
 }
 
 .hero-v2__media-shell {
-  position: absolute;
-  inset: -1.15rem -2rem -1rem -0.65rem;
+  position: relative;
   z-index: 1;
-  width: auto;
+  width: 100%;
   height: auto;
+  aspect-ratio: 8 / 5;
   min-height: 0;
   margin: 0;
   display: block;
@@ -307,7 +309,7 @@ html[data-theme="dark"] .hero-v2__content-backdrop {
 
 .hero-v2__hud {
   position: absolute;
-  left: clamp(1rem, 5vw, 5.5rem);
+  left: clamp(1rem, 3.5vw, 3rem);
   right: auto;
   bottom: max(calc(1rem + 30px), calc(0.8rem + env(safe-area-inset-bottom) + 30px));
   padding-bottom: env(safe-area-inset-bottom);
@@ -353,8 +355,8 @@ html[data-theme="dark"] .hero-v2__content-backdrop {
   }
 
   .hero-v2__frame {
-    height: min(72svh, calc(100svh - var(--nav-h) - 0.8rem));
-    min-height: auto;
+    height: auto;
+    min-height: 0;
   }
 
   .hero-v2__grid {
@@ -365,7 +367,8 @@ html[data-theme="dark"] .hero-v2__content-backdrop {
 
   .hero-v2__content {
     max-width: none;
-    height: clamp(18.5rem, 48vw, 23rem);
+    height: auto;
+    min-height: clamp(18.5rem, 42vw, 22rem);
     padding: 0 1rem 2.6rem;
   }
 
@@ -374,13 +377,13 @@ html[data-theme="dark"] .hero-v2__content-backdrop {
   }
 
   .hero-v2__visual {
-    min-height: 17rem;
+    min-height: clamp(14rem, 32vw, 18rem);
   }
 
   .hero-v2__media-shell {
-    inset: -0.75rem -0.85rem -0.8rem 10%;
     width: min(100%, 28rem);
-    height: 22rem;
+    height: auto;
+    margin-left: auto;
   }
 
   .hero-v2__visual::before {
@@ -394,7 +397,7 @@ html[data-theme="dark"] .hero-v2__content-backdrop {
 
 @media (max-width: 767px) {
   .hero-v2 {
-    --hero-mobile-slider-h: 70svh;
+    --hero-mobile-slider-h: clamp(32rem, 70svh, 42rem);
     min-height: auto;
     padding-top: var(--nav-h);
   }
@@ -525,4 +528,3 @@ html[data-theme="dark"] .hero-v2__content-backdrop {
     padding: 2.4rem 0 2.7rem;
   }
 }
-
