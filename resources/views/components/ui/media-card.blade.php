@@ -2,6 +2,7 @@
   'title' => '',
   'description' => '',
   'image' => null,
+  'fallbackImage' => null,
   'imageAlt' => '',
   'variant' => 'feature',
   'as' => 'article',
@@ -18,6 +19,10 @@
     <img
       src="{{ $image }}"
       alt="{{ $imageAlt }}"
+      @if (filled($fallbackImage))
+        data-fallback-src="{{ $fallbackImage }}"
+        onerror="this.onerror=null;this.src=this.dataset.fallbackSrc"
+      @endif
       class="{{ $imageClass }}"
       width="1200"
       height="704"
