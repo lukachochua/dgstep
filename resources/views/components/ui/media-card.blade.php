@@ -7,12 +7,18 @@
   'as' => 'article',
 ])
 
+@php
+  $imageClass = $variant === 'project'
+    ? 'project-image mb-4 h-44 w-full'
+    : 'feature-image w-full';
+@endphp
+
 <x-ui.entity-card :as="$as" :variant="$variant" {{ $attributes }}>
   @if (filled($image))
     <img
       src="{{ $image }}"
       alt="{{ $imageAlt }}"
-      class="{{ $variant === 'project' ? 'project-image' : 'feature-image' }} mb-4 h-44 w-full"
+      class="{{ $imageClass }}"
       width="1200"
       height="704"
       loading="lazy"

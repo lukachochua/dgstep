@@ -2,8 +2,8 @@
   <div class="footer-inner">
     <div class="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
       <div class="space-y-2">
-        <p class="text-sm font-semibold">DGstep</p>
-        <p class="text-sm text-[color:var(--text-muted)] max-w-md">
+        <p class="footer-brand">DGstep</p>
+        <p class="footer-description">
           {{ __('contact.description') }}
         </p>
       </div>
@@ -30,7 +30,7 @@
       </nav>
     </div>
 
-    <div class="mt-6 flex flex-col gap-2 border-t border-[color:var(--border)] pt-5 text-xs text-[color:var(--text-muted)] md:flex-row md:items-center md:justify-between">
+    <div class="footer-meta mt-6 flex flex-col gap-2 border-t border-[color:var(--border)] pt-5 md:flex-row md:items-center md:justify-between">
       <p>{{ trans('messages.footer.copyright', ['year' => now()->year]) }}</p>
       <div class="flex items-center gap-4">
         <a href="tel:+995595002837" class="footer-link">591 32 22 28</a>

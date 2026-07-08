@@ -180,26 +180,6 @@
   margin: 0;
 }
 
-.feature-card__title {
-  font-size: var(--type-card-title);
-  line-height: 1.18;
-}
-
-.feature-card__description {
-  font-size: var(--type-body-sm);
-  line-height: 1.58;
-}
-
-.feature-card--lead {
-  display: grid;
-  gap: 1rem;
-}
-
-.feature-card--lead-primary .feature-card__title {
-  font-size: var(--type-card-title);
-  line-height: 1.18;
-}
-
 .project-card:hover,
 .team-card:hover {
   transform: translateY(-5px);
@@ -445,8 +425,7 @@
   color: #ffffff;
 }
 
-.projects-proof-band p,
-.projects-proof-band .text-sm {
+.projects-proof-band p {
   color: rgba(255, 255, 255, 0.82);
 }
 
@@ -745,10 +724,6 @@
   .projects-hero-grid {
     grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
     align-items: center;
-  }
-
-  .feature-card--lead {
-    align-items: flex-end;
   }
 
   .projects-grid {

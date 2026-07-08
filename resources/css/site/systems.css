@@ -439,6 +439,27 @@ html:not([data-theme="dark"]) .footer-shell .border-\[color\:var\(--border\)\] {
   transition: color 160ms ease;
 }
 
+.footer-brand {
+  margin: 0;
+  font-size: var(--type-body-sm);
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.footer-description {
+  max-width: 28rem;
+  margin: 0;
+  color: var(--text-muted);
+  font-size: var(--type-body-sm);
+  line-height: var(--leading-body);
+}
+
+.footer-meta {
+  color: var(--text-muted);
+  font-size: var(--type-caption);
+  line-height: 1.5;
+}
+
 .footer-link:hover {
   color: var(--brand-strong);
 }
@@ -531,21 +552,33 @@ html:not([data-theme="dark"]) .footer-link:focus-visible {
   --clipped-card-border: color-mix(in oklab, var(--card-standard-border) 82%, var(--brand-secondary) 18%);
   --clipped-card-shadow: var(--card-feature-shadow);
   display: grid;
+  grid-template-rows: 15rem minmax(0, 1fr);
+  align-content: start;
   min-height: 100%;
   gap: 1rem;
   padding: 1.1rem;
 }
 
 .home-features .feature-grid > .feature-card > .feature-image {
-  height: 15rem;
-  margin: 0 0 1.15rem;
+  width: 100%;
+  height: 100%;
+  margin: 0;
   border-radius: 0.7rem;
   clip-path: polygon(0 0, calc(100% - var(--shape-corner-cut)) 0, 100% var(--shape-corner-cut), 100% 100%, 0 100%);
 }
 
-.home-features .feature-grid > .feature-card > .feature-card__copy-shell > .feature-card__copy-inner {
+.home-features .feature-grid > .feature-card > .feature-card__copy-shell {
+  min-width: 0;
+  min-height: 100%;
+  align-self: stretch;
   display: grid;
+}
+
+.home-features .feature-grid > .feature-card > .feature-card__copy-shell > .feature-card__copy-inner {
+  display: flex;
+  flex-direction: column;
   gap: 0.75rem;
+  min-height: 100%;
 }
 
 .home-features .feature-card__title,
@@ -566,8 +599,10 @@ html:not([data-theme="dark"]) .footer-link:focus-visible {
 }
 
 .home-features .feature-more-link {
+  align-self: end;
   justify-self: start;
   width: fit-content;
+  margin-top: auto;
   padding-bottom: 0.7rem;
   color: var(--brand-strong);
 }

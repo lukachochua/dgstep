@@ -44,14 +44,14 @@
           <x-ui.media-card
             as="article"
             variant="feature"
-            class="{{ $loop->first ? 'feature-card--lead feature-card--lead-primary p-5 md:p-6' : 'feature-card--support p-4 md:p-5' }}"
+            class="feature-card--support p-4 md:p-5"
             aria-label="{{ $name }}"
             :image="$cardImage"
             :imageAlt="$imageAlt"
             :title="$name"
             :description="$desc"
           >
-            <a href="{{ $serviceHref }}" class="feature-more-link mt-4 inline-flex text-sm font-semibold">
+            <a href="{{ $serviceHref }}" class="feature-more-link mt-4 inline-flex">
               {{ $linkLabel }}
             </a>
           </x-ui.media-card>
@@ -64,14 +64,14 @@
           <x-ui.media-card
             as="article"
             variant="feature"
-            class="{{ $loop->first ? 'feature-card--lead feature-card--lead-primary p-5 md:p-6' : 'feature-card--support p-4 md:p-5' }}"
+            class="feature-card--support p-4 md:p-5"
             aria-label="{{ $card['title'] ?? __('services.our_key_services') }}"
             :image="$fallbackImage"
             :imageAlt="__('messages.features.image_alt', ['name' => ($card['title'] ?? __('services.our_key_services'))])"
             :title="$card['title'] ?? ''"
             :description="$card['description'] ?? ''"
           >
-            <a href="{{ route('services') }}" class="feature-more-link mt-4 inline-flex text-sm font-semibold">
+            <a href="{{ route('services') }}" class="feature-more-link mt-4 inline-flex">
               {{ $linkLabel }}
             </a>
           </x-ui.media-card>
