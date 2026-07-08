@@ -946,15 +946,14 @@
 .stagger > *:nth-child(6) { animation-delay: 300ms; }
 
 .ltr-reveal {
-  opacity: 0;
-  transform: translate3d(-34px, 0, 0);
-  filter: blur(3px);
+  opacity: 1;
+  transform: none;
+  filter: none;
   transition:
     transform 860ms cubic-bezier(0.22, 1, 0.36, 1),
     opacity 860ms cubic-bezier(0.22, 1, 0.36, 1),
     filter 860ms cubic-bezier(0.22, 1, 0.36, 1);
   transition-delay: var(--ltr-delay, 0ms);
-  will-change: transform, opacity, filter;
 }
 
 .ltr-reveal.is-visible {

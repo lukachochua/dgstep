@@ -76,6 +76,15 @@
         .site-nav .nav-actions {
           visibility: visible !important;
         }
+
+        .ltr-reveal,
+        .reveal,
+        .stagger > * {
+          opacity: 1 !important;
+          transform: none !important;
+          filter: none !important;
+          animation: none !important;
+        }
       </style>
     </noscript>
 

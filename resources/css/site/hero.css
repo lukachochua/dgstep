@@ -28,9 +28,8 @@ html:not([data-theme="dark"]) .hero-v2 {
 }
 
 .hero-v2[data-ready="false"] .hero-v2__frame {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
+  opacity: 1;
+  visibility: visible;
 }
 
 .hero-v2__frame {
@@ -279,7 +278,12 @@ html[data-theme="dark"] .hero-v2__content-backdrop {
   border-radius: var(--shape-media-radius) !important;
   overflow: hidden;
   border: 0;
-  background: transparent;
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(in oklab, var(--bg-elevated) 86%, var(--brand-secondary) 14%),
+      color-mix(in oklab, var(--bg-muted) 90%, var(--brand-secondary) 10%)
+    );
   box-shadow: none;
 }
 

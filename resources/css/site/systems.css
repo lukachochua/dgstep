@@ -102,6 +102,14 @@ html[data-theme="light"] .home-cta .btn-primary:focus-visible {
   --clipped-card-surface: #423bbc;
 }
 
+html[data-theme="light"] .clipped-card.projects-proof-band :where(
+  .project-proof-label,
+  .project-proof-body,
+  p
+) {
+  color: rgba(255, 255, 255, 0.9);
+}
+
 .clipped-card:is(.floating-cta) {
   --clipped-card-surface: color-mix(in oklab, var(--bg-elevated) 90%, var(--brand-support) 10%);
 }
@@ -538,6 +546,9 @@ html:not([data-theme="dark"]) .footer-link:focus-visible {
 
 .contact-recaptcha {
   min-height: 78px;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 /* Homepage feature cards */
@@ -563,6 +574,12 @@ html:not([data-theme="dark"]) .footer-link:focus-visible {
   width: 100%;
   height: 100%;
   margin: 0;
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(in oklab, var(--bg-elevated) 88%, var(--brand-secondary) 12%),
+      color-mix(in oklab, var(--bg-muted) 92%, var(--brand-secondary) 8%)
+    );
   border-radius: 0.7rem;
   clip-path: polygon(0 0, calc(100% - var(--shape-corner-cut)) 0, 100% var(--shape-corner-cut), 100% 100%, 0 100%);
 }
@@ -646,5 +663,33 @@ html[data-theme="dark"] .home-features .feature-card__description {
   .home-features .feature-grid > .feature-card {
     min-height: auto;
     padding: 0.9rem;
+  }
+}
+
+@media (max-width: 639px) {
+  .services-hero__actions,
+  .services-cta__actions,
+  .service-entry__actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .services-hero__actions .btn,
+  .services-cta__actions .btn,
+  .service-entry__actions .btn {
+    width: 100%;
+  }
+
+  .service-entry__actions .inline-accent-link {
+    width: fit-content;
+  }
+
+  .projects-proof-list {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .projects-proof-chip {
+    width: 100%;
   }
 }
