@@ -1,5 +1,5 @@
 /* Light-mode specific text color overrides */
-html[data-theme="light"] :where(.section-kicker, .home-proof__eyebrow, .services-hero__overview-kicker, .service-entry__block-label, .feature-more-link, .inline-accent-link) {
+html[data-theme="light"] :where(.section-kicker, .home-proof__eyebrow, .service-entry__block-label, .feature-more-link, .inline-accent-link) {
   color: #423bbc;
 }
 
@@ -115,7 +115,7 @@ html[data-theme="light"] .clipped-card.projects-proof-band :where(
 }
 
 /* Light-mode clipped card surfaces */
-html:not([data-theme="dark"]) .clipped-card:is(.panel, .panel-soft, .services-hero__shell, .about-hero-card, .projects-hero-card) {
+html:not([data-theme="dark"]) .clipped-card:is(.panel, .panel-soft, .about-hero-card, .projects-hero-card) {
   --clipped-card-surface: var(--card-elevated-surface);
   --clipped-card-border: var(--card-elevated-border);
 }
@@ -667,14 +667,12 @@ html[data-theme="dark"] .home-features .feature-card__description {
 }
 
 @media (max-width: 639px) {
-  .services-hero__actions,
   .services-cta__actions,
   .service-entry__actions {
     align-items: stretch;
     flex-direction: column;
   }
 
-  .services-hero__actions .btn,
   .services-cta__actions .btn,
   .service-entry__actions .btn {
     width: 100%;

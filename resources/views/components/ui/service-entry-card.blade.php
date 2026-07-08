@@ -29,13 +29,9 @@
   $detailsId = $slug !== '' ? 'service-details-' . $slug : 'service-details-' . $displayIndex;
 @endphp
 
-<x-ui.entity-card
-  variant="service"
-  as="article"
-  :id="$serviceId"
-  {{ $attributes->class(['service-entry p-5 md:p-8 reveal']) }}
->
+<article id="{{ $serviceId }}" {{ $attributes->class(['clipped-card service-entry service-module-record reveal']) }}>
   <div class="service-entry__eyebrow">
+    <span class="service-entry__record-type">{{ __('services.interface.module') }}</span>
     <span class="service-entry__index">{{ $displayIndex }}</span>
     @if ($cueLabel !== '')
       <span class="service-entry__cue-label">{{ $cueLabel }}</span>
@@ -52,7 +48,7 @@
 
       @if ($problemItems !== [])
         <div class="service-entry__block">
-          <p class="service-entry__block-label">{{ $problemsHeading }}</p>
+          <p class="service-entry__block-label">{{ __('services.interface.capabilities') }} / {{ $problemsHeading }}</p>
           <ul class="service-entry__problems" aria-label="{{ $problemsHeading }}">
             @foreach ($problemItems as $problem)
               <li class="service-problem-pill">
@@ -124,4 +120,4 @@
       />
     </div>
   </div>
-</x-ui.entity-card>
+</article>

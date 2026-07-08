@@ -138,8 +138,10 @@ test('services page renders localized service content and cues', function () {
 
     $response
         ->assertOk()
-        ->assertSeeText('Editable hero title')
-        ->assertSeeText('Editable proof chip')
+        ->assertDontSeeText('Editable hero title')
+        ->assertSeeText('Overview Heading')
+        ->assertSeeText('Overview body copy.')
+        ->assertDontSeeText('Editable proof chip')
         ->assertSeeText('Pawnshop Operations')
         ->assertSeeText('Ops Coverage')
         ->assertSeeText('Lost pawn tickets')

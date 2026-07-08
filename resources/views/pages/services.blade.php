@@ -1,6 +1,6 @@
 @php
   $seoDescription = \Illuminate\Support\Str::limit(
-    \Illuminate\Support\Str::squish(strip_tags($page['hero_lead'] ?: $page['overview_body'])),
+    \Illuminate\Support\Str::squish(strip_tags($page['overview_body'])),
     158,
     ''
   );
@@ -8,7 +8,7 @@
   $seo = [
     'title' => $page['title'],
     'description' => $seoDescription,
-    'og_title' => $page['hero_title'] ?: $page['title'],
+    'og_title' => $page['title'],
     'og_description' => $seoDescription,
     'image' => $services->first()['image'] ?? null,
   ];
@@ -49,57 +49,39 @@
 <x-layouts.base :title="$page['title']" :seo="$seo" :structured-data="$structuredData">
   <section class="section-block services-page" id="services-top">
     <div class="section-inner services-page__stack">
-      <header class="services-hero reveal">
-        <x-ui.surface-card as="section" variant="hero" class="services-hero__shell">
-          <div class="services-hero__grid">
-            <div class="services-hero__copy">
-              <span class="section-kicker">{{ $page['hero_kicker'] }}</span>
-              <h1 class="section-title">{{ $page['hero_title'] }}</h1>
-              <p class="section-lead whitespace-pre-line">{{ $page['hero_lead'] }}</p>
-
-              <div class="services-hero__actions">
-                <x-ui.button route="contact" variant="primary" size="lg">
-                  {{ $page['hero_primary_cta'] }}
-                </x-ui.button>
-                <x-ui.button href="#services-list" variant="ghost" size="lg">
-                  {{ $page['hero_secondary_cta'] }}
-                </x-ui.button>
-              </div>
-            </div>
-
-            <aside class="services-hero__overview">
-              <p class="services-hero__overview-kicker">{{ $page['overview_heading'] }}</p>
-              <p class="services-hero__overview-copy whitespace-pre-line">{{ $page['overview_body'] }}</p>
-
-              <div class="services-overview-list">
-                @foreach ($services as $service)
-                  <x-ui.index-link-card
-                    href="#service-{{ $service['slug'] }}"
-                    :index="str_pad((string) $service['index'], 2, '0', STR_PAD_LEFT)"
-                    :title="$service['title']"
-                    :subtitle="$service['cue_label'] !== '' ? $service['cue_label'] : null"
-                  />
-                @endforeach
-              </div>
-            </aside>
+      <section id="services-system-map" class="services-system-map reveal" aria-labelledby="services-system-map-title">
+        <div class="services-system-map__head">
+          <div>
+            <span class="section-kicker">{{ __('services.interface.system_map') }}</span>
+            <h2 id="services-system-map-title" class="services-system-map__title">{{ $page['overview_heading'] }}</h2>
           </div>
-        </x-ui.surface-card>
-      </header>
+          <p class="whitespace-pre-line">{{ $page['overview_body'] }}</p>
+        </div>
 
-      {{-- @if ($page['proof_items'] !== [])
-        <section class="clipped-card services-proof reveal reveal-delay-1" aria-labelledby="services-proof-title">
-          <div class="services-proof__head">
-            <h2 id="services-proof-title" class="services-proof__title">{{ $page['proof_heading'] }}</h2>
-            <p class="services-proof__body whitespace-pre-line">{{ $page['proof_body'] }}</p>
-          </div>
+        <ol class="services-system-map__modules">
+          @foreach ($services as $service)
+            <li>
+              <a href="#service-{{ $service['slug'] }}">
+                <span>{{ str_pad((string) $service['index'], 2, '0', STR_PAD_LEFT) }}</span>
+                <strong>{{ $service['title'] }}</strong>
+                @if ($service['cue_label'] !== '')
+                  <small>{{ $service['cue_label'] }}</small>
+                @endif
+              </a>
+            </li>
+          @endforeach
+        </ol>
 
-          <ul class="services-proof__chips" aria-label="{{ $page['proof_heading'] }}">
-            @foreach ($page['proof_items'] as $problem)
-              <li class="services-proof__chip">{{ $problem }}</li>
-            @endforeach
-          </ul>
-        </section>
-      @endif --}}
+        <ol class="services-implementation-flow" aria-label="{{ __('services.interface.system_map') }}">
+          @foreach (__('services.interface.flow') as $stage)
+            <li>
+              <span>{{ str_pad((string) ($loop->index + 1), 2, '0', STR_PAD_LEFT) }}</span>
+              <strong>{{ $stage }}</strong>
+            </li>
+          @endforeach
+        </ol>
+
+      </section>
 
       <div id="services-list" class="services-list stagger">
         @foreach ($services as $service)
@@ -110,7 +92,7 @@
             :image="$service['image']"
             :imageAlt="$service['image_alt']"
             :slug="$service['slug']"
-            {{-- :problems="$service['problems']" --}}
+            :problems="$service['problems']"
             :index="$service['index']"
             :cueLabel="$service['cue_label']"
             :problemsHeading="$page['card_problems_heading']"

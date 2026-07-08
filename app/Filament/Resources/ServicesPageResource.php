@@ -5,7 +5,6 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ServicesPageResource\Pages;
 use App\Models\ServicesPage;
 use Filament\Forms;
-use Filament\Forms\Components\Repeater as RepeaterComponent;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -49,10 +48,6 @@ class ServicesPageResource extends Resource
                                                         ->label('Browser title')
                                                         ->maxLength(160)
                                                         ->required(),
-                                                    Forms\Components\TextInput::make("hero_kicker.$code")
-                                                        ->label('Hero kicker')
-                                                        ->maxLength(120)
-                                                        ->required(),
                                                 ]);
                                         })->toArray()
                                     ),
@@ -67,33 +62,9 @@ class ServicesPageResource extends Resource
                                     return Forms\Components\Tabs\Tab::make($label)
                                         ->icon('heroicon-o-language')
                                         ->schema([
-                                            Forms\Components\Section::make('Hero')
-                                                ->icon('heroicon-o-sparkles')
-                                                ->columns(2)
-                                                ->schema([
-                                                    Forms\Components\TextInput::make("hero_title.$code")
-                                                        ->label('Headline')
-                                                        ->maxLength(255)
-                                                        ->required()
-                                                        ->columnSpanFull(),
-                                                    Forms\Components\Textarea::make("hero_lead.$code")
-                                                        ->label('Lead')
-                                                        ->rows(4)
-                                                        ->required()
-                                                        ->columnSpanFull(),
-                                                    Forms\Components\TextInput::make("hero_primary_cta.$code")
-                                                        ->label('Primary CTA label')
-                                                        ->maxLength(120)
-                                                        ->required(),
-                                                    Forms\Components\TextInput::make("hero_secondary_cta.$code")
-                                                        ->label('Secondary CTA label')
-                                                        ->maxLength(120)
-                                                        ->required(),
-                                                ]),
-
-                                            Forms\Components\Section::make('Modules Rail')
+                                            Forms\Components\Section::make('Implementation Map')
                                                 ->icon('heroicon-o-queue-list')
-                                                ->description('Copy above the right-side module list on the public page.')
+                                                ->description('Heading and introduction shown above the service modules and implementation flow.')
                                                 ->schema([
                                                     Forms\Components\TextInput::make("overview_heading.$code")
                                                         ->label('Heading')
@@ -103,39 +74,6 @@ class ServicesPageResource extends Resource
                                                         ->label('Body')
                                                         ->rows(4)
                                                         ->required(),
-                                                ]),
-
-                                            Forms\Components\Section::make('Checklist Section')
-                                                ->icon('heroicon-o-shield-check')
-                                                ->description('Heading, intro, and checklist items shown beneath the hero.')
-                                                ->schema([
-                                                    Forms\Components\TextInput::make("proof_heading.$code")
-                                                        ->label('Heading')
-                                                        ->maxLength(180)
-                                                        ->required(),
-                                                    Forms\Components\Textarea::make("proof_body.$code")
-                                                        ->label('Body')
-                                                        ->rows(4)
-                                                        ->required(),
-                                                    RepeaterComponent::make("proof_items.$code")
-                                                        ->label('Checklist items')
-                                                        ->addActionLabel('Add item')
-                                                        ->default([])
-                                                        ->collapsed()
-                                                        ->schema([
-                                                            Forms\Components\TextInput::make('value')
-                                                                ->label('Item text')
-                                                                ->maxLength(180)
-                                                                ->required(),
-                                                        ])
-                                                        ->mutateDehydratedStateUsing(fn ($state) => collect($state)->pluck('value')->filter()->values()->all())
-                                                        ->afterStateHydrated(function (RepeaterComponent $component, ?array $state): void {
-                                                            $component->state(
-                                                                collect($state ?? [])
-                                                                    ->map(fn ($item) => ['value' => $item])
-                                                                    ->all()
-                                                            );
-                                                        }),
                                                 ]),
 
                                             Forms\Components\Section::make('Bottom CTA')
@@ -206,8 +144,8 @@ class ServicesPageResource extends Resource
 
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make("hero_title->$locale")
-                    ->label('Hero title')
+                Tables\Columns\TextColumn::make("overview_heading->$locale")
+                    ->label('Map heading')
                     ->limit(50)
                     ->wrap(),
                 Tables\Columns\TextColumn::make('updated_at')

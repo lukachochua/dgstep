@@ -7,6 +7,12 @@ return [
     'read_more' => 'Read More',
     'show_less' => 'Show Less',
     'jump_to_service' => 'Jump to service',
+    'interface' => [
+        'system_map' => 'Implementation map',
+        'module' => 'Module',
+        'capabilities' => 'Capabilities',
+        'flow' => ['Process review', 'Module setup', 'Integration', 'Launch'],
+    ],
     'hero' => [
         'title' => 'Warehouse Management System (WMS)',
         'lead' => 'Our Warehouse Management System covers the full product flow inside your warehouse, from ordering to fulfillment.',

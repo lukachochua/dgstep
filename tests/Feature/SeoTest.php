@@ -33,9 +33,8 @@ test('services page exposes service schema from service records', function () {
 
     ServicesPage::singleton()->update([
         'title' => ['en' => 'Service SEO Page', 'ka' => 'სერვისების SEO გვერდი'],
-        'hero_title' => ['en' => 'Service SEO Hero', 'ka' => 'სერვისების SEO ჰირო'],
-        'hero_lead' => ['en' => 'Service page lead for search snippets.', 'ka' => 'სერვისების გვერდის აღწერა.'],
         'overview_heading' => ['en' => 'Available service modules', 'ka' => 'ხელმისაწვდომი მოდულები'],
+        'overview_body' => ['en' => 'Service page lead for search snippets.', 'ka' => 'სერვისების გვერდის აღწერა.'],
     ]);
 
     Service::create([
