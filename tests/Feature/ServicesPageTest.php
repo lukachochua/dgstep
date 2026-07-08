@@ -140,6 +140,7 @@ test('services page renders localized service content and cues', function () {
         ->assertOk()
         ->assertDontSeeText('Editable hero title')
         ->assertSeeText('Overview Heading')
+        ->assertSee('<h1 id="services-system-map-title"', false)
         ->assertSeeText('Overview body copy.')
         ->assertDontSeeText('Editable proof chip')
         ->assertSeeText('Pawnshop Operations')

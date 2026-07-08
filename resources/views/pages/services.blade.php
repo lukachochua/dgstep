@@ -53,7 +53,7 @@
         <div class="services-system-map__head">
           <div>
             <span class="section-kicker">{{ __('services.interface.system_map') }}</span>
-            <h2 id="services-system-map-title" class="services-system-map__title">{{ $page['overview_heading'] }}</h2>
+            <h1 id="services-system-map-title" class="services-system-map__title">{{ $page['overview_heading'] }}</h1>
           </div>
           <p class="whitespace-pre-line">{{ $page['overview_body'] }}</p>
         </div>
