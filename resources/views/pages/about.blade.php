@@ -70,6 +70,26 @@
         @endforeach
       </section>
 
+      <section class="about-delivery-method reveal" aria-labelledby="about-delivery-title">
+        <div class="about-delivery-method__intro">
+          <span class="section-kicker">{{ $page['delivery']['kicker'] }}</span>
+          <h2 id="about-delivery-title" class="section-title">{{ $page['delivery']['title'] }}</h2>
+          <p class="section-lead">{{ $page['delivery']['description'] }}</p>
+        </div>
+
+        <ol class="about-delivery-method__steps">
+          @foreach ($page['delivery']['steps'] as $step)
+            <li>
+              <span>{{ str_pad((string) ($loop->index + 1), 2, '0', STR_PAD_LEFT) }}</span>
+              <div>
+                <h3>{{ $step['title'] }}</h3>
+                <p>{{ $step['description'] }}</p>
+              </div>
+            </li>
+          @endforeach
+        </ol>
+      </section>
+
      {{-- <section
         class="about-team-section space-y-5 reveal reveal-delay-1"
         x-data="aboutTeam()"

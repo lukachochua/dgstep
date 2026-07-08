@@ -1,10 +1,12 @@
 <?php
 
 use App\Mail\ContactSubmissionReceived;
+use App\Models\ContactPage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use function Pest\Laravel\withoutMiddleware;
+use function Pest\Laravel\withMiddleware;
 
 uses(RefreshDatabase::class);
 
@@ -13,7 +15,11 @@ function validContactPayload(): array
     return [
         'name' => 'John',
         'surname' => 'Doe',
+        'company_name' => 'Example Operations',
         'phone' => '+995598123456',
+        'project_type' => 'new_system',
+        'system_area' => 'warehouse',
+        'timeline' => 'quarter',
         'comments' => 'Looking forward to hearing from you.',
         'g-recaptcha-response' => 'test-token',
     ];
@@ -21,6 +27,21 @@ function validContactPayload(): array
 
 // Disable *all* HTTP middleware (including CSRF) for these tests
 beforeEach(fn() => withoutMiddleware());
+
+test('contact page renders CMS-managed intake copy', function () {
+    withMiddleware();
+    app()->setLocale('en');
+
+    ContactPage::singleton()->update([
+        'intake_heading' => ['en' => 'Custom project brief', 'ka' => 'მორგებული პროექტის აღწერა'],
+        'intake_description' => ['en' => 'Custom intake guidance.', 'ka' => 'მორგებული მითითება.'],
+    ]);
+
+    $this->get(route('contact'))
+        ->assertOk()
+        ->assertSeeText('Custom project brief')
+        ->assertSeeText('Custom intake guidance.');
+});
 
 test('contact form submits successfully when reCAPTCHA passes and emails ops', function () {
     app()->setLocale('en');
@@ -46,7 +67,11 @@ test('contact form submits successfully when reCAPTCHA passes and emails ops', f
     $this->assertDatabaseHas('contact_submissions', [
         'name'     => $payload['name'],
         'surname'  => $payload['surname'],
+        'company_name' => $payload['company_name'],
         'phone'    => $payload['phone'],
+        'project_type' => $payload['project_type'],
+        'system_area' => $payload['system_area'],
+        'timeline' => $payload['timeline'],
         'comments' => $payload['comments'],
     ]);
 

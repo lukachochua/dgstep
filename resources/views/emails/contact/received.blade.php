@@ -15,6 +15,22 @@
             'value' => $s->phone ?: 'n/a',
         ],
         [
+            'label' => 'Company',
+            'value' => $s->company_name ?: 'n/a',
+        ],
+        [
+            'label' => 'Project type',
+            'value' => $s->project_type ? __("contact.form.project_types.{$s->project_type}") : 'n/a',
+        ],
+        [
+            'label' => 'System area',
+            'value' => $s->system_area ? __("contact.form.system_areas.{$s->system_area}") : 'n/a',
+        ],
+        [
+            'label' => 'Timeline',
+            'value' => $s->timeline ? __("contact.form.timelines.{$s->timeline}") : 'n/a',
+        ],
+        [
             'label' => 'Locale',
             'value' => $s->locale ?: 'n/a',
         ],

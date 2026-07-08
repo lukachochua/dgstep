@@ -23,6 +23,10 @@ class AboutPage extends Model
         'vision_heading',
         'vision_label',
         'vision_description',
+        'delivery_kicker',
+        'delivery_title',
+        'delivery_description',
+        'delivery_steps',
         'management_heading',
         'management_view_all',
         'management_collapse',
@@ -37,6 +41,7 @@ class AboutPage extends Model
     protected $casts = [
         'badges' => 'array',
         'management_members' => 'array',
+        'delivery_steps' => 'array',
     ];
 
     public array $translatable = [
@@ -50,6 +55,9 @@ class AboutPage extends Model
         'vision_heading',
         'vision_label',
         'vision_description',
+        'delivery_kicker',
+        'delivery_title',
+        'delivery_description',
         'management_heading',
         'management_view_all',
         'management_collapse',
@@ -114,6 +122,28 @@ class AboutPage extends Model
                 'en' => Lang::get('about.vision.description', [], 'en'),
                 'ka' => Lang::get('about.vision.description', [], 'ka'),
             ],
+            'delivery_kicker' => [
+                'en' => Lang::get('about.delivery_method.kicker', [], 'en'),
+                'ka' => Lang::get('about.delivery_method.kicker', [], 'ka'),
+            ],
+            'delivery_title' => [
+                'en' => Lang::get('about.delivery_method.title', [], 'en'),
+                'ka' => Lang::get('about.delivery_method.title', [], 'ka'),
+            ],
+            'delivery_description' => [
+                'en' => Lang::get('about.delivery_method.description', [], 'en'),
+                'ka' => Lang::get('about.delivery_method.description', [], 'ka'),
+            ],
+            'delivery_steps' => collect(Lang::get('about.delivery_method.steps', [], 'en'))
+                ->map(function (array $step, int $index): array {
+                    $kaStep = Lang::get('about.delivery_method.steps', [], 'ka')[$index] ?? [];
+
+                    return [
+                        'title' => ['en' => $step['title'] ?? '', 'ka' => $kaStep['title'] ?? ''],
+                        'description' => ['en' => $step['description'] ?? '', 'ka' => $kaStep['description'] ?? ''],
+                    ];
+                })
+                ->all(),
             'management_heading' => [
                 'en' => Lang::get('about.management.heading', [], 'en'),
                 'ka' => Lang::get('about.management.heading', [], 'ka'),
@@ -186,6 +216,20 @@ class AboutPage extends Model
         return collect($this->management_members ?? [])
             ->map(fn (array $member) => $this->mapMember($member, $locale))
             ->filter()
+            ->values()
+            ->all();
+    }
+
+    public function deliveryStepsForLocale(string $locale, array $defaults = []): array
+    {
+        $steps = $this->delivery_steps ?: Arr::get($defaults, 'delivery_steps', []);
+
+        return collect($steps)
+            ->map(fn (array $step): array => [
+                'title' => $this->resolveLocalizedValue($step['title'] ?? null, $locale) ?? '',
+                'description' => $this->resolveLocalizedValue($step['description'] ?? null, $locale) ?? '',
+            ])
+            ->filter(fn (array $step): bool => filled($step['title']) || filled($step['description']))
             ->values()
             ->all();
     }

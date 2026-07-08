@@ -113,7 +113,11 @@ window.contactForm = (config = {}) => ({
     form: {
         name: config.initial?.name ?? '',
         surname: config.initial?.surname ?? '',
+        company_name: config.initial?.company_name ?? '',
         phone: config.initial?.phone ?? '',
+        project_type: config.initial?.project_type ?? '',
+        system_area: config.initial?.system_area ?? '',
+        timeline: config.initial?.timeline ?? '',
         comments: config.initial?.comments ?? '',
     },
     errors: {},
@@ -123,6 +127,8 @@ window.contactForm = (config = {}) => ({
 
         if (!this.form.name) this.errors.name = this.messages.name ?? '';
         if (!this.form.surname) this.errors.surname = this.messages.surname ?? '';
+        if (!this.form.project_type) this.errors.project_type = this.messages.projectType ?? '';
+        if (!this.form.system_area) this.errors.system_area = this.messages.systemArea ?? '';
 
         if (!this.form.phone) {
             this.errors.phone = this.messages.phoneRequired ?? '';

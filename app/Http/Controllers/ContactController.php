@@ -28,8 +28,8 @@ class ContactController extends Controller
         $langFallbacks = [
             'headline'              => __('contact.headline'),
             'description'           => __('contact.description'),
-            'feature_professional'  => __('contact.features.professional'),
-            'feature_guarantees'    => __('contact.features.guarantees'),
+            'intake_heading'        => __('contact.form.intake_heading'),
+            'intake_description'    => __('contact.form.intake_description'),
             'cta_button'            => __('contact.cta_button'),
             // phone href is handled below
         ];
@@ -59,8 +59,8 @@ class ContactController extends Controller
         $view = [
             'headline' => $get('headline'),
             'desc'     => $get('description'),
-            'featPro'  => $get('feature_professional'),
-            'featGua'  => $get('feature_guarantees'),
+            'intakeHeading' => $get('intake_heading'),
+            'intakeDescription' => $get('intake_description'),
             'ctaLabel' => $get('cta_button'),
 
             'ctaPhone' => $record?->cta_phone_href
@@ -85,11 +85,17 @@ class ContactController extends Controller
         $validated = $request->validate([
             'name'     => ['required', 'string', 'max:255'],
             'surname'  => ['required', 'string', 'max:255'],
+            'company_name' => ['nullable', 'string', 'max:255'],
             'phone'    => ['required', 'regex:/^\+?\d{7,15}$/'],
+            'project_type' => ['required', 'string', 'in:new_system,existing_system,integration,consultation'],
+            'system_area' => ['required', 'string', 'in:warehouse,tasks,crm,hr,other'],
+            'timeline' => ['nullable', 'string', 'in:soon,quarter,later,unknown'],
             'comments' => ['nullable', 'string', 'max:1000'],
             'g-recaptcha-response' => ['required', 'string'],
         ], [
             'g-recaptcha-response.required' => __('contact.validation.captcha_required'),
+            'project_type.required' => __('contact.validation.project_type'),
+            'system_area.required' => __('contact.validation.system_area'),
         ]);
 
         // 2) Verify reCAPTCHA
@@ -133,7 +139,11 @@ class ContactController extends Controller
         $submission = ContactSubmission::create([
             'name'       => $validated['name'],
             'surname'    => $validated['surname'],
+            'company_name' => $validated['company_name'] ?? null,
             'phone'      => $validated['phone'],
+            'project_type' => $validated['project_type'],
+            'system_area' => $validated['system_area'],
+            'timeline' => $validated['timeline'] ?? null,
             'comments'   => $validated['comments'] ?? null,
             'locale'     => app()->getLocale(),
             'ip_address' => $request->ip(),

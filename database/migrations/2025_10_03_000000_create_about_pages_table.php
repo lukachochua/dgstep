@@ -35,6 +35,13 @@ return new class extends Migration
 
         $defaults = AboutPage::defaults();
 
+        unset(
+            $defaults['delivery_kicker'],
+            $defaults['delivery_title'],
+            $defaults['delivery_description'],
+            $defaults['delivery_steps'],
+        );
+
         AboutPage::query()->create($defaults);
     }
 

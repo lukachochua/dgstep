@@ -126,21 +126,21 @@ class AboutPageResource extends Resource
                                                         ->required(),
                                                 ]),
 
-                                            Forms\Components\Section::make('Management copy')
-                                                ->icon('heroicon-o-briefcase')
-                                                ->columns(3)
+                                            Forms\Components\Section::make('Delivery method')
+                                                ->icon('heroicon-o-arrow-path')
+                                                ->description('Copy shown above the operating workflow on the public About page.')
                                                 ->schema([
-                                                    Forms\Components\TextInput::make("management_heading.$code")
+                                                    Forms\Components\TextInput::make("delivery_kicker.$code")
+                                                        ->label('Kicker')
+                                                        ->maxLength(120)
+                                                        ->required(),
+                                                    Forms\Components\TextInput::make("delivery_title.$code")
                                                         ->label('Heading')
                                                         ->maxLength(255)
                                                         ->required(),
-                                                    Forms\Components\TextInput::make("management_view_all.$code")
-                                                        ->label('View-all label')
-                                                        ->maxLength(120)
-                                                        ->required(),
-                                                    Forms\Components\TextInput::make("management_collapse.$code")
-                                                        ->label('Collapse label')
-                                                        ->maxLength(120)
+                                                    Forms\Components\Textarea::make("delivery_description.$code")
+                                                        ->label('Description')
+                                                        ->rows(3)
                                                         ->required(),
                                                 ]),
 
@@ -150,68 +150,33 @@ class AboutPageResource extends Resource
                     ])->columnSpan(['lg' => 2]),
                 ]),
 
-            Forms\Components\Section::make('Management Team')
-                ->icon('heroicon-o-users')
-                ->description('Manage the carousel/grid entries that surface on the public About page.')
-                ->collapsible()
+            Forms\Components\Section::make('Delivery workflow steps')
+                ->icon('heroicon-o-list-bullet')
+                ->description('Ordered operating stages shown on the public About page.')
                 ->schema([
-                    RepeaterComponent::make('management_members')
-                        ->label('Members')
+                    RepeaterComponent::make('delivery_steps')
+                        ->label('Steps')
                         ->orderable()
                         ->collapsed()
                         ->default([])
-                        ->createItemButtonLabel('Add member')
-                        ->itemLabel(fn (array $state): string => data_get($state, 'name.en') ?? data_get($state, 'name', 'Team member'))
-                        ->columns([
-                            'default' => 1,
-                            'lg' => 12,
-                        ])
-                        ->grid(1)
+                        ->minItems(1)
+                        ->createItemButtonLabel('Add step')
+                        ->itemLabel(fn (array $state): string => data_get($state, 'title.en') ?? data_get($state, 'title.ka') ?? 'Workflow step')
                         ->schema([
-                            Forms\Components\FileUpload::make('image_path')
-                                ->label('Image upload')
-                                ->helperText('Upload a square headshot; overrides the external URL when provided.')
-                                ->directory('about/team')
-                                ->disk('public')
-                                ->visibility('public')
-                                ->image()
-                                ->imageEditor()
-                                ->maxFiles(1)
-                                ->maxSize(4096)
-                                ->columnSpan([
-                                    'default' => 1,
-                                    'lg' => 4,
-                                ]),
-
-                            Forms\Components\TextInput::make('image_url')
-                                ->label('Image URL')
-                                ->helperText('Optional fallback when no upload is present.')
-                                ->maxLength(2048)
-                                ->url()
-                                ->columnSpan([
-                                    'default' => 1,
-                                    'lg' => 4,
-                                ]),
-
-                            Forms\Components\Tabs::make('member_locales')
-                                ->columnSpan([
-                                    'default' => 1,
-                                    'lg' => 8,
-                                ])
+                            Forms\Components\Tabs::make('step_locales')
                                 ->tabs(
                                     collect(static::getLocales())->map(function (string $label, string $code) {
                                         return Forms\Components\Tabs\Tab::make($label)
                                             ->schema([
-                                                Forms\Components\TextInput::make("name.$code")
-                                                    ->label('Name')
-                                                    ->maxLength(120),
-                                                Forms\Components\TextInput::make("role.$code")
-                                                    ->label('Role')
-                                                    ->maxLength(160),
-                                                Forms\Components\Textarea::make("bio.$code")
-                                                    ->label('Bio')
-                                                    ->rows(4)
-                                                    ->maxLength(1200),
+                                                Forms\Components\TextInput::make("title.$code")
+                                                    ->label('Step title')
+                                                    ->maxLength(160)
+                                                    ->required(),
+                                                Forms\Components\Textarea::make("description.$code")
+                                                    ->label('Step description')
+                                                    ->rows(3)
+                                                    ->maxLength(600)
+                                                    ->required(),
                                             ]);
                                     })->toArray()
                                 ),

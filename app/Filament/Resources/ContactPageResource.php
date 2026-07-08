@@ -38,11 +38,11 @@ class ContactPageResource extends Resource
                 Forms\Components\Textarea::make('description.ka')->label('Description (KA)')->rows(3)->required(),
             ])->columns(2),
 
-            Forms\Components\Fieldset::make('Feature Badges')->schema([
-                Forms\Components\TextInput::make('feature_professional.en')->label('Professional (EN)')->required(),
-                Forms\Components\TextInput::make('feature_professional.ka')->label('Professional (KA)')->required(),
-                Forms\Components\TextInput::make('feature_guarantees.en')->label('Guarantees (EN)')->required(),
-                Forms\Components\TextInput::make('feature_guarantees.ka')->label('Guarantees (KA)')->required(),
+            Forms\Components\Fieldset::make('Project Intake')->schema([
+                Forms\Components\TextInput::make('intake_heading.en')->label('Intake heading (EN)')->required(),
+                Forms\Components\TextInput::make('intake_heading.ka')->label('Intake heading (KA)')->required(),
+                Forms\Components\Textarea::make('intake_description.en')->label('Intake description (EN)')->rows(3)->required(),
+                Forms\Components\Textarea::make('intake_description.ka')->label('Intake description (KA)')->rows(3)->required(),
             ])->columns(2),
 
             Forms\Components\Fieldset::make('CTA')->schema([

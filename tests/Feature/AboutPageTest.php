@@ -5,7 +5,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
-test('about page renders editable singleton copy and management members', function () {
+test('about page renders editable copy and the delivery method', function () {
     app()->setLocale('en');
 
     AboutPage::singleton()->update([
@@ -48,6 +48,15 @@ test('about page renders editable singleton copy and management members', functi
         'vision_description' => [
             'en' => 'Vision description copy.',
             'ka' => 'ხედვის აღწერა.',
+        ],
+        'delivery_kicker' => ['en' => 'Custom Method', 'ka' => 'მორგებული მეთოდი'],
+        'delivery_title' => ['en' => 'Custom Delivery Workflow', 'ka' => 'მორგებული სამუშაო პროცესი'],
+        'delivery_description' => ['en' => 'Custom delivery description.', 'ka' => 'მორგებული პროცესის აღწერა.'],
+        'delivery_steps' => [
+            [
+                'title' => ['en' => 'Custom process review', 'ka' => 'მორგებული პროცესის ანალიზი'],
+                'description' => ['en' => 'Review the operation.', 'ka' => 'ოპერაციის განხილვა.'],
+            ],
         ],
         'management_heading' => [
             'en' => 'Leadership Team',
@@ -109,24 +118,22 @@ test('about page renders editable singleton copy and management members', functi
         ->assertSeeText('Custom paragraph one.')
         ->assertSeeText('Custom Mission Label')
         ->assertSeeText('Vision Headline')
-        ->assertSeeText('Leadership Team')
-        ->assertSeeText('View all leaders')
-        ->assertSeeText('Lead Person')
-        ->assertSeeText('Second Person')
-        ->assertSeeText('Third Person')
-        ->assertSeeText('Fourth Person')
+        ->assertSeeText('Custom Delivery Workflow')
+        ->assertSeeText('Custom process review')
+        ->assertDontSeeText('Leadership Team')
+        ->assertDontSeeText('Lead Person')
         ->assertDontSeeText('Custom About Heading')
         ->assertDontSeeText('Custom badge one')
         ->assertDontSeeText('Custom hero caption');
 });
 
-test('about page does not restore default members when the saved list is empty', function () {
+test('about page does not render inactive management content', function () {
     app()->setLocale('en');
 
     AboutPage::singleton()->update(['management_members' => []]);
 
     $this->get(route('about'))
         ->assertOk()
-        ->assertSeeText(__('about.management.no_members'))
+        ->assertDontSeeText(__('about.management.no_members'))
         ->assertDontSeeText('Sergo Matiashvili');
 });

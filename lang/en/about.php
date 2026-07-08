@@ -3,6 +3,17 @@
 return [
     'title' => 'About Us — DGstep',
     'hero_image_fallback_alt' => 'Team working',
+    'delivery_method' => [
+        'kicker' => 'Operating method',
+        'title' => 'How we turn a working process into a system',
+        'description' => 'Implementation starts by understanding the current operation and ends with a supported working system.',
+        'steps' => [
+            ['title' => 'Process review', 'description' => 'We map stages, responsibilities, and operational bottlenecks.'],
+            ['title' => 'System planning', 'description' => 'We define modules, data, and the integrations the workflow requires.'],
+            ['title' => 'Build and verify', 'description' => 'We implement the solution and test it against real operating scenarios.'],
+            ['title' => 'Rollout and support', 'description' => 'We launch the system, support the team, and continue improving it.'],
+        ],
+    ],
 
     'who_we_are' => [
         'heading' => 'Who <span class="text-[var(--color-electric-sky)]">We Are</span>',

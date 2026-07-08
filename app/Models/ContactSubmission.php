@@ -12,7 +12,11 @@ class ContactSubmission extends Model
     protected $fillable = [
         'name',
         'surname',
+        'company_name',
         'phone',
+        'project_type',
+        'system_area',
+        'timeline',
         'comments',
         'locale',
         'ip_address',

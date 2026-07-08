@@ -12,6 +12,8 @@ class ContactPage extends Model
     protected $fillable = [
         'headline',
         'description',
+        'intake_heading',
+        'intake_description',
         'feature_professional',
         'feature_guarantees',
         'cta_button',
@@ -21,6 +23,8 @@ class ContactPage extends Model
     public array $translatable = [
         'headline',
         'description',
+        'intake_heading',
+        'intake_description',
         'feature_professional',
         'feature_guarantees',
         'cta_button',
@@ -36,6 +40,14 @@ class ContactPage extends Model
             'description' => [
                 'en' => 'If you run a business and want to simplify your daily operations, contact us, our team will take care of implementing the processes you need.',
                 'ka' => 'თუ მართავ ბიზნესს და გჭირდება ყოველდღიური პროცესების გამარტივება, დაგვიკავშირდი და ჩვენი გუნდი იზრუნებს სასურველი პროცესების დანერგვაზე.',
+            ],
+            'intake_heading' => [
+                'en' => __('contact.form.intake_heading', [], 'en'),
+                'ka' => __('contact.form.intake_heading', [], 'ka'),
+            ],
+            'intake_description' => [
+                'en' => __('contact.form.intake_description', [], 'en'),
+                'ka' => __('contact.form.intake_description', [], 'ka'),
             ],
             'feature_professional' => [
                 'en' => 'Professional support',

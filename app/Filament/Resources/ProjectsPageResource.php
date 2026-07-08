@@ -80,7 +80,7 @@ class ProjectsPageResource extends Resource
                                                         ->required(),
                                                 ]),
 
-                                            Forms\Components\Section::make('Proof Band')
+                                            Forms\Components\Section::make('Delivery Register')
                                                 ->icon('heroicon-o-shield-check')
                                                 ->schema([
                                                     Forms\Components\TextInput::make("proof_heading.$code")
@@ -92,13 +92,13 @@ class ProjectsPageResource extends Resource
                                                         ->rows(3)
                                                         ->required(),
                                                     RepeaterComponent::make("proof_items.$code")
-                                                        ->label('Proof chips')
-                                                        ->addActionLabel('Add chip')
+                                                        ->label('Delivery parameters')
+                                                        ->addActionLabel('Add parameter')
                                                         ->default([])
                                                         ->collapsed()
                                                         ->schema([
                                                             Forms\Components\TextInput::make('value')
-                                                                ->label('Chip text')
+                                                                ->label('Parameter')
                                                                 ->maxLength(180)
                                                                 ->required(),
                                                         ])
@@ -134,17 +134,17 @@ class ProjectsPageResource extends Resource
                     ])->columnSpan(['lg' => 2]),
                 ]),
 
-            Forms\Components\Section::make('Project Cards')
+            Forms\Components\Section::make('Delivered Systems')
                 ->icon('heroicon-o-rectangle-stack')
-                ->description('Cards shown on the public Projects page.')
+                ->description('Delivered-system records shown on the public Projects page.')
                 ->schema([
                     RepeaterComponent::make('project_cards')
                         ->label('Projects')
                         ->default([])
                         ->collapsed()
                         ->reorderable()
-                        ->addActionLabel('Add project card')
-                        ->itemLabel(fn (array $state): string => data_get($state, 'title.en') ?? data_get($state, 'title.ka') ?? 'Project card')
+                        ->addActionLabel('Add delivered system')
+                        ->itemLabel(fn (array $state): string => data_get($state, 'title.en') ?? data_get($state, 'title.ka') ?? 'Delivered system')
                         ->grid(1)
                         ->columns([
                             'default' => 1,

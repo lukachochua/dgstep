@@ -59,6 +59,12 @@ class AboutPageController extends Controller
                         ),
                     ],
                 ],
+                'delivery' => [
+                    'kicker' => $page->translated('delivery_kicker', $locale, $defaults),
+                    'title' => $page->translated('delivery_title', $locale, $defaults),
+                    'description' => $page->translated('delivery_description', $locale, $defaults),
+                    'steps' => $page->deliveryStepsForLocale($locale, $defaults),
+                ],
             ],
             'team' => [
                 'heading' => $page->translated('management_heading', $locale, $defaults),

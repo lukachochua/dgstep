@@ -54,6 +54,14 @@ class ContactSubmissionResource extends Resource
                     ->label('Phone')
                     ->searchable()
                     ->copyable(),
+                Tables\Columns\TextColumn::make('project_type')
+                    ->label('Project type')
+                    ->formatStateUsing(fn (?string $state): string => $state ? __("contact.form.project_types.{$state}") : '—')
+                    ->badge(),
+                Tables\Columns\TextColumn::make('system_area')
+                    ->label('System area')
+                    ->formatStateUsing(fn (?string $state): string => $state ? __("contact.form.system_areas.{$state}") : '—')
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('comments')
                     ->label('Comments')
                     ->toggleable()
@@ -88,11 +96,24 @@ class ContactSubmissionResource extends Resource
                     ->schema([
                         TextEntry::make('name')->label('Name'),
                         TextEntry::make('surname')->label('Surname'),
+                        TextEntry::make('company_name')->label('Company')->default('—'),
                         TextEntry::make('phone')->label('Phone'),
                         TextEntry::make('locale')->label('Locale')->hidden(fn ($record) => blank($record->locale)),
                         TextEntry::make('ip_address')->label('IP address')->hidden(fn ($record) => blank($record->ip_address)),
                         TextEntry::make('created_at')->label('Submitted at')->dateTime(),
                     ])->columns(2),
+                Section::make('Project context')
+                    ->schema([
+                        TextEntry::make('project_type')
+                            ->label('Project type')
+                            ->formatStateUsing(fn (?string $state): string => $state ? __("contact.form.project_types.{$state}") : '—'),
+                        TextEntry::make('system_area')
+                            ->label('System area')
+                            ->formatStateUsing(fn (?string $state): string => $state ? __("contact.form.system_areas.{$state}") : '—'),
+                        TextEntry::make('timeline')
+                            ->label('Timeline')
+                            ->formatStateUsing(fn (?string $state): string => $state ? __("contact.form.timelines.{$state}") : '—'),
+                    ])->columns(3),
                 Section::make('Message')
                     ->schema([
                         TextEntry::make('comments')

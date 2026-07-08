@@ -41,6 +41,12 @@
       ],
     ],
   ];
+
+  $projectFallbacks = [
+    Vite::asset('resources/images/placeholders/feature-ops.svg'),
+    Vite::asset('resources/images/placeholders/feature-insights.svg'),
+    Vite::asset('resources/images/placeholders/feature-rollout.svg'),
+  ];
 @endphp
 
 <x-layouts.base :title="$pageTitle" :seo="$seo" :structured-data="$structuredData">
@@ -54,37 +60,55 @@
             <p class="section-lead">{{ $page['hero_lead'] }}</p>
           </div>
 
-          <x-ui.surface-card as="div" variant="hero-detail" class="projects-proof-band">
-            <div class="space-y-3">
-              <p class="project-proof-label">
-                {{ $page['proof_heading'] }}
-              </p>
-              <p class="project-proof-body">
-                {{ $page['proof_body'] }}
-              </p>
+          <div class="projects-delivery-register">
+            <div class="projects-delivery-register__head">
+              <p class="project-proof-label">{{ __('projects.interface.delivery_register') }}</p>
+              <h2>{{ $page['proof_heading'] }}</h2>
+              <p class="project-proof-body">{{ $page['proof_body'] }}</p>
             </div>
 
             @if (!empty($page['proof_items']))
-              <div class="projects-proof-list">
+              <ol class="projects-delivery-register__rows">
                 @foreach ($page['proof_items'] as $item)
-                  <span class="projects-proof-chip">{{ $item }}</span>
+                  <li>
+                    <span>{{ str_pad((string) ($loop->index + 1), 2, '0', STR_PAD_LEFT) }}</span>
+                    <strong>{{ $item }}</strong>
+                  </li>
                 @endforeach
-              </div>
+              </ol>
             @endif
-          </x-ui.surface-card>
+          </div>
         </div>
       </x-ui.surface-card>
 
-      <section class="projects-grid stagger">
+      <section class="projects-system-list" aria-label="{{ $page['hero_title'] }}">
         @foreach ($cards as $card)
-          <x-ui.media-card
-            variant="project"
-            class="projects-card p-4 md:p-5"
-            :image="$card['image']"
-            :imageAlt="$card['title']"
-            :title="$card['title']"
-            :description="$card['description']"
-          />
+          @php($fallbackImage = $projectFallbacks[$loop->index % count($projectFallbacks)])
+          <article class="clipped-card project-system-record">
+            <div class="project-system-record__header">
+              <span>{{ __('projects.interface.project') }}</span>
+              <strong>{{ str_pad((string) ($loop->index + 1), 2, '0', STR_PAD_LEFT) }}</strong>
+            </div>
+            <div class="project-system-record__grid">
+              <img
+                src="{{ $card['image'] ?: $fallbackImage }}"
+                data-fallback-src="{{ $fallbackImage }}"
+                onerror="this.onerror=null;this.src=this.dataset.fallbackSrc"
+                alt="{{ $card['title'] }}"
+                class="project-system-record__image"
+                loading="lazy"
+                decoding="async"
+              />
+              <div class="project-system-record__content">
+                <p class="project-system-record__label">{{ __('projects.interface.delivered_system') }}</p>
+                <h2>{{ $card['title'] }}</h2>
+                <div class="project-system-record__scope">
+                  <span>{{ __('projects.interface.scope') }}</span>
+                  <p>{{ $card['description'] }}</p>
+                </div>
+              </div>
+            </div>
+          </article>
         @endforeach
       </section>
 

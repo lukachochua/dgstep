@@ -5,6 +5,12 @@ return [
 
     'heading' => 'Selected Projects',
     'subheading' => 'We work with local and regional businesses to design, build, and scale digital tools. Here are a few of the platforms and partnerships we’ve delivered.',
+    'interface' => [
+        'delivery_register' => 'Delivery parameters',
+        'project' => 'Project',
+        'delivered_system' => 'Delivered system',
+        'scope' => 'Project scope',
+    ],
 
     'cards' => [
         [
