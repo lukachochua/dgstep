@@ -38,7 +38,7 @@
 
             <div class="about-story-copy">
               @foreach ($page['hero']['paragraphs'] as $index => $paragraph)
-                <p class="{{ $index === 0 ? 'section-lead' : 'text-sm text-[color:var(--text-muted)] md:text-base' }}">
+                <p class="{{ $index === 0 ? 'section-lead' : 'body-copy' }}">
                   {!! nl2br(e($paragraph)) !!}
                 </p>
               @endforeach

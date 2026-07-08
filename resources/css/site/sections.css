@@ -4,9 +4,26 @@
 }
 
 .metric-value {
-  font-size: clamp(1.3rem, 2.5vw, 1.9rem);
+  font-size: var(--type-section-title);
   line-height: 1.1;
   font-weight: 700;
+}
+
+.metric-label {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: var(--type-label);
+  font-weight: 700;
+  letter-spacing: var(--tracking-label);
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.metric-description {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: var(--type-body-sm);
+  line-height: 1.55;
 }
 
 .home-proof__frame {
@@ -34,23 +51,23 @@
 .home-proof__eyebrow {
   margin: 0;
   color: var(--brand-strong);
-  font-size: 0.74rem;
+  font-size: var(--type-label);
   font-weight: 700;
-  letter-spacing: 0.14em;
+  letter-spacing: var(--tracking-label);
   line-height: 1.25;
   text-transform: uppercase;
 }
 
 .home-proof__intro .section-title {
   max-width: 15ch;
-  font-size: clamp(2rem, 4vw, 3.9rem);
+  font-size: var(--type-page-title);
   margin: 0;
 }
 
 .home-proof__intro .section-lead {
   max-width: 37rem;
-  font-size: 1rem;
-  line-height: 1.78;
+  font-size: var(--type-body);
+  line-height: var(--leading-body);
   margin: 0;
 }
 
@@ -91,25 +108,25 @@
 .home-proof__item-label {
   margin: 0;
   color: var(--text-muted);
-  font-size: 0.72rem;
+  font-size: var(--type-label);
   font-weight: 700;
-  letter-spacing: 0.14em;
+  letter-spacing: var(--tracking-label);
   line-height: 1.2;
   text-transform: uppercase;
 }
 
 .home-proof__item-value {
   margin: 0;
-  font-size: clamp(1.15rem, 2vw, 1.55rem);
-  line-height: 1.08;
+  font-size: var(--type-card-title);
+  line-height: 1.18;
   font-weight: 700;
 }
 
 .home-proof__item-copy {
   margin: 0.06rem 0 0;
   color: var(--text-muted);
-  font-size: 0.88rem;
-  line-height: 1.42;
+  font-size: var(--type-body-sm);
+  line-height: 1.55;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -164,13 +181,13 @@
 }
 
 .feature-card__title {
-  font-size: clamp(1.02rem, 1.15vw, 1.22rem);
-  line-height: 1.12;
+  font-size: var(--type-card-title);
+  line-height: 1.18;
 }
 
 .feature-card__description {
-  font-size: 0.9rem;
-  line-height: 1.45;
+  font-size: var(--type-body-sm);
+  line-height: 1.58;
 }
 
 .feature-card--lead {
@@ -179,8 +196,8 @@
 }
 
 .feature-card--lead-primary .feature-card__title {
-  font-size: clamp(1.14rem, 1.55vw, 1.38rem);
-  line-height: 1.08;
+  font-size: var(--type-card-title);
+  line-height: 1.18;
 }
 
 .project-card:hover,
@@ -197,7 +214,7 @@
   border-radius: 0;
   background: transparent;
   color: var(--brand-strong);
-  font-size: 0.94rem;
+  font-size: var(--type-body-sm);
   font-weight: 600;
   text-decoration: none;
   transition: color 160ms ease, transform 160ms ease;
@@ -250,6 +267,14 @@
   user-select: none;
 }
 
+.body-copy {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: var(--type-body-sm);
+  line-height: var(--leading-body);
+  overflow-wrap: anywhere;
+}
+
 .about-hero-media {
   display: grid;
   gap: 0.85rem;
@@ -289,10 +314,52 @@
   padding: 0;
   background: transparent;
   color: var(--brand-strong);
-  font-size: 0.68rem;
+  font-size: var(--type-label);
   font-weight: 700;
-  letter-spacing: 0.16em;
+  letter-spacing: var(--tracking-label);
   text-transform: uppercase;
+}
+
+.editorial-card__title,
+.media-card__title,
+.profile-card__lead-title {
+  color: var(--text);
+  font-size: var(--type-card-title);
+  font-weight: 700;
+  letter-spacing: var(--tracking-title);
+  line-height: 1.18;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+
+.profile-card__lead-title {
+  font-size: var(--type-section-title);
+}
+
+.editorial-card__body,
+.media-card__description,
+.profile-card__description {
+  color: var(--text-muted);
+  font-size: var(--type-body-sm);
+  line-height: var(--leading-body);
+  overflow-wrap: anywhere;
+}
+
+.media-card__description {
+  margin-top: 0.5rem;
+}
+
+.profile-card__title {
+  color: var(--text);
+  font-size: var(--type-body);
+  font-weight: 700;
+  line-height: 1.32;
+}
+
+.profile-card__subtitle {
+  color: var(--text-muted);
+  font-size: var(--type-caption);
+  line-height: 1.45;
 }
 
 .about-team-section {
@@ -383,6 +450,23 @@
   color: rgba(255, 255, 255, 0.82);
 }
 
+.project-proof-label {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: var(--type-label);
+  font-weight: 700;
+  letter-spacing: var(--tracking-label);
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.project-proof-body {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: var(--type-body-sm);
+  line-height: var(--leading-body);
+}
+
 .projects-proof-list {
   display: flex;
   flex-wrap: wrap;
@@ -394,7 +478,7 @@
   align-items: center;
   padding: 0.45rem 0.8rem;
   color: var(--brand-strong);
-  font-size: 0.78rem;
+  font-size: var(--type-caption);
   font-weight: 700;
   line-height: 1.35;
 }
@@ -412,6 +496,29 @@
 .projects-card-copy {
   display: grid;
   gap: 0.65rem;
+}
+
+.contact-stat-value {
+  margin: 0;
+  color: var(--text);
+  font-size: var(--type-body-sm);
+  font-weight: 700;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.legal-copy {
+  color: var(--text-muted);
+  font-size: var(--type-body-sm);
+  line-height: var(--leading-body);
+}
+
+.legal-copy__title {
+  color: var(--text);
+  font-size: var(--type-card-title);
+  font-weight: 700;
+  line-height: 1.2;
+  text-wrap: balance;
 }
 
 .projects-cta-button {
@@ -439,8 +546,8 @@
 
 .home-cta .section-title {
   max-width: none;
-  font-size: clamp(1.2rem, 1.8vw, 1.7rem);
-  line-height: 1.08;
+  font-size: var(--type-section-title);
+  line-height: var(--leading-title);
   color: #ffffff;
 }
 
@@ -462,7 +569,7 @@
   position: relative;
   display: inline-flex;
   align-items: center;
-  font-size: 0.94rem;
+  font-size: var(--type-body-sm);
   font-weight: 600;
   line-height: 1.3;
   text-decoration: none;
@@ -559,10 +666,10 @@
 
 .floating-cta__title {
   max-width: calc(100% - 1.9rem);
-  font-size: clamp(0.78rem, 0.92vw, 0.9rem);
+  font-size: var(--type-body-sm);
   line-height: 1.34;
   font-weight: 700;
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
   text-wrap: balance;
 }
 
@@ -913,5 +1020,3 @@
     transition: none;
   }
 }
-
-

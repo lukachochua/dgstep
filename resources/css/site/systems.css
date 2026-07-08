@@ -378,7 +378,7 @@ html[data-theme="light"] :where(.service-problem-pill, .services-proof__chip, .p
 .feedback-banner {
   display: block;
   padding: 0.78rem 0.92rem;
-  font-size: 0.92rem;
+  font-size: var(--type-body-sm);
   line-height: 1.55;
   font-weight: 600;
 }
@@ -555,14 +555,14 @@ html:not([data-theme="dark"]) .footer-link:focus-visible {
 }
 
 .home-features .feature-card__title {
-  font-size: clamp(1.02rem, 1.15vw, 1.22rem);
-  line-height: 1.08;
+  font-size: var(--type-card-title);
+  line-height: 1.18;
 }
 
 .home-features .feature-card__description {
   color: #334155;
-  font-size: 0.9rem;
-  line-height: 1.7;
+  font-size: var(--type-body-sm);
+  line-height: var(--leading-body);
 }
 
 .home-features .feature-more-link {

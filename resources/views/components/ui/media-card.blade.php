@@ -22,8 +22,8 @@
 
   <div class="{{ $variant === 'project' ? 'projects-card-copy' : ($variant === 'feature' ? 'feature-card__copy-shell' : '') }}">
     <div class="{{ $variant === 'feature' ? 'feature-card__copy-inner' : '' }}">
-      <h3 class="{{ $variant === 'feature' ? 'feature-card__title' : 'text-xl font-semibold leading-tight' }}">{{ $title }}</h3>
-      <p class="{{ $variant === 'feature' ? 'feature-card__description' : 'mt-2 text-sm text-[color:var(--text-muted)] line-clamp-4' }}">{{ $description }}</p>
+      <h3 class="{{ $variant === 'feature' ? 'feature-card__title' : 'media-card__title' }}">{{ $title }}</h3>
+      <p class="{{ $variant === 'feature' ? 'feature-card__description' : 'media-card__description line-clamp-4' }}">{{ $description }}</p>
       {{ $slot }}
     </div>
   </div>

@@ -50,10 +50,10 @@
 
         <div class="grid gap-3 sm:grid-cols-2">
           <x-ui.stat-card :label="__('contact.metrics.support')">
-            <p class="text-sm font-semibold">{{ $featPro }}</p>
+            <p class="contact-stat-value">{{ $featPro }}</p>
           </x-ui.stat-card>
           <x-ui.stat-card :label="__('contact.metrics.team')">
-            <p class="text-sm font-semibold">{{ $featGua }}</p>
+            <p class="contact-stat-value">{{ $featGua }}</p>
           </x-ui.stat-card>
         </div>
 

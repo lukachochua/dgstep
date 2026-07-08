@@ -56,10 +56,10 @@
 
           <x-ui.surface-card as="div" variant="hero-detail" class="projects-proof-band">
             <div class="space-y-3">
-              <p class="text-sm font-semibold uppercase tracking-[0.18em] text-[color:var(--brand-strong)]">
+              <p class="project-proof-label">
                 {{ $page['proof_heading'] }}
               </p>
-              <p class="text-sm leading-6 text-[color:var(--text-muted)] md:text-base">
+              <p class="project-proof-body">
                 {{ $page['proof_body'] }}
               </p>
             </div>

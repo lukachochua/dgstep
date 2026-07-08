@@ -28,9 +28,9 @@
       @if (filled($subtitle))
         <span class="section-kicker">{{ $subtitle }}</span>
       @endif
-      <h3 class="text-[clamp(1.5rem,2.4vw,2.1rem)] font-semibold leading-tight">{{ $title }}</h3>
+      <h3 class="profile-card__lead-title">{{ $title }}</h3>
       @if (filled($description))
-        <p class="text-sm leading-6 text-[color:var(--text-muted)] md:text-base">{{ $description }}</p>
+        <p class="profile-card__description">{{ $description }}</p>
       @endif
     </div>
   @else
@@ -43,15 +43,15 @@
         decoding="async"
       />
       <div>
-        <h3 class="text-base font-semibold">{{ $title }}</h3>
+        <h3 class="profile-card__title">{{ $title }}</h3>
         @if (filled($subtitle))
-          <p class="text-xs text-[color:var(--text-muted)]">{{ $subtitle }}</p>
+          <p class="profile-card__subtitle">{{ $subtitle }}</p>
         @endif
       </div>
     </div>
 
     @if (filled($description))
-      <p class="mt-4 line-clamp-3 text-sm text-[color:var(--text-muted)]">{{ $description }}</p>
+      <p class="profile-card__description mt-4 line-clamp-3">{{ $description }}</p>
     @endif
   @endif
 </x-ui.entity-card>

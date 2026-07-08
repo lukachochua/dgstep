@@ -15,7 +15,7 @@
   @if (filled($label))
     <span class="editorial-card__label">{{ $label }}</span>
   @endif
-  <h2 class="{{ filled($label) ? 'mt-4' : '' }} text-2xl font-semibold leading-tight">{{ $title }}</h2>
-  <p class="mt-3 text-sm leading-6 text-[color:var(--text-muted)] md:text-base">{{ $body }}</p>
+  <h2 class="editorial-card__title {{ filled($label) ? 'mt-4' : '' }}">{{ $title }}</h2>
+  <p class="editorial-card__body mt-3">{{ $body }}</p>
   {{ $slot }}
 </x-ui.surface-card>

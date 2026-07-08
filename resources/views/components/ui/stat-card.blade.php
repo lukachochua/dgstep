@@ -7,7 +7,7 @@
 
 <x-ui.metric-card :as="$as" {{ $attributes }}>
   @if (filled($label))
-    <p class="text-xs uppercase tracking-[0.12em] text-[color:var(--text-muted)]">{{ $label }}</p>
+    <p class="metric-label">{{ $label }}</p>
   @endif
 
   @if (filled($value))
@@ -15,7 +15,7 @@
   @endif
 
   @if (filled($description))
-    <p class="text-sm text-[color:var(--text-muted)]">{{ $description }}</p>
+    <p class="metric-description">{{ $description }}</p>
   @endif
 
   {{ $slot }}

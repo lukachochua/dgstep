@@ -35,29 +35,29 @@
       </header>
 
       <x-ui.entity-card variant="legal" class="p-6 md:p-8 reveal reveal-delay-1">
-        <div class="space-y-6 text-sm leading-7 text-[color:var(--text-muted)]">
+        <div class="legal-copy space-y-6">
           <section>
-            <h2 class="text-xl font-semibold text-[color:var(--text)]">{{ __('terms.sections.1_title') }}</h2>
+            <h2 class="legal-copy__title">{{ __('terms.sections.1_title') }}</h2>
             <p class="mt-2">{{ __('terms.sections.1_text') }}</p>
           </section>
 
           <section>
-            <h2 class="text-xl font-semibold text-[color:var(--text)]">{{ __('terms.sections.2_title') }}</h2>
+            <h2 class="legal-copy__title">{{ __('terms.sections.2_title') }}</h2>
             <p class="mt-2">{{ __('terms.sections.2_text') }}</p>
           </section>
 
           <section>
-            <h2 class="text-xl font-semibold text-[color:var(--text)]">{{ __('terms.sections.3_title') }}</h2>
+            <h2 class="legal-copy__title">{{ __('terms.sections.3_title') }}</h2>
             <p class="mt-2">{{ __('terms.sections.3_text') }}</p>
           </section>
 
           <section>
-            <h2 class="text-xl font-semibold text-[color:var(--text)]">{{ __('terms.sections.4_title') }}</h2>
+            <h2 class="legal-copy__title">{{ __('terms.sections.4_title') }}</h2>
             <p class="mt-2">{{ __('terms.sections.4_text') }}</p>
           </section>
 
           <section>
-            <h2 class="text-xl font-semibold text-[color:var(--text)]">{{ __('terms.sections.5_title') }}</h2>
+            <h2 class="legal-copy__title">{{ __('terms.sections.5_title') }}</h2>
             <p class="mt-2">{{ __('terms.sections.5_text') }}</p>
           </section>
 
