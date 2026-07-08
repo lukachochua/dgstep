@@ -1,4 +1,34 @@
-<x-layouts.base :title="$page['title'] ?? __('about.title')">
+@php
+  $pageTitle = $page['title'] ?? __('about.title');
+  $seoDescription = \Illuminate\Support\Str::limit(
+    \Illuminate\Support\Str::squish(strip_tags(implode(' ', $page['hero']['paragraphs'] ?? []))),
+    158,
+    ''
+  );
+
+  $seo = [
+    'title' => $pageTitle,
+    'description' => $seoDescription,
+    'og_title' => $pageTitle,
+    'og_description' => $seoDescription,
+    'image' => $page['hero']['image'] ?? null,
+  ];
+
+  $structuredData = [
+    [
+      '@context' => 'https://schema.org',
+      '@type' => 'AboutPage',
+      'name' => $pageTitle,
+      'description' => $seoDescription,
+      'url' => route('about'),
+      'inLanguage' => app()->getLocale(),
+      'isPartOf' => ['@id' => url('/#website')],
+      'about' => ['@id' => url('/#organization')],
+    ],
+  ];
+@endphp
+
+<x-layouts.base :title="$pageTitle" :seo="$seo" :structured-data="$structuredData">
   <section class="section-block">
     <div class="section-inner space-y-8">
       <x-ui.surface-card as="section" variant="hero" class="about-hero-card p-6 md:p-8 lg:p-10 reveal">

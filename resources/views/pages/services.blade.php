@@ -1,4 +1,52 @@
-<x-layouts.base :title="$page['title']">
+@php
+  $seoDescription = \Illuminate\Support\Str::limit(
+    \Illuminate\Support\Str::squish(strip_tags($page['hero_lead'] ?: $page['overview_body'])),
+    158,
+    ''
+  );
+
+  $seo = [
+    'title' => $page['title'],
+    'description' => $seoDescription,
+    'og_title' => $page['hero_title'] ?: $page['title'],
+    'og_description' => $seoDescription,
+    'image' => $services->first()['image'] ?? null,
+  ];
+
+  $structuredData = [
+    [
+      '@context' => 'https://schema.org',
+      '@type' => 'CollectionPage',
+      'name' => $page['title'],
+      'description' => $seoDescription,
+      'url' => route('services'),
+      'inLanguage' => app()->getLocale(),
+      'isPartOf' => ['@id' => url('/#website')],
+    ],
+    [
+      '@context' => 'https://schema.org',
+      '@type' => 'ItemList',
+      'name' => $page['overview_heading'],
+      'itemListElement' => $services
+        ->values()
+        ->map(fn (array $service, int $index) => [
+          '@type' => 'ListItem',
+          'position' => $index + 1,
+          'url' => route('services') . '#service-' . $service['slug'],
+          'item' => [
+            '@type' => 'Service',
+            'name' => $service['title'],
+            'description' => \Illuminate\Support\Str::squish(strip_tags($service['description'])),
+            'provider' => ['@id' => url('/#organization')],
+            'areaServed' => 'Georgia',
+          ],
+        ])
+        ->all(),
+    ],
+  ];
+@endphp
+
+<x-layouts.base :title="$page['title']" :seo="$seo" :structured-data="$structuredData">
   <section class="section-block services-page" id="services-top">
     <div class="section-inner services-page__stack">
       <header class="services-hero reveal">

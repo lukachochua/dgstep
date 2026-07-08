@@ -1,5 +1,4 @@
-<x-layouts.base :title="__('contact.title')">
-  @php
+@php
     $headline = $headline ?? __('contact.headline');
     $desc = $desc ?? __('contact.description');
     $featPro = $featPro ?? __('contact.features.professional');
@@ -8,7 +7,39 @@
     $ctaPhone = $ctaPhone ?? __('contact.cta_phone_href');
     $recaptchaSiteKey = $recaptchaSiteKey ?? config('services.recaptcha.site_key');
     $recaptchaEnabled = $recaptchaEnabled ?? (filled($recaptchaSiteKey) && filled(config('services.recaptcha.secret_key')));
-  @endphp
+    $pageTitle = __('contact.title') . ' | DGstep';
+    $seoDescription = \Illuminate\Support\Str::limit(
+      \Illuminate\Support\Str::squish(strip_tags($desc)),
+      158,
+      ''
+    );
+
+    $seo = [
+      'title' => $pageTitle,
+      'description' => $seoDescription,
+      'og_title' => $headline,
+      'og_description' => $seoDescription,
+    ];
+
+    $structuredData = [
+      [
+        '@context' => 'https://schema.org',
+        '@type' => 'ContactPage',
+        'name' => $pageTitle,
+        'description' => $seoDescription,
+        'url' => route('contact'),
+        'inLanguage' => app()->getLocale(),
+        'isPartOf' => ['@id' => url('/#website')],
+        'mainEntity' => [
+          '@type' => 'Organization',
+          '@id' => url('/#organization'),
+          'telephone' => $ctaPhone,
+        ],
+      ],
+    ];
+@endphp
+
+<x-layouts.base :title="$pageTitle" :seo="$seo" :structured-data="$structuredData">
 
   <section class="section-block contact-page">
     <div class="section-inner grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">

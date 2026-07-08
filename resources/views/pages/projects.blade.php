@@ -1,4 +1,49 @@
-<x-layouts.base :title="$page['title'] ?? __('projects.title')">
+@php
+  $pageTitle = $page['title'] ?? __('projects.title');
+  $seoDescription = \Illuminate\Support\Str::limit(
+    \Illuminate\Support\Str::squish(strip_tags($page['hero_lead'] ?: $page['proof_body'])),
+    158,
+    ''
+  );
+
+  $seo = [
+    'title' => $pageTitle,
+    'description' => $seoDescription,
+    'og_title' => $page['hero_title'] ?: $pageTitle,
+    'og_description' => $seoDescription,
+    'image' => $cards[0]['image'] ?? null,
+  ];
+
+  $structuredData = [
+    [
+      '@context' => 'https://schema.org',
+      '@type' => 'CollectionPage',
+      'name' => $pageTitle,
+      'description' => $seoDescription,
+      'url' => route('projects'),
+      'inLanguage' => app()->getLocale(),
+      'isPartOf' => ['@id' => url('/#website')],
+      'mainEntity' => [
+        '@type' => 'ItemList',
+        'itemListElement' => collect($cards)
+          ->values()
+          ->map(fn (array $card, int $index) => [
+            '@type' => 'ListItem',
+            'position' => $index + 1,
+            'item' => [
+              '@type' => 'CreativeWork',
+              'name' => $card['title'] ?? '',
+              'description' => \Illuminate\Support\Str::squish(strip_tags($card['description'] ?? '')),
+              'image' => $card['image'] ?? null,
+            ],
+          ])
+          ->all(),
+      ],
+    ],
+  ];
+@endphp
+
+<x-layouts.base :title="$pageTitle" :seo="$seo" :structured-data="$structuredData">
   <section class="section-block">
     <div class="section-inner space-y-8">
       <x-ui.surface-card as="section" variant="hero" class="projects-hero-card p-6 md:p-8 lg:p-10 reveal">

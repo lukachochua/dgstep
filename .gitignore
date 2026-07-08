@@ -20,6 +20,7 @@
 /storage/pail
 /vendor
 SITE_REDESIGN.local.md
+active_log/
 Homestead.json
 Homestead.yaml
 Thumbs.db

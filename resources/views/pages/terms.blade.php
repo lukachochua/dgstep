@@ -1,4 +1,31 @@
-<x-layouts.base :title="__('terms.title')">
+@php
+  $seoDescription = \Illuminate\Support\Str::limit(
+    \Illuminate\Support\Str::squish(strip_tags(__('terms.sections.intro'))),
+    158,
+    ''
+  );
+
+  $seo = [
+    'title' => __('terms.title') . ' | DGstep',
+    'description' => $seoDescription,
+    'og_title' => __('terms.title'),
+    'og_description' => $seoDescription,
+  ];
+
+  $structuredData = [
+    [
+      '@context' => 'https://schema.org',
+      '@type' => 'WebPage',
+      'name' => __('terms.title'),
+      'description' => $seoDescription,
+      'url' => route('terms'),
+      'inLanguage' => app()->getLocale(),
+      'isPartOf' => ['@id' => url('/#website')],
+    ],
+  ];
+@endphp
+
+<x-layouts.base :title="__('terms.title')" :seo="$seo" :structured-data="$structuredData">
   <section class="section-block">
     <div class="section-inner max-w-4xl space-y-6">
       <header class="space-y-3 reveal">

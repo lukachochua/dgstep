@@ -12,6 +12,31 @@ use App\Http\Controllers\ServicesPageController;
 
 Route::get('/', [HeroController::class, 'index'])->name('home');
 
+Route::get('/sitemap.xml', function () {
+    $pages = collect([
+        ['route' => 'home', 'priority' => '1.0', 'changefreq' => 'weekly'],
+        ['route' => 'services', 'priority' => '0.9', 'changefreq' => 'weekly'],
+        ['route' => 'projects', 'priority' => '0.8', 'changefreq' => 'monthly'],
+        ['route' => 'about', 'priority' => '0.7', 'changefreq' => 'monthly'],
+        ['route' => 'contact', 'priority' => '0.7', 'changefreq' => 'monthly'],
+        ['route' => 'terms', 'priority' => '0.3', 'changefreq' => 'yearly'],
+    ])->map(fn (array $page): array => [
+        ...$page,
+        'url' => route($page['route']),
+        'alternates' => [
+            'ka' => route($page['route']) . '?locale=ka',
+            'en' => route($page['route']) . '?locale=en',
+        ],
+    ]);
+
+    return response()
+        ->view('sitemap', [
+            'pages' => $pages,
+            'lastmod' => now()->toAtomString(),
+        ])
+        ->header('Content-Type', 'application/xml');
+})->name('sitemap');
+
 
 Route::get('/about', AboutPageController::class)->name('about');
 

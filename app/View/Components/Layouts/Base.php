@@ -8,9 +8,12 @@ use Illuminate\Contracts\View\View;
 
 class Base extends Component
 {
-    public function __construct()
+    public function __construct(
+        public ?string $title = null,
+        public array $seo = [],
+        public array $structuredData = [],
+    )
     {
-        //
     }
 
     public function render(): View|Closure|string

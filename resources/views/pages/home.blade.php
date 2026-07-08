@@ -1,4 +1,32 @@
-<x-layouts.base :title="$homePage['title']">
+@php
+  $seoDescription = \Illuminate\Support\Str::limit(
+    \Illuminate\Support\Str::squish(strip_tags($slides[0]['subtitle'] ?? $homePage['proof']['subtitle'] ?? $homePage['solutions']['subtitle'] ?? '')),
+    158,
+    ''
+  );
+
+  $seo = [
+    'title' => $homePage['title'],
+    'description' => $seoDescription,
+    'og_title' => $homePage['title'],
+    'og_description' => $seoDescription,
+    'image' => $slides[0]['image'] ?? null,
+  ];
+
+  $structuredData = [
+    [
+      '@context' => 'https://schema.org',
+      '@type' => 'WebPage',
+      'name' => $homePage['title'],
+      'description' => $seoDescription,
+      'url' => route('home'),
+      'inLanguage' => app()->getLocale(),
+      'isPartOf' => ['@id' => url('/#website')],
+    ],
+  ];
+@endphp
+
+<x-layouts.base :title="$homePage['title']" :seo="$seo" :structured-data="$structuredData">
   <x-hero :slides="$slides" :content="$homePage['hero']" />
 
   <section class="home-proof section-block pt-0">
