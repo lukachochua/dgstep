@@ -10,6 +10,8 @@
     'description' => $seoDescription,
     'og_title' => __('terms.title'),
     'og_description' => $seoDescription,
+    'og_type' => 'article',
+    'canonical' => route('terms'),
   ];
 
   $structuredData = [

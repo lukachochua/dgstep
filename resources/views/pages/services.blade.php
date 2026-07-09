@@ -1,15 +1,24 @@
 @php
+  $pageTitle = \Illuminate\Support\Str::contains($page['title'], 'DGstep')
+    ? $page['title']
+    : $page['title'] . ' | DGstep';
   $seoDescription = \Illuminate\Support\Str::limit(
-    \Illuminate\Support\Str::squish(strip_tags($page['overview_body'])),
+    \Illuminate\Support\Str::squish(strip_tags(
+      $page['overview_body']
+      ?: $page['hero_lead']
+      ?: $services->pluck('description')->implode(' ')
+    )),
     158,
     ''
   );
 
   $seo = [
-    'title' => $page['title'],
+    'title' => $pageTitle,
     'description' => $seoDescription,
-    'og_title' => $page['title'],
+    'og_title' => $page['hero_title'] ?: $page['title'],
     'og_description' => $seoDescription,
+    'og_type' => 'website',
+    'canonical' => route('services'),
     'image' => $services->first()['image'] ?? null,
   ];
 
@@ -17,7 +26,7 @@
     [
       '@context' => 'https://schema.org',
       '@type' => 'CollectionPage',
-      'name' => $page['title'],
+      'name' => $pageTitle,
       'description' => $seoDescription,
       'url' => route('services'),
       'inLanguage' => app()->getLocale(),
@@ -46,7 +55,7 @@
   ];
 @endphp
 
-<x-layouts.base :title="$page['title']" :seo="$seo" :structured-data="$structuredData">
+<x-layouts.base :title="$pageTitle" :seo="$seo" :structured-data="$structuredData">
   <section class="section-block services-page" id="services-top">
     <div class="section-inner services-page__stack">
       <section id="services-system-map" class="services-system-map reveal" aria-labelledby="services-system-map-title">

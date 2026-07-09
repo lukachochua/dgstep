@@ -11,6 +11,8 @@
     'description' => $seoDescription,
     'og_title' => $page['hero_title'] ?: $pageTitle,
     'og_description' => $seoDescription,
+    'og_type' => 'website',
+    'canonical' => route('projects'),
     'image' => $cards[0]['image'] ?? null,
   ];
 

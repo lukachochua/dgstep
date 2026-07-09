@@ -6,6 +6,14 @@ use App\Http\Controllers\AboutPageController;
 use App\Http\Controllers\HeroController;
 use App\Http\Controllers\ProjectsPageController;
 use App\Http\Controllers\ServicesPageController;
+use App\Models\AboutPage;
+use App\Models\ContactPage;
+use App\Models\HeroSlide;
+use App\Models\HomePage;
+use App\Models\ProjectsPage;
+use App\Models\Service;
+use App\Models\ServicesPage;
+use Illuminate\Support\Carbon;
 
 
 // Standard Routes
@@ -13,13 +21,69 @@ use App\Http\Controllers\ServicesPageController;
 Route::get('/', [HeroController::class, 'index'])->name('home');
 
 Route::get('/sitemap.xml', function () {
+    $defaultLocale = in_array(config('app.locale'), ['ka', 'en'], true)
+        ? config('app.locale')
+        : 'ka';
+    $staticLastModified = fn (array $paths): Carbon => collect($paths)
+        ->filter(fn (string $path): bool => file_exists($path))
+        ->map(fn (string $path): Carbon => Carbon::createFromTimestamp(filemtime($path)))
+        ->max() ?? now();
+    $sourceLastModified = $staticLastModified([base_path('routes/web.php')]);
+    $latestLastModified = fn (array $timestamps): string => (
+        collect($timestamps)
+            ->filter()
+            ->map(fn ($timestamp): Carbon => $timestamp instanceof Carbon ? $timestamp : Carbon::parse($timestamp))
+            ->max() ?? $sourceLastModified
+    )->toAtomString();
+
     $pages = collect([
-        ['route' => 'home', 'priority' => '1.0', 'changefreq' => 'weekly'],
-        ['route' => 'services', 'priority' => '0.9', 'changefreq' => 'weekly'],
-        ['route' => 'projects', 'priority' => '0.8', 'changefreq' => 'monthly'],
-        ['route' => 'about', 'priority' => '0.7', 'changefreq' => 'monthly'],
-        ['route' => 'contact', 'priority' => '0.7', 'changefreq' => 'monthly'],
-        ['route' => 'terms', 'priority' => '0.3', 'changefreq' => 'yearly'],
+        [
+            'route' => 'home',
+            'priority' => '1.0',
+            'changefreq' => 'weekly',
+            'lastmod' => $latestLastModified([
+                HomePage::query()->max('updated_at'),
+                HeroSlide::query()->max('updated_at'),
+                Service::query()->where('is_featured', true)->max('updated_at'),
+            ]),
+        ],
+        [
+            'route' => 'services',
+            'priority' => '0.9',
+            'changefreq' => 'weekly',
+            'lastmod' => $latestLastModified([
+                ServicesPage::query()->max('updated_at'),
+                Service::query()->max('updated_at'),
+            ]),
+        ],
+        [
+            'route' => 'projects',
+            'priority' => '0.8',
+            'changefreq' => 'monthly',
+            'lastmod' => $latestLastModified([ProjectsPage::query()->max('updated_at')]),
+        ],
+        [
+            'route' => 'about',
+            'priority' => '0.7',
+            'changefreq' => 'monthly',
+            'lastmod' => $latestLastModified([AboutPage::query()->max('updated_at')]),
+        ],
+        [
+            'route' => 'contact',
+            'priority' => '0.7',
+            'changefreq' => 'monthly',
+            'lastmod' => $latestLastModified([ContactPage::query()->max('updated_at')]),
+        ],
+        [
+            'route' => 'terms',
+            'priority' => '0.3',
+            'changefreq' => 'yearly',
+            'lastmod' => $staticLastModified([
+                resource_path('views/pages/terms.blade.php'),
+                lang_path('en/terms.php'),
+                lang_path('ka/terms.php'),
+            ])->toAtomString(),
+        ],
     ])->map(fn (array $page): array => [
         ...$page,
         'url' => route($page['route']),
@@ -32,7 +96,7 @@ Route::get('/sitemap.xml', function () {
     return response()
         ->view('sitemap', [
             'pages' => $pages,
-            'lastmod' => now()->toAtomString(),
+            'defaultLocale' => $defaultLocale,
         ])
         ->header('Content-Type', 'application/xml');
 })->name('sitemap');

@@ -3,6 +3,7 @@
 use App\Models\Service;
 use App\Models\ServicesPage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Carbon;
 
 uses(RefreshDatabase::class);
 
@@ -64,6 +65,34 @@ test('services page exposes service schema from service records', function () {
 });
 
 test('sitemap lists public pages with locale alternates', function () {
+    config(['app.locale' => 'ka']);
+    $pageUpdatedAt = Carbon::parse('2026-05-01 10:00:00');
+    $serviceUpdatedAt = Carbon::parse('2026-06-15 12:30:00');
+
+    ServicesPage::singleton()->forceFill([
+        'updated_at' => $pageUpdatedAt,
+    ])->save();
+
+    $service = Service::create([
+        'name' => ['en' => 'Warehouse Management', 'ka' => 'საწყობის მართვა'],
+        'description' => [
+            'en' => 'Control warehouse orders, stock movements, and fulfillment in one platform.',
+            'ka' => 'მართეთ საწყობის შეკვეთები, მარაგი და გაცემა ერთ პლატფორმაში.',
+        ],
+        'description_expanded' => ['en' => '<p>Expanded.</p>', 'ka' => '<p>გაფართოებული.</p>'],
+        'problems' => ['en' => ['Stock mistakes'], 'ka' => ['მარაგის შეცდომები']],
+        'slug' => 'warehouse-management',
+        'image_path' => 'https://example.com/warehouse.jpg',
+        'image_alt' => 'Warehouse management interface',
+        'is_featured' => false,
+        'featured_order' => 1,
+        'display_order' => 1,
+    ]);
+
+    $service->forceFill([
+        'updated_at' => $serviceUpdatedAt,
+    ])->save();
+
     $response = $this->get(route('sitemap'));
 
     $response
@@ -82,5 +111,7 @@ test('sitemap lists public pages with locale alternates', function () {
         ->toContain(route('terms'))
         ->toContain('hreflang="ka"')
         ->toContain('hreflang="en"')
-        ->toContain('hreflang="x-default"');
+        ->toContain('hreflang="x-default" href="' . route('home') . '?locale=ka"')
+        ->toContain('<loc>' . route('services') . '</loc>')
+        ->toContain('<lastmod>' . $serviceUpdatedAt->toAtomString() . '</lastmod>');
 });

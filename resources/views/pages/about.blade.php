@@ -1,7 +1,11 @@
 @php
   $pageTitle = $page['title'] ?? __('about.title');
   $seoDescription = \Illuminate\Support\Str::limit(
-    \Illuminate\Support\Str::squish(strip_tags(implode(' ', $page['hero']['paragraphs'] ?? []))),
+    \Illuminate\Support\Str::squish(strip_tags(
+      implode(' ', $page['hero']['paragraphs'] ?? [])
+      ?: $page['delivery']['description']
+      ?: collect($page['principles'])->pluck('description')->implode(' ')
+    )),
     158,
     ''
   );
@@ -11,6 +15,8 @@
     'description' => $seoDescription,
     'og_title' => $pageTitle,
     'og_description' => $seoDescription,
+    'og_type' => 'website',
+    'canonical' => route('about'),
     'image' => $page['hero']['image'] ?? null,
   ];
 

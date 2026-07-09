@@ -3,13 +3,13 @@
 @foreach ($pages as $page)
   <url>
     <loc>{{ $page['url'] }}</loc>
-    <lastmod>{{ $lastmod }}</lastmod>
+    <lastmod>{{ $page['lastmod'] }}</lastmod>
     <changefreq>{{ $page['changefreq'] }}</changefreq>
     <priority>{{ $page['priority'] }}</priority>
 @foreach ($page['alternates'] as $locale => $url)
     <xhtml:link rel="alternate" hreflang="{{ $locale }}" href="{{ $url }}" />
 @endforeach
-    <xhtml:link rel="alternate" hreflang="x-default" href="{{ $page['alternates']['en'] }}" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="{{ $page['alternates'][$defaultLocale] }}" />
   </url>
 @endforeach
 </urlset>

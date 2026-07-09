@@ -1,6 +1,12 @@
 @php
   $seoDescription = \Illuminate\Support\Str::limit(
-    \Illuminate\Support\Str::squish(strip_tags($slides[0]['subtitle'] ?? $homePage['proof']['subtitle'] ?? $homePage['solutions']['subtitle'] ?? '')),
+    \Illuminate\Support\Str::squish(strip_tags(
+      $slides[0]['subtitle']
+      ?? $homePage['proof']['subtitle']
+      ?? $homePage['solutions']['subtitle']
+      ?? $homePage['cta']['subtitle']
+      ?? ''
+    )),
     158,
     ''
   );
@@ -10,6 +16,8 @@
     'description' => $seoDescription,
     'og_title' => $homePage['title'],
     'og_description' => $seoDescription,
+    'og_type' => 'website',
+    'canonical' => route('home'),
     'image' => $slides[0]['image'] ?? null,
   ];
 

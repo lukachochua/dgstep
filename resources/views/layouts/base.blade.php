@@ -21,6 +21,7 @@
       $firaGoMedium = asset(Vite::asset('resources/fonts/firago/FiraGO-Medium.woff2'));
       $firaGoBold = asset(Vite::asset('resources/fonts/firago/FiraGO-Bold.woff2'));
       $alternateUrl = fn (string $targetLocale) => request()->fullUrlWithQuery(['locale' => $targetLocale]);
+      $defaultLocale = in_array(config('app.locale'), ['ka', 'en'], true) ? config('app.locale') : 'ka';
       $organizationId = url('/#organization');
       $websiteId = url('/#website');
       $globalStructuredData = [
@@ -107,7 +108,7 @@
     <link rel="canonical" href="{{ $canonical }}" />
     <link rel="alternate" hreflang="ka" href="{{ $alternateUrl('ka') }}" />
     <link rel="alternate" hreflang="en" href="{{ $alternateUrl('en') }}" />
-    <link rel="alternate" hreflang="x-default" href="{{ $alternateUrl('en') }}" />
+    <link rel="alternate" hreflang="x-default" href="{{ $alternateUrl($defaultLocale) }}" />
 
     @foreach ($jsonLd as $schema)
       <script type="application/ld+json">@json($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)</script>

@@ -19,6 +19,8 @@
       'description' => $seoDescription,
       'og_title' => $headline,
       'og_description' => $seoDescription,
+      'og_type' => 'website',
+      'canonical' => route('contact'),
     ];
 
     $structuredData = [
