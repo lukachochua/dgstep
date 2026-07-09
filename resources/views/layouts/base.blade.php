@@ -32,7 +32,17 @@
           'name' => $siteName,
           'url' => url('/'),
           'logo' => $defaultOgImage,
-          'areaServed' => 'Georgia',
+          'foundingLocation' => [
+            '@type' => 'Place',
+            'address' => [
+              '@type' => 'PostalAddress',
+              'addressCountry' => 'GE',
+            ],
+          ],
+          'areaServed' => [
+            '@type' => 'Country',
+            'name' => 'Georgia',
+          ],
           'contactPoint' => [
             '@type' => 'ContactPoint',
             'telephone' => __('contact.cta_phone_href'),

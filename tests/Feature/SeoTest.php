@@ -26,7 +26,9 @@ test('public pages render page level seo metadata and structured data', function
         ->toContain('application/ld+json')
         ->toContain('"@type":"Organization"')
         ->toContain('"@type":"WebSite"')
-        ->toContain('"@type":"WebPage"');
+        ->toContain('"@type":"WebPage"')
+        ->toContain('"addressCountry":"GE"')
+        ->toContain('"areaServed":{"@type":"Country","name":"Georgia"}');
 });
 
 test('services page exposes service schema from service records', function () {

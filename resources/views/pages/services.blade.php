@@ -47,7 +47,10 @@
             'name' => $service['title'],
             'description' => \Illuminate\Support\Str::squish(strip_tags($service['description'])),
             'provider' => ['@id' => url('/#organization')],
-            'areaServed' => 'Georgia',
+            'areaServed' => [
+              '@type' => 'Country',
+              'name' => 'Georgia',
+            ],
           ],
         ])
         ->all(),
